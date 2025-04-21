@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const { PrismaClient } = require('@prisma/client');
+const { PrismaClient } = require('../generated/prisma');
 
 const prisma = new PrismaClient();
 
@@ -105,38 +105,47 @@ router.post('/register', async (req, res) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // Save it to DB
-  const newUser = await prisma.user.create({
-    data: {
-      name,
-      email,
-      password: hashedPassword,
-      phoneNumber,
-      profilePic,
-      role,
-      status,
-      idVerified,
-      transactionCount,
-      rating,
-    },
-  });
+  try {
+    const newUser = await prisma.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        phoneNumber,
+        profilePic,
+        role,
+        status,
+        idVerified: false,
+        transactionCount: 0,
+        rating: 0,
+      },
+    });
 
-  res.status(201).json({
-    message: 'User register successfully',
-    user: {
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      phoneNumber: newUser.phoneNumber,
-      profilePic: newUser.profilePic,
-      role: newUser.role,
-      status: newUser.status,
-      idVerified: newUser.idVerified,
-      transactionCount: newUser.transactionCount,
-      rating: newUser.rating,
-      createdAt: newUser.createdAt,
-      updatedAt: newUser.updatedAt,
-    },
-  });
+    res.status(201).json({
+      message: 'User register successfully',
+      user: {
+        id: newUser.id,
+        name: newUser.name,
+        email: newUser.email,
+        phoneNumber: newUser.phoneNumber,
+        profilePic: newUser.profilePic,
+        role: newUser.role,
+        status: newUser.status,
+        idVerified: newUser.idVerified,
+        transactionCount: newUser.transactionCount,
+        rating: newUser.rating,
+        createdAt: newUser.createdAt,
+        updatedAt: newUser.updatedAt,
+      },
+    });
+  } catch (error) {
+    console.error('Registration error:', error);
+    return res.status(500).json({
+      error: 'Error creating user',
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
 });
 
 module.exports = router;
