@@ -1,4 +1,5 @@
 const express = require('express');
+const bcrypt = require('bcryptjs');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -14,39 +15,46 @@ app.use(bodyParser.json());
 
 // Sample route to test the server
 app.get('/', (req, res) => {
-    res.send('Welcome to SAFEBUY PH');
+  res.send('Welcome to SAFEBUY PH');
 });
 
-// Example route to get all users (Using Prisma)
-app.get('/users', async (req, res) => {
-    try {
-        const users = await prisma.user.findMany();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to fetch users' });
-    }
+// Create register route
+// Decide the endpoint URL
+app.post('/register', async (req, res) => {
+  //Collect user input
+  const { name, email, password } = req.body;
+
+  // Validate user input
+  if (!name || !email || !password) {
+    return res.status(400).json({ error: 'Name, email and password are required' });
+  }
+
+  // Email format check (simple version)
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  if (!emailRegex.test(email)) {
+    return res.status(400).json({ message: 'Please enter a valid email.' });
+  }
+
+  // Check if user already exists
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+  if (existingUser) {
+    return res.status(400).json({ message: 'User already exists' });
+  }
+
+  // Store password but make it Hash password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(password, salt);
 });
 
-// Example route to create new transaction
-app.post('/transactions', async (req, res) => {
-    const { product, price, buyerId, sellerId } = req.body;
-    try {
-        const transaction = await prisma.transaction.create({
-            data: {
-                product,
-                price,
-                status: 'pending',
-                buyerId,
-                sellerId
-            }
-        });
-        res.status(201).json(transaction);
-    } catch (error) {
-        res.status(500).json({ error: 'Failed to create transaction' });
-    }
+// Create login route
+app.post('/login', (req, res) => {
+  // TODO: Implement login logic
+  res.status(200).json({ message: 'Login endpoint reached' });
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on port ${PORT}`);
 });

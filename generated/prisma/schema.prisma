@@ -5,22 +5,34 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 model User {
-  id                 Int           @id @default(autoincrement())
-  name               String
-  email              String        @unique
-  transactionsBuyer  Transaction[] @relation("Buyer")
-  transactionsSeller Transaction[] @relation("Seller")
+  id               Int      @id @default(autoincrement()) // Unique ID
+  name             String // Full name of the user
+  email            String   @unique // User email (unique)
+  password         String // Password for authentication
+  phoneNumber      String? // Optional: phone number of the user
+  profilePic       String? // Optional: URL for profile picture
+  role             String   @default("buyer") // "buyer" or "seller"
+  status           String   @default("active") // "active", "suspended", etc.
+  idVerified       Boolean  @default(false) // Whether the user is verified
+  transactionCount Int      @default(0) // Number of transactions completed
+  rating           Float    @default(0) // Average rating from completed transactions
+  createdAt        DateTime @default(now()) // When the user was created
+  updatedAt        DateTime @updatedAt // When the user profile was last updated
+
+  buyerTransactions  Transaction[] @relation("Buyer")
+  sellerTransactions Transaction[] @relation("Seller")
 }
 
 model Transaction {
   id       Int    @id @default(autoincrement())
-  product  String
-  price    Float
   status   String
   buyer    User   @relation("Buyer", fields: [buyerId], references: [id])
   seller   User   @relation("Seller", fields: [sellerId], references: [id])
   buyerId  Int
   sellerId Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 generator client {

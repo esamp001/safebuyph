@@ -1,16 +1,26 @@
-// test-db.js
-require('dotenv').config();
-const { Client } = require('pg');
-async function testConnection() {
-    const client = new Client({ connectionString: process.env.DATABASE_URL });
-    try {
-      await client.connect();
-      console.log('✅ Connected successfully!');
-    } catch (err) {
-      console.error('❌ Connection error:', err.message);
-    } finally {
-      await client.end();
-    }
+const { PrismaClient } = require('./generated/prisma');
+const prisma = new PrismaClient();
+
+async function createUser() {
+  try {
+    // Testing a simple query
+    const users = await prisma.transaction.create({
+      data: {
+        status: 'pending',
+        buyer: {
+          connect: { id: 1 }, // Connect to user with ID 1
+        },
+        seller: {
+          connect: { id: 2 }, // Connect to seller with ID 2
+        },
+      },
+    });
+    console.log('Transaction Created:', transaction);
+  } catch (error) {
+    console.error('Error creating transaction:', error);
+  } finally {
+    await prisma.$disconnect();
   }
-  
-  testConnection();
+}
+
+createUser();
