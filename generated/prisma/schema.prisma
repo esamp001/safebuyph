@@ -19,20 +19,35 @@ model User {
   createdAt        DateTime @default(now()) // When the user was created
   updatedAt        DateTime @updatedAt // When the user profile was last updated
 
-  buyerTransactions  Transaction[] @relation("Buyer")
-  sellerTransactions Transaction[] @relation("Seller")
+  // Define both sides of the relations
+  buyerTransactions  Transaction[] @relation("BuyerTransactions")
+  sellerTransactions Transaction[] @relation("SellerTransactions")
+}
+
+enum TransactionStatus {
+  PENDING
+  PAID
+  SHIPPED
+  DELIVERED
+  COMPLETED
+  DISPUTED
+  CANCELLED
 }
 
 model Transaction {
-  id       Int    @id @default(autoincrement())
-  status   String
-  buyer    User   @relation("Buyer", fields: [buyerId], references: [id])
-  seller   User   @relation("Seller", fields: [sellerId], references: [id])
-  buyerId  Int
-  sellerId Int
+  id             Int               @id @default(autoincrement())
+  status         TransactionStatus @default(PENDING)
+  price          Float
+  buyerId        Int
+  sellerId       Int
+  amount         Float
+  escrowReleased Boolean           @default(false)
+  disputeReason  String?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  buyer  User @relation("BuyerTransactions", fields: [buyerId], references: [id])
+  seller User @relation("SellerTransactions", fields: [sellerId], references: [id])
 }
 
 generator client {

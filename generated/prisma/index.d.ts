@@ -25,6 +25,28 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
 export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
 
 /**
+ * Enums
+ */
+export namespace $Enums {
+  export const TransactionStatus: {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  COMPLETED: 'COMPLETED',
+  DISPUTED: 'DISPUTED',
+  CANCELLED: 'CANCELLED'
+};
+
+export type TransactionStatus = (typeof TransactionStatus)[keyof typeof TransactionStatus]
+
+}
+
+export type TransactionStatus = $Enums.TransactionStatus
+
+export const TransactionStatus: typeof $Enums.TransactionStatus
+
+/**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
@@ -2257,30 +2279,42 @@ export namespace Prisma {
 
   export type TransactionAvgAggregateOutputType = {
     id: number | null
+    price: number | null
     buyerId: number | null
     sellerId: number | null
+    amount: number | null
   }
 
   export type TransactionSumAggregateOutputType = {
     id: number | null
+    price: number | null
     buyerId: number | null
     sellerId: number | null
+    amount: number | null
   }
 
   export type TransactionMinAggregateOutputType = {
     id: number | null
-    status: string | null
+    status: $Enums.TransactionStatus | null
+    price: number | null
     buyerId: number | null
     sellerId: number | null
+    amount: number | null
+    escrowReleased: boolean | null
+    disputeReason: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
     id: number | null
-    status: string | null
+    status: $Enums.TransactionStatus | null
+    price: number | null
     buyerId: number | null
     sellerId: number | null
+    amount: number | null
+    escrowReleased: boolean | null
+    disputeReason: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2288,8 +2322,12 @@ export namespace Prisma {
   export type TransactionCountAggregateOutputType = {
     id: number
     status: number
+    price: number
     buyerId: number
     sellerId: number
+    amount: number
+    escrowReleased: number
+    disputeReason: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2298,21 +2336,29 @@ export namespace Prisma {
 
   export type TransactionAvgAggregateInputType = {
     id?: true
+    price?: true
     buyerId?: true
     sellerId?: true
+    amount?: true
   }
 
   export type TransactionSumAggregateInputType = {
     id?: true
+    price?: true
     buyerId?: true
     sellerId?: true
+    amount?: true
   }
 
   export type TransactionMinAggregateInputType = {
     id?: true
     status?: true
+    price?: true
     buyerId?: true
     sellerId?: true
+    amount?: true
+    escrowReleased?: true
+    disputeReason?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2320,8 +2366,12 @@ export namespace Prisma {
   export type TransactionMaxAggregateInputType = {
     id?: true
     status?: true
+    price?: true
     buyerId?: true
     sellerId?: true
+    amount?: true
+    escrowReleased?: true
+    disputeReason?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2329,8 +2379,12 @@ export namespace Prisma {
   export type TransactionCountAggregateInputType = {
     id?: true
     status?: true
+    price?: true
     buyerId?: true
     sellerId?: true
+    amount?: true
+    escrowReleased?: true
+    disputeReason?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2424,9 +2478,13 @@ export namespace Prisma {
 
   export type TransactionGroupByOutputType = {
     id: number
-    status: string
+    status: $Enums.TransactionStatus
+    price: number
     buyerId: number
     sellerId: number
+    amount: number
+    escrowReleased: boolean
+    disputeReason: string | null
     createdAt: Date
     updatedAt: Date
     _count: TransactionCountAggregateOutputType | null
@@ -2453,8 +2511,12 @@ export namespace Prisma {
   export type TransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     status?: boolean
+    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
+    amount?: boolean
+    escrowReleased?: boolean
+    disputeReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2464,8 +2526,12 @@ export namespace Prisma {
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     status?: boolean
+    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
+    amount?: boolean
+    escrowReleased?: boolean
+    disputeReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2475,8 +2541,12 @@ export namespace Prisma {
   export type TransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     status?: boolean
+    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
+    amount?: boolean
+    escrowReleased?: boolean
+    disputeReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2486,13 +2556,17 @@ export namespace Prisma {
   export type TransactionSelectScalar = {
     id?: boolean
     status?: boolean
+    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
+    amount?: boolean
+    escrowReleased?: boolean
+    disputeReason?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "buyerId" | "sellerId" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
@@ -2514,9 +2588,13 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      status: string
+      status: $Enums.TransactionStatus
+      price: number
       buyerId: number
       sellerId: number
+      amount: number
+      escrowReleased: boolean
+      disputeReason: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["transaction"]>
@@ -2945,9 +3023,13 @@ export namespace Prisma {
    */
   interface TransactionFieldRefs {
     readonly id: FieldRef<"Transaction", 'Int'>
-    readonly status: FieldRef<"Transaction", 'String'>
+    readonly status: FieldRef<"Transaction", 'TransactionStatus'>
+    readonly price: FieldRef<"Transaction", 'Float'>
     readonly buyerId: FieldRef<"Transaction", 'Int'>
     readonly sellerId: FieldRef<"Transaction", 'Int'>
+    readonly amount: FieldRef<"Transaction", 'Float'>
+    readonly escrowReleased: FieldRef<"Transaction", 'Boolean'>
+    readonly disputeReason: FieldRef<"Transaction", 'String'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
   }
@@ -3400,8 +3482,12 @@ export namespace Prisma {
   export const TransactionScalarFieldEnum: {
     id: 'id',
     status: 'status',
+    price: 'price',
     buyerId: 'buyerId',
     sellerId: 'sellerId',
+    amount: 'amount',
+    escrowReleased: 'escrowReleased',
+    disputeReason: 'disputeReason',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -3498,6 +3584,20 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionStatus'
+   */
+  export type EnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'TransactionStatus[]'
+   */
+  export type ListEnumTransactionStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'TransactionStatus[]'>
     
   /**
    * Deep Input Types
@@ -3609,9 +3709,13 @@ export namespace Prisma {
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     id?: IntFilter<"Transaction"> | number
-    status?: StringFilter<"Transaction"> | string
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    price?: FloatFilter<"Transaction"> | number
     buyerId?: IntFilter<"Transaction"> | number
     sellerId?: IntFilter<"Transaction"> | number
+    amount?: FloatFilter<"Transaction"> | number
+    escrowReleased?: BoolFilter<"Transaction"> | boolean
+    disputeReason?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -3621,8 +3725,12 @@ export namespace Prisma {
   export type TransactionOrderByWithRelationInput = {
     id?: SortOrder
     status?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
+    escrowReleased?: SortOrder
+    disputeReason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     buyer?: UserOrderByWithRelationInput
@@ -3634,9 +3742,13 @@ export namespace Prisma {
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
-    status?: StringFilter<"Transaction"> | string
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    price?: FloatFilter<"Transaction"> | number
     buyerId?: IntFilter<"Transaction"> | number
     sellerId?: IntFilter<"Transaction"> | number
+    amount?: FloatFilter<"Transaction"> | number
+    escrowReleased?: BoolFilter<"Transaction"> | boolean
+    disputeReason?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -3646,8 +3758,12 @@ export namespace Prisma {
   export type TransactionOrderByWithAggregationInput = {
     id?: SortOrder
     status?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
+    escrowReleased?: SortOrder
+    disputeReason?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TransactionCountOrderByAggregateInput
@@ -3662,9 +3778,13 @@ export namespace Prisma {
     OR?: TransactionScalarWhereWithAggregatesInput[]
     NOT?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Transaction"> | number
-    status?: StringWithAggregatesFilter<"Transaction"> | string
+    status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
+    price?: FloatWithAggregatesFilter<"Transaction"> | number
     buyerId?: IntWithAggregatesFilter<"Transaction"> | number
     sellerId?: IntWithAggregatesFilter<"Transaction"> | number
+    amount?: FloatWithAggregatesFilter<"Transaction"> | number
+    escrowReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    disputeReason?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
   }
@@ -3787,7 +3907,11 @@ export namespace Prisma {
   }
 
   export type TransactionCreateInput = {
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
@@ -3796,15 +3920,23 @@ export namespace Prisma {
 
   export type TransactionUncheckedCreateInput = {
     id?: number
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
     buyerId: number
     sellerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TransactionUpdateInput = {
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
@@ -3813,33 +3945,49 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
     buyerId?: IntFieldUpdateOperationsInput | number
     sellerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionCreateManyInput = {
     id?: number
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
     buyerId: number
     sellerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TransactionUpdateManyMutationInput = {
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
     buyerId?: IntFieldUpdateOperationsInput | number
     sellerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4077,6 +4225,13 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type EnumTransactionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -4085,23 +4240,33 @@ export namespace Prisma {
   export type TransactionCountOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
+    escrowReleased?: SortOrder
+    disputeReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
     id?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
   }
 
   export type TransactionMaxOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
+    escrowReleased?: SortOrder
+    disputeReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4109,16 +4274,32 @@ export namespace Prisma {
   export type TransactionMinOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
+    escrowReleased?: SortOrder
+    disputeReason?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
     id?: SortOrder
+    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    amount?: SortOrder
+  }
+
+  export type EnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
+    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
   }
 
   export type TransactionCreateNestedManyWithoutBuyerInput = {
@@ -4247,6 +4428,10 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSellerTransactionsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type EnumTransactionStatusFieldUpdateOperationsInput = {
+    set?: $Enums.TransactionStatus
   }
 
   export type UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput = {
@@ -4430,8 +4615,29 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
+  }
+
+  export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel> | $Enums.TransactionStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
+    _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  }
+
   export type TransactionCreateWithoutBuyerInput = {
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
@@ -4439,8 +4645,12 @@ export namespace Prisma {
 
   export type TransactionUncheckedCreateWithoutBuyerInput = {
     id?: number
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
     sellerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4456,7 +4666,11 @@ export namespace Prisma {
   }
 
   export type TransactionCreateWithoutSellerInput = {
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
@@ -4464,8 +4678,12 @@ export namespace Prisma {
 
   export type TransactionUncheckedCreateWithoutSellerInput = {
     id?: number
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
     buyerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4501,9 +4719,13 @@ export namespace Prisma {
     OR?: TransactionScalarWhereInput[]
     NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
     id?: IntFilter<"Transaction"> | number
-    status?: StringFilter<"Transaction"> | string
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    price?: FloatFilter<"Transaction"> | number
     buyerId?: IntFilter<"Transaction"> | number
     sellerId?: IntFilter<"Transaction"> | number
+    amount?: FloatFilter<"Transaction"> | number
+    escrowReleased?: BoolFilter<"Transaction"> | boolean
+    disputeReason?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
   }
@@ -4690,22 +4912,34 @@ export namespace Prisma {
 
   export type TransactionCreateManyBuyerInput = {
     id?: number
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
     sellerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TransactionCreateManySellerInput = {
     id?: number
-    status: string
+    status?: $Enums.TransactionStatus
+    price: number
     buyerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type TransactionUpdateWithoutBuyerInput = {
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
@@ -4713,22 +4947,34 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateWithoutBuyerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
     sellerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUncheckedUpdateManyWithoutBuyerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
     sellerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUpdateWithoutSellerInput = {
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
@@ -4736,16 +4982,24 @@ export namespace Prisma {
 
   export type TransactionUncheckedUpdateWithoutSellerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
     buyerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TransactionUncheckedUpdateManyWithoutSellerInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: StringFieldUpdateOperationsInput | string
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
     buyerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

@@ -14,15 +14,11 @@ app.use(express.json());
 
 // Import Routes
 const authRoutes = require('./routes/auth');
+const profileRoutes = require('./routes/profile');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
-
-// Create login route
-app.post('/login', (req, res) => {
-  // TODO: Implement login logic
-  res.status(200).json({ message: 'Login endpoint reached' });
-});
+app.use('/api/profile', profileRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

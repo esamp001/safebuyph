@@ -1,7 +1,8 @@
 const express = require('express');
-const router = express.Router();
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken'); // Added missing jwt import
 const { PrismaClient } = require('../generated/prisma');
+const router = express.Router();
 
 const prisma = new PrismaClient();
 
@@ -142,6 +143,125 @@ router.post('/register', async (req, res) => {
     console.error('Registration error:', error);
     return res.status(500).json({
       error: 'Error creating user',
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+});
+
+router.post('/login', async (req, res) => {
+  const { email, password } = req.body;
+
+  try {
+    // Validate input
+    if (!email || !password) {
+      return res.status(400).json({
+        error: 'Email and password are required',
+      });
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return res.status(400).json({
+        error: 'Invalid email format',
+      });
+    }
+
+    // Validate password requirements
+    if (password.length < 8) {
+      return res.status(400).json({
+        error: 'Password must be at least 8 characters long',
+      });
+    }
+
+    if (!/[A-Z]/.test(password)) {
+      return res.status(400).json({
+        error: 'Password must contain at least one uppercase letter',
+      });
+    }
+
+    if (!/[a-z]/.test(password)) {
+      return res.status(400).json({
+        error: 'Password must contain at least one lowercase letter',
+      });
+    }
+
+    if (!/[0-9]/.test(password)) {
+      return res.status(400).json({
+        error: 'Password must contain at least one number',
+      });
+    }
+
+    if (!/[!@#$%^&*]/.test(password)) {
+      return res.status(400).json({
+        error: 'Password must contain at least one special character (!@#$%^&*)',
+      });
+    }
+
+    // Check if user exists
+    // Query the database to find a user with the provided email
+    const user = await prisma.user.findUnique({
+      where: { email }, // Search by email field
+    });
+
+    // If no user is found with that email, return an error
+    if (!user) {
+      return res.status(400).json({
+        error: 'User not found in database',
+      });
+    }
+
+    // Check if the password is correct
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+
+    if (!isPasswordValid) {
+      return res.status(401).json({ message: 'Invalid password' });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+    //Respond with token
+    // Send successful response with:
+    // - Success message
+    // - JWT token for authentication
+    // - User details (id, name, email) for client-side use
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
+    });
+  } catch (error) {
+    // Log the full error details for debugging
+    console.error('Login error:', error.message);
+    console.error('Error stack:', error.stack);
+
+    // Send more specific error message based on error type
+    if (error.code === 'P2002') {
+      return res.status(400).json({
+        error: 'Email already exists',
+      });
+    } else if (error.code === 'P2025') {
+      return res.status(404).json({
+        error: 'User not found',
+      });
+    } else if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({
+        error: 'Invalid token',
+      });
+    } else if (error instanceof bcrypt.BcryptError) {
+      return res.status(400).json({
+        error: 'Password hashing error',
+      });
+    }
+
+    return res.status(500).json({
+      error: 'Internal server error: ' + error.message,
     });
   } finally {
     await prisma.$disconnect();

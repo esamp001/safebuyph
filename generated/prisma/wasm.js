@@ -136,8 +136,12 @@ exports.Prisma.UserScalarFieldEnum = {
 exports.Prisma.TransactionScalarFieldEnum = {
   id: 'id',
   status: 'status',
+  price: 'price',
   buyerId: 'buyerId',
   sellerId: 'sellerId',
+  amount: 'amount',
+  escrowReleased: 'escrowReleased',
+  disputeReason: 'disputeReason',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -156,7 +160,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.TransactionStatus = exports.$Enums.TransactionStatus = {
+  PENDING: 'PENDING',
+  PAID: 'PAID',
+  SHIPPED: 'SHIPPED',
+  DELIVERED: 'DELIVERED',
+  COMPLETED: 'COMPLETED',
+  DISPUTED: 'DISPUTED',
+  CANCELLED: 'CANCELLED'
+};
 
 exports.Prisma.ModelName = {
   User: 'User',
