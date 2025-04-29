@@ -2302,6 +2302,9 @@ export namespace Prisma {
     amount: number | null
     escrowReleased: boolean | null
     disputeReason: string | null
+    disputedAt: Date | null
+    disputeResolved: boolean | null
+    adminNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2315,6 +2318,9 @@ export namespace Prisma {
     amount: number | null
     escrowReleased: boolean | null
     disputeReason: string | null
+    disputedAt: Date | null
+    disputeResolved: boolean | null
+    adminNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2328,6 +2334,9 @@ export namespace Prisma {
     amount: number
     escrowReleased: number
     disputeReason: number
+    disputedAt: number
+    disputeResolved: number
+    adminNote: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -2359,6 +2368,9 @@ export namespace Prisma {
     amount?: true
     escrowReleased?: true
     disputeReason?: true
+    disputedAt?: true
+    disputeResolved?: true
+    adminNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2372,6 +2384,9 @@ export namespace Prisma {
     amount?: true
     escrowReleased?: true
     disputeReason?: true
+    disputedAt?: true
+    disputeResolved?: true
+    adminNote?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2385,6 +2400,9 @@ export namespace Prisma {
     amount?: true
     escrowReleased?: true
     disputeReason?: true
+    disputedAt?: true
+    disputeResolved?: true
+    adminNote?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2485,6 +2503,9 @@ export namespace Prisma {
     amount: number
     escrowReleased: boolean
     disputeReason: string | null
+    disputedAt: Date | null
+    disputeResolved: boolean
+    adminNote: string | null
     createdAt: Date
     updatedAt: Date
     _count: TransactionCountAggregateOutputType | null
@@ -2517,6 +2538,9 @@ export namespace Prisma {
     amount?: boolean
     escrowReleased?: boolean
     disputeReason?: boolean
+    disputedAt?: boolean
+    disputeResolved?: boolean
+    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2532,6 +2556,9 @@ export namespace Prisma {
     amount?: boolean
     escrowReleased?: boolean
     disputeReason?: boolean
+    disputedAt?: boolean
+    disputeResolved?: boolean
+    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2547,6 +2574,9 @@ export namespace Prisma {
     amount?: boolean
     escrowReleased?: boolean
     disputeReason?: boolean
+    disputedAt?: boolean
+    disputeResolved?: boolean
+    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2562,11 +2592,14 @@ export namespace Prisma {
     amount?: boolean
     escrowReleased?: boolean
     disputeReason?: boolean
+    disputedAt?: boolean
+    disputeResolved?: boolean
+    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "disputedAt" | "disputeResolved" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
@@ -2595,6 +2628,9 @@ export namespace Prisma {
       amount: number
       escrowReleased: boolean
       disputeReason: string | null
+      disputedAt: Date | null
+      disputeResolved: boolean
+      adminNote: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["transaction"]>
@@ -3030,6 +3066,9 @@ export namespace Prisma {
     readonly amount: FieldRef<"Transaction", 'Float'>
     readonly escrowReleased: FieldRef<"Transaction", 'Boolean'>
     readonly disputeReason: FieldRef<"Transaction", 'String'>
+    readonly disputedAt: FieldRef<"Transaction", 'DateTime'>
+    readonly disputeResolved: FieldRef<"Transaction", 'Boolean'>
+    readonly adminNote: FieldRef<"Transaction", 'String'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
   }
@@ -3488,6 +3527,9 @@ export namespace Prisma {
     amount: 'amount',
     escrowReleased: 'escrowReleased',
     disputeReason: 'disputeReason',
+    disputedAt: 'disputedAt',
+    disputeResolved: 'disputeResolved',
+    adminNote: 'adminNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -3716,6 +3758,9 @@ export namespace Prisma {
     amount?: FloatFilter<"Transaction"> | number
     escrowReleased?: BoolFilter<"Transaction"> | boolean
     disputeReason?: StringNullableFilter<"Transaction"> | string | null
+    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    disputeResolved?: BoolFilter<"Transaction"> | boolean
+    adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -3731,6 +3776,9 @@ export namespace Prisma {
     amount?: SortOrder
     escrowReleased?: SortOrder
     disputeReason?: SortOrderInput | SortOrder
+    disputedAt?: SortOrderInput | SortOrder
+    disputeResolved?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     buyer?: UserOrderByWithRelationInput
@@ -3749,6 +3797,9 @@ export namespace Prisma {
     amount?: FloatFilter<"Transaction"> | number
     escrowReleased?: BoolFilter<"Transaction"> | boolean
     disputeReason?: StringNullableFilter<"Transaction"> | string | null
+    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    disputeResolved?: BoolFilter<"Transaction"> | boolean
+    adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -3764,6 +3815,9 @@ export namespace Prisma {
     amount?: SortOrder
     escrowReleased?: SortOrder
     disputeReason?: SortOrderInput | SortOrder
+    disputedAt?: SortOrderInput | SortOrder
+    disputeResolved?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: TransactionCountOrderByAggregateInput
@@ -3785,6 +3839,9 @@ export namespace Prisma {
     amount?: FloatWithAggregatesFilter<"Transaction"> | number
     escrowReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
     disputeReason?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    disputedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    disputeResolved?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    adminNote?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
   }
@@ -3912,6 +3969,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
@@ -3927,6 +3987,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3937,6 +4000,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
@@ -3952,6 +4018,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3965,6 +4034,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -3975,6 +4047,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -3988,6 +4063,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4232,6 +4310,17 @@ export namespace Prisma {
     not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -4246,6 +4335,9 @@ export namespace Prisma {
     amount?: SortOrder
     escrowReleased?: SortOrder
     disputeReason?: SortOrder
+    disputedAt?: SortOrder
+    disputeResolved?: SortOrder
+    adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4267,6 +4359,9 @@ export namespace Prisma {
     amount?: SortOrder
     escrowReleased?: SortOrder
     disputeReason?: SortOrder
+    disputedAt?: SortOrder
+    disputeResolved?: SortOrder
+    adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4280,6 +4375,9 @@ export namespace Prisma {
     amount?: SortOrder
     escrowReleased?: SortOrder
     disputeReason?: SortOrder
+    disputedAt?: SortOrder
+    disputeResolved?: SortOrder
+    adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -4300,6 +4398,20 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumTransactionStatusFilter<$PrismaModel>
     _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type TransactionCreateNestedManyWithoutBuyerInput = {
@@ -4432,6 +4544,10 @@ export namespace Prisma {
 
   export type EnumTransactionStatusFieldUpdateOperationsInput = {
     set?: $Enums.TransactionStatus
+  }
+
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput = {
@@ -4622,6 +4738,17 @@ export namespace Prisma {
     not?: NestedEnumTransactionStatusFilter<$PrismaModel> | $Enums.TransactionStatus
   }
 
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type NestedEnumTransactionStatusWithAggregatesFilter<$PrismaModel = never> = {
     equals?: $Enums.TransactionStatus | EnumTransactionStatusFieldRefInput<$PrismaModel>
     in?: $Enums.TransactionStatus[] | ListEnumTransactionStatusFieldRefInput<$PrismaModel>
@@ -4632,12 +4759,29 @@ export namespace Prisma {
     _max?: NestedEnumTransactionStatusFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
   export type TransactionCreateWithoutBuyerInput = {
     status?: $Enums.TransactionStatus
     price: number
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
@@ -4651,6 +4795,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4671,6 +4818,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
@@ -4684,6 +4834,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4726,6 +4879,9 @@ export namespace Prisma {
     amount?: FloatFilter<"Transaction"> | number
     escrowReleased?: BoolFilter<"Transaction"> | boolean
     disputeReason?: StringNullableFilter<"Transaction"> | string | null
+    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    disputeResolved?: BoolFilter<"Transaction"> | boolean
+    adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
   }
@@ -4918,6 +5074,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4930,6 +5089,9 @@ export namespace Prisma {
     amount: number
     escrowReleased?: boolean
     disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -4940,6 +5102,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
@@ -4953,6 +5118,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4965,6 +5133,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -4975,6 +5146,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
@@ -4988,6 +5162,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5000,6 +5177,9 @@ export namespace Prisma {
     amount?: FloatFieldUpdateOperationsInput | number
     escrowReleased?: BoolFieldUpdateOperationsInput | boolean
     disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

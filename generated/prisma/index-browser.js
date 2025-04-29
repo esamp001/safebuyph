@@ -142,6 +142,9 @@ exports.Prisma.TransactionScalarFieldEnum = {
   amount: 'amount',
   escrowReleased: 'escrowReleased',
   disputeReason: 'disputeReason',
+  disputedAt: 'disputedAt',
+  disputeResolved: 'disputeResolved',
+  adminNote: 'adminNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

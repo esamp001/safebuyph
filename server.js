@@ -15,10 +15,12 @@ app.use(express.json());
 // Import Routes
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
+const transactionRoutes = require('./routes/transaction');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
+app.use('/api/transaction', transactionRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
