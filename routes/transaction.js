@@ -8,11 +8,53 @@ const prisma = new PrismaClient();
 router.post('/', authMiddleware, async (req, res) => {
   const { sellerId, amount, price } = req.body;
 
-  if (!sellerId || !amount || !price || amount <= 0) {
-    return res.status(400).json({ error: 'Seller ID and valid amount are required' });
+  if (!sellerId) {
+    return res.status(400).json({ error: 'Seller doesnt exist in database!' });
   }
 
   try {
+    // First find and validate seller
+    const seller = await prisma.user.findUnique({
+      where: { id: sellerId },
+    });
+
+    // Check if seller exists
+    if (!seller) {
+      return res.status(404).json({ error: 'Seller not found' });
+    }
+
+    // Prevent self-transactions
+    if (seller.id === req.user.userId) {
+      return res.status(400).json({ error: 'Cannot create transaction with yourself' });
+    }
+
+    // Check seller status
+    if (seller.status !== 'active') {
+      return res.status(400).json({ error: 'Seller account is not active' });
+    }
+
+    // Check if seller is verified
+    if (!seller.idVerified) {
+      return res.status(400).json({ error: 'Seller is not verified' });
+    }
+
+    // Check if user is actually a seller
+    if (seller.role !== 'seller') {
+      return res.status(400).json({ error: 'User is not registered as a seller' });
+    }
+
+    // Optional: Check seller rating
+    if (seller.rating < 3.0) {
+      // minimum rating requirement
+      return res.status(400).json({ error: 'Seller does not meet minimum rating requirements' });
+    }
+
+    if (!sellerId || !amount || !price || amount <= 0 || price <= 0) {
+      return res
+        .status(400)
+        .json({ error: 'Seller ID, valid amount, and valid price are required' });
+    }
+
     const transaction = await prisma.transaction.create({
       data: {
         buyerId: req.user.userId,
@@ -154,6 +196,31 @@ router.patch('/:id/dispute', authMiddleware, async (req, res) => {
         .json({ message: 'Cannot dispute a completed or cancelled transaction' });
     }
 
+    // Check if transaction is already disputed:
+    if (tx.status === 'DISPUTED') {
+      return res.status(400).json({ message: 'Transaction is already under dispute' });
+    }
+
+    // Check if duspute reason is already exists:
+    if (tx.disputeReason) {
+      return res
+        .status(400)
+        .json({ message: 'Dispute reason already exists for this transaction' });
+    }
+
+    // Check if there's a cooldown period between dispute attempts
+    if (tx.disputedAt) {
+      const cooldownPeriod = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      const lastDisputeTime = new Date(tx.disputedAt).getTime();
+      const currentTime = new Date().getTime();
+
+      if (currentTime - lastDisputeTime < cooldownPeriod) {
+        return res.status(400).json({
+          message: 'Please wait 24 hours between dispute attempts',
+        });
+      }
+    }
+
     // Update body using prisma
 
     const updated = await prisma.transaction.update({
@@ -168,7 +235,7 @@ router.patch('/:id/dispute', authMiddleware, async (req, res) => {
     res.json({ message: 'Dispute logged', transaction: updated });
   } catch (err) {
     console.error('Dispute error:', err);
-    res.status(500).json({ message: 'Server errir while filing dispute' });
+    res.status(500).json({ message: 'Server error while filing dispute' });
   }
 });
 

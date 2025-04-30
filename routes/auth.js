@@ -70,10 +70,10 @@ router.post('/register', async (req, res) => {
   }
 
   // Role validation
-  const validRoles = ['buyer', 'seller'];
+  const validRoles = ['buyer', 'seller', 'admin'];
   if (role && !validRoles.includes(role)) {
     return res.status(400).json({
-      error: 'Role must be either buyer or seller',
+      error: 'Role must be either buyer, seller, or admin',
     });
   }
 

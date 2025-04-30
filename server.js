@@ -16,11 +16,13 @@ app.use(express.json());
 const authRoutes = require('./routes/auth');
 const profileRoutes = require('./routes/profile');
 const transactionRoutes = require('./routes/transaction');
+const adminRoutes = require('./routes/admin/dashboard');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/profile', profileRoutes);
 app.use('/api/transaction', transactionRoutes);
+app.use('/api/admin', adminRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
