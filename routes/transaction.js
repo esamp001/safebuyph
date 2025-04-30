@@ -172,4 +172,29 @@ router.patch('/:id/dispute', authMiddleware, async (req, res) => {
   }
 });
 
+router.get('/history', authMiddleware, async (req, res) => {
+  try {
+    const transactions = await prisma.transaction.findMany({
+      where: {
+        OR: [{ buyerId: req.user.userId }, { sellerId: req.user.userId }],
+        status: {
+          in: [TransactionStatus.COMPLETED, TransactionStatus.DISPUTED],
+        },
+      },
+      include: {
+        buyer: true,
+        seller: true,
+      },
+      orderBy: {
+        createdAt: 'desc',
+      },
+    });
+
+    res.status(200).json({ transactions });
+  } catch (err) {
+    console.error('History fetch error:', err);
+    res.status(500).json({ message: 'Server error while fetching history' });
+  }
+});
+
 module.exports = router;
