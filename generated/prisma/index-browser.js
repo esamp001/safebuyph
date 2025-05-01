@@ -124,9 +124,11 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   phoneNumber: 'phoneNumber',
   profilePic: 'profilePic',
-  role: 'role',
+  isAdmin: 'isAdmin',
+  canSell: 'canSell',
   status: 'status',
-  idVerified: 'idVerified',
+  validIdUrl: 'validIdUrl',
+  validIdNumber: 'validIdNumber',
   transactionCount: 'transactionCount',
   rating: 'rating',
   createdAt: 'createdAt',
@@ -146,7 +148,16 @@ exports.Prisma.TransactionScalarFieldEnum = {
   disputeResolved: 'disputeResolved',
   adminNote: 'adminNote',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  shippingProof: 'shippingProof',
+  shippingTrackingNumber: 'shippingTrackingNumber',
+  paymentProof: 'paymentProof',
+  paymentTransactionNumber: 'paymentTransactionNumber',
+  deliveryConfirmed: 'deliveryConfirmed',
+  shippedAt: 'shippedAt',
+  deliveryConfirmedAt: 'deliveryConfirmedAt',
+  paidAt: 'paidAt',
+  shippingDeadline: 'shippingDeadline'
 };
 
 exports.Prisma.SortOrder = {
@@ -165,6 +176,7 @@ exports.Prisma.NullsOrder = {
 };
 exports.TransactionStatus = exports.$Enums.TransactionStatus = {
   PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
   PAID: 'PAID',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',

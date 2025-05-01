@@ -5,19 +5,21 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 model User {
-  id               Int      @id @default(autoincrement()) // Unique ID
-  name             String // Full name of the user
-  email            String   @unique // User email (unique)
-  password         String // Password for authentication
-  phoneNumber      String? // Optional: phone number of the user
-  profilePic       String? // Optional: URL for profile picture
-  role             String   @default("buyer") // "buyer" or "seller"
-  status           String   @default("active") // "active", "suspended", etc.
-  idVerified       Boolean  @default(false) // Whether the user is verified
-  transactionCount Int      @default(0) // Number of transactions completed
-  rating           Float    @default(0) // Average rating from completed transactions
-  createdAt        DateTime @default(now()) // When the user was created
-  updatedAt        DateTime @updatedAt // When the user profile was last updated
+  id               Int       @id @default(autoincrement())
+  name             String
+  email            String    @unique
+  password         String
+  phoneNumber      String?
+  profilePic       String?
+  isAdmin          Boolean   @default(false)
+  canSell          Boolean   @default(false)
+  status           String    @default("active")
+  validIdUrl       String?   // ID photo URL
+  validIdNumber    String?   // ID number
+  transactionCount Int       @default(0)
+  rating           Float     @default(3.0)
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
 
   // Define both sides of the relations
   buyerTransactions  Transaction[] @relation("BuyerTransactions")
@@ -26,6 +28,7 @@ model User {
 
 enum TransactionStatus {
   PENDING
+  ACCEPTED
   PAID
   SHIPPED
   DELIVERED
@@ -35,19 +38,28 @@ enum TransactionStatus {
 }
 
 model Transaction {
-  id             Int               @id @default(autoincrement())
-  status         TransactionStatus @default(PENDING)
-  price          Float
-  buyerId        Int
-  sellerId       Int
-  amount         Float
-  escrowReleased Boolean           @default(false)
-  disputeReason  String?
-  disputedAt     DateTime?
-  disputeResolved Boolean          @default(false)
-  adminNote      String?
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  id                  Int               @id @default(autoincrement())
+  status              TransactionStatus @default(PENDING)
+  price               Float
+  buyerId             Int
+  sellerId            Int
+  amount              Float
+  escrowReleased      Boolean           @default(false)
+  disputeReason       String?
+  disputedAt          DateTime?
+  disputeResolved     Boolean           @default(false)
+  adminNote           String?
+  createdAt           DateTime          @default(now())
+  updatedAt           DateTime          @updatedAt
+  shippingProof       String?           //URL of receipt or image
+  shippingTrackingNumber String?        //Tracking number from courier
+  paymentProof        String?           //URL of payment receipt
+  paymentTransactionNumber String?      //Reference number from payment
+  deliveryConfirmed   Boolean           @default(false)
+  shippedAt           DateTime?
+  deliveryConfirmedAt DateTime?
+  paidAt              DateTime?         // When the transaction was paid
+  shippingDeadline    DateTime?         // When the shipping should happen by
 
   buyer  User @relation("BuyerTransactions", fields: [buyerId], references: [id])
   seller User @relation("SellerTransactions", fields: [sellerId], references: [id])

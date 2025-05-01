@@ -30,6 +30,7 @@ export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
 export namespace $Enums {
   export const TransactionStatus: {
   PENDING: 'PENDING',
+  ACCEPTED: 'ACCEPTED',
   PAID: 'PAID',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',
@@ -1052,9 +1053,11 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     profilePic: string | null
-    role: string | null
+    isAdmin: boolean | null
+    canSell: boolean | null
     status: string | null
-    idVerified: boolean | null
+    validIdUrl: string | null
+    validIdNumber: string | null
     transactionCount: number | null
     rating: number | null
     createdAt: Date | null
@@ -1068,9 +1071,11 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     profilePic: string | null
-    role: string | null
+    isAdmin: boolean | null
+    canSell: boolean | null
     status: string | null
-    idVerified: boolean | null
+    validIdUrl: string | null
+    validIdNumber: string | null
     transactionCount: number | null
     rating: number | null
     createdAt: Date | null
@@ -1084,9 +1089,11 @@ export namespace Prisma {
     password: number
     phoneNumber: number
     profilePic: number
-    role: number
+    isAdmin: number
+    canSell: number
     status: number
-    idVerified: number
+    validIdUrl: number
+    validIdNumber: number
     transactionCount: number
     rating: number
     createdAt: number
@@ -1114,9 +1121,11 @@ export namespace Prisma {
     password?: true
     phoneNumber?: true
     profilePic?: true
-    role?: true
+    isAdmin?: true
+    canSell?: true
     status?: true
-    idVerified?: true
+    validIdUrl?: true
+    validIdNumber?: true
     transactionCount?: true
     rating?: true
     createdAt?: true
@@ -1130,9 +1139,11 @@ export namespace Prisma {
     password?: true
     phoneNumber?: true
     profilePic?: true
-    role?: true
+    isAdmin?: true
+    canSell?: true
     status?: true
-    idVerified?: true
+    validIdUrl?: true
+    validIdNumber?: true
     transactionCount?: true
     rating?: true
     createdAt?: true
@@ -1146,9 +1157,11 @@ export namespace Prisma {
     password?: true
     phoneNumber?: true
     profilePic?: true
-    role?: true
+    isAdmin?: true
+    canSell?: true
     status?: true
-    idVerified?: true
+    validIdUrl?: true
+    validIdNumber?: true
     transactionCount?: true
     rating?: true
     createdAt?: true
@@ -1249,9 +1262,11 @@ export namespace Prisma {
     password: string
     phoneNumber: string | null
     profilePic: string | null
-    role: string
+    isAdmin: boolean
+    canSell: boolean
     status: string
-    idVerified: boolean
+    validIdUrl: string | null
+    validIdNumber: string | null
     transactionCount: number
     rating: number
     createdAt: Date
@@ -1284,9 +1299,11 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    role?: boolean
+    isAdmin?: boolean
+    canSell?: boolean
     status?: boolean
-    idVerified?: boolean
+    validIdUrl?: boolean
+    validIdNumber?: boolean
     transactionCount?: boolean
     rating?: boolean
     createdAt?: boolean
@@ -1303,9 +1320,11 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    role?: boolean
+    isAdmin?: boolean
+    canSell?: boolean
     status?: boolean
-    idVerified?: boolean
+    validIdUrl?: boolean
+    validIdNumber?: boolean
     transactionCount?: boolean
     rating?: boolean
     createdAt?: boolean
@@ -1319,9 +1338,11 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    role?: boolean
+    isAdmin?: boolean
+    canSell?: boolean
     status?: boolean
-    idVerified?: boolean
+    validIdUrl?: boolean
+    validIdNumber?: boolean
     transactionCount?: boolean
     rating?: boolean
     createdAt?: boolean
@@ -1335,16 +1356,18 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    role?: boolean
+    isAdmin?: boolean
+    canSell?: boolean
     status?: boolean
-    idVerified?: boolean
+    validIdUrl?: boolean
+    validIdNumber?: boolean
     transactionCount?: boolean
     rating?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "phoneNumber" | "profilePic" | "role" | "status" | "idVerified" | "transactionCount" | "rating" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "phoneNumber" | "profilePic" | "isAdmin" | "canSell" | "status" | "validIdUrl" | "validIdNumber" | "transactionCount" | "rating" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
     sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
@@ -1366,9 +1389,11 @@ export namespace Prisma {
       password: string
       phoneNumber: string | null
       profilePic: string | null
-      role: string
+      isAdmin: boolean
+      canSell: boolean
       status: string
-      idVerified: boolean
+      validIdUrl: string | null
+      validIdNumber: string | null
       transactionCount: number
       rating: number
       createdAt: Date
@@ -1804,9 +1829,11 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly phoneNumber: FieldRef<"User", 'String'>
     readonly profilePic: FieldRef<"User", 'String'>
-    readonly role: FieldRef<"User", 'String'>
+    readonly isAdmin: FieldRef<"User", 'Boolean'>
+    readonly canSell: FieldRef<"User", 'Boolean'>
     readonly status: FieldRef<"User", 'String'>
-    readonly idVerified: FieldRef<"User", 'Boolean'>
+    readonly validIdUrl: FieldRef<"User", 'String'>
+    readonly validIdNumber: FieldRef<"User", 'String'>
     readonly transactionCount: FieldRef<"User", 'Int'>
     readonly rating: FieldRef<"User", 'Float'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
@@ -2307,6 +2334,15 @@ export namespace Prisma {
     adminNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    shippingProof: string | null
+    shippingTrackingNumber: string | null
+    paymentProof: string | null
+    paymentTransactionNumber: string | null
+    deliveryConfirmed: boolean | null
+    shippedAt: Date | null
+    deliveryConfirmedAt: Date | null
+    paidAt: Date | null
+    shippingDeadline: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
@@ -2323,6 +2359,15 @@ export namespace Prisma {
     adminNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
+    shippingProof: string | null
+    shippingTrackingNumber: string | null
+    paymentProof: string | null
+    paymentTransactionNumber: string | null
+    deliveryConfirmed: boolean | null
+    shippedAt: Date | null
+    deliveryConfirmedAt: Date | null
+    paidAt: Date | null
+    shippingDeadline: Date | null
   }
 
   export type TransactionCountAggregateOutputType = {
@@ -2339,6 +2384,15 @@ export namespace Prisma {
     adminNote: number
     createdAt: number
     updatedAt: number
+    shippingProof: number
+    shippingTrackingNumber: number
+    paymentProof: number
+    paymentTransactionNumber: number
+    deliveryConfirmed: number
+    shippedAt: number
+    deliveryConfirmedAt: number
+    paidAt: number
+    shippingDeadline: number
     _all: number
   }
 
@@ -2373,6 +2427,15 @@ export namespace Prisma {
     adminNote?: true
     createdAt?: true
     updatedAt?: true
+    shippingProof?: true
+    shippingTrackingNumber?: true
+    paymentProof?: true
+    paymentTransactionNumber?: true
+    deliveryConfirmed?: true
+    shippedAt?: true
+    deliveryConfirmedAt?: true
+    paidAt?: true
+    shippingDeadline?: true
   }
 
   export type TransactionMaxAggregateInputType = {
@@ -2389,6 +2452,15 @@ export namespace Prisma {
     adminNote?: true
     createdAt?: true
     updatedAt?: true
+    shippingProof?: true
+    shippingTrackingNumber?: true
+    paymentProof?: true
+    paymentTransactionNumber?: true
+    deliveryConfirmed?: true
+    shippedAt?: true
+    deliveryConfirmedAt?: true
+    paidAt?: true
+    shippingDeadline?: true
   }
 
   export type TransactionCountAggregateInputType = {
@@ -2405,6 +2477,15 @@ export namespace Prisma {
     adminNote?: true
     createdAt?: true
     updatedAt?: true
+    shippingProof?: true
+    shippingTrackingNumber?: true
+    paymentProof?: true
+    paymentTransactionNumber?: true
+    deliveryConfirmed?: true
+    shippedAt?: true
+    deliveryConfirmedAt?: true
+    paidAt?: true
+    shippingDeadline?: true
     _all?: true
   }
 
@@ -2508,6 +2589,15 @@ export namespace Prisma {
     adminNote: string | null
     createdAt: Date
     updatedAt: Date
+    shippingProof: string | null
+    shippingTrackingNumber: string | null
+    paymentProof: string | null
+    paymentTransactionNumber: string | null
+    deliveryConfirmed: boolean
+    shippedAt: Date | null
+    deliveryConfirmedAt: Date | null
+    paidAt: Date | null
+    shippingDeadline: Date | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -2543,6 +2633,15 @@ export namespace Prisma {
     adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    shippingProof?: boolean
+    shippingTrackingNumber?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
+    deliveryConfirmed?: boolean
+    shippedAt?: boolean
+    deliveryConfirmedAt?: boolean
+    paidAt?: boolean
+    shippingDeadline?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
@@ -2561,6 +2660,15 @@ export namespace Prisma {
     adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    shippingProof?: boolean
+    shippingTrackingNumber?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
+    deliveryConfirmed?: boolean
+    shippedAt?: boolean
+    deliveryConfirmedAt?: boolean
+    paidAt?: boolean
+    shippingDeadline?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
@@ -2579,6 +2687,15 @@ export namespace Prisma {
     adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    shippingProof?: boolean
+    shippingTrackingNumber?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
+    deliveryConfirmed?: boolean
+    shippedAt?: boolean
+    deliveryConfirmedAt?: boolean
+    paidAt?: boolean
+    shippingDeadline?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
@@ -2597,9 +2714,18 @@ export namespace Prisma {
     adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
+    shippingProof?: boolean
+    shippingTrackingNumber?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
+    deliveryConfirmed?: boolean
+    shippedAt?: boolean
+    deliveryConfirmedAt?: boolean
+    paidAt?: boolean
+    shippingDeadline?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "disputedAt" | "disputeResolved" | "adminNote" | "createdAt" | "updatedAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "disputedAt" | "disputeResolved" | "adminNote" | "createdAt" | "updatedAt" | "shippingProof" | "shippingTrackingNumber" | "paymentProof" | "paymentTransactionNumber" | "deliveryConfirmed" | "shippedAt" | "deliveryConfirmedAt" | "paidAt" | "shippingDeadline", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
@@ -2633,6 +2759,15 @@ export namespace Prisma {
       adminNote: string | null
       createdAt: Date
       updatedAt: Date
+      shippingProof: string | null
+      shippingTrackingNumber: string | null
+      paymentProof: string | null
+      paymentTransactionNumber: string | null
+      deliveryConfirmed: boolean
+      shippedAt: Date | null
+      deliveryConfirmedAt: Date | null
+      paidAt: Date | null
+      shippingDeadline: Date | null
     }, ExtArgs["result"]["transaction"]>
     composites: {}
   }
@@ -3071,6 +3206,15 @@ export namespace Prisma {
     readonly adminNote: FieldRef<"Transaction", 'String'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
+    readonly shippingProof: FieldRef<"Transaction", 'String'>
+    readonly shippingTrackingNumber: FieldRef<"Transaction", 'String'>
+    readonly paymentProof: FieldRef<"Transaction", 'String'>
+    readonly paymentTransactionNumber: FieldRef<"Transaction", 'String'>
+    readonly deliveryConfirmed: FieldRef<"Transaction", 'Boolean'>
+    readonly shippedAt: FieldRef<"Transaction", 'DateTime'>
+    readonly deliveryConfirmedAt: FieldRef<"Transaction", 'DateTime'>
+    readonly paidAt: FieldRef<"Transaction", 'DateTime'>
+    readonly shippingDeadline: FieldRef<"Transaction", 'DateTime'>
   }
     
 
@@ -3506,9 +3650,11 @@ export namespace Prisma {
     password: 'password',
     phoneNumber: 'phoneNumber',
     profilePic: 'profilePic',
-    role: 'role',
+    isAdmin: 'isAdmin',
+    canSell: 'canSell',
     status: 'status',
-    idVerified: 'idVerified',
+    validIdUrl: 'validIdUrl',
+    validIdNumber: 'validIdNumber',
     transactionCount: 'transactionCount',
     rating: 'rating',
     createdAt: 'createdAt',
@@ -3531,7 +3677,16 @@ export namespace Prisma {
     disputeResolved: 'disputeResolved',
     adminNote: 'adminNote',
     createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    updatedAt: 'updatedAt',
+    shippingProof: 'shippingProof',
+    shippingTrackingNumber: 'shippingTrackingNumber',
+    paymentProof: 'paymentProof',
+    paymentTransactionNumber: 'paymentTransactionNumber',
+    deliveryConfirmed: 'deliveryConfirmed',
+    shippedAt: 'shippedAt',
+    deliveryConfirmedAt: 'deliveryConfirmedAt',
+    paidAt: 'paidAt',
+    shippingDeadline: 'shippingDeadline'
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
@@ -3656,9 +3811,11 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
+    isAdmin?: BoolFilter<"User"> | boolean
+    canSell?: BoolFilter<"User"> | boolean
     status?: StringFilter<"User"> | string
-    idVerified?: BoolFilter<"User"> | boolean
+    validIdUrl?: StringNullableFilter<"User"> | string | null
+    validIdNumber?: StringNullableFilter<"User"> | string | null
     transactionCount?: IntFilter<"User"> | number
     rating?: FloatFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -3674,9 +3831,11 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
-    role?: SortOrder
+    isAdmin?: SortOrder
+    canSell?: SortOrder
     status?: SortOrder
-    idVerified?: SortOrder
+    validIdUrl?: SortOrderInput | SortOrder
+    validIdNumber?: SortOrderInput | SortOrder
     transactionCount?: SortOrder
     rating?: SortOrder
     createdAt?: SortOrder
@@ -3695,9 +3854,11 @@ export namespace Prisma {
     password?: StringFilter<"User"> | string
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
-    role?: StringFilter<"User"> | string
+    isAdmin?: BoolFilter<"User"> | boolean
+    canSell?: BoolFilter<"User"> | boolean
     status?: StringFilter<"User"> | string
-    idVerified?: BoolFilter<"User"> | boolean
+    validIdUrl?: StringNullableFilter<"User"> | string | null
+    validIdNumber?: StringNullableFilter<"User"> | string | null
     transactionCount?: IntFilter<"User"> | number
     rating?: FloatFilter<"User"> | number
     createdAt?: DateTimeFilter<"User"> | Date | string
@@ -3713,9 +3874,11 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
-    role?: SortOrder
+    isAdmin?: SortOrder
+    canSell?: SortOrder
     status?: SortOrder
-    idVerified?: SortOrder
+    validIdUrl?: SortOrderInput | SortOrder
+    validIdNumber?: SortOrderInput | SortOrder
     transactionCount?: SortOrder
     rating?: SortOrder
     createdAt?: SortOrder
@@ -3737,9 +3900,11 @@ export namespace Prisma {
     password?: StringWithAggregatesFilter<"User"> | string
     phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     profilePic?: StringNullableWithAggregatesFilter<"User"> | string | null
-    role?: StringWithAggregatesFilter<"User"> | string
+    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
+    canSell?: BoolWithAggregatesFilter<"User"> | boolean
     status?: StringWithAggregatesFilter<"User"> | string
-    idVerified?: BoolWithAggregatesFilter<"User"> | boolean
+    validIdUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    validIdNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     transactionCount?: IntWithAggregatesFilter<"User"> | number
     rating?: FloatWithAggregatesFilter<"User"> | number
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
@@ -3763,6 +3928,15 @@ export namespace Prisma {
     adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
+    deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
+    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
   }
@@ -3781,6 +3955,15 @@ export namespace Prisma {
     adminNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    shippingProof?: SortOrderInput | SortOrder
+    shippingTrackingNumber?: SortOrderInput | SortOrder
+    paymentProof?: SortOrderInput | SortOrder
+    paymentTransactionNumber?: SortOrderInput | SortOrder
+    deliveryConfirmed?: SortOrder
+    shippedAt?: SortOrderInput | SortOrder
+    deliveryConfirmedAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    shippingDeadline?: SortOrderInput | SortOrder
     buyer?: UserOrderByWithRelationInput
     seller?: UserOrderByWithRelationInput
   }
@@ -3802,6 +3985,15 @@ export namespace Prisma {
     adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
+    deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
+    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
   }, "id">
@@ -3820,6 +4012,15 @@ export namespace Prisma {
     adminNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    shippingProof?: SortOrderInput | SortOrder
+    shippingTrackingNumber?: SortOrderInput | SortOrder
+    paymentProof?: SortOrderInput | SortOrder
+    paymentTransactionNumber?: SortOrderInput | SortOrder
+    deliveryConfirmed?: SortOrder
+    shippedAt?: SortOrderInput | SortOrder
+    deliveryConfirmedAt?: SortOrderInput | SortOrder
+    paidAt?: SortOrderInput | SortOrder
+    shippingDeadline?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -3844,6 +4045,15 @@ export namespace Prisma {
     adminNote?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
+    shippingProof?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    shippingTrackingNumber?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    deliveryConfirmed?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    shippedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    deliveryConfirmedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    paidAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    shippingDeadline?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
   }
 
   export type UserCreateInput = {
@@ -3852,9 +4062,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -3870,9 +4082,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -3887,9 +4101,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3905,9 +4121,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3923,9 +4141,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -3938,9 +4158,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3954,9 +4176,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -3974,6 +4198,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
   }
@@ -3992,6 +4225,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
   }
 
   export type TransactionUpdateInput = {
@@ -4005,6 +4247,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
   }
@@ -4023,6 +4274,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionCreateManyInput = {
@@ -4039,6 +4299,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
@@ -4052,6 +4321,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUncheckedUpdateManyInput = {
@@ -4068,6 +4346,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -4160,9 +4447,11 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
-    role?: SortOrder
+    isAdmin?: SortOrder
+    canSell?: SortOrder
     status?: SortOrder
-    idVerified?: SortOrder
+    validIdUrl?: SortOrder
+    validIdNumber?: SortOrder
     transactionCount?: SortOrder
     rating?: SortOrder
     createdAt?: SortOrder
@@ -4182,9 +4471,11 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
-    role?: SortOrder
+    isAdmin?: SortOrder
+    canSell?: SortOrder
     status?: SortOrder
-    idVerified?: SortOrder
+    validIdUrl?: SortOrder
+    validIdNumber?: SortOrder
     transactionCount?: SortOrder
     rating?: SortOrder
     createdAt?: SortOrder
@@ -4198,9 +4489,11 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
-    role?: SortOrder
+    isAdmin?: SortOrder
+    canSell?: SortOrder
     status?: SortOrder
-    idVerified?: SortOrder
+    validIdUrl?: SortOrder
+    validIdNumber?: SortOrder
     transactionCount?: SortOrder
     rating?: SortOrder
     createdAt?: SortOrder
@@ -4340,6 +4633,15 @@ export namespace Prisma {
     adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    shippingProof?: SortOrder
+    shippingTrackingNumber?: SortOrder
+    paymentProof?: SortOrder
+    paymentTransactionNumber?: SortOrder
+    deliveryConfirmed?: SortOrder
+    shippedAt?: SortOrder
+    deliveryConfirmedAt?: SortOrder
+    paidAt?: SortOrder
+    shippingDeadline?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
@@ -4364,6 +4666,15 @@ export namespace Prisma {
     adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    shippingProof?: SortOrder
+    shippingTrackingNumber?: SortOrder
+    paymentProof?: SortOrder
+    paymentTransactionNumber?: SortOrder
+    deliveryConfirmed?: SortOrder
+    shippedAt?: SortOrder
+    deliveryConfirmedAt?: SortOrder
+    paidAt?: SortOrder
+    shippingDeadline?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
@@ -4380,6 +4691,15 @@ export namespace Prisma {
     adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+    shippingProof?: SortOrder
+    shippingTrackingNumber?: SortOrder
+    paymentProof?: SortOrder
+    paymentTransactionNumber?: SortOrder
+    deliveryConfirmed?: SortOrder
+    shippedAt?: SortOrder
+    deliveryConfirmedAt?: SortOrder
+    paidAt?: SortOrder
+    shippingDeadline?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
@@ -4784,6 +5104,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
   }
 
@@ -4800,6 +5129,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
   }
 
   export type TransactionCreateOrConnectWithoutBuyerInput = {
@@ -4823,6 +5161,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
   }
 
@@ -4839,6 +5186,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
   }
 
   export type TransactionCreateOrConnectWithoutSellerInput = {
@@ -4884,6 +5240,15 @@ export namespace Prisma {
     adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
+    deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
+    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutSellerInput = {
@@ -4908,9 +5273,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -4925,9 +5292,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -4946,9 +5315,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -4963,9 +5334,11 @@ export namespace Prisma {
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    role?: string
+    isAdmin?: boolean
+    canSell?: boolean
     status?: string
-    idVerified?: boolean
+    validIdUrl?: string | null
+    validIdNumber?: string | null
     transactionCount?: number
     rating?: number
     createdAt?: Date | string
@@ -4995,9 +5368,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5012,9 +5387,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5039,9 +5416,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5056,9 +5435,11 @@ export namespace Prisma {
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    role?: StringFieldUpdateOperationsInput | string
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
     status?: StringFieldUpdateOperationsInput | string
-    idVerified?: BoolFieldUpdateOperationsInput | boolean
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5079,6 +5460,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
   }
 
   export type TransactionCreateManySellerInput = {
@@ -5094,6 +5484,15 @@ export namespace Prisma {
     adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
   }
 
   export type TransactionUpdateWithoutBuyerInput = {
@@ -5107,6 +5506,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
   }
 
@@ -5123,6 +5531,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUncheckedUpdateManyWithoutBuyerInput = {
@@ -5138,6 +5555,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUpdateWithoutSellerInput = {
@@ -5151,6 +5577,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
   }
 
@@ -5167,6 +5602,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUncheckedUpdateManyWithoutSellerInput = {
@@ -5182,6 +5626,15 @@ export namespace Prisma {
     adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

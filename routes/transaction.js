@@ -4,6 +4,18 @@ const authMiddleware = require('../middleware/auth');
 const router = express.Router();
 const prisma = new PrismaClient();
 
+// At the top of the file, add valid statuses
+const VALID_STATUSES = [
+  'PENDING',
+  'ACCEPTED',
+  'PAID',
+  'SHIPPED',
+  'DELIVERED',
+  'COMPLETED',
+  'DISPUTED',
+  'CANCELLED',
+];
+
 //Create new transasction
 router.post('/', authMiddleware, async (req, res) => {
   const { sellerId, amount, price } = req.body;
@@ -33,14 +45,9 @@ router.post('/', authMiddleware, async (req, res) => {
       return res.status(400).json({ error: 'Seller account is not active' });
     }
 
-    // Check if seller is verified
-    if (!seller.idVerified) {
-      return res.status(400).json({ error: 'Seller is not verified' });
-    }
-
-    // Check if user is actually a seller
-    if (seller.role !== 'seller') {
-      return res.status(400).json({ error: 'User is not registered as a seller' });
+    // Check if seller is authorized to sell
+    if (!seller.canSell) {
+      return res.status(400).json({ error: 'Seller is not authorized to sell at this time' });
     }
 
     // Optional: Check seller rating
@@ -114,27 +121,185 @@ router.get('/', authMiddleware, async (req, res) => {
 
 router.patch('/:id/status', authMiddleware, async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status, shippingProof, shippingTrackingNumber, paymentProof, paymentTransactionNumber } =
+    req.body;
 
-  if (!Object.values(TransactionStatus).includes(status)) {
-    return res.status(400).json({ message: 'Invalid status' });
+  if (!VALID_STATUSES.includes(status)) {
+    return res.status(400).json({
+      message: 'Invalid status',
+      validStatuses: VALID_STATUSES,
+    });
   }
 
   try {
-    // Only buyer can mark complete
-    const tx = await prisma.transaction.findUnique({ where: { id: +id } });
+    const tx = await prisma.transaction.findUnique({
+      where: { id: +id },
+      include: { seller: true, buyer: true },
+    });
+
     if (!tx) return res.status(404).json({ message: 'Transaction not found' });
 
-    //Ensure buyer can only complete transact
-    if (status === TransactionStatus.COMPLETED && tx.buyerId !== req.user.userId) {
-      return res.status(403).json({ message: 'Only buyer can complete this transaction' });
+    // Check permissions based on status change
+    if (status === 'COMPLETED') {
+      // Only buyer can complete transaction
+      if (tx.buyerId !== req.user.userId) {
+        return res.status(403).json({ message: 'Only buyer can complete this transaction' });
+      }
+      // Can only complete if status is DELIVERED
+      if (tx.status !== 'DELIVERED') {
+        return res.status(400).json({ message: 'Transaction must be delivered before completion' });
+      }
+    } else if (status === 'ACCEPTED') {
+      // Only seller can accept
+      if (tx.sellerId !== req.user.userId) {
+        return res.status(403).json({ message: 'Only seller can accept this transaction' });
+      }
+      // Can only accept if status is PENDING
+      if (tx.status !== 'PENDING') {
+        return res.status(400).json({ message: 'Can only accept pending transactions' });
+      }
+    } else if (status === 'PAID') {
+      // Only buyer can mark as paid
+      if (tx.buyerId !== req.user.userId) {
+        return res.status(403).json({ message: 'Only buyer can mark as paid' });
+      }
+      // Can only pay if status is ACCEPTED
+      if (tx.status !== 'ACCEPTED') {
+        return res
+          .status(400)
+          .json({ message: 'Transaction must be accepted by seller before payment' });
+      }
+      // Validate payment proof and transaction number
+      if (!paymentProof || !paymentTransactionNumber) {
+        return res.status(400).json({
+          message: 'Payment proof and transaction number are required',
+          required: {
+            paymentProof: 'URL of payment receipt',
+            paymentTransactionNumber: 'Transaction/Reference number from payment',
+          },
+        });
+      }
+      // Validate payment proof URL
+      const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+      if (!urlRegex.test(paymentProof)) {
+        return res.status(400).json({ message: 'Please provide a valid URL for payment proof' });
+      }
+      // Validate transaction number
+      if (!/^[A-Za-z0-9]{6,}$/.test(paymentTransactionNumber)) {
+        return res.status(400).json({
+          message:
+            'Invalid transaction number format. Must be alphanumeric and at least 6 characters',
+        });
+      }
+    } else if (status === 'SHIPPED') {
+      // Only seller can ship
+      if (tx.sellerId !== req.user.userId) {
+        return res.status(403).json({ message: 'Only seller can mark as shipped' });
+      }
+      // Can only ship if status is PAID
+      if (tx.status !== 'PAID') {
+        return res.status(400).json({ message: 'Transaction must be paid before shipping' });
+      }
+      // Validate shipping proof and tracking number
+      if (!shippingProof || !shippingTrackingNumber) {
+        return res.status(400).json({
+          message: 'Shipping proof and tracking number are required',
+          required: {
+            shippingProof: 'URL of shipping receipt or proof image',
+            shippingTrackingNumber: 'Tracking number from courier service',
+          },
+        });
+      }
+      // Validate shipping proof URL
+      const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+      if (!urlRegex.test(shippingProof)) {
+        return res.status(400).json({ message: 'Please provide a valid URL for shipping proof' });
+      }
+      // Validate tracking number
+      if (!/^[A-Za-z0-9]{8,}$/.test(shippingTrackingNumber)) {
+        return res.status(400).json({
+          message: 'Invalid tracking number format. Must be alphanumeric and at least 8 characters',
+        });
+      }
+    } else if (status === 'CANCELLED') {
+      // Both buyer and seller can cancel
+      if (tx.buyerId !== req.user.userId && tx.sellerId !== req.user.userId) {
+        return res
+          .status(403)
+          .json({ message: 'Only buyer or seller can cancel this transaction' });
+      }
+      // Can only cancel if status is PENDING or ACCEPTED
+      if (tx.status !== 'PENDING' && tx.status !== 'ACCEPTED') {
+        return res
+          .status(400)
+          .json({ message: 'Can only cancel pending or accepted transactions' });
+      }
+    }
+
+    let updateData = { status };
+
+    // Add additional data based on status
+    if (status === 'PAID') {
+      const paidAt = new Date();
+      const shippingDeadline = new Date(paidAt.getTime() + 24 * 60 * 60 * 1000); // 24 hours from payment
+      updateData = {
+        ...updateData,
+        paidAt,
+        shippingDeadline,
+        paymentProof,
+        paymentTransactionNumber,
+      };
+    } else if (status === 'SHIPPED') {
+      const now = new Date();
+      const isLateShipment = tx.shippingDeadline && now > tx.shippingDeadline;
+
+      // If shipment is late, decrease seller rating
+      if (isLateShipment) {
+        const newRating = Math.max(0, tx.seller.rating - 0.5);
+        await prisma.user.update({
+          where: { id: tx.sellerId },
+          data: {
+            rating: newRating,
+            status: newRating === 0 ? 'suspended' : 'active',
+          },
+        });
+      }
+
+      updateData = {
+        ...updateData,
+        shippedAt: now,
+        shippingProof,
+        shippingTrackingNumber,
+      };
     }
 
     const updated = await prisma.transaction.update({
       where: { id: +id },
-      data: { status },
+      data: updateData,
     });
-    res.json({ message: 'Status update', transaction: updated });
+
+    // Prepare response message
+    let message = 'Status updated';
+    if (status === 'ACCEPTED') {
+      message = 'Transaction accepted by seller. Waiting for buyer payment.';
+    } else if (status === 'PAID') {
+      message = 'Payment confirmed. Seller should ship within 24 hours.';
+    } else if (status === 'SHIPPED') {
+      message = 'Item shipped. Waiting for delivery confirmation.';
+    } else if (status === 'DELIVERED') {
+      message = 'Delivery confirmed. Escrow released to seller.';
+    } else if (status === 'CANCELLED') {
+      message = 'Transaction cancelled';
+    } else if (status === 'COMPLETED') {
+      message = 'Transaction completed';
+    } else if (status === 'DISPUTED') {
+      message = 'Transaction under dispute';
+    }
+
+    res.json({
+      message,
+      transaction: updated,
+    });
   } catch (err) {
     console.error('Status update error:', err);
     res.status(500).json({ message: 'Server error' });
@@ -261,6 +426,192 @@ router.get('/history', authMiddleware, async (req, res) => {
   } catch (err) {
     console.error('History fetch error:', err);
     res.status(500).json({ message: 'Server error while fetching history' });
+  }
+});
+
+// THI IS THE PART WHEN SHIPPER IS INVOLVED
+router.post('/:id/ship', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { shippingProof, shippingTrackingNumber } = req.body;
+
+  // Validate required fields
+  if (!shippingProof || !shippingTrackingNumber) {
+    return res.status(400).json({
+      message: 'Shipping proof and tracking number are required',
+      required: {
+        shippingProof: 'URL of shipping receipt or proof image',
+        shippingTrackingNumber: 'Tracking number from courier service',
+      },
+    });
+  }
+
+  // Validate URL format
+  const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
+  if (!urlRegex.test(shippingProof)) {
+    return res.status(400).json({
+      message: 'Please provide a valid URL for shipping proof',
+    });
+  }
+
+  // Validate tracking number format (alphanumeric, min 8 chars)
+  if (!/^[A-Za-z0-9]{8,}$/.test(shippingTrackingNumber)) {
+    return res.status(400).json({
+      message: 'Invalid tracking number format. Must be alphanumeric and at least 8 characters',
+    });
+  }
+
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: Number(id) },
+      include: { seller: true },
+    });
+
+    if (!transaction) return res.status(404).json({ message: 'Transaction not found' });
+
+    if (transaction.sellerId !== req.user.userId) {
+      return res.status(403).json({ message: 'Only seller can ship the item' });
+    }
+
+    // Check if transaction is in PAID status
+    if (transaction.status !== 'PAID') {
+      return res.status(400).json({ message: 'Transaction must be in PAID status to be shipped' });
+    }
+
+    const now = new Date();
+    const isLateShipment = transaction.shippingDeadline && now > transaction.shippingDeadline;
+
+    // If shipment is late, decrease seller rating by 0.5
+    let sellerUpdate = {};
+    if (isLateShipment) {
+      const newRating = Math.max(0, transaction.seller.rating - 0.5);
+      sellerUpdate = {
+        rating: newRating,
+        status: newRating === 0 ? 'suspended' : 'active',
+      };
+
+      // Update seller if rating changed
+      if (Object.keys(sellerUpdate).length > 0) {
+        await prisma.user.update({
+          where: { id: transaction.sellerId },
+          data: sellerUpdate,
+        });
+      }
+    }
+
+    const updated = await prisma.transaction.update({
+      where: { id: Number(id) },
+      data: {
+        status: 'SHIPPED',
+        shippingProof,
+        shippingTrackingNumber,
+        shippedAt: now,
+      },
+    });
+
+    res.json({
+      message: isLateShipment
+        ? 'Transaction marked as shipped. Warning: Late shipment detected, rating decreased by 0.5'
+        : 'Transaction marked as shipped',
+      transaction: updated,
+      isLateShipment,
+      newRating: sellerUpdate.rating,
+    });
+  } catch (err) {
+    console.error('Shipment update error:', err);
+    res.status(500).json({ message: 'Server error while marking shipment' });
+  }
+});
+// Order confirmation
+router.patch('/:id/confirm-delivery', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const transaction = await prisma.transaction.findUnique({ where: { id: Number(id) } });
+
+    if (!transaction) return res.status(404).json({ message: 'Transaction not found!' });
+    if (transaction.buyerId !== req.user.userId)
+      return res.status(403).json({ message: 'Only the buyer can confirm the delivery' });
+
+    const updated = await prisma.transaction.update({
+      where: { id: Number(id) },
+      data: {
+        status: 'DELIVERED',
+        deliveryConfirmed: true,
+        deliveryConfirmedAt: new Date(),
+        escrowReleased: true,
+      },
+    });
+
+    res.json({ message: 'Delivery confirmed and escrow released', transaction: updated });
+  } catch (err) {
+    console.error('Delivery confirmation error:', err);
+    res.status(500).json({ message: 'Server error while confirming delivery' });
+  }
+});
+
+// Report bad transaction and handle seller rating
+router.post('/:id/report-seller', authMiddleware, async (req, res) => {
+  const { id } = req.params;
+  const { reason } = req.body;
+
+  if (!reason || reason.trim().length === 0) {
+    return res.status(400).json({ message: 'Reason for report is required' });
+  }
+
+  try {
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: Number(id) },
+      include: { seller: true },
+    });
+
+    if (!transaction) {
+      return res.status(404).json({ message: 'Transaction not found' });
+    }
+
+    // Only buyer can report
+    if (transaction.buyerId !== req.user.userId) {
+      return res.status(403).json({ message: 'Only the buyer can report this transaction' });
+    }
+
+    // Can only report completed or delivered transactions
+    if (transaction.status !== 'COMPLETED' && transaction.status !== 'DELIVERED') {
+      return res
+        .status(400)
+        .json({ message: 'Can only report completed or delivered transactions' });
+    }
+
+    // Decrease seller rating by 1
+    const newRating = Math.max(0, transaction.seller.rating - 1);
+
+    // Update seller rating and status
+    const updatedSeller = await prisma.user.update({
+      where: { id: transaction.sellerId },
+      data: {
+        rating: newRating,
+        // If rating hits 0, automatically suspend the seller
+        status: newRating === 0 ? 'suspended' : 'active',
+      },
+    });
+
+    // Update transaction to mark it as reported
+    const updatedTransaction = await prisma.transaction.update({
+      where: { id: Number(id) },
+      data: {
+        disputeReason: reason,
+        disputedAt: new Date(),
+        status: 'DISPUTED',
+      },
+    });
+
+    res.json({
+      message: 'Seller reported and rating updated',
+      newRating,
+      sellerStatus: updatedSeller.status,
+      transaction: updatedTransaction,
+    });
+  } catch (err) {
+    console.error('Error reporting seller:', err);
+    res.status(500).json({ message: 'Server error while reporting seller' });
   }
 });
 
