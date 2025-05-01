@@ -220,13 +220,17 @@ router.post('/login', async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, { expiresIn: '6h' });
+    const token = jwt.sign(
+      {
+        userId: user.id,
+        role: user.role,
+        name: user.name,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '6h' }
+    );
 
     //Respond with token
-    // Send successful response with:
-    // - Success message
-    // - JWT token for authentication
-    // - User details (id, name, email) for client-side use
     res.status(200).json({
       message: 'Login successful',
       token,
@@ -234,6 +238,7 @@ router.post('/login', async (req, res) => {
         id: user.id,
         name: user.name,
         email: user.email,
+        role: user.role,
       },
     });
   } catch (error) {
