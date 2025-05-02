@@ -2,6 +2,10 @@ const express = require('express');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const bodyParser = require('body-parser');
+const { redisClient } = require('./config/redis');
+
+// Import middleware with correct casing
+const checkTokenBlacklist = require('./middleware/checktokenBlacklist');
 
 dotenv.config();
 
@@ -21,10 +25,12 @@ const ratingRoutes = require('./routes/rating');
 
 // Use Routes
 app.use('/api/auth', authRoutes);
-app.use('/api/profile', profileRoutes);
-app.use('/api/transaction', transactionRoutes);
-app.use('/api/admin', adminRoutes);
-app.use('/api/ratings', ratingRoutes);
+
+// Protected routes - add blacklist check
+app.use('/api/profile', checkTokenBlacklist, profileRoutes);
+app.use('/api/transaction', checkTokenBlacklist, transactionRoutes);
+app.use('/api/admin', checkTokenBlacklist, adminRoutes);
+app.use('/api/ratings', checkTokenBlacklist, ratingRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

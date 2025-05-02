@@ -2,7 +2,9 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Added missing jwt import
 const { PrismaClient } = require('../generated/prisma');
+const auth = require('../middleware/auth');
 const router = express.Router();
+const { redisClient } = require('../config/redis');
 
 const prisma = new PrismaClient();
 
@@ -225,7 +227,7 @@ router.post('/login', async (req, res) => {
         name: user.name,
       },
       process.env.JWT_SECRET,
-      { expiresIn: '6h' }
+      { expiresIn: '1h' }
     );
 
     //Respond with token
@@ -268,6 +270,97 @@ router.post('/login', async (req, res) => {
     });
   } finally {
     await prisma.$disconnect();
+  }
+});
+
+//Logout w/ token blacklisting
+router.post('/logout', auth, async (req, res) => {
+  try {
+    const authHeader = req.headers.authorization;
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      return res.status(401).json({ message: 'Invalid authorization header' });
+    }
+
+    const token = authHeader.split(' ')[1];
+
+    // Check if Redis is connected
+    if (!redisClient.isReady) {
+      console.error('Redis client not connected');
+      return res.status(503).json({
+        error: 'Service temporarily unavailable',
+        message: 'Redis connection not ready',
+      });
+    }
+
+    // Verify token is valid before blacklisting
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+      // Ensure token belongs to the logged-in user
+      if (decoded.userId !== req.user.userId) {
+        return res.status(403).json({ message: 'Token does not match current user' });
+      }
+
+      // Calculate remaining time
+      const exp = decoded.exp;
+      const now = Math.floor(Date.now() / 1000);
+
+      // Check if token is already expired
+      if (exp <= now) {
+        return res.status(400).json({ message: 'Token is already expired' });
+      }
+
+      // Calculate TTL (time-to-live)
+      const ttl = exp - now;
+
+      try {
+        // Check if token is already blacklisted
+        const isBlacklisted = await redisClient.get(`bl_${token}`);
+        if (isBlacklisted) {
+          return res.status(400).json({ message: 'Token is already logged out' });
+        }
+
+        // Add token to blacklist
+        await redisClient.set(`bl_${token}`, 'true', {
+          EX: ttl,
+          NX: true, // Only set if not exists
+        });
+
+        // Log the logout action
+        console.log(`User ${decoded.userId} logged out successfully`);
+
+        return res.json({
+          message: 'Logged out successfully',
+          details: {
+            userId: decoded.userId,
+            tokenExpiry: new Date(exp * 1000).toISOString(),
+          },
+        });
+      } catch (redisError) {
+        console.error('Redis operation error:', redisError);
+        throw redisError;
+      }
+    } catch (tokenError) {
+      if (tokenError instanceof jwt.JsonWebTokenError) {
+        return res.status(401).json({ message: 'Invalid token' });
+      }
+      throw tokenError; // Re-throw unexpected errors
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+
+    // Handle specific error types
+    if (error.name === 'RedisError') {
+      return res.status(503).json({
+        error: 'Service temporarily unavailable',
+        message: 'Unable to process logout request',
+      });
+    }
+
+    return res.status(500).json({
+      error: 'Internal server error',
+      message: 'Failed to process logout',
+    });
   }
 });
 
