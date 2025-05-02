@@ -429,7 +429,7 @@ router.get('/history', authMiddleware, async (req, res) => {
   }
 });
 
-// THI IS THE PART WHEN SHIPPER IS INVOLVED
+// THIS IS THE PART WHEN SHIPPER IS INVOLVED
 router.post('/:id/ship', authMiddleware, async (req, res) => {
   const { id } = req.params;
   const { shippingProof, shippingTrackingNumber } = req.body;
@@ -480,6 +480,9 @@ router.post('/:id/ship', authMiddleware, async (req, res) => {
     const now = new Date();
     const isLateShipment = transaction.shippingDeadline && now > transaction.shippingDeadline;
 
+    // Calculate auto-confirmation deadline (3 days from shipping)
+    const autoConfirmationDeadline = new Date(now.getTime() + 3 * 24 * 60 * 60 * 1000);
+
     // If shipment is late, decrease seller rating by 0.5
     let sellerUpdate = {};
     if (isLateShipment) {
@@ -498,23 +501,33 @@ router.post('/:id/ship', authMiddleware, async (req, res) => {
       }
     }
 
+    // Only set auto-confirmation deadline if not already set
+    const updateData = {
+      status: 'SHIPPED',
+      shippingProof,
+      shippingTrackingNumber,
+      shippedAt: now,
+      receivedAt: now, // Set initial received time to shipping time
+    };
+
+    // Only add autoConfirmationDeadline if not already set
+    if (!transaction.autoConfirmationDeadline) {
+      updateData.autoConfirmationDeadline = autoConfirmationDeadline;
+    }
+
     const updated = await prisma.transaction.update({
       where: { id: Number(id) },
-      data: {
-        status: 'SHIPPED',
-        shippingProof,
-        shippingTrackingNumber,
-        shippedAt: now,
-      },
+      data: updateData,
     });
 
     res.json({
       message: isLateShipment
         ? 'Transaction marked as shipped. Warning: Late shipment detected, rating decreased by 0.5'
-        : 'Transaction marked as shipped',
+        : 'Transaction marked as shipped. Will be auto-confirmed in 3 days if not confirmed by buyer.',
       transaction: updated,
       isLateShipment,
       newRating: sellerUpdate.rating,
+      autoConfirmationDeadline: updated.autoConfirmationDeadline,
     });
   } catch (err) {
     console.error('Shipment update error:', err);
@@ -526,19 +539,55 @@ router.patch('/:id/confirm-delivery', authMiddleware, async (req, res) => {
   const { id } = req.params;
 
   try {
-    const transaction = await prisma.transaction.findUnique({ where: { id: Number(id) } });
+    const transaction = await prisma.transaction.findUnique({
+      where: { id: Number(id) },
+      include: { seller: true },
+    });
 
     if (!transaction) return res.status(404).json({ message: 'Transaction not found!' });
     if (transaction.buyerId !== req.user.userId)
       return res.status(403).json({ message: 'Only the buyer can confirm the delivery' });
 
+    const now = new Date();
+
+    // Check if delivery is already confirmed
+    if (transaction.deliveryConfirmed) {
+      return res.status(400).json({ message: 'Delivery is already confirmed, escrow released' });
+    }
+
+    // Check if escrow is already released
+    if (transaction.escrowReleased) {
+      return res.status(400).json({ message: 'Escrow is already released' });
+    }
+
+    // Auto-release escrow if past the confirmation deadline
+    if (transaction.autoConfirmationDeadline && now > transaction.autoConfirmationDeadline) {
+      const updated = await prisma.transaction.update({
+        where: { id: Number(id) },
+        data: {
+          status: 'COMPLETED',
+          deliveryConfirmed: true,
+          deliveryConfirmedAt: now,
+          escrowReleased: true,
+          autoReleased: true,
+        },
+      });
+
+      return res.json({
+        message: 'Transaction auto-completed due to confirmation deadline passing',
+        transaction: updated,
+      });
+    }
+
+    // Manual confirmation by buyer
     const updated = await prisma.transaction.update({
       where: { id: Number(id) },
       data: {
-        status: 'DELIVERED',
+        status: 'COMPLETED',
         deliveryConfirmed: true,
-        deliveryConfirmedAt: new Date(),
+        deliveryConfirmedAt: now,
         escrowReleased: true,
+        autoReleased: false,
       },
     });
 

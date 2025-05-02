@@ -157,7 +157,20 @@ exports.Prisma.TransactionScalarFieldEnum = {
   shippedAt: 'shippedAt',
   deliveryConfirmedAt: 'deliveryConfirmedAt',
   paidAt: 'paidAt',
-  shippingDeadline: 'shippingDeadline'
+  shippingDeadline: 'shippingDeadline',
+  receivedAt: 'receivedAt',
+  autoReleased: 'autoReleased',
+  autoConfirmationDeadline: 'autoConfirmationDeadline'
+};
+
+exports.Prisma.RatingScalarFieldEnum = {
+  id: 'id',
+  transactionId: 'transactionId',
+  buyerId: 'buyerId',
+  sellerId: 'sellerId',
+  score: 'score',
+  comment: 'comment',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -187,7 +200,8 @@ exports.TransactionStatus = exports.$Enums.TransactionStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Transaction: 'Transaction'
+  Transaction: 'Transaction',
+  Rating: 'Rating'
 };
 
 /**

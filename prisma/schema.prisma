@@ -24,6 +24,9 @@ model User {
   // Define both sides of the relations
   buyerTransactions  Transaction[] @relation("BuyerTransactions")
   sellerTransactions Transaction[] @relation("SellerTransactions")
+  // Add relations for ratings
+  buyerRatings       Rating[]      @relation("BuyerRating")
+  sellerRatings      Rating[]      @relation("SellerRating")
 }
 
 enum TransactionStatus {
@@ -60,9 +63,28 @@ model Transaction {
   deliveryConfirmedAt DateTime?
   paidAt              DateTime?         // When the transaction was paid
   shippingDeadline    DateTime?         // When the shipping should happen by
+  receivedAt          DateTime?         // When the item was received
+  autoReleased        Boolean           @default(false) // Whether escrow was auto-released
+  autoConfirmationDeadline DateTime?    // Deadline for auto-confirmation
 
   buyer  User @relation("BuyerTransactions", fields: [buyerId], references: [id])
   seller User @relation("SellerTransactions", fields: [sellerId], references: [id])
+  // Add relation for ratings
+  rating Rating?
+}
+
+model Rating {
+  id            Int      @id @default(autoincrement())
+  transactionId Int      @unique
+  buyerId       Int
+  sellerId      Int
+  score         Int
+  comment       String?
+  createdAt     DateTime @default(now())
+
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  buyer         User        @relation("BuyerRating", fields: [buyerId], references: [id])
+  seller        User        @relation("SellerRating", fields: [sellerId], references: [id])
 }
 
 generator client {

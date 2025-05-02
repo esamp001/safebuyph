@@ -23,6 +23,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  * 
  */
 export type Transaction = $Result.DefaultSelection<Prisma.$TransactionPayload>
+/**
+ * Model Rating
+ * 
+ */
+export type Rating = $Result.DefaultSelection<Prisma.$RatingPayload>
 
 /**
  * Enums
@@ -191,6 +196,16 @@ export class PrismaClient<
     * ```
     */
   get transaction(): Prisma.TransactionDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rating`: Exposes CRUD operations for the **Rating** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Ratings
+    * const ratings = await prisma.rating.findMany()
+    * ```
+    */
+  get rating(): Prisma.RatingDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -632,7 +647,8 @@ export namespace Prisma {
 
   export const ModelName: {
     User: 'User',
-    Transaction: 'Transaction'
+    Transaction: 'Transaction',
+    Rating: 'Rating'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -651,7 +667,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "transaction"
+      modelProps: "user" | "transaction" | "rating"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -803,6 +819,80 @@ export namespace Prisma {
           }
         }
       }
+      Rating: {
+        payload: Prisma.$RatingPayload<ExtArgs>
+        fields: Prisma.RatingFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RatingFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RatingFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          findFirst: {
+            args: Prisma.RatingFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RatingFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          findMany: {
+            args: Prisma.RatingFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          create: {
+            args: Prisma.RatingCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          createMany: {
+            args: Prisma.RatingCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RatingCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          delete: {
+            args: Prisma.RatingDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          update: {
+            args: Prisma.RatingUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          deleteMany: {
+            args: Prisma.RatingDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RatingUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RatingUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>[]
+          }
+          upsert: {
+            args: Prisma.RatingUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RatingPayload>
+          }
+          aggregate: {
+            args: Prisma.RatingAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRating>
+          }
+          groupBy: {
+            args: Prisma.RatingGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RatingGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RatingCountArgs<ExtArgs>
+            result: $Utils.Optional<RatingCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -889,6 +979,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     transaction?: TransactionOmit
+    rating?: RatingOmit
   }
 
   /* Types for Logging */
@@ -985,11 +1076,15 @@ export namespace Prisma {
   export type UserCountOutputType = {
     buyerTransactions: number
     sellerTransactions: number
+    buyerRatings: number
+    sellerRatings: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerTransactions?: boolean | UserCountOutputTypeCountBuyerTransactionsArgs
     sellerTransactions?: boolean | UserCountOutputTypeCountSellerTransactionsArgs
+    buyerRatings?: boolean | UserCountOutputTypeCountBuyerRatingsArgs
+    sellerRatings?: boolean | UserCountOutputTypeCountSellerRatingsArgs
   }
 
   // Custom InputTypes
@@ -1015,6 +1110,20 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountSellerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TransactionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBuyerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSellerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
   }
 
 
@@ -1310,6 +1419,8 @@ export namespace Prisma {
     updatedAt?: boolean
     buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
     sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
+    buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
+    sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1371,6 +1482,8 @@ export namespace Prisma {
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
     sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
+    buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
+    sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1381,6 +1494,8 @@ export namespace Prisma {
     objects: {
       buyerTransactions: Prisma.$TransactionPayload<ExtArgs>[]
       sellerTransactions: Prisma.$TransactionPayload<ExtArgs>[]
+      buyerRatings: Prisma.$RatingPayload<ExtArgs>[]
+      sellerRatings: Prisma.$RatingPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -1794,6 +1909,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     buyerTransactions<T extends User$buyerTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$buyerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sellerTransactions<T extends User$sellerTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    buyerRatings<T extends User$buyerRatingsArgs<ExtArgs> = {}>(args?: Subset<T, User$buyerRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sellerRatings<T extends User$sellerRatingsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2274,6 +2391,54 @@ export namespace Prisma {
   }
 
   /**
+   * User.buyerRatings
+   */
+  export type User$buyerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * User.sellerRatings
+   */
+  export type User$sellerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    cursor?: RatingWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2343,6 +2508,9 @@ export namespace Prisma {
     deliveryConfirmedAt: Date | null
     paidAt: Date | null
     shippingDeadline: Date | null
+    receivedAt: Date | null
+    autoReleased: boolean | null
+    autoConfirmationDeadline: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
@@ -2368,6 +2536,9 @@ export namespace Prisma {
     deliveryConfirmedAt: Date | null
     paidAt: Date | null
     shippingDeadline: Date | null
+    receivedAt: Date | null
+    autoReleased: boolean | null
+    autoConfirmationDeadline: Date | null
   }
 
   export type TransactionCountAggregateOutputType = {
@@ -2393,6 +2564,9 @@ export namespace Prisma {
     deliveryConfirmedAt: number
     paidAt: number
     shippingDeadline: number
+    receivedAt: number
+    autoReleased: number
+    autoConfirmationDeadline: number
     _all: number
   }
 
@@ -2436,6 +2610,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: true
     paidAt?: true
     shippingDeadline?: true
+    receivedAt?: true
+    autoReleased?: true
+    autoConfirmationDeadline?: true
   }
 
   export type TransactionMaxAggregateInputType = {
@@ -2461,6 +2638,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: true
     paidAt?: true
     shippingDeadline?: true
+    receivedAt?: true
+    autoReleased?: true
+    autoConfirmationDeadline?: true
   }
 
   export type TransactionCountAggregateInputType = {
@@ -2486,6 +2666,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: true
     paidAt?: true
     shippingDeadline?: true
+    receivedAt?: true
+    autoReleased?: true
+    autoConfirmationDeadline?: true
     _all?: true
   }
 
@@ -2598,6 +2781,9 @@ export namespace Prisma {
     deliveryConfirmedAt: Date | null
     paidAt: Date | null
     shippingDeadline: Date | null
+    receivedAt: Date | null
+    autoReleased: boolean
+    autoConfirmationDeadline: Date | null
     _count: TransactionCountAggregateOutputType | null
     _avg: TransactionAvgAggregateOutputType | null
     _sum: TransactionSumAggregateOutputType | null
@@ -2642,8 +2828,12 @@ export namespace Prisma {
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
     shippingDeadline?: boolean
+    receivedAt?: boolean
+    autoReleased?: boolean
+    autoConfirmationDeadline?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    rating?: boolean | Transaction$ratingArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2669,6 +2859,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
     shippingDeadline?: boolean
+    receivedAt?: boolean
+    autoReleased?: boolean
+    autoConfirmationDeadline?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
@@ -2696,6 +2889,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
     shippingDeadline?: boolean
+    receivedAt?: boolean
+    autoReleased?: boolean
+    autoConfirmationDeadline?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
@@ -2723,12 +2919,16 @@ export namespace Prisma {
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
     shippingDeadline?: boolean
+    receivedAt?: boolean
+    autoReleased?: boolean
+    autoConfirmationDeadline?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "disputedAt" | "disputeResolved" | "adminNote" | "createdAt" | "updatedAt" | "shippingProof" | "shippingTrackingNumber" | "paymentProof" | "paymentTransactionNumber" | "deliveryConfirmed" | "shippedAt" | "deliveryConfirmedAt" | "paidAt" | "shippingDeadline", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "disputedAt" | "disputeResolved" | "adminNote" | "createdAt" | "updatedAt" | "shippingProof" | "shippingTrackingNumber" | "paymentProof" | "paymentTransactionNumber" | "deliveryConfirmed" | "shippedAt" | "deliveryConfirmedAt" | "paidAt" | "shippingDeadline" | "receivedAt" | "autoReleased" | "autoConfirmationDeadline", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    rating?: boolean | Transaction$ratingArgs<ExtArgs>
   }
   export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -2744,6 +2944,7 @@ export namespace Prisma {
     objects: {
       buyer: Prisma.$UserPayload<ExtArgs>
       seller: Prisma.$UserPayload<ExtArgs>
+      rating: Prisma.$RatingPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -2768,6 +2969,9 @@ export namespace Prisma {
       deliveryConfirmedAt: Date | null
       paidAt: Date | null
       shippingDeadline: Date | null
+      receivedAt: Date | null
+      autoReleased: boolean
+      autoConfirmationDeadline: Date | null
     }, ExtArgs["result"]["transaction"]>
     composites: {}
   }
@@ -3164,6 +3368,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    rating<T extends Transaction$ratingArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$ratingArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3215,6 +3420,9 @@ export namespace Prisma {
     readonly deliveryConfirmedAt: FieldRef<"Transaction", 'DateTime'>
     readonly paidAt: FieldRef<"Transaction", 'DateTime'>
     readonly shippingDeadline: FieldRef<"Transaction", 'DateTime'>
+    readonly receivedAt: FieldRef<"Transaction", 'DateTime'>
+    readonly autoReleased: FieldRef<"Transaction", 'Boolean'>
+    readonly autoConfirmationDeadline: FieldRef<"Transaction", 'DateTime'>
   }
     
 
@@ -3611,6 +3819,25 @@ export namespace Prisma {
   }
 
   /**
+   * Transaction.rating
+   */
+  export type Transaction$ratingArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    where?: RatingWhereInput
+  }
+
+  /**
    * Transaction without action
    */
   export type TransactionDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3626,6 +3853,1156 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: TransactionInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Rating
+   */
+
+  export type AggregateRating = {
+    _count: RatingCountAggregateOutputType | null
+    _avg: RatingAvgAggregateOutputType | null
+    _sum: RatingSumAggregateOutputType | null
+    _min: RatingMinAggregateOutputType | null
+    _max: RatingMaxAggregateOutputType | null
+  }
+
+  export type RatingAvgAggregateOutputType = {
+    id: number | null
+    transactionId: number | null
+    buyerId: number | null
+    sellerId: number | null
+    score: number | null
+  }
+
+  export type RatingSumAggregateOutputType = {
+    id: number | null
+    transactionId: number | null
+    buyerId: number | null
+    sellerId: number | null
+    score: number | null
+  }
+
+  export type RatingMinAggregateOutputType = {
+    id: number | null
+    transactionId: number | null
+    buyerId: number | null
+    sellerId: number | null
+    score: number | null
+    comment: string | null
+    createdAt: Date | null
+  }
+
+  export type RatingMaxAggregateOutputType = {
+    id: number | null
+    transactionId: number | null
+    buyerId: number | null
+    sellerId: number | null
+    score: number | null
+    comment: string | null
+    createdAt: Date | null
+  }
+
+  export type RatingCountAggregateOutputType = {
+    id: number
+    transactionId: number
+    buyerId: number
+    sellerId: number
+    score: number
+    comment: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RatingAvgAggregateInputType = {
+    id?: true
+    transactionId?: true
+    buyerId?: true
+    sellerId?: true
+    score?: true
+  }
+
+  export type RatingSumAggregateInputType = {
+    id?: true
+    transactionId?: true
+    buyerId?: true
+    sellerId?: true
+    score?: true
+  }
+
+  export type RatingMinAggregateInputType = {
+    id?: true
+    transactionId?: true
+    buyerId?: true
+    sellerId?: true
+    score?: true
+    comment?: true
+    createdAt?: true
+  }
+
+  export type RatingMaxAggregateInputType = {
+    id?: true
+    transactionId?: true
+    buyerId?: true
+    sellerId?: true
+    score?: true
+    comment?: true
+    createdAt?: true
+  }
+
+  export type RatingCountAggregateInputType = {
+    id?: true
+    transactionId?: true
+    buyerId?: true
+    sellerId?: true
+    score?: true
+    comment?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RatingAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Rating to aggregate.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Ratings
+    **/
+    _count?: true | RatingCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RatingAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RatingSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RatingMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RatingMaxAggregateInputType
+  }
+
+  export type GetRatingAggregateType<T extends RatingAggregateArgs> = {
+        [P in keyof T & keyof AggregateRating]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRating[P]>
+      : GetScalarType<T[P], AggregateRating[P]>
+  }
+
+
+
+
+  export type RatingGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RatingWhereInput
+    orderBy?: RatingOrderByWithAggregationInput | RatingOrderByWithAggregationInput[]
+    by: RatingScalarFieldEnum[] | RatingScalarFieldEnum
+    having?: RatingScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RatingCountAggregateInputType | true
+    _avg?: RatingAvgAggregateInputType
+    _sum?: RatingSumAggregateInputType
+    _min?: RatingMinAggregateInputType
+    _max?: RatingMaxAggregateInputType
+  }
+
+  export type RatingGroupByOutputType = {
+    id: number
+    transactionId: number
+    buyerId: number
+    sellerId: number
+    score: number
+    comment: string | null
+    createdAt: Date
+    _count: RatingCountAggregateOutputType | null
+    _avg: RatingAvgAggregateOutputType | null
+    _sum: RatingSumAggregateOutputType | null
+    _min: RatingMinAggregateOutputType | null
+    _max: RatingMaxAggregateOutputType | null
+  }
+
+  type GetRatingGroupByPayload<T extends RatingGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RatingGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RatingGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RatingGroupByOutputType[P]>
+            : GetScalarType<T[P], RatingGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RatingSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    buyerId?: boolean
+    sellerId?: boolean
+    score?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    buyerId?: boolean
+    sellerId?: boolean
+    score?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    transactionId?: boolean
+    buyerId?: boolean
+    sellerId?: boolean
+    score?: boolean
+    comment?: boolean
+    createdAt?: boolean
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["rating"]>
+
+  export type RatingSelectScalar = {
+    id?: boolean
+    transactionId?: boolean
+    buyerId?: boolean
+    sellerId?: boolean
+    score?: boolean
+    comment?: boolean
+    createdAt?: boolean
+  }
+
+  export type RatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "transactionId" | "buyerId" | "sellerId" | "score" | "comment" | "createdAt", ExtArgs["result"]["rating"]>
+  export type RatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RatingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type RatingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
+    buyer?: boolean | UserDefaultArgs<ExtArgs>
+    seller?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $RatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Rating"
+    objects: {
+      transaction: Prisma.$TransactionPayload<ExtArgs>
+      buyer: Prisma.$UserPayload<ExtArgs>
+      seller: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      transactionId: number
+      buyerId: number
+      sellerId: number
+      score: number
+      comment: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["rating"]>
+    composites: {}
+  }
+
+  type RatingGetPayload<S extends boolean | null | undefined | RatingDefaultArgs> = $Result.GetResult<Prisma.$RatingPayload, S>
+
+  type RatingCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RatingFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RatingCountAggregateInputType | true
+    }
+
+  export interface RatingDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Rating'], meta: { name: 'Rating' } }
+    /**
+     * Find zero or one Rating that matches the filter.
+     * @param {RatingFindUniqueArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RatingFindUniqueArgs>(args: SelectSubset<T, RatingFindUniqueArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Rating that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RatingFindUniqueOrThrowArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RatingFindUniqueOrThrowArgs>(args: SelectSubset<T, RatingFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Rating that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindFirstArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RatingFindFirstArgs>(args?: SelectSubset<T, RatingFindFirstArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Rating that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindFirstOrThrowArgs} args - Arguments to find a Rating
+     * @example
+     * // Get one Rating
+     * const rating = await prisma.rating.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RatingFindFirstOrThrowArgs>(args?: SelectSubset<T, RatingFindFirstOrThrowArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Ratings that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Ratings
+     * const ratings = await prisma.rating.findMany()
+     * 
+     * // Get first 10 Ratings
+     * const ratings = await prisma.rating.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const ratingWithIdOnly = await prisma.rating.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RatingFindManyArgs>(args?: SelectSubset<T, RatingFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Rating.
+     * @param {RatingCreateArgs} args - Arguments to create a Rating.
+     * @example
+     * // Create one Rating
+     * const Rating = await prisma.rating.create({
+     *   data: {
+     *     // ... data to create a Rating
+     *   }
+     * })
+     * 
+     */
+    create<T extends RatingCreateArgs>(args: SelectSubset<T, RatingCreateArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Ratings.
+     * @param {RatingCreateManyArgs} args - Arguments to create many Ratings.
+     * @example
+     * // Create many Ratings
+     * const rating = await prisma.rating.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RatingCreateManyArgs>(args?: SelectSubset<T, RatingCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Ratings and returns the data saved in the database.
+     * @param {RatingCreateManyAndReturnArgs} args - Arguments to create many Ratings.
+     * @example
+     * // Create many Ratings
+     * const rating = await prisma.rating.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Ratings and only return the `id`
+     * const ratingWithIdOnly = await prisma.rating.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RatingCreateManyAndReturnArgs>(args?: SelectSubset<T, RatingCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Rating.
+     * @param {RatingDeleteArgs} args - Arguments to delete one Rating.
+     * @example
+     * // Delete one Rating
+     * const Rating = await prisma.rating.delete({
+     *   where: {
+     *     // ... filter to delete one Rating
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RatingDeleteArgs>(args: SelectSubset<T, RatingDeleteArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Rating.
+     * @param {RatingUpdateArgs} args - Arguments to update one Rating.
+     * @example
+     * // Update one Rating
+     * const rating = await prisma.rating.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RatingUpdateArgs>(args: SelectSubset<T, RatingUpdateArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Ratings.
+     * @param {RatingDeleteManyArgs} args - Arguments to filter Ratings to delete.
+     * @example
+     * // Delete a few Ratings
+     * const { count } = await prisma.rating.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RatingDeleteManyArgs>(args?: SelectSubset<T, RatingDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ratings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Ratings
+     * const rating = await prisma.rating.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RatingUpdateManyArgs>(args: SelectSubset<T, RatingUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Ratings and returns the data updated in the database.
+     * @param {RatingUpdateManyAndReturnArgs} args - Arguments to update many Ratings.
+     * @example
+     * // Update many Ratings
+     * const rating = await prisma.rating.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Ratings and only return the `id`
+     * const ratingWithIdOnly = await prisma.rating.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RatingUpdateManyAndReturnArgs>(args: SelectSubset<T, RatingUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Rating.
+     * @param {RatingUpsertArgs} args - Arguments to update or create a Rating.
+     * @example
+     * // Update or create a Rating
+     * const rating = await prisma.rating.upsert({
+     *   create: {
+     *     // ... data to create a Rating
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Rating we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RatingUpsertArgs>(args: SelectSubset<T, RatingUpsertArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Ratings.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingCountArgs} args - Arguments to filter Ratings to count.
+     * @example
+     * // Count the number of Ratings
+     * const count = await prisma.rating.count({
+     *   where: {
+     *     // ... the filter for the Ratings we want to count
+     *   }
+     * })
+    **/
+    count<T extends RatingCountArgs>(
+      args?: Subset<T, RatingCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RatingCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Rating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RatingAggregateArgs>(args: Subset<T, RatingAggregateArgs>): Prisma.PrismaPromise<GetRatingAggregateType<T>>
+
+    /**
+     * Group by Rating.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RatingGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RatingGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RatingGroupByArgs['orderBy'] }
+        : { orderBy?: RatingGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RatingGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRatingGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Rating model
+   */
+  readonly fields: RatingFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Rating.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    transaction<T extends TransactionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TransactionDefaultArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Rating model
+   */
+  interface RatingFieldRefs {
+    readonly id: FieldRef<"Rating", 'Int'>
+    readonly transactionId: FieldRef<"Rating", 'Int'>
+    readonly buyerId: FieldRef<"Rating", 'Int'>
+    readonly sellerId: FieldRef<"Rating", 'Int'>
+    readonly score: FieldRef<"Rating", 'Int'>
+    readonly comment: FieldRef<"Rating", 'String'>
+    readonly createdAt: FieldRef<"Rating", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Rating findUnique
+   */
+  export type RatingFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating findUniqueOrThrow
+   */
+  export type RatingFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating findFirst
+   */
+  export type RatingFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ratings.
+     */
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating findFirstOrThrow
+   */
+  export type RatingFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Rating to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Ratings.
+     */
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating findMany
+   */
+  export type RatingFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter, which Ratings to fetch.
+     */
+    where?: RatingWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Ratings to fetch.
+     */
+    orderBy?: RatingOrderByWithRelationInput | RatingOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Ratings.
+     */
+    cursor?: RatingWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Ratings from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Ratings.
+     */
+    skip?: number
+    distinct?: RatingScalarFieldEnum | RatingScalarFieldEnum[]
+  }
+
+  /**
+   * Rating create
+   */
+  export type RatingCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Rating.
+     */
+    data: XOR<RatingCreateInput, RatingUncheckedCreateInput>
+  }
+
+  /**
+   * Rating createMany
+   */
+  export type RatingCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Ratings.
+     */
+    data: RatingCreateManyInput | RatingCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Rating createManyAndReturn
+   */
+  export type RatingCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * The data used to create many Ratings.
+     */
+    data: RatingCreateManyInput | RatingCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rating update
+   */
+  export type RatingUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Rating.
+     */
+    data: XOR<RatingUpdateInput, RatingUncheckedUpdateInput>
+    /**
+     * Choose, which Rating to update.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating updateMany
+   */
+  export type RatingUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Ratings.
+     */
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyInput>
+    /**
+     * Filter which Ratings to update
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rating updateManyAndReturn
+   */
+  export type RatingUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * The data used to update Ratings.
+     */
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyInput>
+    /**
+     * Filter which Ratings to update
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Rating upsert
+   */
+  export type RatingUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Rating to update in case it exists.
+     */
+    where: RatingWhereUniqueInput
+    /**
+     * In case the Rating found by the `where` argument doesn't exist, create a new Rating with this data.
+     */
+    create: XOR<RatingCreateInput, RatingUncheckedCreateInput>
+    /**
+     * In case the Rating was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RatingUpdateInput, RatingUncheckedUpdateInput>
+  }
+
+  /**
+   * Rating delete
+   */
+  export type RatingDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
+    /**
+     * Filter which Rating to delete.
+     */
+    where: RatingWhereUniqueInput
+  }
+
+  /**
+   * Rating deleteMany
+   */
+  export type RatingDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Ratings to delete
+     */
+    where?: RatingWhereInput
+    /**
+     * Limit how many Ratings to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Rating without action
+   */
+  export type RatingDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Rating
+     */
+    select?: RatingSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Rating
+     */
+    omit?: RatingOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: RatingInclude<ExtArgs> | null
   }
 
 
@@ -3686,10 +5063,26 @@ export namespace Prisma {
     shippedAt: 'shippedAt',
     deliveryConfirmedAt: 'deliveryConfirmedAt',
     paidAt: 'paidAt',
-    shippingDeadline: 'shippingDeadline'
+    shippingDeadline: 'shippingDeadline',
+    receivedAt: 'receivedAt',
+    autoReleased: 'autoReleased',
+    autoConfirmationDeadline: 'autoConfirmationDeadline'
   };
 
   export type TransactionScalarFieldEnum = (typeof TransactionScalarFieldEnum)[keyof typeof TransactionScalarFieldEnum]
+
+
+  export const RatingScalarFieldEnum: {
+    id: 'id',
+    transactionId: 'transactionId',
+    buyerId: 'buyerId',
+    sellerId: 'sellerId',
+    score: 'score',
+    comment: 'comment',
+    createdAt: 'createdAt'
+  };
+
+  export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -3822,6 +5215,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     buyerTransactions?: TransactionListRelationFilter
     sellerTransactions?: TransactionListRelationFilter
+    buyerRatings?: RatingListRelationFilter
+    sellerRatings?: RatingListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -3842,6 +5237,8 @@ export namespace Prisma {
     updatedAt?: SortOrder
     buyerTransactions?: TransactionOrderByRelationAggregateInput
     sellerTransactions?: TransactionOrderByRelationAggregateInput
+    buyerRatings?: RatingOrderByRelationAggregateInput
+    sellerRatings?: RatingOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -3865,6 +5262,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"User"> | Date | string
     buyerTransactions?: TransactionListRelationFilter
     sellerTransactions?: TransactionListRelationFilter
+    buyerRatings?: RatingListRelationFilter
+    sellerRatings?: RatingListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -3937,8 +5336,12 @@ export namespace Prisma {
     deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolFilter<"Transaction"> | boolean
+    autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rating?: XOR<RatingNullableScalarRelationFilter, RatingWhereInput> | null
   }
 
   export type TransactionOrderByWithRelationInput = {
@@ -3964,8 +5367,12 @@ export namespace Prisma {
     deliveryConfirmedAt?: SortOrderInput | SortOrder
     paidAt?: SortOrderInput | SortOrder
     shippingDeadline?: SortOrderInput | SortOrder
+    receivedAt?: SortOrderInput | SortOrder
+    autoReleased?: SortOrder
+    autoConfirmationDeadline?: SortOrderInput | SortOrder
     buyer?: UserOrderByWithRelationInput
     seller?: UserOrderByWithRelationInput
+    rating?: RatingOrderByWithRelationInput
   }
 
   export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -3994,8 +5401,12 @@ export namespace Prisma {
     deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolFilter<"Transaction"> | boolean
+    autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+    rating?: XOR<RatingNullableScalarRelationFilter, RatingWhereInput> | null
   }, "id">
 
   export type TransactionOrderByWithAggregationInput = {
@@ -4021,6 +5432,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: SortOrderInput | SortOrder
     paidAt?: SortOrderInput | SortOrder
     shippingDeadline?: SortOrderInput | SortOrder
+    receivedAt?: SortOrderInput | SortOrder
+    autoReleased?: SortOrder
+    autoConfirmationDeadline?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
     _avg?: TransactionAvgOrderByAggregateInput
     _max?: TransactionMaxOrderByAggregateInput
@@ -4054,6 +5468,82 @@ export namespace Prisma {
     deliveryConfirmedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    receivedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    autoConfirmationDeadline?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+  }
+
+  export type RatingWhereInput = {
+    AND?: RatingWhereInput | RatingWhereInput[]
+    OR?: RatingWhereInput[]
+    NOT?: RatingWhereInput | RatingWhereInput[]
+    id?: IntFilter<"Rating"> | number
+    transactionId?: IntFilter<"Rating"> | number
+    buyerId?: IntFilter<"Rating"> | number
+    sellerId?: IntFilter<"Rating"> | number
+    score?: IntFilter<"Rating"> | number
+    comment?: StringNullableFilter<"Rating"> | string | null
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type RatingOrderByWithRelationInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    transaction?: TransactionOrderByWithRelationInput
+    buyer?: UserOrderByWithRelationInput
+    seller?: UserOrderByWithRelationInput
+  }
+
+  export type RatingWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    transactionId?: number
+    AND?: RatingWhereInput | RatingWhereInput[]
+    OR?: RatingWhereInput[]
+    NOT?: RatingWhereInput | RatingWhereInput[]
+    buyerId?: IntFilter<"Rating"> | number
+    sellerId?: IntFilter<"Rating"> | number
+    score?: IntFilter<"Rating"> | number
+    comment?: StringNullableFilter<"Rating"> | string | null
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
+    buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
+    seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "transactionId">
+
+  export type RatingOrderByWithAggregationInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+    comment?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: RatingCountOrderByAggregateInput
+    _avg?: RatingAvgOrderByAggregateInput
+    _max?: RatingMaxOrderByAggregateInput
+    _min?: RatingMinOrderByAggregateInput
+    _sum?: RatingSumOrderByAggregateInput
+  }
+
+  export type RatingScalarWhereWithAggregatesInput = {
+    AND?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
+    OR?: RatingScalarWhereWithAggregatesInput[]
+    NOT?: RatingScalarWhereWithAggregatesInput | RatingScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Rating"> | number
+    transactionId?: IntWithAggregatesFilter<"Rating"> | number
+    buyerId?: IntWithAggregatesFilter<"Rating"> | number
+    sellerId?: IntWithAggregatesFilter<"Rating"> | number
+    score?: IntWithAggregatesFilter<"Rating"> | number
+    comment?: StringNullableWithAggregatesFilter<"Rating"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"Rating"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -4073,6 +5563,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
     sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -4093,6 +5585,8 @@ export namespace Prisma {
     updatedAt?: Date | string
     buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
     sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserUpdateInput = {
@@ -4112,6 +5606,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
     sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -4132,6 +5628,8 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
     sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -4207,8 +5705,12 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
+    rating?: RatingCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUncheckedCreateInput = {
@@ -4234,6 +5736,10 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
+    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUpdateInput = {
@@ -4256,8 +5762,12 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
+    rating?: RatingUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
@@ -4283,6 +5793,10 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionCreateManyInput = {
@@ -4308,6 +5822,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
@@ -4330,6 +5847,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUncheckedUpdateManyInput = {
@@ -4355,6 +5875,73 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RatingCreateInput = {
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+    transaction: TransactionCreateNestedOneWithoutRatingInput
+    buyer: UserCreateNestedOneWithoutBuyerRatingsInput
+    seller: UserCreateNestedOneWithoutSellerRatingsInput
+  }
+
+  export type RatingUncheckedCreateInput = {
+    id?: number
+    transactionId: number
+    buyerId: number
+    sellerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingUpdateInput = {
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
+    buyer?: UserUpdateOneRequiredWithoutBuyerRatingsNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerRatingsNestedInput
+  }
+
+  export type RatingUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    transactionId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingCreateManyInput = {
+    id?: number
+    transactionId: number
+    buyerId: number
+    sellerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingUpdateManyMutationInput = {
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    transactionId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -4431,12 +6018,22 @@ export namespace Prisma {
     none?: TransactionWhereInput
   }
 
+  export type RatingListRelationFilter = {
+    every?: RatingWhereInput
+    some?: RatingWhereInput
+    none?: RatingWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type TransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type RatingOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -4619,6 +6216,11 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type RatingNullableScalarRelationFilter = {
+    is?: RatingWhereInput | null
+    isNot?: RatingWhereInput | null
+  }
+
   export type TransactionCountOrderByAggregateInput = {
     id?: SortOrder
     status?: SortOrder
@@ -4642,6 +6244,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: SortOrder
     paidAt?: SortOrder
     shippingDeadline?: SortOrder
+    receivedAt?: SortOrder
+    autoReleased?: SortOrder
+    autoConfirmationDeadline?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
@@ -4675,6 +6280,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: SortOrder
     paidAt?: SortOrder
     shippingDeadline?: SortOrder
+    receivedAt?: SortOrder
+    autoReleased?: SortOrder
+    autoConfirmationDeadline?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
@@ -4700,6 +6308,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: SortOrder
     paidAt?: SortOrder
     shippingDeadline?: SortOrder
+    receivedAt?: SortOrder
+    autoReleased?: SortOrder
+    autoConfirmationDeadline?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
@@ -4734,6 +6345,57 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type TransactionScalarRelationFilter = {
+    is?: TransactionWhereInput
+    isNot?: TransactionWhereInput
+  }
+
+  export type RatingCountOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingAvgOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+  }
+
+  export type RatingMaxOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingMinOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+    comment?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RatingSumOrderByAggregateInput = {
+    id?: SortOrder
+    transactionId?: SortOrder
+    buyerId?: SortOrder
+    sellerId?: SortOrder
+    score?: SortOrder
+  }
+
   export type TransactionCreateNestedManyWithoutBuyerInput = {
     create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
@@ -4748,6 +6410,20 @@ export namespace Prisma {
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
+  export type RatingCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput> | RatingCreateWithoutBuyerInput[] | RatingUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBuyerInput | RatingCreateOrConnectWithoutBuyerInput[]
+    createMany?: RatingCreateManyBuyerInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type RatingCreateNestedManyWithoutSellerInput = {
+    create?: XOR<RatingCreateWithoutSellerInput, RatingUncheckedCreateWithoutSellerInput> | RatingCreateWithoutSellerInput[] | RatingUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutSellerInput | RatingCreateOrConnectWithoutSellerInput[]
+    createMany?: RatingCreateManySellerInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
   export type TransactionUncheckedCreateNestedManyWithoutBuyerInput = {
     create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
@@ -4760,6 +6436,20 @@ export namespace Prisma {
     connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
     createMany?: TransactionCreateManySellerInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type RatingUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput> | RatingCreateWithoutBuyerInput[] | RatingUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBuyerInput | RatingCreateOrConnectWithoutBuyerInput[]
+    createMany?: RatingCreateManyBuyerInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+  }
+
+  export type RatingUncheckedCreateNestedManyWithoutSellerInput = {
+    create?: XOR<RatingCreateWithoutSellerInput, RatingUncheckedCreateWithoutSellerInput> | RatingCreateWithoutSellerInput[] | RatingUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutSellerInput | RatingCreateOrConnectWithoutSellerInput[]
+    createMany?: RatingCreateManySellerInputEnvelope
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -4822,6 +6512,34 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type RatingUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput> | RatingCreateWithoutBuyerInput[] | RatingUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBuyerInput | RatingCreateOrConnectWithoutBuyerInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutBuyerInput | RatingUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: RatingCreateManyBuyerInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutBuyerInput | RatingUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutBuyerInput | RatingUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type RatingUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<RatingCreateWithoutSellerInput, RatingUncheckedCreateWithoutSellerInput> | RatingCreateWithoutSellerInput[] | RatingUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutSellerInput | RatingCreateOrConnectWithoutSellerInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutSellerInput | RatingUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: RatingCreateManySellerInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutSellerInput | RatingUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutSellerInput | RatingUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
   export type TransactionUncheckedUpdateManyWithoutBuyerNestedInput = {
     create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
@@ -4850,6 +6568,34 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
+  export type RatingUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput> | RatingCreateWithoutBuyerInput[] | RatingUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutBuyerInput | RatingCreateOrConnectWithoutBuyerInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutBuyerInput | RatingUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: RatingCreateManyBuyerInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutBuyerInput | RatingUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutBuyerInput | RatingUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
+  export type RatingUncheckedUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<RatingCreateWithoutSellerInput, RatingUncheckedCreateWithoutSellerInput> | RatingCreateWithoutSellerInput[] | RatingUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: RatingCreateOrConnectWithoutSellerInput | RatingCreateOrConnectWithoutSellerInput[]
+    upsert?: RatingUpsertWithWhereUniqueWithoutSellerInput | RatingUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: RatingCreateManySellerInputEnvelope
+    set?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    disconnect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    delete?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    connect?: RatingWhereUniqueInput | RatingWhereUniqueInput[]
+    update?: RatingUpdateWithWhereUniqueWithoutSellerInput | RatingUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: RatingUpdateManyWithWhereWithoutSellerInput | RatingUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: RatingScalarWhereInput | RatingScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutBuyerTransactionsInput = {
     create?: XOR<UserCreateWithoutBuyerTransactionsInput, UserUncheckedCreateWithoutBuyerTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutBuyerTransactionsInput
@@ -4860,6 +6606,18 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSellerTransactionsInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type RatingCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
+    connect?: RatingWhereUniqueInput
+  }
+
+  export type RatingUncheckedCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
+    connect?: RatingWhereUniqueInput
   }
 
   export type EnumTransactionStatusFieldUpdateOperationsInput = {
@@ -4884,6 +6642,68 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSellerTransactionsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSellerTransactionsInput, UserUpdateWithoutSellerTransactionsInput>, UserUncheckedUpdateWithoutSellerTransactionsInput>
+  }
+
+  export type RatingUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
+    upsert?: RatingUpsertWithoutTransactionInput
+    disconnect?: RatingWhereInput | boolean
+    delete?: RatingWhereInput | boolean
+    connect?: RatingWhereUniqueInput
+    update?: XOR<XOR<RatingUpdateToOneWithWhereWithoutTransactionInput, RatingUpdateWithoutTransactionInput>, RatingUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type RatingUncheckedUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
+    upsert?: RatingUpsertWithoutTransactionInput
+    disconnect?: RatingWhereInput | boolean
+    delete?: RatingWhereInput | boolean
+    connect?: RatingWhereUniqueInput
+    update?: XOR<XOR<RatingUpdateToOneWithWhereWithoutTransactionInput, RatingUpdateWithoutTransactionInput>, RatingUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type TransactionCreateNestedOneWithoutRatingInput = {
+    create?: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutRatingInput
+    connect?: TransactionWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutBuyerRatingsInput = {
+    create?: XOR<UserCreateWithoutBuyerRatingsInput, UserUncheckedCreateWithoutBuyerRatingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBuyerRatingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserCreateNestedOneWithoutSellerRatingsInput = {
+    create?: XOR<UserCreateWithoutSellerRatingsInput, UserUncheckedCreateWithoutSellerRatingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSellerRatingsInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type TransactionUpdateOneRequiredWithoutRatingNestedInput = {
+    create?: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutRatingInput
+    upsert?: TransactionUpsertWithoutRatingInput
+    connect?: TransactionWhereUniqueInput
+    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutRatingInput, TransactionUpdateWithoutRatingInput>, TransactionUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutBuyerRatingsNestedInput = {
+    create?: XOR<UserCreateWithoutBuyerRatingsInput, UserUncheckedCreateWithoutBuyerRatingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBuyerRatingsInput
+    upsert?: UserUpsertWithoutBuyerRatingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBuyerRatingsInput, UserUpdateWithoutBuyerRatingsInput>, UserUncheckedUpdateWithoutBuyerRatingsInput>
+  }
+
+  export type UserUpdateOneRequiredWithoutSellerRatingsNestedInput = {
+    create?: XOR<UserCreateWithoutSellerRatingsInput, UserUncheckedCreateWithoutSellerRatingsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutSellerRatingsInput
+    upsert?: UserUpsertWithoutSellerRatingsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSellerRatingsInput, UserUpdateWithoutSellerRatingsInput>, UserUncheckedUpdateWithoutSellerRatingsInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -5113,7 +6933,11 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
+    rating?: RatingCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUncheckedCreateWithoutBuyerInput = {
@@ -5138,6 +6962,10 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
+    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutBuyerInput = {
@@ -5170,7 +6998,11 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
+    rating?: RatingCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUncheckedCreateWithoutSellerInput = {
@@ -5195,6 +7027,10 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
+    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionCreateOrConnectWithoutSellerInput = {
@@ -5204,6 +7040,60 @@ export namespace Prisma {
 
   export type TransactionCreateManySellerInputEnvelope = {
     data: TransactionCreateManySellerInput | TransactionCreateManySellerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RatingCreateWithoutBuyerInput = {
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+    transaction: TransactionCreateNestedOneWithoutRatingInput
+    seller: UserCreateNestedOneWithoutSellerRatingsInput
+  }
+
+  export type RatingUncheckedCreateWithoutBuyerInput = {
+    id?: number
+    transactionId: number
+    sellerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutBuyerInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type RatingCreateManyBuyerInputEnvelope = {
+    data: RatingCreateManyBuyerInput | RatingCreateManyBuyerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RatingCreateWithoutSellerInput = {
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+    transaction: TransactionCreateNestedOneWithoutRatingInput
+    buyer: UserCreateNestedOneWithoutBuyerRatingsInput
+  }
+
+  export type RatingUncheckedCreateWithoutSellerInput = {
+    id?: number
+    transactionId: number
+    buyerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutSellerInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutSellerInput, RatingUncheckedCreateWithoutSellerInput>
+  }
+
+  export type RatingCreateManySellerInputEnvelope = {
+    data: RatingCreateManySellerInput | RatingCreateManySellerInput[]
     skipDuplicates?: boolean
   }
 
@@ -5249,6 +7139,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolFilter<"Transaction"> | boolean
+    autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
   }
 
   export type TransactionUpsertWithWhereUniqueWithoutSellerInput = {
@@ -5267,6 +7160,51 @@ export namespace Prisma {
     data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutSellerInput>
   }
 
+  export type RatingUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutBuyerInput, RatingUncheckedUpdateWithoutBuyerInput>
+    create: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutBuyerInput, RatingUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutBuyerInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type RatingScalarWhereInput = {
+    AND?: RatingScalarWhereInput | RatingScalarWhereInput[]
+    OR?: RatingScalarWhereInput[]
+    NOT?: RatingScalarWhereInput | RatingScalarWhereInput[]
+    id?: IntFilter<"Rating"> | number
+    transactionId?: IntFilter<"Rating"> | number
+    buyerId?: IntFilter<"Rating"> | number
+    sellerId?: IntFilter<"Rating"> | number
+    score?: IntFilter<"Rating"> | number
+    comment?: StringNullableFilter<"Rating"> | string | null
+    createdAt?: DateTimeFilter<"Rating"> | Date | string
+  }
+
+  export type RatingUpsertWithWhereUniqueWithoutSellerInput = {
+    where: RatingWhereUniqueInput
+    update: XOR<RatingUpdateWithoutSellerInput, RatingUncheckedUpdateWithoutSellerInput>
+    create: XOR<RatingCreateWithoutSellerInput, RatingUncheckedCreateWithoutSellerInput>
+  }
+
+  export type RatingUpdateWithWhereUniqueWithoutSellerInput = {
+    where: RatingWhereUniqueInput
+    data: XOR<RatingUpdateWithoutSellerInput, RatingUncheckedUpdateWithoutSellerInput>
+  }
+
+  export type RatingUpdateManyWithWhereWithoutSellerInput = {
+    where: RatingScalarWhereInput
+    data: XOR<RatingUpdateManyMutationInput, RatingUncheckedUpdateManyWithoutSellerInput>
+  }
+
   export type UserCreateWithoutBuyerTransactionsInput = {
     name: string
     email: string
@@ -5283,6 +7221,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutBuyerTransactionsInput = {
@@ -5302,6 +7242,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutBuyerTransactionsInput = {
@@ -5325,6 +7267,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutSellerTransactionsInput = {
@@ -5344,11 +7288,35 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutSellerTransactionsInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
+  }
+
+  export type RatingCreateWithoutTransactionInput = {
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+    buyer: UserCreateNestedOneWithoutBuyerRatingsInput
+    seller: UserCreateNestedOneWithoutSellerRatingsInput
+  }
+
+  export type RatingUncheckedCreateWithoutTransactionInput = {
+    id?: number
+    buyerId: number
+    sellerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingCreateOrConnectWithoutTransactionInput = {
+    where: RatingWhereUniqueInput
+    create: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
   }
 
   export type UserUpsertWithoutBuyerTransactionsInput = {
@@ -5378,6 +7346,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBuyerTransactionsInput = {
@@ -5397,6 +7367,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUpsertWithoutSellerTransactionsInput = {
@@ -5426,6 +7398,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSellerTransactionsInput = {
@@ -5445,6 +7419,358 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type RatingUpsertWithoutTransactionInput = {
+    update: XOR<RatingUpdateWithoutTransactionInput, RatingUncheckedUpdateWithoutTransactionInput>
+    create: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    where?: RatingWhereInput
+  }
+
+  export type RatingUpdateToOneWithWhereWithoutTransactionInput = {
+    where?: RatingWhereInput
+    data: XOR<RatingUpdateWithoutTransactionInput, RatingUncheckedUpdateWithoutTransactionInput>
+  }
+
+  export type RatingUpdateWithoutTransactionInput = {
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: UserUpdateOneRequiredWithoutBuyerRatingsNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerRatingsNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutTransactionInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type TransactionCreateWithoutRatingInput = {
+    status?: $Enums.TransactionStatus
+    price: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
+    buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
+    seller: UserCreateNestedOneWithoutSellerTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutRatingInput = {
+    id?: number
+    status?: $Enums.TransactionStatus
+    price: number
+    buyerId: number
+    sellerId: number
+    amount: number
+    escrowReleased?: boolean
+    disputeReason?: string | null
+    disputedAt?: Date | string | null
+    disputeResolved?: boolean
+    adminNote?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    shippingProof?: string | null
+    shippingTrackingNumber?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    deliveryConfirmed?: boolean
+    shippedAt?: Date | string | null
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
+  }
+
+  export type TransactionCreateOrConnectWithoutRatingInput = {
+    where: TransactionWhereUniqueInput
+    create: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+  }
+
+  export type UserCreateWithoutBuyerRatingsInput = {
+    name: string
+    email: string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    isAdmin?: boolean
+    canSell?: boolean
+    status?: string
+    validIdUrl?: string | null
+    validIdNumber?: string | null
+    transactionCount?: number
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserUncheckedCreateWithoutBuyerRatingsInput = {
+    id?: number
+    name: string
+    email: string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    isAdmin?: boolean
+    canSell?: boolean
+    status?: string
+    validIdUrl?: string | null
+    validIdNumber?: string | null
+    transactionCount?: number
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserCreateOrConnectWithoutBuyerRatingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBuyerRatingsInput, UserUncheckedCreateWithoutBuyerRatingsInput>
+  }
+
+  export type UserCreateWithoutSellerRatingsInput = {
+    name: string
+    email: string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    isAdmin?: boolean
+    canSell?: boolean
+    status?: string
+    validIdUrl?: string | null
+    validIdNumber?: string | null
+    transactionCount?: number
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserUncheckedCreateWithoutSellerRatingsInput = {
+    id?: number
+    name: string
+    email: string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    isAdmin?: boolean
+    canSell?: boolean
+    status?: string
+    validIdUrl?: string | null
+    validIdNumber?: string | null
+    transactionCount?: number
+    rating?: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
+  }
+
+  export type UserCreateOrConnectWithoutSellerRatingsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutSellerRatingsInput, UserUncheckedCreateWithoutSellerRatingsInput>
+  }
+
+  export type TransactionUpsertWithoutRatingInput = {
+    update: XOR<TransactionUpdateWithoutRatingInput, TransactionUncheckedUpdateWithoutRatingInput>
+    create: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+    where?: TransactionWhereInput
+  }
+
+  export type TransactionUpdateToOneWithWhereWithoutRatingInput = {
+    where?: TransactionWhereInput
+    data: XOR<TransactionUpdateWithoutRatingInput, TransactionUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type TransactionUpdateWithoutRatingInput = {
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutRatingInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    price?: FloatFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    amount?: FloatFieldUpdateOperationsInput | number
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UserUpsertWithoutBuyerRatingsInput = {
+    update: XOR<UserUpdateWithoutBuyerRatingsInput, UserUncheckedUpdateWithoutBuyerRatingsInput>
+    create: XOR<UserCreateWithoutBuyerRatingsInput, UserUncheckedCreateWithoutBuyerRatingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBuyerRatingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBuyerRatingsInput, UserUncheckedUpdateWithoutBuyerRatingsInput>
+  }
+
+  export type UserUpdateWithoutBuyerRatingsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBuyerRatingsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUpsertWithoutSellerRatingsInput = {
+    update: XOR<UserUpdateWithoutSellerRatingsInput, UserUncheckedUpdateWithoutSellerRatingsInput>
+    create: XOR<UserCreateWithoutSellerRatingsInput, UserUncheckedCreateWithoutSellerRatingsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSellerRatingsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSellerRatingsInput, UserUncheckedUpdateWithoutSellerRatingsInput>
+  }
+
+  export type UserUpdateWithoutSellerRatingsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSellerRatingsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    status?: StringFieldUpdateOperationsInput | string
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    rating?: FloatFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type TransactionCreateManyBuyerInput = {
@@ -5469,6 +7795,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
   }
 
   export type TransactionCreateManySellerInput = {
@@ -5493,6 +7822,27 @@ export namespace Prisma {
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
     shippingDeadline?: Date | string | null
+    receivedAt?: Date | string | null
+    autoReleased?: boolean
+    autoConfirmationDeadline?: Date | string | null
+  }
+
+  export type RatingCreateManyBuyerInput = {
+    id?: number
+    transactionId: number
+    sellerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
+  }
+
+  export type RatingCreateManySellerInput = {
+    id?: number
+    transactionId: number
+    buyerId: number
+    score: number
+    comment?: string | null
+    createdAt?: Date | string
   }
 
   export type TransactionUpdateWithoutBuyerInput = {
@@ -5515,7 +7865,11 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
+    rating?: RatingUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutBuyerInput = {
@@ -5540,6 +7894,10 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutBuyerInput = {
@@ -5564,6 +7922,9 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUpdateWithoutSellerInput = {
@@ -5586,7 +7947,11 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
+    rating?: RatingUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateWithoutSellerInput = {
@@ -5611,6 +7976,10 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateManyWithoutSellerInput = {
@@ -5635,6 +8004,61 @@ export namespace Prisma {
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type RatingUpdateWithoutBuyerInput = {
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerRatingsNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutBuyerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    transactionId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyWithoutBuyerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    transactionId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUpdateWithoutSellerInput = {
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
+    buyer?: UserUpdateOneRequiredWithoutBuyerRatingsNestedInput
+  }
+
+  export type RatingUncheckedUpdateWithoutSellerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    transactionId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RatingUncheckedUpdateManyWithoutSellerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    transactionId?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    score?: IntFieldUpdateOperationsInput | number
+    comment?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
 
