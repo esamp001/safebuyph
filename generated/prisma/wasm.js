@@ -135,6 +135,15 @@ exports.Prisma.UserScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RefreshTokenScalarFieldEnum = {
+  id: 'id',
+  token: 'token',
+  userId: 'userId',
+  issuedAt: 'issuedAt',
+  expiresAt: 'expiresAt',
+  isRevoked: 'isRevoked'
+};
+
 exports.Prisma.TransactionScalarFieldEnum = {
   id: 'id',
   status: 'status',
@@ -160,7 +169,9 @@ exports.Prisma.TransactionScalarFieldEnum = {
   shippingDeadline: 'shippingDeadline',
   receivedAt: 'receivedAt',
   autoReleased: 'autoReleased',
-  autoConfirmationDeadline: 'autoConfirmationDeadline'
+  autoConfirmationDeadline: 'autoConfirmationDeadline',
+  statusUpdatedAt: 'statusUpdatedAt',
+  timeoutAt: 'timeoutAt'
 };
 
 exports.Prisma.RatingScalarFieldEnum = {
@@ -195,11 +206,13 @@ exports.TransactionStatus = exports.$Enums.TransactionStatus = {
   DELIVERED: 'DELIVERED',
   COMPLETED: 'COMPLETED',
   DISPUTED: 'DISPUTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  TIMEOUT: 'TIMEOUT'
 };
 
 exports.Prisma.ModelName = {
   User: 'User',
+  RefreshToken: 'RefreshToken',
   Transaction: 'Transaction',
   Rating: 'Rating'
 };

@@ -1,6 +1,7 @@
 const express = require('express');
 const { PrismaClient } = require('../generated/prisma');
 const authMiddleware = require('../middleware/auth');
+const validator = require('validator');
 const router = express.Router();
 const prisma = new PrismaClient();
 
@@ -19,13 +20,13 @@ router.post('/', authMiddleware, async (req, res) => {
       return res.status(403).json({ error: 'Only the buyer can rate this transaction' });
     }
 
-    // Rating score validation
-    if (score < 1 || score > 5) {
+    // Score validation
+    if (!validator.isInt(score.toString(), { min: 1, max: 5 })) {
       return res.status(400).json({ error: 'Score must be between 1 and 5' });
     }
 
-    // Comment length validation
-    if (comment && comment.length > 500) {
+    // Comment validation
+    if (comment && !validator.isLength(comment, { max: 500 })) {
       return res.status(400).json({ error: 'Comment is too long (max 500 characters)' });
     }
 
@@ -147,6 +148,11 @@ router.post('/', authMiddleware, async (req, res) => {
 router.get('/seller/:sellerId', async (req, res) => {
   try {
     const { sellerId } = req.params;
+
+    // Validate sellerId is a number
+    if (!validator.isInt(sellerId.toString())) {
+      return res.status(400).json({ error: 'Invalid seller ID' });
+    }
 
     const ratings = await prisma.rating.findMany({
       where: { sellerId: parseInt(sellerId) },

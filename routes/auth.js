@@ -1,19 +1,27 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken'); // Added missing jwt import
-const { PrismaClient } = require('../generated/prisma');
+const { PrismaClient } = require('../generated/prisma'); // Fix import path
 const auth = require('../middleware/auth');
 const router = express.Router();
 const { redisClient } = require('../config/redis');
+const crypto = require('crypto');
+const validator = require('validator');
+const bodyParser = require('body-parser');
 
+// Initialize Prisma client
 const prisma = new PrismaClient();
+
+// Handle Prisma connection errors
+prisma.$on('error', (e) => {
+  console.error('Prisma Error:', e);
+});
 
 router.post('/register', async (req, res) => {
   // Call all the data from user Model
   const { name, email, password, phoneNumber, profilePic, role, status } = req.body;
 
   // Use Validation
-
   // Required field validation
   if (!name || !email || !password) {
     return res.status(400).json({
@@ -22,29 +30,29 @@ router.post('/register', async (req, res) => {
   }
 
   // Name validation
-  if (name.length < 2 || name.length > 50) {
+  if (!validator.isLength(name, { min: 2, max: 50 })) {
     return res.status(400).json({
       error: 'Name must be between 2 and 50 characters',
     });
   }
 
   // Email format validation
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
+  if (!validator.isEmail(email)) {
     return res.status(400).json({
       error: 'Please enter a valid email address',
     });
   }
 
   // Password strength validation
-  if (password.length < 8) {
+  if (!validator.isLength(password, { min: 8 })) {
     return res.status(400).json({
       error: 'Password must be at least 8 characters long',
     });
   }
 
-  const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/;
-  if (!passwordRegex.test(password)) {
+  if (
+    !validator.matches(password, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
+  ) {
     return res.status(400).json({
       error:
         'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
@@ -52,28 +60,22 @@ router.post('/register', async (req, res) => {
   }
 
   // Phone number validation (if provided)
-  if (phoneNumber) {
-    const phoneRegex = /^(\+63|0)[0-9]{10}$/;
-    if (!phoneRegex.test(phoneNumber)) {
-      return res.status(400).json({
-        error: 'Please enter a valid Philippine phone number (+63 or 0 followed by 10 digits)',
-      });
-    }
+  if (phoneNumber && !validator.isMobilePhone(phoneNumber, 'en-PH')) {
+    return res.status(400).json({
+      error: 'Please enter a valid Philippine phone number (+63 or 0 followed by 10 digits)',
+    });
   }
 
   // Profile picture URL validation (if provided)
-  if (profilePic) {
-    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-    if (!urlRegex.test(profilePic)) {
-      return res.status(400).json({
-        error: 'Please enter a valid URL for profile picture',
-      });
-    }
+  if (profilePic && !validator.isURL(profilePic)) {
+    return res.status(400).json({
+      error: 'Please enter a valid URL for profile picture',
+    });
   }
 
   // Role validation
   const validRoles = ['buyer', 'seller', 'admin'];
-  if (role && !validRoles.includes(role)) {
+  if (role && !validator.isIn(role, validRoles)) {
     return res.status(400).json({
       error: 'Role must be either buyer, seller, or admin',
     });
@@ -81,7 +83,7 @@ router.post('/register', async (req, res) => {
 
   // Status validation
   const validStatuses = ['active', 'suspended', 'inactive'];
-  if (status && !validStatuses.includes(status)) {
+  if (status && !validator.isIn(status, validStatuses)) {
     return res.status(400).json({
       error: 'Invalid status value',
     });
@@ -153,123 +155,88 @@ router.post('/login', async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    // Validate input
+    // Basic validation
     if (!email || !password) {
       return res.status(400).json({
         error: 'Email and password are required',
       });
     }
 
-    // Validate email format
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      return res.status(400).json({
-        error: 'Invalid email format',
-      });
-    }
-
-    // Validate password requirements
-    if (password.length < 8) {
-      return res.status(400).json({
-        error: 'Password must be at least 8 characters long',
-      });
-    }
-
-    if (!/[A-Z]/.test(password)) {
-      return res.status(400).json({
-        error: 'Password must contain at least one uppercase letter',
-      });
-    }
-
-    if (!/[a-z]/.test(password)) {
-      return res.status(400).json({
-        error: 'Password must contain at least one lowercase letter',
-      });
-    }
-
-    if (!/[0-9]/.test(password)) {
-      return res.status(400).json({
-        error: 'Password must contain at least one number',
-      });
-    }
-
-    if (!/[!@#$%^&*]/.test(password)) {
-      return res.status(400).json({
-        error: 'Password must contain at least one special character (!@#$%^&*)',
-      });
-    }
-
-    // Check if user exists
-    // Query the database to find a user with the provided email
+    // Find user
     const user = await prisma.user.findUnique({
-      where: { email }, // Search by email field
+      where: { email },
     });
 
-    // If no user is found with that email, return an error
     if (!user) {
-      return res.status(400).json({
-        error: 'User not found in database',
+      return res.status(401).json({
+        error: 'Invalid email or password',
       });
     }
 
-    // Check if the password is correct
+    // Verify password
     const isPasswordValid = await bcrypt.compare(password, user.password);
-
     if (!isPasswordValid) {
-      return res.status(401).json({ message: 'Invalid password' });
+      return res.status(401).json({
+        error: 'Invalid email or password',
+      });
     }
 
-    // Generate a JWT token
-    const token = jwt.sign(
+    // Generate access token
+    const accessToken = jwt.sign(
       {
         userId: user.id,
-        role: user.role,
+        role: user.isAdmin ? 'admin' : user.canSell ? 'seller' : 'buyer',
         name: user.name,
+        type: 'access',
       },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'your-secret-key', // Add fallback secret
       { expiresIn: '1h' }
     );
 
-    //Respond with token
+    // Generate refresh token
+    const refreshTokenRaw = crypto.randomBytes(64).toString('hex');
+    const hashedRefreshToken = crypto.createHash('sha256').update(refreshTokenRaw).digest('hex');
+
+    // Set expiry for refresh token
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 7);
+
+    // Store refresh token
+    const storedToken = await prisma.refreshToken.create({
+      data: {
+        token: hashedRefreshToken,
+        userId: user.id,
+        expiresAt,
+        isRevoked: false,
+      },
+    });
+
+    if (!storedToken) {
+      throw new Error('Failed to store refresh token');
+    }
+
+    // Send response
     res.status(200).json({
       message: 'Login successful',
-      token,
+      accessToken,
+      refreshToken: refreshTokenRaw,
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role,
+        role: user.isAdmin ? 'admin' : user.canSell ? 'seller' : 'buyer',
       },
     });
   } catch (error) {
-    // Log the full error details for debugging
-    console.error('Login error:', error.message);
-    console.error('Error stack:', error.stack);
-
-    // Send more specific error message based on error type
-    if (error.code === 'P2002') {
-      return res.status(400).json({
-        error: 'Email already exists',
-      });
-    } else if (error.code === 'P2025') {
-      return res.status(404).json({
-        error: 'User not found',
-      });
-    } else if (error instanceof jwt.JsonWebTokenError) {
-      return res.status(401).json({
-        error: 'Invalid token',
-      });
-    } else if (error instanceof bcrypt.BcryptError) {
-      return res.status(400).json({
-        error: 'Password hashing error',
-      });
-    }
-
-    return res.status(500).json({
-      error: 'Internal server error: ' + error.message,
+    console.error('Login error:', error);
+    res.status(500).json({
+      error: 'Failed to login. Please try again.',
     });
   } finally {
-    await prisma.$disconnect();
+    // Optional: Disconnect Prisma in development
+    if (process.env.NODE_ENV === 'development') {
+      await prisma.$disconnect();
+    }
   }
 });
 
@@ -361,6 +328,110 @@ router.post('/logout', auth, async (req, res) => {
       error: 'Internal server error',
       message: 'Failed to process logout',
     });
+  }
+});
+
+router.post('/refresh-token', async (req, res) => {
+  const { refreshToken } = req.body;
+
+  if (!refreshToken) {
+    return res.status(400).json({
+      error: 'Refresh token is required',
+    });
+  }
+
+  try {
+    // Hash the received refresh token
+    const hashedToken = crypto.createHash('sha256').update(refreshToken).digest('hex');
+
+    // Find stored token and check if it's valid
+    const storedToken = await prisma.refreshToken.findFirst({
+      where: {
+        token: hashedToken,
+        isRevoked: false,
+        expiresAt: {
+          gt: new Date(),
+        },
+      },
+      include: {
+        user: true,
+      },
+    });
+
+    if (!storedToken) {
+      return res.status(401).json({
+        error: 'Invalid or expired refresh token',
+      });
+    }
+
+    // Generate new access token
+    const newAccessToken = jwt.sign(
+      {
+        userId: storedToken.user.id,
+        role: storedToken.user.isAdmin ? 'admin' : storedToken.user.canSell ? 'seller' : 'buyer',
+        name: storedToken.user.name,
+        type: 'access',
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    // Generate new refresh token
+    const newRefreshTokenRaw = crypto.randomBytes(64).toString('hex');
+    const newHashedRefreshToken = crypto
+      .createHash('sha256')
+      .update(newRefreshTokenRaw)
+      .digest('hex');
+
+    // Set expiry for new refresh token
+    const newExpiresAt = new Date();
+    newExpiresAt.setDate(newExpiresAt.getDate() + 7);
+
+    // Revoke old refresh token and create new one
+    await prisma.$transaction([
+      // Revoke old token
+      prisma.refreshToken.update({
+        where: { id: storedToken.id },
+        data: { isRevoked: true },
+      }),
+      // Create new refresh token
+      prisma.refreshToken.create({
+        data: {
+          token: newHashedRefreshToken,
+          userId: storedToken.user.id,
+          expiresAt: newExpiresAt,
+          isRevoked: false,
+        },
+      }),
+    ]);
+
+    // Create new JWT refresh token
+    const newRefreshToken = jwt.sign(
+      {
+        userId: storedToken.user.id,
+        type: 'refresh',
+        tokenId: newHashedRefreshToken,
+      },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: '7d' }
+    );
+
+    res.json({
+      accessToken: newAccessToken,
+      refreshToken: newRefreshTokenRaw,
+      user: {
+        id: storedToken.user.id,
+        name: storedToken.user.name,
+        email: storedToken.user.email,
+        role: storedToken.user.isAdmin ? 'admin' : storedToken.user.canSell ? 'seller' : 'buyer',
+      },
+    });
+  } catch (error) {
+    console.error('Refresh token error:', error);
+    if (error instanceof jwt.JsonWebTokenError) {
+      return res.status(401).json({ error: 'Invalid refresh token' });
+    }
+    return res.status(500).json({ error: 'Failed to refresh token' });
   }
 });
 

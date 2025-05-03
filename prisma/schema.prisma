@@ -24,9 +24,19 @@ model User {
   // Define both sides of the relations
   buyerTransactions  Transaction[] @relation("BuyerTransactions")
   sellerTransactions Transaction[] @relation("SellerTransactions")
-  // Add relations for ratings
   buyerRatings       Rating[]      @relation("BuyerRating")
   sellerRatings      Rating[]      @relation("SellerRating")
+  refreshTokens      RefreshToken[]
+}
+
+model RefreshToken {
+  id          Int      @id @default(autoincrement())
+  token       String   @unique
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
+  issuedAt    DateTime @default(now())
+  expiresAt   DateTime
+  isRevoked   Boolean  @default(false)
 }
 
 enum TransactionStatus {
@@ -38,6 +48,7 @@ enum TransactionStatus {
   COMPLETED
   DISPUTED
   CANCELLED
+  TIMEOUT
 }
 
 model Transaction {
@@ -66,6 +77,8 @@ model Transaction {
   receivedAt          DateTime?         // When the item was received
   autoReleased        Boolean           @default(false) // Whether escrow was auto-released
   autoConfirmationDeadline DateTime?    // Deadline for auto-confirmation
+  statusUpdatedAt     DateTime          @default(now())  // Track when status changes
+  timeoutAt           DateTime?         // When the current status will timeout
 
   buyer  User @relation("BuyerTransactions", fields: [buyerId], references: [id])
   seller User @relation("SellerTransactions", fields: [sellerId], references: [id])

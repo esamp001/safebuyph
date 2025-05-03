@@ -1,8 +1,14 @@
 const express = require('express');
 const { PrismaClient, TransactionStatus } = require('../generated/prisma');
 const authMiddleware = require('../middleware/auth');
+const validator = require('validator');
 const router = express.Router();
 const prisma = new PrismaClient();
+
+// Transaction timeout constants (in milliseconds)
+const PENDING_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
+const PAYMENT_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
+const SHIPPING_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours
 
 // At the top of the file, add valid statuses
 const VALID_STATUSES = [
@@ -14,9 +20,62 @@ const VALID_STATUSES = [
   'COMPLETED',
   'DISPUTED',
   'CANCELLED',
+  'TIMEOUT', // New status for timed out transactions
 ];
 
-//Create new transasction
+// Helper function to check and handle transaction timeouts
+async function handleTransactionTimeout(transaction) {
+  const now = new Date();
+
+  // Check pending transaction timeout
+  if (transaction.status === 'PENDING') {
+    const pendingDeadline = new Date(transaction.createdAt.getTime() + PENDING_TIMEOUT);
+    if (now > pendingDeadline) {
+      await prisma.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          status: 'TIMEOUT',
+          statusUpdatedAt: now,
+        },
+      });
+      return true;
+    }
+  }
+
+  // Check payment timeout for accepted transactions
+  if (transaction.status === 'ACCEPTED') {
+    const paymentDeadline = new Date(transaction.statusUpdatedAt.getTime() + PAYMENT_TIMEOUT);
+    if (now > paymentDeadline) {
+      await prisma.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          status: 'TIMEOUT',
+          statusUpdatedAt: now,
+        },
+      });
+      return true;
+    }
+  }
+
+  // Check shipping timeout for paid transactions
+  if (transaction.status === 'PAID') {
+    const shippingDeadline = new Date(transaction.statusUpdatedAt.getTime() + SHIPPING_TIMEOUT);
+    if (now > shippingDeadline) {
+      await prisma.transaction.update({
+        where: { id: transaction.id },
+        data: {
+          status: 'TIMEOUT',
+          statusUpdatedAt: now,
+        },
+      });
+      return true;
+    }
+  }
+
+  return false;
+}
+
+//Create new transaction
 router.post('/', authMiddleware, async (req, res) => {
   const { sellerId, amount, price } = req.body;
 
@@ -25,6 +84,19 @@ router.post('/', authMiddleware, async (req, res) => {
   }
 
   try {
+    // Validate inputs
+    if (!validator.isInt(sellerId.toString())) {
+      return res.status(400).json({ error: 'Invalid seller ID format' });
+    }
+
+    if (!amount || !validator.isFloat(amount.toString(), { min: 0.01 })) {
+      return res.status(400).json({ error: 'Amount must be a positive number' });
+    }
+
+    if (!price || !validator.isFloat(price.toString(), { min: 0.01 })) {
+      return res.status(400).json({ error: 'Price must be a positive number' });
+    }
+
     // First find and validate seller
     const seller = await prisma.user.findUnique({
       where: { id: sellerId },
@@ -69,10 +141,17 @@ router.post('/', authMiddleware, async (req, res) => {
         amount,
         status: 'PENDING',
         price,
+        statusUpdatedAt: new Date(), // Track when the status was last updated
+        timeoutAt: new Date(Date.now() + PENDING_TIMEOUT), // Set initial timeout
       },
     });
 
-    res.status(201).json({ message: 'Transaction created', transaction });
+    res.status(201).json({
+      message: 'Transaction created',
+      transaction,
+      timeoutAt: transaction.timeoutAt,
+      timeoutIn: `${PENDING_TIMEOUT / (60 * 60 * 1000)} hours`,
+    });
   } catch (error) {
     console.error('Transaction creation error:', error);
     res.status(500).json({ message: 'Internal server error' });
