@@ -7,11 +7,13 @@ import LoginHeader from '@/components/ui/loginHeader';
 
 function Login() {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col">
+    <div className="min-h-screen bg-gray-50 flex flex-col bg-login-gradient">
       <LoginHeader />
-
-      <div className="flex items-center flex-1 bg-gray-50 justify-center">
-        <Card className="w-[400px]">
+      <div className="flex justify-center mt-10">
+        <h1 className="text-3xl font-bold text-center">Sign in to SafeBuyPH</h1>
+      </div>
+      <div className="flex items-center flex-1 bg-gray-50 justify-center bg-login-gradient">
+        <Card className="w-[400px] shadow-xl border-none mt-[-30px]">
           <CardHeader>
             <CardTitle>Buy Smarter, Sell Safely</CardTitle>
             <CardDescription>
@@ -41,14 +43,26 @@ function Login() {
                   <span className="bg-gray-50 px-2 text-muted-foreground">Or continue with</span>
                 </div>
               </div>
-              <Button variant="outline" className="w-full" onClick={() => {}}>
-                <FcGoogle className="mr-2 h-4 w-4" />
-                Google
-              </Button>
-              <Button variant="outline" className="w-full" onClick={() => {}}>
-                <FaFacebook className="mr-2 h-4 w-4" />
-                Facebook
-              </Button>
+              <div className="space-y-2">
+                <Button variant="outline" className="w-full" onClick={() => {}}>
+                  <FcGoogle className="mr-2 h-4 w-4" />
+                  Google
+                </Button>
+                <Button variant="outline" className="w-full" onClick={() => {}}>
+                  <FaFacebook className="mr-2 h-4 w-4" />
+                  Facebook
+                </Button>
+                <p className="text-xs text-gray-500 text-center">
+                  By continuing, you acknowledge that you understand and agree to the{' '}
+                  <a href="#" className="hover:underline">
+                    Terms & Conditions
+                  </a>{' '}
+                  and{' '}
+                  <a href="#" className="hover:underline">
+                    Privacy Policy
+                  </a>
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
