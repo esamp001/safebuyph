@@ -10,7 +10,7 @@ function Login() {
     <div className="min-h-screen bg-gray-50 flex flex-col bg-login-gradient">
       <LoginHeader />
       <div className="flex justify-center mt-10">
-        <h1 className="text-3xl font-bold text-center">Sign in to SafeBuyPH</h1>
+        <h1 className="text-3xl font-bold text-center ">Sign in to SafeBuyPH</h1>
       </div>
       <div className="flex items-center flex-1 bg-gray-50 justify-center bg-login-gradient">
         <Card className="w-[400px] shadow-xl border-none mt-[-30px]">
@@ -34,7 +34,7 @@ function Login() {
                 </label>
                 <Input type="password" className="w-full" />
               </div>
-              <Button className="w-full">Login</Button>
+              <Button className="w-full bg-[#0e1d54] hover:bg-[#597aaf]">Login</Button>
               <div className="relative">
                 <div className="absolute inset-0 flex items-center">
                   <span className="w-full border-t" />
