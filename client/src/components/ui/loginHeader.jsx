@@ -1,7 +1,9 @@
 import { Button } from './button';
 import { Separator } from './separator';
+import { useNavigate } from 'react-router-dom';
 
 const loginHeader = () => {
+  const navigate = useNavigate();
   return (
     <nav className="justify-start w-full h-16 bg-white border-b flex items-center px-5 h-[80px] relative overflow-hidden">
       <div className="flex-shrink-0">
@@ -15,7 +17,7 @@ const loginHeader = () => {
         <Button variant="ghost" size="sm" className="text-sm">
           Help
         </Button>
-        <Button variant="ghost" size="sm" className="text-sm">
+        <Button variant="ghost" size="sm" className="text-sm" onClick={() => navigate('/signup')}>
           Sign Up
         </Button>
       </div>
