@@ -12,6 +12,7 @@ import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { DropdownMenuCheckboxes } from '@/components/ui/DropdownMenuCheckboxes';
 
 function Signup() {
   const [step, setStep] = useState(1);
@@ -42,7 +43,9 @@ function Signup() {
     <>
       {step === 100 && <SellerStep1 onNext={() => setStep(101)} />}
       {step === 101 && <SellerStep2 onNext={() => setStep(102)} />}
-      {step === 102 && <SellerStep3 onSubmit={() => alert('Seller signup complete!')} />}
+      {step === 102 && <SellerStep3 onNext={() => setStep(103)} />}
+      {step === 103 && <SellerStep4 onNext={() => setStep(104)} />}
+      {step === 104 && <SellerStep5 onSubmit={() => alert('Seller signup complete!')} />}
     </>
   );
 
@@ -364,4 +367,79 @@ function SellerStep2({ onNext }) {
     </div>
   );
 }
+
+function SellerStep3({ onNext }) {
+  const [verified, setVerificationData] = useState({
+    options: {
+      driversLicense: false,
+      SSS: false,
+      nationalId: false,
+      passport: false,
+    },
+    idNumber: '',
+  });
+
+  const handleVerificationChange = (option, idNumber) => {
+    setVerificationData({
+      options: newOptions,
+      idNumber: newIdNumber,
+    });
+  };
+
+  return (
+    <Card className="w-full shadow-lg">
+      <CardContent className="flex flex-col gap-3 p-6">
+        <h2 className="text-2xl font-bold text-[#0e1d54]">Verify your Seller Profile</h2>
+        <p className="text-sm">
+          To ensure the authenticity of your account, we need to verify your seller profile.
+        </p>
+        <label className="text-sm font-medium">Phone Number</label>
+        <Input className="bg-white" type="tel" placeholder="Enter your phone number" />
+        <label className="text-sm font-medium">Select Valid ID</label>
+        <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
+        <Button
+          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
+          onClick={onNext}
+        >
+          Next
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SellerStep4({ onNext }) {
+  return (
+    <Card className="w-full shadow-lg">
+      <CardContent className="flex flex-col gap-3 p-6">
+        <h2 className="text-2xl font-bold text-[#0e1d54]">Seller Step 4</h2>
+        <p className="text-sm">This is Seller Step 4.</p>
+        <Button
+          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
+          onClick={onNext}
+        >
+          Next
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
+function SellerStep5({ onSubmit }) {
+  return (
+    <Card className="w-full shadow-lg">
+      <CardContent className="flex flex-col gap-3 p-6">
+        <h2 className="text-2xl font-bold text-[#0e1d54]">Seller Step 5</h2>
+        <p className="text-sm">This is Seller Step 5.</p>
+        <Button
+          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
+          onClick={onSubmit}
+        >
+          Submit
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+
 export default Signup;
