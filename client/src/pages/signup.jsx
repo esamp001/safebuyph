@@ -13,6 +13,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenuCheckboxes } from '@/components/ui/DropdownMenuCheckboxes';
+import { FormProvider, useForm } from '@/context/FormContext';
 
 function Signup() {
   const [step, setStep] = useState(1);
@@ -50,69 +51,139 @@ function Signup() {
   );
 
   return (
-    <div className="min-h-screen bg-login-gradient">
-      <SignupHeader step={step} totalSteps={totalSteps} onBack={handleBack} />
-      <div className="max-w-xl mx-auto mt-8 p-4">
-        <Progress
-          value={
-            role === 'buyer' ? ((step - 1) / (totalSteps - 1)) * 100 : ((step - 100) / 2) * 100
-          }
-          className="w-full mb-6"
-        />
-        <div className="text-sm text-muted-foreground mb-5 text-center">
-          {role === 'buyer'
-            ? `Step ${step - 1} of ${totalSteps - 1}`
-            : role === 'seller'
-              ? `Step ${step - 99} of 3`
-              : ''}
+    <FormProvider>
+      <div className="min-h-screen bg-login-gradient">
+        <SignupHeader step={step} totalSteps={totalSteps} onBack={handleBack} />
+        <div className="max-w-xl mx-auto mt-8 p-4">
+          <Progress
+            value={
+              role === 'buyer' ? ((step - 1) / (totalSteps - 1)) * 100 : ((step - 100) / 2) * 100
+            }
+            className="w-full mb-6"
+          />
+          <div className="text-sm text-muted-foreground mb-5 text-center">
+            {role === 'buyer'
+              ? `Step ${step - 1} of ${totalSteps - 1}`
+              : role === 'seller'
+                ? `Step ${step - 99} of 3`
+                : ''}
+          </div>
+          {step === 1 && (
+            <>
+              <h1 className="text-3xl font-bold text-[#0e1d54] text-center mb-2">
+                Welcome to Safebuy PH!
+              </h1>
+              <p className="text-center text-gray-600 mb-6">
+                Let's start by knowing how you want to use the platform.
+              </p>
+              <ButtonWithIcon onSelect={handleRoleSelection} />
+            </>
+          )}
+          {role === 'buyer' && renderBuyerSteps()}
+          {role === 'seller' && renderSellerSteps()}
         </div>
-        {step === 1 && (
-          <>
-            <h1 className="text-3xl font-bold text-[#0e1d54] text-center mb-2">
-              Welcome to Safebuy PH!
-            </h1>
-            <p className="text-center text-gray-600 mb-6">
-              Let's start by knowing how you want to use the platform.
-            </p>
-            <ButtonWithIcon onSelect={handleRoleSelection} />
-          </>
-        )}
-        {role === 'buyer' && renderBuyerSteps()}
-        {role === 'seller' && renderSellerSteps()}
       </div>
-    </div>
+    </FormProvider>
   );
 }
 
 function FormStep1({ onNext }) {
+  const { formData, updateFormData } = useForm();
+  const [error, setError] = useState('');
+  const [passwordInput, setPasswordInput] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'password') {
+      setPasswordInput(value);
+      updateFormData({ [name]: value });
+    } else {
+      updateFormData({ [name]: value });
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.email) {
+      setError('Email is required');
+      return false;
+    }
+    if (!passwordInput) {
+      setError('Password is required');
+      return false;
+    }
+    if (passwordInput.length < 8) {
+      setError('Password must be at least 8 characters');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!validateForm()) {
+      return;
+    }
+
+    onNext();
+  };
+
   return (
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col gap-3 p-6">
         <h2 className="text-2xl font-bold text-[#0e1d54]">Create an account to shop safely</h2>
-        <p className="text-sm">Email address</p>
-        <Input type="email" placeholder="Enter your email" className="bg-white" />
-        <p className="text-sm">Password</p>
-        <Input type="password" placeholder="Enter your password" className="bg-white" />
-        <div className="relative flex justify-center text-xs uppercase">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t"></span>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <p className="text-sm">Email address</p>
+            <Input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Enter your email"
+              className="bg-white"
+              required
+            />
           </div>
-          <span className="px-2 text-muted-foreground relative bg-gray-50">Or continue with</span>
-        </div>
-        <Button variant="outline" className="w-full" onClick={() => {}}>
-          <FcGoogle className="mr-2 h-4 w-4" />
-          Google
-        </Button>
-        <Button variant="outline" className="w-full" onClick={() => {}}>
-          <FaFacebook className="mr-2 h-4 w-4" />
-          Facebook
-        </Button>
-        <Button
-          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
-          onClick={onNext}
-        >
-          Next
-        </Button>
+          <div>
+            <p className="text-sm">Password</p>
+            <Input
+              type="password"
+              name="password"
+              value={passwordInput}
+              onChange={handleChange}
+              placeholder="Enter your password"
+              className="bg-white"
+              required
+            />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t"></span>
+            </div>
+            <span className="px-2 text-muted-foreground relative bg-gray-50">Or continue with</span>
+          </div>
+          <Button variant="outline" className="w-full" onClick={() => {}}>
+            <FcGoogle className="mr-2 h-4 w-4" />
+            Google
+          </Button>
+          <Button variant="outline" className="w-full" onClick={() => {}}>
+            <FaFacebook className="mr-2 h-4 w-4" />
+            Facebook
+          </Button>
+          <Button
+            type="submit"
+            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+          >
+            Next
+          </Button>
+        </form>
       </CardContent>
     </Card>
   );
@@ -397,6 +468,16 @@ function SellerStep3({ onNext }) {
         <Input className="bg-white" type="tel" placeholder="Enter your phone number" />
         <label className="text-sm font-medium">Select Valid ID</label>
         <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
+        <label className="text-sm font-medium">Description of what you're selling</label>
+        <textarea
+          className="bg-white border rounded-md p-2"
+          placeholder="I usually sell electronics like phones and gaming consoles..."
+          rows={3}
+        />
+        <div className="flex items-center gap-2">
+          <Checkbox />
+          <p className="text-sm">I agree to SafeBuy PH's seller policies</p>
+        </div>
         <Button
           className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
           onClick={onNext}
@@ -412,13 +493,16 @@ function SellerStep4({ onNext }) {
   return (
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col gap-3 p-6">
-        <h2 className="text-2xl font-bold text-[#0e1d54]">Seller Step 4</h2>
-        <p className="text-sm">This is Seller Step 4.</p>
+        <h2 className="text-2xl font-bold text-[#0e1d54]">Thank you for signing up!</h2>
+        <p className="text-sm">
+          Your profile is being reviewed for seller access. Meanwhile, you can still browse the
+          platform and buyer items.
+        </p>
         <Button
           className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
           onClick={onNext}
         >
-          Next
+          Go to Dashboard
         </Button>
       </CardContent>
     </Card>

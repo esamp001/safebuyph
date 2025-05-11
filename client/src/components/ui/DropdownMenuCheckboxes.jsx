@@ -46,7 +46,7 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
             Select Valid ID
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent className="w-[200px]">
+        <DropdownMenuContent className="w-[490px]">
           <DropdownMenuCheckboxItem
             checked={options.driversLicense}
             onCheckedChange={(checked) => handleOptionChange('driversLicense', checked)}
