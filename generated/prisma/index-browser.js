@@ -121,18 +121,19 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   name: 'name',
   email: 'email',
+  createdAt: 'createdAt',
   password: 'password',
   phoneNumber: 'phoneNumber',
   profilePic: 'profilePic',
-  isAdmin: 'isAdmin',
-  canSell: 'canSell',
-  status: 'status',
-  validIdUrl: 'validIdUrl',
-  validIdNumber: 'validIdNumber',
-  transactionCount: 'transactionCount',
   rating: 'rating',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  status: 'status',
+  transactionCount: 'transactionCount',
+  updatedAt: 'updatedAt',
+  canSell: 'canSell',
+  isAdmin: 'isAdmin',
+  validIdNumber: 'validIdNumber',
+  validIdUrl: 'validIdUrl',
+  bio: 'bio'
 };
 
 exports.Prisma.RefreshTokenScalarFieldEnum = {
@@ -146,30 +147,30 @@ exports.Prisma.RefreshTokenScalarFieldEnum = {
 
 exports.Prisma.TransactionScalarFieldEnum = {
   id: 'id',
-  status: 'status',
-  price: 'price',
   buyerId: 'buyerId',
   sellerId: 'sellerId',
-  amount: 'amount',
-  escrowReleased: 'escrowReleased',
-  disputeReason: 'disputeReason',
-  disputedAt: 'disputedAt',
-  disputeResolved: 'disputeResolved',
-  adminNote: 'adminNote',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  shippingProof: 'shippingProof',
+  disputeReason: 'disputeReason',
+  escrowReleased: 'escrowReleased',
+  price: 'price',
+  status: 'status',
+  amount: 'amount',
+  adminNote: 'adminNote',
+  disputeResolved: 'disputeResolved',
+  disputedAt: 'disputedAt',
   shippingTrackingNumber: 'shippingTrackingNumber',
-  paymentProof: 'paymentProof',
-  paymentTransactionNumber: 'paymentTransactionNumber',
   deliveryConfirmed: 'deliveryConfirmed',
-  shippedAt: 'shippedAt',
   deliveryConfirmedAt: 'deliveryConfirmedAt',
   paidAt: 'paidAt',
+  shippedAt: 'shippedAt',
   shippingDeadline: 'shippingDeadline',
-  receivedAt: 'receivedAt',
-  autoReleased: 'autoReleased',
+  shippingProof: 'shippingProof',
+  paymentProof: 'paymentProof',
+  paymentTransactionNumber: 'paymentTransactionNumber',
   autoConfirmationDeadline: 'autoConfirmationDeadline',
+  autoReleased: 'autoReleased',
+  receivedAt: 'receivedAt',
   statusUpdatedAt: 'statusUpdatedAt',
   timeoutAt: 'timeoutAt'
 };
@@ -200,13 +201,13 @@ exports.Prisma.NullsOrder = {
 };
 exports.TransactionStatus = exports.$Enums.TransactionStatus = {
   PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
   PAID: 'PAID',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',
   COMPLETED: 'COMPLETED',
   DISPUTED: 'DISPUTED',
   CANCELLED: 'CANCELLED',
+  ACCEPTED: 'ACCEPTED',
   TIMEOUT: 'TIMEOUT'
 };
 

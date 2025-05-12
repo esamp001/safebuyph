@@ -19,7 +19,7 @@ prisma.$on('error', (e) => {
 
 router.post('/register', async (req, res) => {
   // Call all the data from user Model
-  const { name, email, password, phoneNumber, profilePic, role, status } = req.body;
+  const { name, email, password, phoneNumber, profilePic, role, status, bio } = req.body;
 
   // Use Validation
   // Required field validation
@@ -67,10 +67,22 @@ router.post('/register', async (req, res) => {
   }
 
   // Profile picture URL validation (if provided)
-  if (profilePic && !validator.isURL(profilePic)) {
-    return res.status(400).json({
-      error: 'Please enter a valid URL for profile picture',
-    });
+  if (profilePic) {
+    // Check if it's a base64 string
+    if (!profilePic.startsWith('data:image/')) {
+      return res.status(400).json({
+        error: 'Invalid image format. Please upload a valid image file.',
+      });
+    }
+
+    // Check if base64 string is not too long (2MB limit)
+    const base64Data = profilePic.split(',')[1];
+    const sizeInBytes = Math.ceil((base64Data.length * 3) / 4);
+    if (sizeInBytes > 2 * 1024 * 1024) {
+      return res.status(400).json({
+        error: 'Image size should be less than 2MB',
+      });
+    }
   }
 
   // Role validation
@@ -123,7 +135,26 @@ router.post('/register', async (req, res) => {
         status: 'active',
         transactionCount: 0,
         rating: 3.0,
+        bio: bio || '',
       },
+    });
+
+    const accessToken = jwt.sign(
+      {
+        userId: newUser.id,
+        name: newUser.name,
+        type: 'access',
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+
+    // Set HTTP-only cookies
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 1 * 60 * 60 * 1000, // 1 hour
     });
 
     res.status(201).json({
@@ -139,6 +170,7 @@ router.post('/register', async (req, res) => {
         rating: newUser.rating,
         createdAt: newUser.createdAt,
         updatedAt: newUser.updatedAt,
+        bio: newUser.bio,
       },
     });
   } catch (error) {

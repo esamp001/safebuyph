@@ -40,13 +40,13 @@ export type Rating = $Result.DefaultSelection<Prisma.$RatingPayload>
 export namespace $Enums {
   export const TransactionStatus: {
   PENDING: 'PENDING',
-  ACCEPTED: 'ACCEPTED',
   PAID: 'PAID',
   SHIPPED: 'SHIPPED',
   DELIVERED: 'DELIVERED',
   COMPLETED: 'COMPLETED',
   DISPUTED: 'DISPUTED',
   CANCELLED: 'CANCELLED',
+  ACCEPTED: 'ACCEPTED',
   TIMEOUT: 'TIMEOUT'
 };
 
@@ -1166,19 +1166,19 @@ export namespace Prisma {
    */
 
   export type UserCountOutputType = {
-    buyerTransactions: number
-    sellerTransactions: number
     buyerRatings: number
     sellerRatings: number
     refreshTokens: number
+    buyerTransactions: number
+    sellerTransactions: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    buyerTransactions?: boolean | UserCountOutputTypeCountBuyerTransactionsArgs
-    sellerTransactions?: boolean | UserCountOutputTypeCountSellerTransactionsArgs
     buyerRatings?: boolean | UserCountOutputTypeCountBuyerRatingsArgs
     sellerRatings?: boolean | UserCountOutputTypeCountSellerRatingsArgs
     refreshTokens?: boolean | UserCountOutputTypeCountRefreshTokensArgs
+    buyerTransactions?: boolean | UserCountOutputTypeCountBuyerTransactionsArgs
+    sellerTransactions?: boolean | UserCountOutputTypeCountSellerTransactionsArgs
   }
 
   // Custom InputTypes
@@ -1190,20 +1190,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the UserCountOutputType
      */
     select?: UserCountOutputTypeSelect<ExtArgs> | null
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountBuyerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TransactionWhereInput
-  }
-
-  /**
-   * UserCountOutputType without action
-   */
-  export type UserCountOutputTypeCountSellerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    where?: TransactionWhereInput
   }
 
   /**
@@ -1227,6 +1213,20 @@ export namespace Prisma {
     where?: RefreshTokenWhereInput
   }
 
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountBuyerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountSellerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TransactionWhereInput
+  }
+
 
   /**
    * Models
@@ -1246,136 +1246,142 @@ export namespace Prisma {
 
   export type UserAvgAggregateOutputType = {
     id: number | null
-    transactionCount: number | null
     rating: number | null
+    transactionCount: number | null
   }
 
   export type UserSumAggregateOutputType = {
     id: number | null
-    transactionCount: number | null
     rating: number | null
+    transactionCount: number | null
   }
 
   export type UserMinAggregateOutputType = {
     id: number | null
     name: string | null
     email: string | null
+    createdAt: Date | null
     password: string | null
     phoneNumber: string | null
     profilePic: string | null
-    isAdmin: boolean | null
-    canSell: boolean | null
-    status: string | null
-    validIdUrl: string | null
-    validIdNumber: string | null
-    transactionCount: number | null
     rating: number | null
-    createdAt: Date | null
+    status: string | null
+    transactionCount: number | null
     updatedAt: Date | null
+    canSell: boolean | null
+    isAdmin: boolean | null
+    validIdNumber: string | null
+    validIdUrl: string | null
+    bio: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: number | null
     name: string | null
     email: string | null
+    createdAt: Date | null
     password: string | null
     phoneNumber: string | null
     profilePic: string | null
-    isAdmin: boolean | null
-    canSell: boolean | null
-    status: string | null
-    validIdUrl: string | null
-    validIdNumber: string | null
-    transactionCount: number | null
     rating: number | null
-    createdAt: Date | null
+    status: string | null
+    transactionCount: number | null
     updatedAt: Date | null
+    canSell: boolean | null
+    isAdmin: boolean | null
+    validIdNumber: string | null
+    validIdUrl: string | null
+    bio: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     name: number
     email: number
+    createdAt: number
     password: number
     phoneNumber: number
     profilePic: number
-    isAdmin: number
-    canSell: number
-    status: number
-    validIdUrl: number
-    validIdNumber: number
-    transactionCount: number
     rating: number
-    createdAt: number
+    status: number
+    transactionCount: number
     updatedAt: number
+    canSell: number
+    isAdmin: number
+    validIdNumber: number
+    validIdUrl: number
+    bio: number
     _all: number
   }
 
 
   export type UserAvgAggregateInputType = {
     id?: true
-    transactionCount?: true
     rating?: true
+    transactionCount?: true
   }
 
   export type UserSumAggregateInputType = {
     id?: true
-    transactionCount?: true
     rating?: true
+    transactionCount?: true
   }
 
   export type UserMinAggregateInputType = {
     id?: true
     name?: true
     email?: true
+    createdAt?: true
     password?: true
     phoneNumber?: true
     profilePic?: true
-    isAdmin?: true
-    canSell?: true
-    status?: true
-    validIdUrl?: true
-    validIdNumber?: true
-    transactionCount?: true
     rating?: true
-    createdAt?: true
+    status?: true
+    transactionCount?: true
     updatedAt?: true
+    canSell?: true
+    isAdmin?: true
+    validIdNumber?: true
+    validIdUrl?: true
+    bio?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
     email?: true
+    createdAt?: true
     password?: true
     phoneNumber?: true
     profilePic?: true
-    isAdmin?: true
-    canSell?: true
-    status?: true
-    validIdUrl?: true
-    validIdNumber?: true
-    transactionCount?: true
     rating?: true
-    createdAt?: true
+    status?: true
+    transactionCount?: true
     updatedAt?: true
+    canSell?: true
+    isAdmin?: true
+    validIdNumber?: true
+    validIdUrl?: true
+    bio?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
     email?: true
+    createdAt?: true
     password?: true
     phoneNumber?: true
     profilePic?: true
-    isAdmin?: true
-    canSell?: true
-    status?: true
-    validIdUrl?: true
-    validIdNumber?: true
-    transactionCount?: true
     rating?: true
-    createdAt?: true
+    status?: true
+    transactionCount?: true
     updatedAt?: true
+    canSell?: true
+    isAdmin?: true
+    validIdNumber?: true
+    validIdUrl?: true
+    bio?: true
     _all?: true
   }
 
@@ -1469,18 +1475,19 @@ export namespace Prisma {
     id: number
     name: string
     email: string
+    createdAt: Date
     password: string
     phoneNumber: string | null
     profilePic: string | null
-    isAdmin: boolean
-    canSell: boolean
-    status: string
-    validIdUrl: string | null
-    validIdNumber: string | null
-    transactionCount: number
     rating: number
-    createdAt: Date
+    status: string
+    transactionCount: number
     updatedAt: Date
+    canSell: boolean
+    isAdmin: boolean
+    validIdNumber: string | null
+    validIdUrl: string | null
+    bio: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1506,23 +1513,24 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    createdAt?: boolean
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: boolean
-    validIdUrl?: boolean
-    validIdNumber?: boolean
-    transactionCount?: boolean
     rating?: boolean
-    createdAt?: boolean
+    status?: boolean
+    transactionCount?: boolean
     updatedAt?: boolean
-    buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
-    sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: boolean
+    validIdUrl?: boolean
+    bio?: boolean
     buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
     sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
+    buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
+    sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -1530,63 +1538,66 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     email?: boolean
+    createdAt?: boolean
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: boolean
-    validIdUrl?: boolean
-    validIdNumber?: boolean
-    transactionCount?: boolean
     rating?: boolean
-    createdAt?: boolean
+    status?: boolean
+    transactionCount?: boolean
     updatedAt?: boolean
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: boolean
+    validIdUrl?: boolean
+    bio?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     email?: boolean
+    createdAt?: boolean
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: boolean
-    validIdUrl?: boolean
-    validIdNumber?: boolean
-    transactionCount?: boolean
     rating?: boolean
-    createdAt?: boolean
+    status?: boolean
+    transactionCount?: boolean
     updatedAt?: boolean
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: boolean
+    validIdUrl?: boolean
+    bio?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
     email?: boolean
+    createdAt?: boolean
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: boolean
-    validIdUrl?: boolean
-    validIdNumber?: boolean
-    transactionCount?: boolean
     rating?: boolean
-    createdAt?: boolean
+    status?: boolean
+    transactionCount?: boolean
     updatedAt?: boolean
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: boolean
+    validIdUrl?: boolean
+    bio?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password" | "phoneNumber" | "profilePic" | "isAdmin" | "canSell" | "status" | "validIdUrl" | "validIdNumber" | "transactionCount" | "rating" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
-    sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
     buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
     sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
+    buyerTransactions?: boolean | User$buyerTransactionsArgs<ExtArgs>
+    sellerTransactions?: boolean | User$sellerTransactionsArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -1595,28 +1606,29 @@ export namespace Prisma {
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
     objects: {
-      buyerTransactions: Prisma.$TransactionPayload<ExtArgs>[]
-      sellerTransactions: Prisma.$TransactionPayload<ExtArgs>[]
       buyerRatings: Prisma.$RatingPayload<ExtArgs>[]
       sellerRatings: Prisma.$RatingPayload<ExtArgs>[]
       refreshTokens: Prisma.$RefreshTokenPayload<ExtArgs>[]
+      buyerTransactions: Prisma.$TransactionPayload<ExtArgs>[]
+      sellerTransactions: Prisma.$TransactionPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
       email: string
+      createdAt: Date
       password: string
       phoneNumber: string | null
       profilePic: string | null
-      isAdmin: boolean
-      canSell: boolean
-      status: string
-      validIdUrl: string | null
-      validIdNumber: string | null
-      transactionCount: number
       rating: number
-      createdAt: Date
+      status: string
+      transactionCount: number
       updatedAt: Date
+      canSell: boolean
+      isAdmin: boolean
+      validIdNumber: string | null
+      validIdUrl: string | null
+      bio: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2011,11 +2023,11 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    buyerTransactions<T extends User$buyerTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$buyerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
-    sellerTransactions<T extends User$sellerTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     buyerRatings<T extends User$buyerRatingsArgs<ExtArgs> = {}>(args?: Subset<T, User$buyerRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     sellerRatings<T extends User$sellerRatingsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerRatingsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     refreshTokens<T extends User$refreshTokensArgs<ExtArgs> = {}>(args?: Subset<T, User$refreshTokensArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RefreshTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    buyerTransactions<T extends User$buyerTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$buyerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    sellerTransactions<T extends User$sellerTransactionsArgs<ExtArgs> = {}>(args?: Subset<T, User$sellerTransactionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2048,18 +2060,19 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'Int'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
+    readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly password: FieldRef<"User", 'String'>
     readonly phoneNumber: FieldRef<"User", 'String'>
     readonly profilePic: FieldRef<"User", 'String'>
-    readonly isAdmin: FieldRef<"User", 'Boolean'>
-    readonly canSell: FieldRef<"User", 'Boolean'>
-    readonly status: FieldRef<"User", 'String'>
-    readonly validIdUrl: FieldRef<"User", 'String'>
-    readonly validIdNumber: FieldRef<"User", 'String'>
-    readonly transactionCount: FieldRef<"User", 'Int'>
     readonly rating: FieldRef<"User", 'Float'>
-    readonly createdAt: FieldRef<"User", 'DateTime'>
+    readonly status: FieldRef<"User", 'String'>
+    readonly transactionCount: FieldRef<"User", 'Int'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
+    readonly canSell: FieldRef<"User", 'Boolean'>
+    readonly isAdmin: FieldRef<"User", 'Boolean'>
+    readonly validIdNumber: FieldRef<"User", 'String'>
+    readonly validIdUrl: FieldRef<"User", 'String'>
+    readonly bio: FieldRef<"User", 'String'>
   }
     
 
@@ -2448,54 +2461,6 @@ export namespace Prisma {
   }
 
   /**
-   * User.buyerTransactions
-   */
-  export type User$buyerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Transaction
-     */
-    select?: TransactionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Transaction
-     */
-    omit?: TransactionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TransactionInclude<ExtArgs> | null
-    where?: TransactionWhereInput
-    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
-    cursor?: TransactionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
-  }
-
-  /**
-   * User.sellerTransactions
-   */
-  export type User$sellerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Transaction
-     */
-    select?: TransactionSelect<ExtArgs> | null
-    /**
-     * Omit specific fields from the Transaction
-     */
-    omit?: TransactionOmit<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well
-     */
-    include?: TransactionInclude<ExtArgs> | null
-    where?: TransactionWhereInput
-    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
-    cursor?: TransactionWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
-  }
-
-  /**
    * User.buyerRatings
    */
   export type User$buyerRatingsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2565,6 +2530,54 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: RefreshTokenScalarFieldEnum | RefreshTokenScalarFieldEnum[]
+  }
+
+  /**
+   * User.buyerTransactions
+   */
+  export type User$buyerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
+    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
+    cursor?: TransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
+  }
+
+  /**
+   * User.sellerTransactions
+   */
+  export type User$sellerTransactionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Transaction
+     */
+    select?: TransactionSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Transaction
+     */
+    omit?: TransactionOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TransactionInclude<ExtArgs> | null
+    where?: TransactionWhereInput
+    orderBy?: TransactionOrderByWithRelationInput | TransactionOrderByWithRelationInput[]
+    cursor?: TransactionWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TransactionScalarFieldEnum | TransactionScalarFieldEnum[]
   }
 
   /**
@@ -3709,106 +3722,106 @@ export namespace Prisma {
 
   export type TransactionAvgAggregateOutputType = {
     id: number | null
-    price: number | null
     buyerId: number | null
     sellerId: number | null
+    price: number | null
     amount: number | null
   }
 
   export type TransactionSumAggregateOutputType = {
     id: number | null
-    price: number | null
     buyerId: number | null
     sellerId: number | null
+    price: number | null
     amount: number | null
   }
 
   export type TransactionMinAggregateOutputType = {
     id: number | null
-    status: $Enums.TransactionStatus | null
-    price: number | null
     buyerId: number | null
     sellerId: number | null
-    amount: number | null
-    escrowReleased: boolean | null
-    disputeReason: string | null
-    disputedAt: Date | null
-    disputeResolved: boolean | null
-    adminNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    shippingProof: string | null
+    disputeReason: string | null
+    escrowReleased: boolean | null
+    price: number | null
+    status: $Enums.TransactionStatus | null
+    amount: number | null
+    adminNote: string | null
+    disputeResolved: boolean | null
+    disputedAt: Date | null
     shippingTrackingNumber: string | null
-    paymentProof: string | null
-    paymentTransactionNumber: string | null
     deliveryConfirmed: boolean | null
-    shippedAt: Date | null
     deliveryConfirmedAt: Date | null
     paidAt: Date | null
+    shippedAt: Date | null
     shippingDeadline: Date | null
-    receivedAt: Date | null
-    autoReleased: boolean | null
+    shippingProof: string | null
+    paymentProof: string | null
+    paymentTransactionNumber: string | null
     autoConfirmationDeadline: Date | null
+    autoReleased: boolean | null
+    receivedAt: Date | null
     statusUpdatedAt: Date | null
     timeoutAt: Date | null
   }
 
   export type TransactionMaxAggregateOutputType = {
     id: number | null
-    status: $Enums.TransactionStatus | null
-    price: number | null
     buyerId: number | null
     sellerId: number | null
-    amount: number | null
-    escrowReleased: boolean | null
-    disputeReason: string | null
-    disputedAt: Date | null
-    disputeResolved: boolean | null
-    adminNote: string | null
     createdAt: Date | null
     updatedAt: Date | null
-    shippingProof: string | null
+    disputeReason: string | null
+    escrowReleased: boolean | null
+    price: number | null
+    status: $Enums.TransactionStatus | null
+    amount: number | null
+    adminNote: string | null
+    disputeResolved: boolean | null
+    disputedAt: Date | null
     shippingTrackingNumber: string | null
-    paymentProof: string | null
-    paymentTransactionNumber: string | null
     deliveryConfirmed: boolean | null
-    shippedAt: Date | null
     deliveryConfirmedAt: Date | null
     paidAt: Date | null
+    shippedAt: Date | null
     shippingDeadline: Date | null
-    receivedAt: Date | null
-    autoReleased: boolean | null
+    shippingProof: string | null
+    paymentProof: string | null
+    paymentTransactionNumber: string | null
     autoConfirmationDeadline: Date | null
+    autoReleased: boolean | null
+    receivedAt: Date | null
     statusUpdatedAt: Date | null
     timeoutAt: Date | null
   }
 
   export type TransactionCountAggregateOutputType = {
     id: number
-    status: number
-    price: number
     buyerId: number
     sellerId: number
-    amount: number
-    escrowReleased: number
-    disputeReason: number
-    disputedAt: number
-    disputeResolved: number
-    adminNote: number
     createdAt: number
     updatedAt: number
-    shippingProof: number
+    disputeReason: number
+    escrowReleased: number
+    price: number
+    status: number
+    amount: number
+    adminNote: number
+    disputeResolved: number
+    disputedAt: number
     shippingTrackingNumber: number
-    paymentProof: number
-    paymentTransactionNumber: number
     deliveryConfirmed: number
-    shippedAt: number
     deliveryConfirmedAt: number
     paidAt: number
+    shippedAt: number
     shippingDeadline: number
-    receivedAt: number
-    autoReleased: number
+    shippingProof: number
+    paymentProof: number
+    paymentTransactionNumber: number
     autoConfirmationDeadline: number
+    autoReleased: number
+    receivedAt: number
     statusUpdatedAt: number
     timeoutAt: number
     _all: number
@@ -3817,106 +3830,106 @@ export namespace Prisma {
 
   export type TransactionAvgAggregateInputType = {
     id?: true
-    price?: true
     buyerId?: true
     sellerId?: true
+    price?: true
     amount?: true
   }
 
   export type TransactionSumAggregateInputType = {
     id?: true
-    price?: true
     buyerId?: true
     sellerId?: true
+    price?: true
     amount?: true
   }
 
   export type TransactionMinAggregateInputType = {
     id?: true
-    status?: true
-    price?: true
     buyerId?: true
     sellerId?: true
-    amount?: true
-    escrowReleased?: true
-    disputeReason?: true
-    disputedAt?: true
-    disputeResolved?: true
-    adminNote?: true
     createdAt?: true
     updatedAt?: true
-    shippingProof?: true
+    disputeReason?: true
+    escrowReleased?: true
+    price?: true
+    status?: true
+    amount?: true
+    adminNote?: true
+    disputeResolved?: true
+    disputedAt?: true
     shippingTrackingNumber?: true
-    paymentProof?: true
-    paymentTransactionNumber?: true
     deliveryConfirmed?: true
-    shippedAt?: true
     deliveryConfirmedAt?: true
     paidAt?: true
+    shippedAt?: true
     shippingDeadline?: true
-    receivedAt?: true
-    autoReleased?: true
+    shippingProof?: true
+    paymentProof?: true
+    paymentTransactionNumber?: true
     autoConfirmationDeadline?: true
+    autoReleased?: true
+    receivedAt?: true
     statusUpdatedAt?: true
     timeoutAt?: true
   }
 
   export type TransactionMaxAggregateInputType = {
     id?: true
-    status?: true
-    price?: true
     buyerId?: true
     sellerId?: true
-    amount?: true
-    escrowReleased?: true
-    disputeReason?: true
-    disputedAt?: true
-    disputeResolved?: true
-    adminNote?: true
     createdAt?: true
     updatedAt?: true
-    shippingProof?: true
+    disputeReason?: true
+    escrowReleased?: true
+    price?: true
+    status?: true
+    amount?: true
+    adminNote?: true
+    disputeResolved?: true
+    disputedAt?: true
     shippingTrackingNumber?: true
-    paymentProof?: true
-    paymentTransactionNumber?: true
     deliveryConfirmed?: true
-    shippedAt?: true
     deliveryConfirmedAt?: true
     paidAt?: true
+    shippedAt?: true
     shippingDeadline?: true
-    receivedAt?: true
-    autoReleased?: true
+    shippingProof?: true
+    paymentProof?: true
+    paymentTransactionNumber?: true
     autoConfirmationDeadline?: true
+    autoReleased?: true
+    receivedAt?: true
     statusUpdatedAt?: true
     timeoutAt?: true
   }
 
   export type TransactionCountAggregateInputType = {
     id?: true
-    status?: true
-    price?: true
     buyerId?: true
     sellerId?: true
-    amount?: true
-    escrowReleased?: true
-    disputeReason?: true
-    disputedAt?: true
-    disputeResolved?: true
-    adminNote?: true
     createdAt?: true
     updatedAt?: true
-    shippingProof?: true
+    disputeReason?: true
+    escrowReleased?: true
+    price?: true
+    status?: true
+    amount?: true
+    adminNote?: true
+    disputeResolved?: true
+    disputedAt?: true
     shippingTrackingNumber?: true
-    paymentProof?: true
-    paymentTransactionNumber?: true
     deliveryConfirmed?: true
-    shippedAt?: true
     deliveryConfirmedAt?: true
     paidAt?: true
+    shippedAt?: true
     shippingDeadline?: true
-    receivedAt?: true
-    autoReleased?: true
+    shippingProof?: true
+    paymentProof?: true
+    paymentTransactionNumber?: true
     autoConfirmationDeadline?: true
+    autoReleased?: true
+    receivedAt?: true
     statusUpdatedAt?: true
     timeoutAt?: true
     _all?: true
@@ -4010,30 +4023,30 @@ export namespace Prisma {
 
   export type TransactionGroupByOutputType = {
     id: number
-    status: $Enums.TransactionStatus
-    price: number
     buyerId: number
     sellerId: number
-    amount: number
-    escrowReleased: boolean
-    disputeReason: string | null
-    disputedAt: Date | null
-    disputeResolved: boolean
-    adminNote: string | null
     createdAt: Date
     updatedAt: Date
-    shippingProof: string | null
+    disputeReason: string | null
+    escrowReleased: boolean
+    price: number
+    status: $Enums.TransactionStatus
+    amount: number
+    adminNote: string | null
+    disputeResolved: boolean
+    disputedAt: Date | null
     shippingTrackingNumber: string | null
-    paymentProof: string | null
-    paymentTransactionNumber: string | null
     deliveryConfirmed: boolean
-    shippedAt: Date | null
     deliveryConfirmedAt: Date | null
     paidAt: Date | null
+    shippedAt: Date | null
     shippingDeadline: Date | null
-    receivedAt: Date | null
-    autoReleased: boolean
+    shippingProof: string | null
+    paymentProof: string | null
+    paymentTransactionNumber: string | null
     autoConfirmationDeadline: Date | null
+    autoReleased: boolean
+    receivedAt: Date | null
     statusUpdatedAt: Date
     timeoutAt: Date | null
     _count: TransactionCountAggregateOutputType | null
@@ -4059,63 +4072,63 @@ export namespace Prisma {
 
   export type TransactionSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    status?: boolean
-    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
-    amount?: boolean
-    escrowReleased?: boolean
-    disputeReason?: boolean
-    disputedAt?: boolean
-    disputeResolved?: boolean
-    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    shippingProof?: boolean
+    disputeReason?: boolean
+    escrowReleased?: boolean
+    price?: boolean
+    status?: boolean
+    amount?: boolean
+    adminNote?: boolean
+    disputeResolved?: boolean
+    disputedAt?: boolean
     shippingTrackingNumber?: boolean
-    paymentProof?: boolean
-    paymentTransactionNumber?: boolean
     deliveryConfirmed?: boolean
-    shippedAt?: boolean
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
+    shippedAt?: boolean
     shippingDeadline?: boolean
-    receivedAt?: boolean
-    autoReleased?: boolean
+    shippingProof?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
     autoConfirmationDeadline?: boolean
+    autoReleased?: boolean
+    receivedAt?: boolean
     statusUpdatedAt?: boolean
     timeoutAt?: boolean
+    rating?: boolean | Transaction$ratingArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
-    rating?: boolean | Transaction$ratingArgs<ExtArgs>
   }, ExtArgs["result"]["transaction"]>
 
   export type TransactionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    status?: boolean
-    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
-    amount?: boolean
-    escrowReleased?: boolean
-    disputeReason?: boolean
-    disputedAt?: boolean
-    disputeResolved?: boolean
-    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    shippingProof?: boolean
+    disputeReason?: boolean
+    escrowReleased?: boolean
+    price?: boolean
+    status?: boolean
+    amount?: boolean
+    adminNote?: boolean
+    disputeResolved?: boolean
+    disputedAt?: boolean
     shippingTrackingNumber?: boolean
-    paymentProof?: boolean
-    paymentTransactionNumber?: boolean
     deliveryConfirmed?: boolean
-    shippedAt?: boolean
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
+    shippedAt?: boolean
     shippingDeadline?: boolean
-    receivedAt?: boolean
-    autoReleased?: boolean
+    shippingProof?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
     autoConfirmationDeadline?: boolean
+    autoReleased?: boolean
+    receivedAt?: boolean
     statusUpdatedAt?: boolean
     timeoutAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -4124,30 +4137,30 @@ export namespace Prisma {
 
   export type TransactionSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    status?: boolean
-    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
-    amount?: boolean
-    escrowReleased?: boolean
-    disputeReason?: boolean
-    disputedAt?: boolean
-    disputeResolved?: boolean
-    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    shippingProof?: boolean
+    disputeReason?: boolean
+    escrowReleased?: boolean
+    price?: boolean
+    status?: boolean
+    amount?: boolean
+    adminNote?: boolean
+    disputeResolved?: boolean
+    disputedAt?: boolean
     shippingTrackingNumber?: boolean
-    paymentProof?: boolean
-    paymentTransactionNumber?: boolean
     deliveryConfirmed?: boolean
-    shippedAt?: boolean
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
+    shippedAt?: boolean
     shippingDeadline?: boolean
-    receivedAt?: boolean
-    autoReleased?: boolean
+    shippingProof?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
     autoConfirmationDeadline?: boolean
+    autoReleased?: boolean
+    receivedAt?: boolean
     statusUpdatedAt?: boolean
     timeoutAt?: boolean
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -4156,39 +4169,39 @@ export namespace Prisma {
 
   export type TransactionSelectScalar = {
     id?: boolean
-    status?: boolean
-    price?: boolean
     buyerId?: boolean
     sellerId?: boolean
-    amount?: boolean
-    escrowReleased?: boolean
-    disputeReason?: boolean
-    disputedAt?: boolean
-    disputeResolved?: boolean
-    adminNote?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    shippingProof?: boolean
+    disputeReason?: boolean
+    escrowReleased?: boolean
+    price?: boolean
+    status?: boolean
+    amount?: boolean
+    adminNote?: boolean
+    disputeResolved?: boolean
+    disputedAt?: boolean
     shippingTrackingNumber?: boolean
-    paymentProof?: boolean
-    paymentTransactionNumber?: boolean
     deliveryConfirmed?: boolean
-    shippedAt?: boolean
     deliveryConfirmedAt?: boolean
     paidAt?: boolean
+    shippedAt?: boolean
     shippingDeadline?: boolean
-    receivedAt?: boolean
-    autoReleased?: boolean
+    shippingProof?: boolean
+    paymentProof?: boolean
+    paymentTransactionNumber?: boolean
     autoConfirmationDeadline?: boolean
+    autoReleased?: boolean
+    receivedAt?: boolean
     statusUpdatedAt?: boolean
     timeoutAt?: boolean
   }
 
-  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "status" | "price" | "buyerId" | "sellerId" | "amount" | "escrowReleased" | "disputeReason" | "disputedAt" | "disputeResolved" | "adminNote" | "createdAt" | "updatedAt" | "shippingProof" | "shippingTrackingNumber" | "paymentProof" | "paymentTransactionNumber" | "deliveryConfirmed" | "shippedAt" | "deliveryConfirmedAt" | "paidAt" | "shippingDeadline" | "receivedAt" | "autoReleased" | "autoConfirmationDeadline" | "statusUpdatedAt" | "timeoutAt", ExtArgs["result"]["transaction"]>
+  export type TransactionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "buyerId" | "sellerId" | "createdAt" | "updatedAt" | "disputeReason" | "escrowReleased" | "price" | "status" | "amount" | "adminNote" | "disputeResolved" | "disputedAt" | "shippingTrackingNumber" | "deliveryConfirmed" | "deliveryConfirmedAt" | "paidAt" | "shippedAt" | "shippingDeadline" | "shippingProof" | "paymentProof" | "paymentTransactionNumber" | "autoConfirmationDeadline" | "autoReleased" | "receivedAt" | "statusUpdatedAt" | "timeoutAt", ExtArgs["result"]["transaction"]>
   export type TransactionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    rating?: boolean | Transaction$ratingArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
-    rating?: boolean | Transaction$ratingArgs<ExtArgs>
   }
   export type TransactionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyer?: boolean | UserDefaultArgs<ExtArgs>
@@ -4202,36 +4215,36 @@ export namespace Prisma {
   export type $TransactionPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Transaction"
     objects: {
+      rating: Prisma.$RatingPayload<ExtArgs> | null
       buyer: Prisma.$UserPayload<ExtArgs>
       seller: Prisma.$UserPayload<ExtArgs>
-      rating: Prisma.$RatingPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
-      status: $Enums.TransactionStatus
-      price: number
       buyerId: number
       sellerId: number
-      amount: number
-      escrowReleased: boolean
-      disputeReason: string | null
-      disputedAt: Date | null
-      disputeResolved: boolean
-      adminNote: string | null
       createdAt: Date
       updatedAt: Date
-      shippingProof: string | null
+      disputeReason: string | null
+      escrowReleased: boolean
+      price: number
+      status: $Enums.TransactionStatus
+      amount: number
+      adminNote: string | null
+      disputeResolved: boolean
+      disputedAt: Date | null
       shippingTrackingNumber: string | null
-      paymentProof: string | null
-      paymentTransactionNumber: string | null
       deliveryConfirmed: boolean
-      shippedAt: Date | null
       deliveryConfirmedAt: Date | null
       paidAt: Date | null
+      shippedAt: Date | null
       shippingDeadline: Date | null
-      receivedAt: Date | null
-      autoReleased: boolean
+      shippingProof: string | null
+      paymentProof: string | null
+      paymentTransactionNumber: string | null
       autoConfirmationDeadline: Date | null
+      autoReleased: boolean
+      receivedAt: Date | null
       statusUpdatedAt: Date
       timeoutAt: Date | null
     }, ExtArgs["result"]["transaction"]>
@@ -4628,9 +4641,9 @@ export namespace Prisma {
    */
   export interface Prisma__TransactionClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    rating<T extends Transaction$ratingArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$ratingArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-    rating<T extends Transaction$ratingArgs<ExtArgs> = {}>(args?: Subset<T, Transaction$ratingArgs<ExtArgs>>): Prisma__RatingClient<$Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4661,30 +4674,30 @@ export namespace Prisma {
    */
   interface TransactionFieldRefs {
     readonly id: FieldRef<"Transaction", 'Int'>
-    readonly status: FieldRef<"Transaction", 'TransactionStatus'>
-    readonly price: FieldRef<"Transaction", 'Float'>
     readonly buyerId: FieldRef<"Transaction", 'Int'>
     readonly sellerId: FieldRef<"Transaction", 'Int'>
-    readonly amount: FieldRef<"Transaction", 'Float'>
-    readonly escrowReleased: FieldRef<"Transaction", 'Boolean'>
-    readonly disputeReason: FieldRef<"Transaction", 'String'>
-    readonly disputedAt: FieldRef<"Transaction", 'DateTime'>
-    readonly disputeResolved: FieldRef<"Transaction", 'Boolean'>
-    readonly adminNote: FieldRef<"Transaction", 'String'>
     readonly createdAt: FieldRef<"Transaction", 'DateTime'>
     readonly updatedAt: FieldRef<"Transaction", 'DateTime'>
-    readonly shippingProof: FieldRef<"Transaction", 'String'>
+    readonly disputeReason: FieldRef<"Transaction", 'String'>
+    readonly escrowReleased: FieldRef<"Transaction", 'Boolean'>
+    readonly price: FieldRef<"Transaction", 'Float'>
+    readonly status: FieldRef<"Transaction", 'TransactionStatus'>
+    readonly amount: FieldRef<"Transaction", 'Float'>
+    readonly adminNote: FieldRef<"Transaction", 'String'>
+    readonly disputeResolved: FieldRef<"Transaction", 'Boolean'>
+    readonly disputedAt: FieldRef<"Transaction", 'DateTime'>
     readonly shippingTrackingNumber: FieldRef<"Transaction", 'String'>
-    readonly paymentProof: FieldRef<"Transaction", 'String'>
-    readonly paymentTransactionNumber: FieldRef<"Transaction", 'String'>
     readonly deliveryConfirmed: FieldRef<"Transaction", 'Boolean'>
-    readonly shippedAt: FieldRef<"Transaction", 'DateTime'>
     readonly deliveryConfirmedAt: FieldRef<"Transaction", 'DateTime'>
     readonly paidAt: FieldRef<"Transaction", 'DateTime'>
+    readonly shippedAt: FieldRef<"Transaction", 'DateTime'>
     readonly shippingDeadline: FieldRef<"Transaction", 'DateTime'>
-    readonly receivedAt: FieldRef<"Transaction", 'DateTime'>
-    readonly autoReleased: FieldRef<"Transaction", 'Boolean'>
+    readonly shippingProof: FieldRef<"Transaction", 'String'>
+    readonly paymentProof: FieldRef<"Transaction", 'String'>
+    readonly paymentTransactionNumber: FieldRef<"Transaction", 'String'>
     readonly autoConfirmationDeadline: FieldRef<"Transaction", 'DateTime'>
+    readonly autoReleased: FieldRef<"Transaction", 'Boolean'>
+    readonly receivedAt: FieldRef<"Transaction", 'DateTime'>
     readonly statusUpdatedAt: FieldRef<"Transaction", 'DateTime'>
     readonly timeoutAt: FieldRef<"Transaction", 'DateTime'>
   }
@@ -5350,9 +5363,9 @@ export namespace Prisma {
     score?: boolean
     comment?: boolean
     createdAt?: boolean
-    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rating"]>
 
   export type RatingSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5363,9 +5376,9 @@ export namespace Prisma {
     score?: boolean
     comment?: boolean
     createdAt?: boolean
-    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rating"]>
 
   export type RatingSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -5376,9 +5389,9 @@ export namespace Prisma {
     score?: boolean
     comment?: boolean
     createdAt?: boolean
-    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["rating"]>
 
   export type RatingSelectScalar = {
@@ -5393,27 +5406,27 @@ export namespace Prisma {
 
   export type RatingOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "transactionId" | "buyerId" | "sellerId" | "score" | "comment" | "createdAt", ExtArgs["result"]["rating"]>
   export type RatingInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
   }
   export type RatingIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
   }
   export type RatingIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
     buyer?: boolean | UserDefaultArgs<ExtArgs>
     seller?: boolean | UserDefaultArgs<ExtArgs>
+    transaction?: boolean | TransactionDefaultArgs<ExtArgs>
   }
 
   export type $RatingPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Rating"
     objects: {
-      transaction: Prisma.$TransactionPayload<ExtArgs>
       buyer: Prisma.$UserPayload<ExtArgs>
       seller: Prisma.$UserPayload<ExtArgs>
+      transaction: Prisma.$TransactionPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -5817,9 +5830,9 @@ export namespace Prisma {
    */
   export interface Prisma__RatingClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    transaction<T extends TransactionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TransactionDefaultArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     buyer<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     seller<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    transaction<T extends TransactionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, TransactionDefaultArgs<ExtArgs>>): Prisma__TransactionClient<$Result.GetResult<Prisma.$TransactionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6288,18 +6301,19 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     email: 'email',
+    createdAt: 'createdAt',
     password: 'password',
     phoneNumber: 'phoneNumber',
     profilePic: 'profilePic',
-    isAdmin: 'isAdmin',
-    canSell: 'canSell',
-    status: 'status',
-    validIdUrl: 'validIdUrl',
-    validIdNumber: 'validIdNumber',
-    transactionCount: 'transactionCount',
     rating: 'rating',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
+    status: 'status',
+    transactionCount: 'transactionCount',
+    updatedAt: 'updatedAt',
+    canSell: 'canSell',
+    isAdmin: 'isAdmin',
+    validIdNumber: 'validIdNumber',
+    validIdUrl: 'validIdUrl',
+    bio: 'bio'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -6319,30 +6333,30 @@ export namespace Prisma {
 
   export const TransactionScalarFieldEnum: {
     id: 'id',
-    status: 'status',
-    price: 'price',
     buyerId: 'buyerId',
     sellerId: 'sellerId',
-    amount: 'amount',
-    escrowReleased: 'escrowReleased',
-    disputeReason: 'disputeReason',
-    disputedAt: 'disputedAt',
-    disputeResolved: 'disputeResolved',
-    adminNote: 'adminNote',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    shippingProof: 'shippingProof',
+    disputeReason: 'disputeReason',
+    escrowReleased: 'escrowReleased',
+    price: 'price',
+    status: 'status',
+    amount: 'amount',
+    adminNote: 'adminNote',
+    disputeResolved: 'disputeResolved',
+    disputedAt: 'disputedAt',
     shippingTrackingNumber: 'shippingTrackingNumber',
-    paymentProof: 'paymentProof',
-    paymentTransactionNumber: 'paymentTransactionNumber',
     deliveryConfirmed: 'deliveryConfirmed',
-    shippedAt: 'shippedAt',
     deliveryConfirmedAt: 'deliveryConfirmedAt',
     paidAt: 'paidAt',
+    shippedAt: 'shippedAt',
     shippingDeadline: 'shippingDeadline',
-    receivedAt: 'receivedAt',
-    autoReleased: 'autoReleased',
+    shippingProof: 'shippingProof',
+    paymentProof: 'paymentProof',
+    paymentTransactionNumber: 'paymentTransactionNumber',
     autoConfirmationDeadline: 'autoConfirmationDeadline',
+    autoReleased: 'autoReleased',
+    receivedAt: 'receivedAt',
     statusUpdatedAt: 'statusUpdatedAt',
     timeoutAt: 'timeoutAt'
   };
@@ -6421,9 +6435,16 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Boolean'
+   * Reference to a field of type 'DateTime'
    */
-  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -6442,16 +6463,9 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'DateTime'
+   * Reference to a field of type 'Boolean'
    */
-  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-  /**
-   * Reference to a field of type 'DateTime[]'
-   */
-  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 
@@ -6479,46 +6493,48 @@ export namespace Prisma {
     id?: IntFilter<"User"> | number
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
     password?: StringFilter<"User"> | string
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
-    isAdmin?: BoolFilter<"User"> | boolean
-    canSell?: BoolFilter<"User"> | boolean
-    status?: StringFilter<"User"> | string
-    validIdUrl?: StringNullableFilter<"User"> | string | null
-    validIdNumber?: StringNullableFilter<"User"> | string | null
-    transactionCount?: IntFilter<"User"> | number
     rating?: FloatFilter<"User"> | number
-    createdAt?: DateTimeFilter<"User"> | Date | string
+    status?: StringFilter<"User"> | string
+    transactionCount?: IntFilter<"User"> | number
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    buyerTransactions?: TransactionListRelationFilter
-    sellerTransactions?: TransactionListRelationFilter
+    canSell?: BoolFilter<"User"> | boolean
+    isAdmin?: BoolFilter<"User"> | boolean
+    validIdNumber?: StringNullableFilter<"User"> | string | null
+    validIdUrl?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     buyerRatings?: RatingListRelationFilter
     sellerRatings?: RatingListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
+    buyerTransactions?: TransactionListRelationFilter
+    sellerTransactions?: TransactionListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    createdAt?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
-    isAdmin?: SortOrder
-    canSell?: SortOrder
-    status?: SortOrder
-    validIdUrl?: SortOrderInput | SortOrder
-    validIdNumber?: SortOrderInput | SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
-    createdAt?: SortOrder
+    status?: SortOrder
+    transactionCount?: SortOrder
     updatedAt?: SortOrder
-    buyerTransactions?: TransactionOrderByRelationAggregateInput
-    sellerTransactions?: TransactionOrderByRelationAggregateInput
+    canSell?: SortOrder
+    isAdmin?: SortOrder
+    validIdNumber?: SortOrderInput | SortOrder
+    validIdUrl?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     buyerRatings?: RatingOrderByRelationAggregateInput
     sellerRatings?: RatingOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
+    buyerTransactions?: TransactionOrderByRelationAggregateInput
+    sellerTransactions?: TransactionOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -6528,41 +6544,43 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
+    createdAt?: DateTimeFilter<"User"> | Date | string
     password?: StringFilter<"User"> | string
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
-    isAdmin?: BoolFilter<"User"> | boolean
-    canSell?: BoolFilter<"User"> | boolean
-    status?: StringFilter<"User"> | string
-    validIdUrl?: StringNullableFilter<"User"> | string | null
-    validIdNumber?: StringNullableFilter<"User"> | string | null
-    transactionCount?: IntFilter<"User"> | number
     rating?: FloatFilter<"User"> | number
-    createdAt?: DateTimeFilter<"User"> | Date | string
+    status?: StringFilter<"User"> | string
+    transactionCount?: IntFilter<"User"> | number
     updatedAt?: DateTimeFilter<"User"> | Date | string
-    buyerTransactions?: TransactionListRelationFilter
-    sellerTransactions?: TransactionListRelationFilter
+    canSell?: BoolFilter<"User"> | boolean
+    isAdmin?: BoolFilter<"User"> | boolean
+    validIdNumber?: StringNullableFilter<"User"> | string | null
+    validIdUrl?: StringNullableFilter<"User"> | string | null
+    bio?: StringNullableFilter<"User"> | string | null
     buyerRatings?: RatingListRelationFilter
     sellerRatings?: RatingListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
+    buyerTransactions?: TransactionListRelationFilter
+    sellerTransactions?: TransactionListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    createdAt?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
-    isAdmin?: SortOrder
-    canSell?: SortOrder
-    status?: SortOrder
-    validIdUrl?: SortOrderInput | SortOrder
-    validIdNumber?: SortOrderInput | SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
-    createdAt?: SortOrder
+    status?: SortOrder
+    transactionCount?: SortOrder
     updatedAt?: SortOrder
+    canSell?: SortOrder
+    isAdmin?: SortOrder
+    validIdNumber?: SortOrderInput | SortOrder
+    validIdUrl?: SortOrderInput | SortOrder
+    bio?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -6577,18 +6595,19 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"User"> | number
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     password?: StringWithAggregatesFilter<"User"> | string
     phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     profilePic?: StringNullableWithAggregatesFilter<"User"> | string | null
-    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
-    canSell?: BoolWithAggregatesFilter<"User"> | boolean
-    status?: StringWithAggregatesFilter<"User"> | string
-    validIdUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
-    validIdNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
-    transactionCount?: IntWithAggregatesFilter<"User"> | number
     rating?: FloatWithAggregatesFilter<"User"> | number
-    createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    status?: StringWithAggregatesFilter<"User"> | string
+    transactionCount?: IntWithAggregatesFilter<"User"> | number
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
+    canSell?: BoolWithAggregatesFilter<"User"> | boolean
+    isAdmin?: BoolWithAggregatesFilter<"User"> | boolean
+    validIdNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
+    validIdUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
+    bio?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type RefreshTokenWhereInput = {
@@ -6658,68 +6677,68 @@ export namespace Prisma {
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
     id?: IntFilter<"Transaction"> | number
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
-    price?: FloatFilter<"Transaction"> | number
     buyerId?: IntFilter<"Transaction"> | number
     sellerId?: IntFilter<"Transaction"> | number
-    amount?: FloatFilter<"Transaction"> | number
-    escrowReleased?: BoolFilter<"Transaction"> | boolean
-    disputeReason?: StringNullableFilter<"Transaction"> | string | null
-    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    disputeResolved?: BoolFilter<"Transaction"> | boolean
-    adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    disputeReason?: StringNullableFilter<"Transaction"> | string | null
+    escrowReleased?: BoolFilter<"Transaction"> | boolean
+    price?: FloatFilter<"Transaction"> | number
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    amount?: FloatFilter<"Transaction"> | number
+    adminNote?: StringNullableFilter<"Transaction"> | string | null
+    disputeResolved?: BoolFilter<"Transaction"> | boolean
+    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
-    paymentProof?: StringNullableFilter<"Transaction"> | string | null
-    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
     deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
-    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    autoReleased?: BoolFilter<"Transaction"> | boolean
+    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
     autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolFilter<"Transaction"> | boolean
+    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     statusUpdatedAt?: DateTimeFilter<"Transaction"> | Date | string
     timeoutAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    rating?: XOR<RatingNullableScalarRelationFilter, RatingWhereInput> | null
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
-    rating?: XOR<RatingNullableScalarRelationFilter, RatingWhereInput> | null
   }
 
   export type TransactionOrderByWithRelationInput = {
     id?: SortOrder
-    status?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
-    amount?: SortOrder
-    escrowReleased?: SortOrder
-    disputeReason?: SortOrderInput | SortOrder
-    disputedAt?: SortOrderInput | SortOrder
-    disputeResolved?: SortOrder
-    adminNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    shippingProof?: SortOrderInput | SortOrder
+    disputeReason?: SortOrderInput | SortOrder
+    escrowReleased?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
+    disputeResolved?: SortOrder
+    disputedAt?: SortOrderInput | SortOrder
     shippingTrackingNumber?: SortOrderInput | SortOrder
-    paymentProof?: SortOrderInput | SortOrder
-    paymentTransactionNumber?: SortOrderInput | SortOrder
     deliveryConfirmed?: SortOrder
-    shippedAt?: SortOrderInput | SortOrder
     deliveryConfirmedAt?: SortOrderInput | SortOrder
     paidAt?: SortOrderInput | SortOrder
+    shippedAt?: SortOrderInput | SortOrder
     shippingDeadline?: SortOrderInput | SortOrder
-    receivedAt?: SortOrderInput | SortOrder
-    autoReleased?: SortOrder
+    shippingProof?: SortOrderInput | SortOrder
+    paymentProof?: SortOrderInput | SortOrder
+    paymentTransactionNumber?: SortOrderInput | SortOrder
     autoConfirmationDeadline?: SortOrderInput | SortOrder
+    autoReleased?: SortOrder
+    receivedAt?: SortOrderInput | SortOrder
     statusUpdatedAt?: SortOrder
     timeoutAt?: SortOrderInput | SortOrder
+    rating?: RatingOrderByWithRelationInput
     buyer?: UserOrderByWithRelationInput
     seller?: UserOrderByWithRelationInput
-    rating?: RatingOrderByWithRelationInput
   }
 
   export type TransactionWhereUniqueInput = Prisma.AtLeast<{
@@ -6727,63 +6746,63 @@ export namespace Prisma {
     AND?: TransactionWhereInput | TransactionWhereInput[]
     OR?: TransactionWhereInput[]
     NOT?: TransactionWhereInput | TransactionWhereInput[]
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
-    price?: FloatFilter<"Transaction"> | number
     buyerId?: IntFilter<"Transaction"> | number
     sellerId?: IntFilter<"Transaction"> | number
-    amount?: FloatFilter<"Transaction"> | number
-    escrowReleased?: BoolFilter<"Transaction"> | boolean
-    disputeReason?: StringNullableFilter<"Transaction"> | string | null
-    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    disputeResolved?: BoolFilter<"Transaction"> | boolean
-    adminNote?: StringNullableFilter<"Transaction"> | string | null
     createdAt?: DateTimeFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    disputeReason?: StringNullableFilter<"Transaction"> | string | null
+    escrowReleased?: BoolFilter<"Transaction"> | boolean
+    price?: FloatFilter<"Transaction"> | number
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    amount?: FloatFilter<"Transaction"> | number
+    adminNote?: StringNullableFilter<"Transaction"> | string | null
+    disputeResolved?: BoolFilter<"Transaction"> | boolean
+    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
-    paymentProof?: StringNullableFilter<"Transaction"> | string | null
-    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
     deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
-    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    autoReleased?: BoolFilter<"Transaction"> | boolean
+    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
     autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolFilter<"Transaction"> | boolean
+    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
     statusUpdatedAt?: DateTimeFilter<"Transaction"> | Date | string
     timeoutAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    rating?: XOR<RatingNullableScalarRelationFilter, RatingWhereInput> | null
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
-    rating?: XOR<RatingNullableScalarRelationFilter, RatingWhereInput> | null
   }, "id">
 
   export type TransactionOrderByWithAggregationInput = {
     id?: SortOrder
-    status?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
-    amount?: SortOrder
-    escrowReleased?: SortOrder
-    disputeReason?: SortOrderInput | SortOrder
-    disputedAt?: SortOrderInput | SortOrder
-    disputeResolved?: SortOrder
-    adminNote?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    shippingProof?: SortOrderInput | SortOrder
+    disputeReason?: SortOrderInput | SortOrder
+    escrowReleased?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    adminNote?: SortOrderInput | SortOrder
+    disputeResolved?: SortOrder
+    disputedAt?: SortOrderInput | SortOrder
     shippingTrackingNumber?: SortOrderInput | SortOrder
-    paymentProof?: SortOrderInput | SortOrder
-    paymentTransactionNumber?: SortOrderInput | SortOrder
     deliveryConfirmed?: SortOrder
-    shippedAt?: SortOrderInput | SortOrder
     deliveryConfirmedAt?: SortOrderInput | SortOrder
     paidAt?: SortOrderInput | SortOrder
+    shippedAt?: SortOrderInput | SortOrder
     shippingDeadline?: SortOrderInput | SortOrder
-    receivedAt?: SortOrderInput | SortOrder
-    autoReleased?: SortOrder
+    shippingProof?: SortOrderInput | SortOrder
+    paymentProof?: SortOrderInput | SortOrder
+    paymentTransactionNumber?: SortOrderInput | SortOrder
     autoConfirmationDeadline?: SortOrderInput | SortOrder
+    autoReleased?: SortOrder
+    receivedAt?: SortOrderInput | SortOrder
     statusUpdatedAt?: SortOrder
     timeoutAt?: SortOrderInput | SortOrder
     _count?: TransactionCountOrderByAggregateInput
@@ -6798,30 +6817,30 @@ export namespace Prisma {
     OR?: TransactionScalarWhereWithAggregatesInput[]
     NOT?: TransactionScalarWhereWithAggregatesInput | TransactionScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Transaction"> | number
-    status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
-    price?: FloatWithAggregatesFilter<"Transaction"> | number
     buyerId?: IntWithAggregatesFilter<"Transaction"> | number
     sellerId?: IntWithAggregatesFilter<"Transaction"> | number
-    amount?: FloatWithAggregatesFilter<"Transaction"> | number
-    escrowReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
-    disputeReason?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
-    disputedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
-    disputeResolved?: BoolWithAggregatesFilter<"Transaction"> | boolean
-    adminNote?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
-    shippingProof?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    disputeReason?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    escrowReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    price?: FloatWithAggregatesFilter<"Transaction"> | number
+    status?: EnumTransactionStatusWithAggregatesFilter<"Transaction"> | $Enums.TransactionStatus
+    amount?: FloatWithAggregatesFilter<"Transaction"> | number
+    adminNote?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    disputeResolved?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    disputedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     shippingTrackingNumber?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
-    paymentProof?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
-    paymentTransactionNumber?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     deliveryConfirmed?: BoolWithAggregatesFilter<"Transaction"> | boolean
-    shippedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     deliveryConfirmedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     paidAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    shippedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     shippingDeadline?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
-    receivedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
-    autoReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    shippingProof?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableWithAggregatesFilter<"Transaction"> | string | null
     autoConfirmationDeadline?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolWithAggregatesFilter<"Transaction"> | boolean
+    receivedAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
     statusUpdatedAt?: DateTimeWithAggregatesFilter<"Transaction"> | Date | string
     timeoutAt?: DateTimeNullableWithAggregatesFilter<"Transaction"> | Date | string | null
   }
@@ -6837,9 +6856,9 @@ export namespace Prisma {
     score?: IntFilter<"Rating"> | number
     comment?: StringNullableFilter<"Rating"> | string | null
     createdAt?: DateTimeFilter<"Rating"> | Date | string
-    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
   }
 
   export type RatingOrderByWithRelationInput = {
@@ -6850,9 +6869,9 @@ export namespace Prisma {
     score?: SortOrder
     comment?: SortOrderInput | SortOrder
     createdAt?: SortOrder
-    transaction?: TransactionOrderByWithRelationInput
     buyer?: UserOrderByWithRelationInput
     seller?: UserOrderByWithRelationInput
+    transaction?: TransactionOrderByWithRelationInput
   }
 
   export type RatingWhereUniqueInput = Prisma.AtLeast<{
@@ -6866,9 +6885,9 @@ export namespace Prisma {
     score?: IntFilter<"Rating"> | number
     comment?: StringNullableFilter<"Rating"> | string | null
     createdAt?: DateTimeFilter<"Rating"> | Date | string
-    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
     buyer?: XOR<UserScalarRelationFilter, UserWhereInput>
     seller?: XOR<UserScalarRelationFilter, UserWhereInput>
+    transaction?: XOR<TransactionScalarRelationFilter, TransactionWhereInput>
   }, "id" | "transactionId">
 
   export type RatingOrderByWithAggregationInput = {
@@ -6902,144 +6921,151 @@ export namespace Prisma {
   export type UserCreateInput = {
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateInput = {
     id?: number
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserCreateManyInput = {
     id?: number
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RefreshTokenCreateInput = {
@@ -7102,122 +7128,122 @@ export namespace Prisma {
   }
 
   export type TransactionCreateInput = {
-    status?: $Enums.TransactionStatus
-    price: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    shippingProof?: string | null
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
     shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
     deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
+    shippedAt?: Date | string | null
     shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
     autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
     statusUpdatedAt?: Date | string
     timeoutAt?: Date | string | null
+    rating?: RatingCreateNestedOneWithoutTransactionInput
     buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
     seller: UserCreateNestedOneWithoutSellerTransactionsInput
-    rating?: RatingCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUncheckedCreateInput = {
     id?: number
-    status?: $Enums.TransactionStatus
-    price: number
     buyerId: number
     sellerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    shippingProof?: string | null
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
     shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
     deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
+    shippedAt?: Date | string | null
     shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
     autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
     statusUpdatedAt?: Date | string
     timeoutAt?: Date | string | null
     rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
   }
 
   export type TransactionUpdateInput = {
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUpdateOneWithoutTransactionNestedInput
     buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
     seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
-    rating?: RatingUpdateOneWithoutTransactionNestedInput
   }
 
   export type TransactionUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
     buyerId?: IntFieldUpdateOperationsInput | number
     sellerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
@@ -7225,87 +7251,87 @@ export namespace Prisma {
 
   export type TransactionCreateManyInput = {
     id?: number
-    status?: $Enums.TransactionStatus
-    price: number
     buyerId: number
     sellerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
-    shippingProof?: string | null
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
     shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
     deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
     deliveryConfirmedAt?: Date | string | null
     paidAt?: Date | string | null
+    shippedAt?: Date | string | null
     shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
     autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
     statusUpdatedAt?: Date | string
     timeoutAt?: Date | string | null
   }
 
   export type TransactionUpdateManyMutationInput = {
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type TransactionUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
     buyerId?: IntFieldUpdateOperationsInput | number
     sellerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
     autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -7314,9 +7340,9 @@ export namespace Prisma {
     score: number
     comment?: string | null
     createdAt?: Date | string
-    transaction: TransactionCreateNestedOneWithoutRatingInput
     buyer: UserCreateNestedOneWithoutBuyerRatingsInput
     seller: UserCreateNestedOneWithoutSellerRatingsInput
+    transaction: TransactionCreateNestedOneWithoutRatingInput
   }
 
   export type RatingUncheckedCreateInput = {
@@ -7333,9 +7359,9 @@ export namespace Prisma {
     score?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
     buyer?: UserUpdateOneRequiredWithoutBuyerRatingsNestedInput
     seller?: UserUpdateOneRequiredWithoutSellerRatingsNestedInput
+    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
   }
 
   export type RatingUncheckedUpdateInput = {
@@ -7400,6 +7426,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type StringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7415,11 +7452,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type BoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type FloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -7431,21 +7463,9 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type DateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
-  }
-
-  export type TransactionListRelationFilter = {
-    every?: TransactionWhereInput
-    some?: TransactionWhereInput
-    none?: TransactionWhereInput
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type RatingListRelationFilter = {
@@ -7460,13 +7480,15 @@ export namespace Prisma {
     none?: RefreshTokenWhereInput
   }
 
+  export type TransactionListRelationFilter = {
+    every?: TransactionWhereInput
+    some?: TransactionWhereInput
+    none?: TransactionWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
-  }
-
-  export type TransactionOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type RatingOrderByRelationAggregateInput = {
@@ -7477,70 +7499,77 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type TransactionOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    createdAt?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
-    isAdmin?: SortOrder
-    canSell?: SortOrder
-    status?: SortOrder
-    validIdUrl?: SortOrder
-    validIdNumber?: SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
-    createdAt?: SortOrder
+    status?: SortOrder
+    transactionCount?: SortOrder
     updatedAt?: SortOrder
+    canSell?: SortOrder
+    isAdmin?: SortOrder
+    validIdNumber?: SortOrder
+    validIdUrl?: SortOrder
+    bio?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
     id?: SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
+    transactionCount?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    createdAt?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
-    isAdmin?: SortOrder
-    canSell?: SortOrder
-    status?: SortOrder
-    validIdUrl?: SortOrder
-    validIdNumber?: SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
-    createdAt?: SortOrder
+    status?: SortOrder
+    transactionCount?: SortOrder
     updatedAt?: SortOrder
+    canSell?: SortOrder
+    isAdmin?: SortOrder
+    validIdNumber?: SortOrder
+    validIdUrl?: SortOrder
+    bio?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     email?: SortOrder
+    createdAt?: SortOrder
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
-    isAdmin?: SortOrder
-    canSell?: SortOrder
-    status?: SortOrder
-    validIdUrl?: SortOrder
-    validIdNumber?: SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
-    createdAt?: SortOrder
+    status?: SortOrder
+    transactionCount?: SortOrder
     updatedAt?: SortOrder
+    canSell?: SortOrder
+    isAdmin?: SortOrder
+    validIdNumber?: SortOrder
+    validIdUrl?: SortOrder
+    bio?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
     id?: SortOrder
-    transactionCount?: SortOrder
     rating?: SortOrder
+    transactionCount?: SortOrder
   }
 
   export type IntWithAggregatesFilter<$PrismaModel = never> = {
@@ -7577,6 +7606,20 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -7595,14 +7638,6 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type FloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -7619,18 +7654,12 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type UserScalarRelationFilter = {
@@ -7700,107 +7729,107 @@ export namespace Prisma {
 
   export type TransactionCountOrderByAggregateInput = {
     id?: SortOrder
-    status?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
-    amount?: SortOrder
-    escrowReleased?: SortOrder
-    disputeReason?: SortOrder
-    disputedAt?: SortOrder
-    disputeResolved?: SortOrder
-    adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    shippingProof?: SortOrder
+    disputeReason?: SortOrder
+    escrowReleased?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    adminNote?: SortOrder
+    disputeResolved?: SortOrder
+    disputedAt?: SortOrder
     shippingTrackingNumber?: SortOrder
-    paymentProof?: SortOrder
-    paymentTransactionNumber?: SortOrder
     deliveryConfirmed?: SortOrder
-    shippedAt?: SortOrder
     deliveryConfirmedAt?: SortOrder
     paidAt?: SortOrder
+    shippedAt?: SortOrder
     shippingDeadline?: SortOrder
-    receivedAt?: SortOrder
-    autoReleased?: SortOrder
+    shippingProof?: SortOrder
+    paymentProof?: SortOrder
+    paymentTransactionNumber?: SortOrder
     autoConfirmationDeadline?: SortOrder
+    autoReleased?: SortOrder
+    receivedAt?: SortOrder
     statusUpdatedAt?: SortOrder
     timeoutAt?: SortOrder
   }
 
   export type TransactionAvgOrderByAggregateInput = {
     id?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    price?: SortOrder
     amount?: SortOrder
   }
 
   export type TransactionMaxOrderByAggregateInput = {
     id?: SortOrder
-    status?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
-    amount?: SortOrder
-    escrowReleased?: SortOrder
-    disputeReason?: SortOrder
-    disputedAt?: SortOrder
-    disputeResolved?: SortOrder
-    adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    shippingProof?: SortOrder
+    disputeReason?: SortOrder
+    escrowReleased?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    adminNote?: SortOrder
+    disputeResolved?: SortOrder
+    disputedAt?: SortOrder
     shippingTrackingNumber?: SortOrder
-    paymentProof?: SortOrder
-    paymentTransactionNumber?: SortOrder
     deliveryConfirmed?: SortOrder
-    shippedAt?: SortOrder
     deliveryConfirmedAt?: SortOrder
     paidAt?: SortOrder
+    shippedAt?: SortOrder
     shippingDeadline?: SortOrder
-    receivedAt?: SortOrder
-    autoReleased?: SortOrder
+    shippingProof?: SortOrder
+    paymentProof?: SortOrder
+    paymentTransactionNumber?: SortOrder
     autoConfirmationDeadline?: SortOrder
+    autoReleased?: SortOrder
+    receivedAt?: SortOrder
     statusUpdatedAt?: SortOrder
     timeoutAt?: SortOrder
   }
 
   export type TransactionMinOrderByAggregateInput = {
     id?: SortOrder
-    status?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
-    amount?: SortOrder
-    escrowReleased?: SortOrder
-    disputeReason?: SortOrder
-    disputedAt?: SortOrder
-    disputeResolved?: SortOrder
-    adminNote?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
-    shippingProof?: SortOrder
+    disputeReason?: SortOrder
+    escrowReleased?: SortOrder
+    price?: SortOrder
+    status?: SortOrder
+    amount?: SortOrder
+    adminNote?: SortOrder
+    disputeResolved?: SortOrder
+    disputedAt?: SortOrder
     shippingTrackingNumber?: SortOrder
-    paymentProof?: SortOrder
-    paymentTransactionNumber?: SortOrder
     deliveryConfirmed?: SortOrder
-    shippedAt?: SortOrder
     deliveryConfirmedAt?: SortOrder
     paidAt?: SortOrder
+    shippedAt?: SortOrder
     shippingDeadline?: SortOrder
-    receivedAt?: SortOrder
-    autoReleased?: SortOrder
+    shippingProof?: SortOrder
+    paymentProof?: SortOrder
+    paymentTransactionNumber?: SortOrder
     autoConfirmationDeadline?: SortOrder
+    autoReleased?: SortOrder
+    receivedAt?: SortOrder
     statusUpdatedAt?: SortOrder
     timeoutAt?: SortOrder
   }
 
   export type TransactionSumOrderByAggregateInput = {
     id?: SortOrder
-    price?: SortOrder
     buyerId?: SortOrder
     sellerId?: SortOrder
+    price?: SortOrder
     amount?: SortOrder
   }
 
@@ -7879,20 +7908,6 @@ export namespace Prisma {
     score?: SortOrder
   }
 
-  export type TransactionCreateNestedManyWithoutBuyerInput = {
-    create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
-    connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
-    createMany?: TransactionCreateManyBuyerInputEnvelope
-    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-  }
-
-  export type TransactionCreateNestedManyWithoutSellerInput = {
-    create?: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput> | TransactionCreateWithoutSellerInput[] | TransactionUncheckedCreateWithoutSellerInput[]
-    connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
-    createMany?: TransactionCreateManySellerInputEnvelope
-    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-  }
-
   export type RatingCreateNestedManyWithoutBuyerInput = {
     create?: XOR<RatingCreateWithoutBuyerInput, RatingUncheckedCreateWithoutBuyerInput> | RatingCreateWithoutBuyerInput[] | RatingUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: RatingCreateOrConnectWithoutBuyerInput | RatingCreateOrConnectWithoutBuyerInput[]
@@ -7914,14 +7929,14 @@ export namespace Prisma {
     connect?: RefreshTokenWhereUniqueInput | RefreshTokenWhereUniqueInput[]
   }
 
-  export type TransactionUncheckedCreateNestedManyWithoutBuyerInput = {
+  export type TransactionCreateNestedManyWithoutBuyerInput = {
     create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
     createMany?: TransactionCreateManyBuyerInputEnvelope
     connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
   }
 
-  export type TransactionUncheckedCreateNestedManyWithoutSellerInput = {
+  export type TransactionCreateNestedManyWithoutSellerInput = {
     create?: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput> | TransactionCreateWithoutSellerInput[] | TransactionUncheckedCreateWithoutSellerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
     createMany?: TransactionCreateManySellerInputEnvelope
@@ -7949,24 +7964,30 @@ export namespace Prisma {
     connect?: RefreshTokenWhereUniqueInput | RefreshTokenWhereUniqueInput[]
   }
 
+  export type TransactionUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
+    createMany?: TransactionCreateManyBuyerInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
+  export type TransactionUncheckedCreateNestedManyWithoutSellerInput = {
+    create?: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput> | TransactionCreateWithoutSellerInput[] | TransactionUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
+    createMany?: TransactionCreateManySellerInputEnvelope
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
 
+  export type DateTimeFieldUpdateOperationsInput = {
+    set?: Date | string
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
-  }
-
-  export type BoolFieldUpdateOperationsInput = {
-    set?: boolean
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type FloatFieldUpdateOperationsInput = {
@@ -7977,36 +7998,16 @@ export namespace Prisma {
     divide?: number
   }
 
-  export type DateTimeFieldUpdateOperationsInput = {
-    set?: Date | string
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
-  export type TransactionUpdateManyWithoutBuyerNestedInput = {
-    create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
-    connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
-    upsert?: TransactionUpsertWithWhereUniqueWithoutBuyerInput | TransactionUpsertWithWhereUniqueWithoutBuyerInput[]
-    createMany?: TransactionCreateManyBuyerInputEnvelope
-    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    update?: TransactionUpdateWithWhereUniqueWithoutBuyerInput | TransactionUpdateWithWhereUniqueWithoutBuyerInput[]
-    updateMany?: TransactionUpdateManyWithWhereWithoutBuyerInput | TransactionUpdateManyWithWhereWithoutBuyerInput[]
-    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
-  }
-
-  export type TransactionUpdateManyWithoutSellerNestedInput = {
-    create?: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput> | TransactionCreateWithoutSellerInput[] | TransactionUncheckedCreateWithoutSellerInput[]
-    connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
-    upsert?: TransactionUpsertWithWhereUniqueWithoutSellerInput | TransactionUpsertWithWhereUniqueWithoutSellerInput[]
-    createMany?: TransactionCreateManySellerInputEnvelope
-    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
-    update?: TransactionUpdateWithWhereUniqueWithoutSellerInput | TransactionUpdateWithWhereUniqueWithoutSellerInput[]
-    updateMany?: TransactionUpdateManyWithWhereWithoutSellerInput | TransactionUpdateManyWithWhereWithoutSellerInput[]
-    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type RatingUpdateManyWithoutBuyerNestedInput = {
@@ -8051,7 +8052,7 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
-  export type TransactionUncheckedUpdateManyWithoutBuyerNestedInput = {
+  export type TransactionUpdateManyWithoutBuyerNestedInput = {
     create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
     upsert?: TransactionUpsertWithWhereUniqueWithoutBuyerInput | TransactionUpsertWithWhereUniqueWithoutBuyerInput[]
@@ -8065,7 +8066,7 @@ export namespace Prisma {
     deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
   }
 
-  export type TransactionUncheckedUpdateManyWithoutSellerNestedInput = {
+  export type TransactionUpdateManyWithoutSellerNestedInput = {
     create?: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput> | TransactionCreateWithoutSellerInput[] | TransactionUncheckedCreateWithoutSellerInput[]
     connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
     upsert?: TransactionUpsertWithWhereUniqueWithoutSellerInput | TransactionUpsertWithWhereUniqueWithoutSellerInput[]
@@ -8121,6 +8122,34 @@ export namespace Prisma {
     deleteMany?: RefreshTokenScalarWhereInput | RefreshTokenScalarWhereInput[]
   }
 
+  export type TransactionUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput> | TransactionCreateWithoutBuyerInput[] | TransactionUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutBuyerInput | TransactionCreateOrConnectWithoutBuyerInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutBuyerInput | TransactionUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: TransactionCreateManyBuyerInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutBuyerInput | TransactionUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutBuyerInput | TransactionUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutSellerNestedInput = {
+    create?: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput> | TransactionCreateWithoutSellerInput[] | TransactionUncheckedCreateWithoutSellerInput[]
+    connectOrCreate?: TransactionCreateOrConnectWithoutSellerInput | TransactionCreateOrConnectWithoutSellerInput[]
+    upsert?: TransactionUpsertWithWhereUniqueWithoutSellerInput | TransactionUpsertWithWhereUniqueWithoutSellerInput[]
+    createMany?: TransactionCreateManySellerInputEnvelope
+    set?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    disconnect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    delete?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    connect?: TransactionWhereUniqueInput | TransactionWhereUniqueInput[]
+    update?: TransactionUpdateWithWhereUniqueWithoutSellerInput | TransactionUpdateWithWhereUniqueWithoutSellerInput[]
+    updateMany?: TransactionUpdateManyWithWhereWithoutSellerInput | TransactionUpdateManyWithWhereWithoutSellerInput[]
+    deleteMany?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutRefreshTokensInput = {
     create?: XOR<UserCreateWithoutRefreshTokensInput, UserUncheckedCreateWithoutRefreshTokensInput>
     connectOrCreate?: UserCreateOrConnectWithoutRefreshTokensInput
@@ -8135,6 +8164,12 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutRefreshTokensInput, UserUpdateWithoutRefreshTokensInput>, UserUncheckedUpdateWithoutRefreshTokensInput>
   }
 
+  export type RatingCreateNestedOneWithoutTransactionInput = {
+    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
+    connect?: RatingWhereUniqueInput
+  }
+
   export type UserCreateNestedOneWithoutBuyerTransactionsInput = {
     create?: XOR<UserCreateWithoutBuyerTransactionsInput, UserUncheckedCreateWithoutBuyerTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutBuyerTransactionsInput
@@ -8145,12 +8180,6 @@ export namespace Prisma {
     create?: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
     connectOrCreate?: UserCreateOrConnectWithoutSellerTransactionsInput
     connect?: UserWhereUniqueInput
-  }
-
-  export type RatingCreateNestedOneWithoutTransactionInput = {
-    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
-    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
-    connect?: RatingWhereUniqueInput
   }
 
   export type RatingUncheckedCreateNestedOneWithoutTransactionInput = {
@@ -8165,6 +8194,16 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type RatingUpdateOneWithoutTransactionNestedInput = {
+    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
+    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
+    upsert?: RatingUpsertWithoutTransactionInput
+    disconnect?: RatingWhereInput | boolean
+    delete?: RatingWhereInput | boolean
+    connect?: RatingWhereUniqueInput
+    update?: XOR<XOR<RatingUpdateToOneWithWhereWithoutTransactionInput, RatingUpdateWithoutTransactionInput>, RatingUncheckedUpdateWithoutTransactionInput>
   }
 
   export type UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput = {
@@ -8183,16 +8222,6 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSellerTransactionsInput, UserUpdateWithoutSellerTransactionsInput>, UserUncheckedUpdateWithoutSellerTransactionsInput>
   }
 
-  export type RatingUpdateOneWithoutTransactionNestedInput = {
-    create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
-    connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
-    upsert?: RatingUpsertWithoutTransactionInput
-    disconnect?: RatingWhereInput | boolean
-    delete?: RatingWhereInput | boolean
-    connect?: RatingWhereUniqueInput
-    update?: XOR<XOR<RatingUpdateToOneWithWhereWithoutTransactionInput, RatingUpdateWithoutTransactionInput>, RatingUncheckedUpdateWithoutTransactionInput>
-  }
-
   export type RatingUncheckedUpdateOneWithoutTransactionNestedInput = {
     create?: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
     connectOrCreate?: RatingCreateOrConnectWithoutTransactionInput
@@ -8201,12 +8230,6 @@ export namespace Prisma {
     delete?: RatingWhereInput | boolean
     connect?: RatingWhereUniqueInput
     update?: XOR<XOR<RatingUpdateToOneWithWhereWithoutTransactionInput, RatingUpdateWithoutTransactionInput>, RatingUncheckedUpdateWithoutTransactionInput>
-  }
-
-  export type TransactionCreateNestedOneWithoutRatingInput = {
-    create?: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
-    connectOrCreate?: TransactionCreateOrConnectWithoutRatingInput
-    connect?: TransactionWhereUniqueInput
   }
 
   export type UserCreateNestedOneWithoutBuyerRatingsInput = {
@@ -8221,12 +8244,10 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type TransactionUpdateOneRequiredWithoutRatingNestedInput = {
+  export type TransactionCreateNestedOneWithoutRatingInput = {
     create?: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
     connectOrCreate?: TransactionCreateOrConnectWithoutRatingInput
-    upsert?: TransactionUpsertWithoutRatingInput
     connect?: TransactionWhereUniqueInput
-    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutRatingInput, TransactionUpdateWithoutRatingInput>, TransactionUncheckedUpdateWithoutRatingInput>
   }
 
   export type UserUpdateOneRequiredWithoutBuyerRatingsNestedInput = {
@@ -8243,6 +8264,14 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutSellerRatingsInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutSellerRatingsInput, UserUpdateWithoutSellerRatingsInput>, UserUncheckedUpdateWithoutSellerRatingsInput>
+  }
+
+  export type TransactionUpdateOneRequiredWithoutRatingNestedInput = {
+    create?: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+    connectOrCreate?: TransactionCreateOrConnectWithoutRatingInput
+    upsert?: TransactionUpsertWithoutRatingInput
+    connect?: TransactionWhereUniqueInput
+    update?: XOR<XOR<TransactionUpdateToOneWithWhereWithoutRatingInput, TransactionUpdateWithoutRatingInput>, TransactionUncheckedUpdateWithoutRatingInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -8270,6 +8299,17 @@ export namespace Prisma {
     not?: NestedStringFilter<$PrismaModel> | string
   }
 
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  }
+
   export type NestedStringNullableFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -8284,11 +8324,6 @@ export namespace Prisma {
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedBoolFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolFilter<$PrismaModel> | boolean
-  }
-
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -8300,15 +8335,9 @@ export namespace Prisma {
     not?: NestedFloatFilter<$PrismaModel> | number
   }
 
-  export type NestedDateTimeFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
@@ -8344,6 +8373,20 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
+  }
+
   export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel> | null
     in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
@@ -8372,14 +8415,6 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
-    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedBoolFilter<$PrismaModel>
-    _max?: NestedBoolFilter<$PrismaModel>
-  }
-
   export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -8396,18 +8431,12 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
-    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
-    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
     _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedDateTimeFilter<$PrismaModel>
-    _max?: NestedDateTimeFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
   export type NestedEnumTransactionStatusFilter<$PrismaModel = never> = {
@@ -8452,150 +8481,12 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
-  export type TransactionCreateWithoutBuyerInput = {
-    status?: $Enums.TransactionStatus
-    price: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
-    seller: UserCreateNestedOneWithoutSellerTransactionsInput
-    rating?: RatingCreateNestedOneWithoutTransactionInput
-  }
-
-  export type TransactionUncheckedCreateWithoutBuyerInput = {
-    id?: number
-    status?: $Enums.TransactionStatus
-    price: number
-    sellerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
-    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
-  }
-
-  export type TransactionCreateOrConnectWithoutBuyerInput = {
-    where: TransactionWhereUniqueInput
-    create: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput>
-  }
-
-  export type TransactionCreateManyBuyerInputEnvelope = {
-    data: TransactionCreateManyBuyerInput | TransactionCreateManyBuyerInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type TransactionCreateWithoutSellerInput = {
-    status?: $Enums.TransactionStatus
-    price: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
-    buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
-    rating?: RatingCreateNestedOneWithoutTransactionInput
-  }
-
-  export type TransactionUncheckedCreateWithoutSellerInput = {
-    id?: number
-    status?: $Enums.TransactionStatus
-    price: number
-    buyerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
-    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
-  }
-
-  export type TransactionCreateOrConnectWithoutSellerInput = {
-    where: TransactionWhereUniqueInput
-    create: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput>
-  }
-
-  export type TransactionCreateManySellerInputEnvelope = {
-    data: TransactionCreateManySellerInput | TransactionCreateManySellerInput[]
-    skipDuplicates?: boolean
-  }
-
   export type RatingCreateWithoutBuyerInput = {
     score: number
     comment?: string | null
     createdAt?: Date | string
-    transaction: TransactionCreateNestedOneWithoutRatingInput
     seller: UserCreateNestedOneWithoutSellerRatingsInput
+    transaction: TransactionCreateNestedOneWithoutRatingInput
   }
 
   export type RatingUncheckedCreateWithoutBuyerInput = {
@@ -8621,8 +8512,8 @@ export namespace Prisma {
     score: number
     comment?: string | null
     createdAt?: Date | string
-    transaction: TransactionCreateNestedOneWithoutRatingInput
     buyer: UserCreateNestedOneWithoutBuyerRatingsInput
+    transaction: TransactionCreateNestedOneWithoutRatingInput
   }
 
   export type RatingUncheckedCreateWithoutSellerInput = {
@@ -8669,69 +8560,142 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
-  export type TransactionUpsertWithWhereUniqueWithoutBuyerInput = {
+  export type TransactionCreateWithoutBuyerInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
+    rating?: RatingCreateNestedOneWithoutTransactionInput
+    seller: UserCreateNestedOneWithoutSellerTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutBuyerInput = {
+    id?: number
+    sellerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
+    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
+  }
+
+  export type TransactionCreateOrConnectWithoutBuyerInput = {
     where: TransactionWhereUniqueInput
-    update: XOR<TransactionUpdateWithoutBuyerInput, TransactionUncheckedUpdateWithoutBuyerInput>
     create: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput>
   }
 
-  export type TransactionUpdateWithWhereUniqueWithoutBuyerInput = {
+  export type TransactionCreateManyBuyerInputEnvelope = {
+    data: TransactionCreateManyBuyerInput | TransactionCreateManyBuyerInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type TransactionCreateWithoutSellerInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
+    rating?: RatingCreateNestedOneWithoutTransactionInput
+    buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutSellerInput = {
+    id?: number
+    buyerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
+    rating?: RatingUncheckedCreateNestedOneWithoutTransactionInput
+  }
+
+  export type TransactionCreateOrConnectWithoutSellerInput = {
     where: TransactionWhereUniqueInput
-    data: XOR<TransactionUpdateWithoutBuyerInput, TransactionUncheckedUpdateWithoutBuyerInput>
-  }
-
-  export type TransactionUpdateManyWithWhereWithoutBuyerInput = {
-    where: TransactionScalarWhereInput
-    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutBuyerInput>
-  }
-
-  export type TransactionScalarWhereInput = {
-    AND?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
-    OR?: TransactionScalarWhereInput[]
-    NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
-    id?: IntFilter<"Transaction"> | number
-    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
-    price?: FloatFilter<"Transaction"> | number
-    buyerId?: IntFilter<"Transaction"> | number
-    sellerId?: IntFilter<"Transaction"> | number
-    amount?: FloatFilter<"Transaction"> | number
-    escrowReleased?: BoolFilter<"Transaction"> | boolean
-    disputeReason?: StringNullableFilter<"Transaction"> | string | null
-    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    disputeResolved?: BoolFilter<"Transaction"> | boolean
-    adminNote?: StringNullableFilter<"Transaction"> | string | null
-    createdAt?: DateTimeFilter<"Transaction"> | Date | string
-    updatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    shippingProof?: StringNullableFilter<"Transaction"> | string | null
-    shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
-    paymentProof?: StringNullableFilter<"Transaction"> | string | null
-    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
-    deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
-    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    autoReleased?: BoolFilter<"Transaction"> | boolean
-    autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-    statusUpdatedAt?: DateTimeFilter<"Transaction"> | Date | string
-    timeoutAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
-  }
-
-  export type TransactionUpsertWithWhereUniqueWithoutSellerInput = {
-    where: TransactionWhereUniqueInput
-    update: XOR<TransactionUpdateWithoutSellerInput, TransactionUncheckedUpdateWithoutSellerInput>
     create: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput>
   }
 
-  export type TransactionUpdateWithWhereUniqueWithoutSellerInput = {
-    where: TransactionWhereUniqueInput
-    data: XOR<TransactionUpdateWithoutSellerInput, TransactionUncheckedUpdateWithoutSellerInput>
-  }
-
-  export type TransactionUpdateManyWithWhereWithoutSellerInput = {
-    where: TransactionScalarWhereInput
-    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutSellerInput>
+  export type TransactionCreateManySellerInputEnvelope = {
+    data: TransactionCreateManySellerInput | TransactionCreateManySellerInput[]
+    skipDuplicates?: boolean
   }
 
   export type RatingUpsertWithWhereUniqueWithoutBuyerInput = {
@@ -8807,47 +8771,114 @@ export namespace Prisma {
     isRevoked?: BoolFilter<"RefreshToken"> | boolean
   }
 
+  export type TransactionUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: TransactionWhereUniqueInput
+    update: XOR<TransactionUpdateWithoutBuyerInput, TransactionUncheckedUpdateWithoutBuyerInput>
+    create: XOR<TransactionCreateWithoutBuyerInput, TransactionUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type TransactionUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: TransactionWhereUniqueInput
+    data: XOR<TransactionUpdateWithoutBuyerInput, TransactionUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type TransactionUpdateManyWithWhereWithoutBuyerInput = {
+    where: TransactionScalarWhereInput
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutBuyerInput>
+  }
+
+  export type TransactionScalarWhereInput = {
+    AND?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+    OR?: TransactionScalarWhereInput[]
+    NOT?: TransactionScalarWhereInput | TransactionScalarWhereInput[]
+    id?: IntFilter<"Transaction"> | number
+    buyerId?: IntFilter<"Transaction"> | number
+    sellerId?: IntFilter<"Transaction"> | number
+    createdAt?: DateTimeFilter<"Transaction"> | Date | string
+    updatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    disputeReason?: StringNullableFilter<"Transaction"> | string | null
+    escrowReleased?: BoolFilter<"Transaction"> | boolean
+    price?: FloatFilter<"Transaction"> | number
+    status?: EnumTransactionStatusFilter<"Transaction"> | $Enums.TransactionStatus
+    amount?: FloatFilter<"Transaction"> | number
+    adminNote?: StringNullableFilter<"Transaction"> | string | null
+    disputeResolved?: BoolFilter<"Transaction"> | boolean
+    disputedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippingTrackingNumber?: StringNullableFilter<"Transaction"> | string | null
+    deliveryConfirmed?: BoolFilter<"Transaction"> | boolean
+    deliveryConfirmedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    paidAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippingDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    shippingProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentProof?: StringNullableFilter<"Transaction"> | string | null
+    paymentTransactionNumber?: StringNullableFilter<"Transaction"> | string | null
+    autoConfirmationDeadline?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    autoReleased?: BoolFilter<"Transaction"> | boolean
+    receivedAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+    statusUpdatedAt?: DateTimeFilter<"Transaction"> | Date | string
+    timeoutAt?: DateTimeNullableFilter<"Transaction"> | Date | string | null
+  }
+
+  export type TransactionUpsertWithWhereUniqueWithoutSellerInput = {
+    where: TransactionWhereUniqueInput
+    update: XOR<TransactionUpdateWithoutSellerInput, TransactionUncheckedUpdateWithoutSellerInput>
+    create: XOR<TransactionCreateWithoutSellerInput, TransactionUncheckedCreateWithoutSellerInput>
+  }
+
+  export type TransactionUpdateWithWhereUniqueWithoutSellerInput = {
+    where: TransactionWhereUniqueInput
+    data: XOR<TransactionUpdateWithoutSellerInput, TransactionUncheckedUpdateWithoutSellerInput>
+  }
+
+  export type TransactionUpdateManyWithWhereWithoutSellerInput = {
+    where: TransactionScalarWhereInput
+    data: XOR<TransactionUpdateManyMutationInput, TransactionUncheckedUpdateManyWithoutSellerInput>
+  }
+
   export type UserCreateWithoutRefreshTokensInput = {
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutRefreshTokensInput = {
     id?: number
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutRefreshTokensInput = {
@@ -8869,140 +8900,46 @@ export namespace Prisma {
   export type UserUpdateWithoutRefreshTokensInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutRefreshTokensInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
-  }
-
-  export type UserCreateWithoutBuyerTransactionsInput = {
-    name: string
-    email: string
-    password: string
-    phoneNumber?: string | null
-    profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
-    rating?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
-    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
-    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
-    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutBuyerTransactionsInput = {
-    id?: number
-    name: string
-    email: string
-    password: string
-    phoneNumber?: string | null
-    profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
-    rating?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
-    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
-    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
-    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutBuyerTransactionsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutBuyerTransactionsInput, UserUncheckedCreateWithoutBuyerTransactionsInput>
-  }
-
-  export type UserCreateWithoutSellerTransactionsInput = {
-    name: string
-    email: string
-    password: string
-    phoneNumber?: string | null
-    profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
-    rating?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
-    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
-    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
-    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
-  }
-
-  export type UserUncheckedCreateWithoutSellerTransactionsInput = {
-    id?: number
-    name: string
-    email: string
-    password: string
-    phoneNumber?: string | null
-    profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
-    rating?: number
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
-    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
-    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
-    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
-  }
-
-  export type UserCreateOrConnectWithoutSellerTransactionsInput = {
-    where: UserWhereUniqueInput
-    create: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type RatingCreateWithoutTransactionInput = {
@@ -9027,112 +8964,104 @@ export namespace Prisma {
     create: XOR<RatingCreateWithoutTransactionInput, RatingUncheckedCreateWithoutTransactionInput>
   }
 
-  export type UserUpsertWithoutBuyerTransactionsInput = {
-    update: XOR<UserUpdateWithoutBuyerTransactionsInput, UserUncheckedUpdateWithoutBuyerTransactionsInput>
+  export type UserCreateWithoutBuyerTransactionsInput = {
+    name: string
+    email: string
+    createdAt?: Date | string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    rating?: number
+    status?: string
+    transactionCount?: number
+    updatedAt?: Date | string
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
+    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserUncheckedCreateWithoutBuyerTransactionsInput = {
+    id?: number
+    name: string
+    email: string
+    createdAt?: Date | string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    rating?: number
+    status?: string
+    transactionCount?: number
+    updatedAt?: Date | string
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
+    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+  }
+
+  export type UserCreateOrConnectWithoutBuyerTransactionsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutBuyerTransactionsInput, UserUncheckedCreateWithoutBuyerTransactionsInput>
-    where?: UserWhereInput
   }
 
-  export type UserUpdateToOneWithWhereWithoutBuyerTransactionsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutBuyerTransactionsInput, UserUncheckedUpdateWithoutBuyerTransactionsInput>
+  export type UserCreateWithoutSellerTransactionsInput = {
+    name: string
+    email: string
+    createdAt?: Date | string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    rating?: number
+    status?: string
+    transactionCount?: number
+    updatedAt?: Date | string
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
+    buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingCreateNestedManyWithoutSellerInput
+    refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
   }
 
-  export type UserUpdateWithoutBuyerTransactionsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
-    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
-    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
-    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+  export type UserUncheckedCreateWithoutSellerTransactionsInput = {
+    id?: number
+    name: string
+    email: string
+    createdAt?: Date | string
+    password: string
+    phoneNumber?: string | null
+    profilePic?: string | null
+    rating?: number
+    status?: string
+    transactionCount?: number
+    updatedAt?: Date | string
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
+    buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
+    sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
+    refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
   }
 
-  export type UserUncheckedUpdateWithoutBuyerTransactionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
-    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
-    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
-    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUpsertWithoutSellerTransactionsInput = {
-    update: XOR<UserUpdateWithoutSellerTransactionsInput, UserUncheckedUpdateWithoutSellerTransactionsInput>
+  export type UserCreateOrConnectWithoutSellerTransactionsInput = {
+    where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
-    where?: UserWhereInput
-  }
-
-  export type UserUpdateToOneWithWhereWithoutSellerTransactionsInput = {
-    where?: UserWhereInput
-    data: XOR<UserUpdateWithoutSellerTransactionsInput, UserUncheckedUpdateWithoutSellerTransactionsInput>
-  }
-
-  export type UserUpdateWithoutSellerTransactionsInput = {
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
-    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
-    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
-    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
-  }
-
-  export type UserUncheckedUpdateWithoutSellerTransactionsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    email?: StringFieldUpdateOperationsInput | string
-    password?: StringFieldUpdateOperationsInput | string
-    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
-    rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
-    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
-    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
-    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type RatingUpsertWithoutTransactionInput = {
@@ -9163,111 +9092,161 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type TransactionCreateWithoutRatingInput = {
-    status?: $Enums.TransactionStatus
-    price: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
-    buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
-    seller: UserCreateNestedOneWithoutSellerTransactionsInput
+  export type UserUpsertWithoutBuyerTransactionsInput = {
+    update: XOR<UserUpdateWithoutBuyerTransactionsInput, UserUncheckedUpdateWithoutBuyerTransactionsInput>
+    create: XOR<UserCreateWithoutBuyerTransactionsInput, UserUncheckedCreateWithoutBuyerTransactionsInput>
+    where?: UserWhereInput
   }
 
-  export type TransactionUncheckedCreateWithoutRatingInput = {
-    id?: number
-    status?: $Enums.TransactionStatus
-    price: number
-    buyerId: number
-    sellerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
+  export type UserUpdateToOneWithWhereWithoutBuyerTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBuyerTransactionsInput, UserUncheckedUpdateWithoutBuyerTransactionsInput>
   }
 
-  export type TransactionCreateOrConnectWithoutRatingInput = {
-    where: TransactionWhereUniqueInput
-    create: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+  export type UserUpdateWithoutBuyerTransactionsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBuyerTransactionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+  }
+
+  export type UserUpsertWithoutSellerTransactionsInput = {
+    update: XOR<UserUpdateWithoutSellerTransactionsInput, UserUncheckedUpdateWithoutSellerTransactionsInput>
+    create: XOR<UserCreateWithoutSellerTransactionsInput, UserUncheckedCreateWithoutSellerTransactionsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutSellerTransactionsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutSellerTransactionsInput, UserUncheckedUpdateWithoutSellerTransactionsInput>
+  }
+
+  export type UserUpdateWithoutSellerTransactionsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
+    refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutSellerTransactionsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    password?: StringFieldUpdateOperationsInput | string
+    phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    rating?: FloatFieldUpdateOperationsInput | number
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
+    refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type UserCreateWithoutBuyerRatingsInput = {
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutBuyerRatingsInput = {
     id?: number
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutBuyerRatingsInput = {
@@ -9278,44 +9257,46 @@ export namespace Prisma {
   export type UserCreateWithoutSellerRatingsInput = {
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionCreateNestedManyWithoutSellerInput
   }
 
   export type UserUncheckedCreateWithoutSellerRatingsInput = {
     id?: number
     name: string
     email: string
+    createdAt?: Date | string
     password: string
     phoneNumber?: string | null
     profilePic?: string | null
-    isAdmin?: boolean
-    canSell?: boolean
-    status?: string
-    validIdUrl?: string | null
-    validIdNumber?: string | null
-    transactionCount?: number
     rating?: number
-    createdAt?: Date | string
+    status?: string
+    transactionCount?: number
     updatedAt?: Date | string
-    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
-    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
+    canSell?: boolean
+    isAdmin?: boolean
+    validIdNumber?: string | null
+    validIdUrl?: string | null
+    bio?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
+    buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
+    sellerTransactions?: TransactionUncheckedCreateNestedManyWithoutSellerInput
   }
 
   export type UserCreateOrConnectWithoutSellerRatingsInput = {
@@ -9323,74 +9304,68 @@ export namespace Prisma {
     create: XOR<UserCreateWithoutSellerRatingsInput, UserUncheckedCreateWithoutSellerRatingsInput>
   }
 
-  export type TransactionUpsertWithoutRatingInput = {
-    update: XOR<TransactionUpdateWithoutRatingInput, TransactionUncheckedUpdateWithoutRatingInput>
+  export type TransactionCreateWithoutRatingInput = {
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
+    buyer: UserCreateNestedOneWithoutBuyerTransactionsInput
+    seller: UserCreateNestedOneWithoutSellerTransactionsInput
+  }
+
+  export type TransactionUncheckedCreateWithoutRatingInput = {
+    id?: number
+    buyerId: number
+    sellerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
+  }
+
+  export type TransactionCreateOrConnectWithoutRatingInput = {
+    where: TransactionWhereUniqueInput
     create: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
-    where?: TransactionWhereInput
-  }
-
-  export type TransactionUpdateToOneWithWhereWithoutRatingInput = {
-    where?: TransactionWhereInput
-    data: XOR<TransactionUpdateWithoutRatingInput, TransactionUncheckedUpdateWithoutRatingInput>
-  }
-
-  export type TransactionUpdateWithoutRatingInput = {
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
-    seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
-  }
-
-  export type TransactionUncheckedUpdateWithoutRatingInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    buyerId?: IntFieldUpdateOperationsInput | number
-    sellerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type UserUpsertWithoutBuyerRatingsInput = {
@@ -9407,44 +9382,46 @@ export namespace Prisma {
   export type UserUpdateWithoutBuyerRatingsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutBuyerRatingsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUpsertWithoutSellerRatingsInput = {
@@ -9461,102 +9438,116 @@ export namespace Prisma {
   export type UserUpdateWithoutSellerRatingsInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUpdateManyWithoutSellerNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSellerRatingsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     password?: StringFieldUpdateOperationsInput | string
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
-    isAdmin?: BoolFieldUpdateOperationsInput | boolean
-    canSell?: BoolFieldUpdateOperationsInput | boolean
-    status?: StringFieldUpdateOperationsInput | string
-    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    transactionCount?: IntFieldUpdateOperationsInput | number
     rating?: FloatFieldUpdateOperationsInput | number
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    status?: StringFieldUpdateOperationsInput | string
+    transactionCount?: IntFieldUpdateOperationsInput | number
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
-    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
+    canSell?: BoolFieldUpdateOperationsInput | boolean
+    isAdmin?: BoolFieldUpdateOperationsInput | boolean
+    validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    bio?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
+    buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
+    sellerTransactions?: TransactionUncheckedUpdateManyWithoutSellerNestedInput
   }
 
-  export type TransactionCreateManyBuyerInput = {
-    id?: number
-    status?: $Enums.TransactionStatus
-    price: number
-    sellerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
+  export type TransactionUpsertWithoutRatingInput = {
+    update: XOR<TransactionUpdateWithoutRatingInput, TransactionUncheckedUpdateWithoutRatingInput>
+    create: XOR<TransactionCreateWithoutRatingInput, TransactionUncheckedCreateWithoutRatingInput>
+    where?: TransactionWhereInput
   }
 
-  export type TransactionCreateManySellerInput = {
-    id?: number
-    status?: $Enums.TransactionStatus
-    price: number
-    buyerId: number
-    amount: number
-    escrowReleased?: boolean
-    disputeReason?: string | null
-    disputedAt?: Date | string | null
-    disputeResolved?: boolean
-    adminNote?: string | null
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    shippingProof?: string | null
-    shippingTrackingNumber?: string | null
-    paymentProof?: string | null
-    paymentTransactionNumber?: string | null
-    deliveryConfirmed?: boolean
-    shippedAt?: Date | string | null
-    deliveryConfirmedAt?: Date | string | null
-    paidAt?: Date | string | null
-    shippingDeadline?: Date | string | null
-    receivedAt?: Date | string | null
-    autoReleased?: boolean
-    autoConfirmationDeadline?: Date | string | null
-    statusUpdatedAt?: Date | string
-    timeoutAt?: Date | string | null
+  export type TransactionUpdateToOneWithWhereWithoutRatingInput = {
+    where?: TransactionWhereInput
+    data: XOR<TransactionUpdateWithoutRatingInput, TransactionUncheckedUpdateWithoutRatingInput>
+  }
+
+  export type TransactionUpdateWithoutRatingInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutRatingInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RatingCreateManyBuyerInput = {
@@ -9585,188 +9576,70 @@ export namespace Prisma {
     isRevoked?: boolean
   }
 
-  export type TransactionUpdateWithoutBuyerInput = {
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
-    rating?: RatingUpdateOneWithoutTransactionNestedInput
+  export type TransactionCreateManyBuyerInput = {
+    id?: number
+    sellerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
   }
 
-  export type TransactionUncheckedUpdateWithoutBuyerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    sellerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
-  }
-
-  export type TransactionUncheckedUpdateManyWithoutBuyerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    sellerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-  }
-
-  export type TransactionUpdateWithoutSellerInput = {
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
-    rating?: RatingUpdateOneWithoutTransactionNestedInput
-  }
-
-  export type TransactionUncheckedUpdateWithoutSellerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    buyerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
-  }
-
-  export type TransactionUncheckedUpdateManyWithoutSellerInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
-    price?: FloatFieldUpdateOperationsInput | number
-    buyerId?: IntFieldUpdateOperationsInput | number
-    amount?: FloatFieldUpdateOperationsInput | number
-    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
-    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
-    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
-    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
-    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
-    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
-    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
-    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    autoReleased?: BoolFieldUpdateOperationsInput | boolean
-    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  export type TransactionCreateManySellerInput = {
+    id?: number
+    buyerId: number
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    disputeReason?: string | null
+    escrowReleased?: boolean
+    price: number
+    status?: $Enums.TransactionStatus
+    amount: number
+    adminNote?: string | null
+    disputeResolved?: boolean
+    disputedAt?: Date | string | null
+    shippingTrackingNumber?: string | null
+    deliveryConfirmed?: boolean
+    deliveryConfirmedAt?: Date | string | null
+    paidAt?: Date | string | null
+    shippedAt?: Date | string | null
+    shippingDeadline?: Date | string | null
+    shippingProof?: string | null
+    paymentProof?: string | null
+    paymentTransactionNumber?: string | null
+    autoConfirmationDeadline?: Date | string | null
+    autoReleased?: boolean
+    receivedAt?: Date | string | null
+    statusUpdatedAt?: Date | string
+    timeoutAt?: Date | string | null
   }
 
   export type RatingUpdateWithoutBuyerInput = {
     score?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
     seller?: UserUpdateOneRequiredWithoutSellerRatingsNestedInput
+    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
   }
 
   export type RatingUncheckedUpdateWithoutBuyerInput = {
@@ -9791,8 +9664,8 @@ export namespace Prisma {
     score?: IntFieldUpdateOperationsInput | number
     comment?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
     buyer?: UserUpdateOneRequiredWithoutBuyerRatingsNestedInput
+    transaction?: TransactionUpdateOneRequiredWithoutRatingNestedInput
   }
 
   export type RatingUncheckedUpdateWithoutSellerInput = {
@@ -9834,6 +9707,182 @@ export namespace Prisma {
     issuedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     expiresAt?: DateTimeFieldUpdateOperationsInput | Date | string
     isRevoked?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type TransactionUpdateWithoutBuyerInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUpdateOneWithoutTransactionNestedInput
+    seller?: UserUpdateOneRequiredWithoutSellerTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutBuyerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutBuyerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    sellerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type TransactionUpdateWithoutSellerInput = {
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUpdateOneWithoutTransactionNestedInput
+    buyer?: UserUpdateOneRequiredWithoutBuyerTransactionsNestedInput
+  }
+
+  export type TransactionUncheckedUpdateWithoutSellerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    rating?: RatingUncheckedUpdateOneWithoutTransactionNestedInput
+  }
+
+  export type TransactionUncheckedUpdateManyWithoutSellerInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    buyerId?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    disputeReason?: NullableStringFieldUpdateOperationsInput | string | null
+    escrowReleased?: BoolFieldUpdateOperationsInput | boolean
+    price?: FloatFieldUpdateOperationsInput | number
+    status?: EnumTransactionStatusFieldUpdateOperationsInput | $Enums.TransactionStatus
+    amount?: FloatFieldUpdateOperationsInput | number
+    adminNote?: NullableStringFieldUpdateOperationsInput | string | null
+    disputeResolved?: BoolFieldUpdateOperationsInput | boolean
+    disputedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingTrackingNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    deliveryConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    deliveryConfirmedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    paidAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    shippingProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentProof?: NullableStringFieldUpdateOperationsInput | string | null
+    paymentTransactionNumber?: NullableStringFieldUpdateOperationsInput | string | null
+    autoConfirmationDeadline?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    autoReleased?: BoolFieldUpdateOperationsInput | boolean
+    receivedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    statusUpdatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    timeoutAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
 

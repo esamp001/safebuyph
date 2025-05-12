@@ -3,55 +3,68 @@ import React, { createContext, useContext, useState } from 'react';
 const FormContext = createContext();
 
 export function FormProvider({ children }) {
-  // Use a ref to store password instead of state
-  let _password = '';
-
-  const [formData, setFormData] = useState({
+  const [buyerFormData, setBuyerFormData] = useState({
     // Step 1
     email: '',
+    password: '',
+    // Step 2
+    name: '',
+    phoneNumber: '',
+    profilePic: '',
+    bio: '',
+    termsAccepted: false,
+  });
+
+  const [sellerFormData, setSellerFormData] = useState({
+    // Step 1
+    email: '',
+    password: '',
     // Step 2
     name: '',
     phoneNumber: '',
     profilePic: '',
     bio: '',
     // Step 3
-    address: '',
-    city: '',
-    // Step 4
+    verificationType: '',
+    idNumber: '',
+    sellingDescription: '',
     termsAccepted: false,
   });
 
-  const updateFormData = (data) => {
-    if ('password' in data) {
-      // Store password in ref instead of state
-      _password = data.password;
+  // Track which form is active
+  const [activeForm, setActiveForm] = useState('buyer'); // or seller
 
-      // Remove password from data to prevent it from being stored in state
-      const { password, ...restData } = data;
-      setFormData((prev) => ({
+  const updateFormData = (data) => {
+    if (activeForm === 'buyer') {
+      setBuyerFormData((prev) => ({
         ...prev,
-        ...restData,
+        ...data,
       }));
     } else {
-      setFormData((prev) => ({
+      setSellerFormData((prev) => ({
         ...prev,
         ...data,
       }));
     }
   };
 
-  // Only get password when needed for submission
-  const getFormData = () => ({
-    ...formData,
-    password: _password,
-  });
+  const switchForm = (type) => {
+    setActiveForm(type);
+  };
 
-  // Debug logs
-  console.log('Current password state:', _password);
-  console.log('Current formData state:', formData);
+  const getFormData = () => {
+    return activeForm === 'buyer' ? buyerFormData : sellerFormData;
+  };
 
   return (
-    <FormContext.Provider value={{ formData, updateFormData, getFormData }}>
+    <FormContext.Provider
+      value={{
+        formData: activeForm === 'buyer' ? buyerFormData : sellerFormData,
+        updateFormData,
+        getFormData,
+        switchForm,
+      }}
+    >
       {children}
     </FormContext.Provider>
   );

@@ -55,7 +55,7 @@ app.use(
 
 // CORS Configuration
 const corsOptions = {
-  origin: process.env.CORS_ORIGIN || 'http://localhost:3000', // Allow your frontend origin
+  origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow both possible Vite ports
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
   credentials: true, // Allow credentials (cookies, authorization headers)

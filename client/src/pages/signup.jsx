@@ -18,11 +18,14 @@ import { FormProvider, useForm } from '@/context/FormContext';
 function Signup() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState(null);
+  const { switchForm } = useForm();
   const totalSteps = 4;
   const navigate = useNavigate();
 
   const handleRoleSelection = (selectedRole) => {
     setRole(selectedRole);
+    switchForm(selectedRole);
+
     if (selectedRole === 'buyer') {
       setStep(2);
     } else if (selectedRole === 'seller') {
@@ -30,7 +33,10 @@ function Signup() {
     }
   };
 
-  const handleBack = () => setStep(1);
+  const handleBack = () => {
+    setStep(1);
+    setRole(null);
+  };
 
   const renderBuyerSteps = () => (
     <>
@@ -90,16 +96,10 @@ function Signup() {
 function FormStep1({ onNext }) {
   const { formData, updateFormData } = useForm();
   const [error, setError] = useState('');
-  const [passwordInput, setPasswordInput] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === 'password') {
-      setPasswordInput(value);
-      updateFormData({ [name]: value });
-    } else {
-      updateFormData({ [name]: value });
-    }
+    updateFormData({ [name]: value });
   };
 
   const validateForm = () => {
@@ -107,11 +107,11 @@ function FormStep1({ onNext }) {
       setError('Email is required');
       return false;
     }
-    if (!passwordInput) {
+    if (!formData.password) {
       setError('Password is required');
       return false;
     }
-    if (passwordInput.length < 8) {
+    if (formData.password.length < 8) {
       setError('Password must be at least 8 characters');
       return false;
     }
@@ -156,7 +156,7 @@ function FormStep1({ onNext }) {
             <Input
               type="password"
               name="password"
-              value={passwordInput}
+              value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
               className="bg-white"
@@ -191,12 +191,100 @@ function FormStep1({ onNext }) {
 
 function FormStep2({ onNext }) {
   const [previewImage, setPreviewImage] = useState(null);
+  const { formData, updateFormData, getFormData } = useForm();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData({ [name]: value });
+  };
+
+  const handleCheckboxChange = (checked) => {
+    updateFormData({ termsAccepted: checked });
+  };
+
+  const validateForm = () => {
+    if (!formData.name) {
+      setError('Name is required');
+      return false;
+    }
+    if (!formData.termsAccepted) {
+      setError('You must accept the terms and conditions');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!validateForm()) {
+      return;
+    }
+
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber || '',
+          profilePic: formData.profilePic || '',
+          role: 'buyer',
+          status: 'active',
+          bio: formData.bio || '',
+        }),
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error || 'Registration failed');
+      }
+
+      const result = await response.json();
+
+      // Store user data only (token is handled by HTTP-only cookie)
+      if (result.user) {
+        localStorage.setItem('user', JSON.stringify(result.user));
+      }
+
+      // If registration is successful, proceed to next step
+      onNext();
+    } catch (err) {
+      console.error('Registration error:', err);
+      setError(err.message || 'Failed to connect to the server. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      // Validate file size (max 2MB)
+      if (file.size > 2 * 1024 * 1024) {
+        setError('File size must be less than 2MB');
+        return;
+      }
+
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        setError('File must be an image');
+        return;
+      }
+
       const reader = new FileReader();
       reader.onloadend = () => {
+        updateFormData({ profilePic: reader.result });
         setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
@@ -204,7 +292,7 @@ function FormStep2({ onNext }) {
   };
 
   const handleRemovePhoto = () => {
-    setPreviewImage(null);
+    updateFormData({ profilePic: null });
   };
 
   return (
@@ -254,31 +342,56 @@ function FormStep2({ onNext }) {
       <Card className="w-full shadow-lg">
         <CardContent className="flex flex-col gap-3 p-6">
           <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
           <label className="text-sm font-medium">Name</label>
-          <Input type="text" placeholder="Enter your name" className="bg-white" />
+          <Input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+            className="bg-white"
+          />
           {/* Phone Number (optional) */}
           <label className="text-sm font-medium">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
-          <Input type="tel" placeholder="e.g. 09171234567" className="bg-white" />
+          <Input
+            type="tel"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="e.g. 09171234567"
+            className="bg-white"
+          />
           {/* Short Bio (optional) */}
           <label className="text-sm font-medium">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
             className="bg-white border rounded-md p-2"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
           <div className="flex items-center gap-2">
-            <Checkbox />
-            <p className="text-sm">I agee to SafeBuy PH's Terms and Privacy Policy</p>
+            <Checkbox
+              id="termsAccepted"
+              checked={formData.termsAccepted}
+              onCheckedChange={handleCheckboxChange}
+            />
+            <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
+              I agree to SafeBuy PH's Terms and Privacy Policy
+            </label>
           </div>
           <Button
             className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
-            onClick={onNext}
+            onClick={handleSubmit}
+            disabled={loading}
           >
-            Next
+            {loading ? 'Creating account...' : 'Submit'}
           </Button>
         </CardContent>
       </Card>
@@ -287,17 +400,23 @@ function FormStep2({ onNext }) {
 }
 
 function FormStep4({ onSubmit }) {
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    navigate('/dashboard');
+  };
+
   return (
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col items-center gap-4 p-6">
-        <h2 className="text-2xl font-bold text-[#0e1d54] mb-2">You're all set, {name}!</h2>
+        <h2 className="text-2xl font-bold text-[#0e1d54] mb-2">You're all set!</h2>
         <p className="text-center text-gray-600">
           Your account has been created. You can now start browsing deals and requesting secure
           transactions using SafeBuy PH.
         </p>
         <Button
           className="bg-cyan-500 text-white w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
-          onClick={onSubmit}
+          onClick={handleSubmit}
         >
           Go to Dashboard
         </Button>
