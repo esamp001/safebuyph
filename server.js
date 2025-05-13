@@ -67,9 +67,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 
 // Rest of your middleware
-app.use(bodyParser.json({ limit: '1mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '1mb' }));
-app.use(express.json({ limit: '1mb' }));
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
+app.use(express.json({ limit: '5mb' }));
 
 // Create rate limiter
 const authLimiter = rateLimit({

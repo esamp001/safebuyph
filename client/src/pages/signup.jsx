@@ -18,6 +18,7 @@ import { FormProvider, useForm } from '@/context/FormContext';
 function Signup() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState(null);
+  const [sellerStep1Error, setSellerStep1Error] = useState('');
   const { switchForm } = useForm();
   const totalSteps = 4;
   const navigate = useNavigate();
@@ -49,8 +50,20 @@ function Signup() {
 
   const renderSellerSteps = () => (
     <>
-      {step === 100 && <SellerStep1 onNext={() => setStep(101)} />}
-      {step === 101 && <SellerStep2 onNext={() => setStep(102)} />}
+      {step === 100 && (
+        <SellerStep1
+          onNext={() => setStep(101)}
+          error={sellerStep1Error}
+          setError={setSellerStep1Error}
+        />
+      )}
+      {step === 101 && (
+        <SellerStep2
+          onNext={() => setStep(102)}
+          setStep={setStep}
+          setSellerStep1Error={setSellerStep1Error}
+        />
+      )}
       {step === 102 && <SellerStep3 onNext={() => setStep(103)} />}
       {step === 103 && <SellerStep4 onNext={() => setStep(104)} />}
       {step === 104 && <SellerStep5 onSubmit={() => alert('Seller signup complete!')} />}
@@ -210,6 +223,10 @@ function FormStep2({ onNext }) {
       setError('Name is required');
       return false;
     }
+    if (formData.name.length < 2 || formData.name.length > 50) {
+      setError('Name must be between 2 and 50 characters');
+      return false;
+    }
     if (!formData.termsAccepted) {
       setError('You must accept the terms and conditions');
       return false;
@@ -271,7 +288,17 @@ function FormStep2({ onNext }) {
       }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
+        if (data.error && data.error.toLowerCase().includes('email')) {
+          setError('Email already registered');
+          setLoading(false);
+          return;
+        } else if (data.error && data.error.toLowerCase().includes('password')) {
+          setError('Password must be at least 8 characters');
+          setLoading(false);
+          return;
+        } else {
+          throw new Error(data.error || 'Registration failed');
+        }
       }
 
       onNext();
@@ -290,9 +317,8 @@ function FormStep2({ onNext }) {
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      // Validate file size (max 2MB)
-      if (file.size > 2 * 1024 * 1024) {
-        setError('File size must be less than 2MB');
+      if (file.size >= 5 * 1024 * 1024) {
+        setError('File size must be less than 5MB');
         return;
       }
 
@@ -447,9 +473,8 @@ function FormStep4({ onSubmit }) {
 
 // Seller Forms
 
-function SellerStep1({ onNext }) {
+function SellerStep1({ onNext, error, setError }) {
   const { formData, updateFormData } = useForm();
-  const [error, setError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -480,11 +505,7 @@ function SellerStep1({ onNext }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
-
-    if (!validateForm()) {
-      return;
-    }
-
+    if (!validateForm()) return;
     onNext();
   };
 
@@ -536,7 +557,7 @@ function SellerStep1({ onNext }) {
   );
 }
 
-function SellerStep2({ onNext }) {
+function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
   const { formData, updateFormData } = useForm();
   const [previewImage, setPreviewImage] = useState(formData.profilePic || null);
   const [error, setError] = useState('');
@@ -554,6 +575,10 @@ function SellerStep2({ onNext }) {
   const validateForm = () => {
     if (!formData.name) {
       setError('Name is required');
+      return false;
+    }
+    if (formData.name.length < 2 || formData.name.length > 50) {
+      setError('Name must be between 2 and 50 characters');
       return false;
     }
     if (!formData.profilePic) {
@@ -603,15 +628,6 @@ function SellerStep2({ onNext }) {
     }
 
     try {
-      const serverCheck = await fetch('http://localhost:3000/api/health', {
-        method: 'GET',
-        headers: { Accept: 'application/json' },
-      }).catch(() => null);
-
-      if (!serverCheck) {
-        throw new Error('Unable to connect to the server. Please make sure the server is running.');
-      }
-
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
@@ -638,7 +654,21 @@ function SellerStep2({ onNext }) {
       }
 
       if (!response.ok) {
-        throw new Error(data.error || 'Registration failed');
+        if (data.error && data.error.toLowerCase().includes('email')) {
+          setSellerStep1Error(data.error);
+          setStep(100);
+          setIsLoading(false);
+          return;
+        } else if (data.error && data.error.toLowerCase().includes('password')) {
+          setSellerStep1Error(data.error);
+          setStep(100);
+          setIsLoading(false);
+          return;
+        } else {
+          setError(data.error || 'Registration failed');
+        }
+        setIsLoading(false);
+        return;
       }
 
       onNext();
@@ -756,8 +786,7 @@ function SellerStep3({ onNext }) {
   const { formData, updateFormData } = useForm();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [previewImage, setPreviewImage] = useState(null);
-  const fileInputRef = useRef(null);
+  const [idPreview, setIdPreview] = useState(formData.idPhoto || null);
 
   const handleVerificationChange = (options, idNumbers) => {
     const selectedIdType = Object.keys(options).find((key) => options[key]);
@@ -792,6 +821,7 @@ function SellerStep3({ onNext }) {
       const reader = new FileReader();
       reader.onloadend = () => {
         updateFormData({ idPhoto: reader.result });
+        setIdPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
@@ -869,14 +899,41 @@ function SellerStep3({ onNext }) {
   return (
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col gap-3 p-6">
+        {idPreview && (
+          <div className="flex flex-col items-center gap-2">
+            <h2 className="text-2xl font-bold text-[#0e1d54]">Verify your Seller Profile</h2>
+            <p className="text-sm">
+              To ensure the authenticity of your account, we need to verify your seller profile.
+            </p>
+          </div>
+        )}
         <h2 className="text-2xl font-bold text-[#0e1d54]">Verify your Seller Profile</h2>
         {error && <p className="text-red-500 text-sm">{error}</p>}
         <p className="text-sm">
           To ensure the authenticity of your account, we need to verify your seller profile.
         </p>
         <label className="text-sm font-medium">Upload your Valid ID</label>
-        <input type="file" accept="image/*" onChange={handleIdPhotoChange} />
 
+        {idPreview && (
+          <div className="flex flex-col items-center gap-2 mt-2">
+            <img
+              src={idPreview}
+              alt="ID Preview"
+              className="w-44 h-30 object-contain border rounded shadow"
+            />
+            <button
+              type="button"
+              onClick={() => {
+                updateFormData({ idPhoto: null });
+                setIdPreview(null);
+              }}
+              className="text-xs text-red-500 underline mt-1"
+            >
+              Remove
+            </button>
+          </div>
+        )}
+        <input type="file" accept="image/*" onChange={handleIdPhotoChange} />
         <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
 
         <label className="text-sm font-medium">Description of what you're selling</label>
