@@ -27,9 +27,27 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
   });
 
   const handleOptionChange = (key, checked) => {
-    const newOptions = { ...options, [key]: checked };
+    // Uncheck all other options
+    const newOptions = {
+      driversLicense: false,
+      SSS: false,
+      nationalId: false,
+      passport: false,
+      [key]: checked,
+    };
     setOptions(newOptions);
-    onVerificationChange?.(newOptions, idNumbers);
+
+    // Clear other ID numbers when switching options
+    const newIdNumbers = {
+      driversLicense: '',
+      SSS: '',
+      nationalId: '',
+      passport: '',
+      [key]: idNumbers[key],
+    };
+    setIdNumbers(newIdNumbers);
+
+    onVerificationChange?.(newOptions, newIdNumbers);
   };
 
   const handleIdNumberChange = (key, value) => {
@@ -74,75 +92,54 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Driver's License Input */}
-      {options.driversLicense && (
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Driver's License Number</label>
-          <Input
-            type="text"
-            placeholder="Enter your driver's license number"
-            value={idNumbers.driversLicense}
-            onChange={(e) => handleIdNumberChange('driversLicense', e.target.value)}
-            className="w-full"
-            required
-          />
-          {!idNumbers.driversLicense && (
-            <p className="text-sm text-red-500">Driver's license number is required</p>
-          )}
-        </div>
-      )}
-
-      {/* SSS ID Input */}
-      {options.SSS && (
-        <div className="space-y-2">
-          <label className="text-sm font-medium">SSS ID Number</label>
-          <Input
-            type="text"
-            placeholder="Enter your SSS ID number"
-            value={idNumbers.SSS}
-            onChange={(e) => handleIdNumberChange('SSS', e.target.value)}
-            className="w-full"
-            required
-          />
-          {!idNumbers.SSS && <p className="text-sm text-red-500">SSS ID number is required</p>}
-        </div>
-      )}
-
-      {/* National ID Input */}
-      {options.nationalId && (
-        <div className="space-y-2">
-          <label className="text-sm font-medium">National ID Number</label>
-          <Input
-            type="text"
-            placeholder="Enter your national ID number"
-            value={idNumbers.nationalId}
-            onChange={(e) => handleIdNumberChange('nationalId', e.target.value)}
-            className="w-full"
-            required
-          />
-          {!idNumbers.nationalId && (
-            <p className="text-sm text-red-500">National ID number is required</p>
-          )}
-        </div>
-      )}
-
-      {/* Passport Input */}
-      {options.passport && (
-        <div className="space-y-2">
-          <label className="text-sm font-medium">Passport Number</label>
-          <Input
-            type="text"
-            placeholder="Enter your passport number"
-            value={idNumbers.passport}
-            onChange={(e) => handleIdNumberChange('passport', e.target.value)}
-            className="w-full"
-            required
-          />
-          {!idNumbers.passport && (
-            <p className="text-sm text-red-500">Passport number is required</p>
-          )}
-        </div>
-      )}
+      {/* Show input fields for selected ID */}
+      {Object.entries(options).map(([key, checked]) => {
+        if (checked) {
+          return (
+            <div key={key} className="space-y-2">
+              <label className="text-sm font-medium">
+                {key === 'driversLicense'
+                  ? "Driver's License"
+                  : key === 'SSS'
+                    ? 'SSS ID'
+                    : key === 'nationalId'
+                      ? 'National ID'
+                      : 'Passport'}{' '}
+                Number
+              </label>
+              <Input
+                type="text"
+                placeholder={`Enter your ${
+                  key === 'driversLicense'
+                    ? "driver's license"
+                    : key === 'SSS'
+                      ? 'SSS ID'
+                      : key === 'nationalId'
+                        ? 'national ID'
+                        : 'passport'
+                } number`}
+                value={idNumbers[key]}
+                onChange={(e) => handleIdNumberChange(key, e.target.value)}
+                className="w-full"
+                required
+              />
+              {!idNumbers[key] && (
+                <p className="text-sm text-red-500">
+                  {key === 'driversLicense'
+                    ? "Driver's license"
+                    : key === 'SSS'
+                      ? 'SSS ID'
+                      : key === 'nationalId'
+                        ? 'National ID'
+                        : 'Passport'}{' '}
+                  number is required
+                </p>
+              )}
+            </div>
+          );
+        }
+        return null;
+      })}
     </div>
   );
 }

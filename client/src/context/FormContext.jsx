@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const FormContext = createContext();
 
@@ -32,9 +32,10 @@ export function FormProvider({ children }) {
   });
 
   // Track which form is active
-  const [activeForm, setActiveForm] = useState('buyer'); // or seller
+  const [activeForm, setActiveForm] = useState('buyer');
 
   const updateFormData = (data) => {
+    console.log('Updating form data:', { activeForm, data }); // Debug log
     if (activeForm === 'buyer') {
       setBuyerFormData((prev) => ({
         ...prev,
@@ -49,11 +50,49 @@ export function FormProvider({ children }) {
   };
 
   const switchForm = (type) => {
-    setActiveForm(type);
+    console.log('Switching form to:', type); // Debug log
+    if (type === 'buyer' || type === 'seller') {
+      setActiveForm(type);
+    }
   };
+
+  // Debug effect to log state changes
+  useEffect(() => {
+    console.log('Form state updated:', {
+      activeForm,
+      buyerFormData,
+      sellerFormData,
+    });
+  }, [activeForm, buyerFormData, sellerFormData]);
 
   const getFormData = () => {
     return activeForm === 'buyer' ? buyerFormData : sellerFormData;
+  };
+
+  // Add a function to reset form data
+  const resetFormData = () => {
+    setBuyerFormData({
+      email: '',
+      password: '',
+      name: '',
+      phoneNumber: '',
+      profilePic: '',
+      bio: '',
+      termsAccepted: false,
+    });
+    setSellerFormData({
+      email: '',
+      password: '',
+      name: '',
+      phoneNumber: '',
+      profilePic: '',
+      bio: '',
+      verificationType: '',
+      idNumber: '',
+      sellingDescription: '',
+      termsAccepted: false,
+    });
+    setActiveForm('buyer');
   };
 
   return (
@@ -63,6 +102,8 @@ export function FormProvider({ children }) {
         updateFormData,
         getFormData,
         switchForm,
+        resetFormData,
+        activeForm,
       }}
     >
       {children}

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import SignupHeader from '@/components/ui/signupHeader';
 import { ButtonWithIcon } from '@/components/ui/buttonSignup';
 import { Progress } from '@/components/ui/progress';
@@ -10,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useNavigate } from 'react-router-dom';
+import { data, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenuCheckboxes } from '@/components/ui/DropdownMenuCheckboxes';
 import { FormProvider, useForm } from '@/context/FormContext';
@@ -36,6 +36,7 @@ function Signup() {
   const handleBack = () => {
     setStep(1);
     setRole(null);
+    resetFormData();
   };
 
   const renderBuyerSteps = () => (
@@ -57,39 +58,37 @@ function Signup() {
   );
 
   return (
-    <FormProvider>
-      <div className="min-h-screen bg-login-gradient">
-        <SignupHeader step={step} totalSteps={totalSteps} onBack={handleBack} />
-        <div className="max-w-xl mx-auto mt-8 p-4">
-          <Progress
-            value={
-              role === 'buyer' ? ((step - 1) / (totalSteps - 1)) * 100 : ((step - 100) / 2) * 100
-            }
-            className="w-full mb-6"
-          />
-          <div className="text-sm text-muted-foreground mb-5 text-center">
-            {role === 'buyer'
-              ? `Step ${step - 1} of ${totalSteps - 1}`
-              : role === 'seller'
-                ? `Step ${step - 99} of 3`
-                : ''}
-          </div>
-          {step === 1 && (
-            <>
-              <h1 className="text-3xl font-bold text-[#0e1d54] text-center mb-2">
-                Welcome to Safebuy PH!
-              </h1>
-              <p className="text-center text-gray-600 mb-6">
-                Let's start by knowing how you want to use the platform.
-              </p>
-              <ButtonWithIcon onSelect={handleRoleSelection} />
-            </>
-          )}
-          {role === 'buyer' && renderBuyerSteps()}
-          {role === 'seller' && renderSellerSteps()}
+    <div className="min-h-screen bg-login-gradient">
+      <SignupHeader step={step} totalSteps={totalSteps} onBack={handleBack} />
+      <div className="max-w-xl mx-auto mt-8 p-4">
+        <Progress
+          value={
+            role === 'buyer' ? ((step - 1) / (totalSteps - 1)) * 100 : ((step - 100) / 2) * 100
+          }
+          className="w-full mb-6"
+        />
+        <div className="text-sm text-muted-foreground mb-5 text-center">
+          {role === 'buyer'
+            ? `Step ${step - 1} of ${totalSteps - 1}`
+            : role === 'seller'
+              ? `Step ${step - 99} of 3`
+              : ''}
         </div>
+        {step === 1 && (
+          <>
+            <h1 className="text-3xl font-bold text-[#0e1d54] text-center mb-2">
+              Welcome to Safebuy PH!
+            </h1>
+            <p className="text-center text-gray-600 mb-6">
+              Let's start by knowing how you want to use the platform.
+            </p>
+            <ButtonWithIcon onSelect={handleRoleSelection} />
+          </>
+        )}
+        {role === 'buyer' && renderBuyerSteps()}
+        {role === 'seller' && renderSellerSteps()}
       </div>
-    </FormProvider>
+    </div>
   );
 }
 
@@ -99,6 +98,7 @@ function FormStep1({ onNext }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    console.log('Handling change:', { name, value }); // Debug log
     updateFormData({ [name]: value });
   };
 
@@ -220,48 +220,68 @@ function FormStep2({ onNext }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setLoading(true);
 
     if (!validateForm()) {
+      setLoading(false);
       return;
     }
 
     try {
-      setLoading(true);
+      // First check if the server is accessible
+      const serverCheck = await fetch('http://localhost:3000/api/health', {
+        method: 'GET',
+        headers: {
+          Accept: 'application/json',
+        },
+      }).catch(() => null);
+
+      if (!serverCheck) {
+        throw new Error('Unable to connect to the server. Please make sure the server is running.');
+      }
+
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          Accept: 'application/json',
         },
         credentials: 'include',
         body: JSON.stringify({
           name: formData.name,
           email: formData.email,
           password: formData.password,
-          phoneNumber: formData.phoneNumber || '',
-          profilePic: formData.profilePic || '',
+          phoneNumber: formData.phoneNumber,
+          profilePic: formData.profilePic,
+          bio: formData.bio,
           role: 'buyer',
-          status: 'active',
-          bio: formData.bio || '',
         }),
       });
 
+      // Log the response for debugging
+      console.log('Response status:', response.status);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        console.error('Failed to parse JSON:', jsonError);
+        throw new Error('Server returned invalid response format');
+      }
+
       if (!response.ok) {
-        const result = await response.json();
-        throw new Error(result.error || 'Registration failed');
+        throw new Error(data.error || 'Registration failed');
       }
 
-      const result = await response.json();
-
-      // Store user data only (token is handled by HTTP-only cookie)
-      if (result.user) {
-        localStorage.setItem('user', JSON.stringify(result.user));
-      }
-
-      // If registration is successful, proceed to next step
       onNext();
     } catch (err) {
       console.error('Registration error:', err);
-      setError(err.message || 'Failed to connect to the server. Please try again.');
+      if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please make sure the server is running.');
+      } else {
+        setError(err.message || 'Registration failed. Please try again.');
+      }
     } finally {
       setLoading(false);
     }
@@ -299,7 +319,7 @@ function FormStep2({ onNext }) {
     <div className="space-y-4">
       <Card>
         <CardContent className="flex flex-col gap-3 p-6">
-          <h1 className="text-sm font-medium">Add a profile picture (optional)</h1>
+          <h1 className="text-sm font-medium">Add a profile picture</h1>
           <Input
             id="avatar-upload"
             type="file"
@@ -391,7 +411,7 @@ function FormStep2({ onNext }) {
             onClick={handleSubmit}
             disabled={loading}
           >
-            {loading ? 'Creating account...' : 'Submit'}
+            {loading ? 'Registering...' : 'Next'}
           </Button>
         </CardContent>
       </Card>
@@ -428,14 +448,69 @@ function FormStep4({ onSubmit }) {
 // Seller Forms
 
 function SellerStep1({ onNext }) {
+  const { formData, updateFormData } = useForm();
+  const [error, setError] = useState('');
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    console.log('Handling change:', { name, value }); // Debug log
+    updateFormData({ [name]: value });
+  };
+
+  const validateForm = () => {
+    if (!formData.email) {
+      setError('Email is required');
+      return false;
+    }
+    if (!formData.password) {
+      setError('Password is required');
+      return false;
+    }
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return false;
+    }
+    if (!/\S+@\S+\.\S+/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+
+    if (!validateForm()) {
+      return;
+    }
+
+    onNext();
+  };
+
   return (
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col gap-3 p-6">
         <h2 className="text-2xl font-bold text-[#0e1d54]">Open your seller account now</h2>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <p className="text-sm">Email address</p>
-        <Input type="email" placeholder="Enter your email" className="bg-white" />
+        <Input
+          type="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          placeholder="Enter your email"
+          className="bg-white"
+        />
         <p className="text-sm">Password</p>
-        <Input type="password" placeholder="Enter your password" className="bg-white" />
+        <Input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleChange}
+          placeholder="Enter your password"
+          className="bg-white"
+        />
         <div className="relative flex justify-center text-xs uppercase">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t"></span>
@@ -452,7 +527,7 @@ function SellerStep1({ onNext }) {
         </Button>
         <Button
           className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
-          onClick={onNext}
+          onClick={handleSubmit}
         >
           Next
         </Button>
@@ -462,13 +537,50 @@ function SellerStep1({ onNext }) {
 }
 
 function SellerStep2({ onNext }) {
-  const [previewImage, setPreviewImage] = useState(null);
+  const { formData, updateFormData } = useForm();
+  const [previewImage, setPreviewImage] = useState(formData.profilePic || null);
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData({ [name]: value });
+  };
+
+  const handleCheckboxChange = (checked) => {
+    updateFormData({ termsAccepted: checked });
+  };
+
+  const validateForm = () => {
+    if (!formData.name) {
+      setError('Name is required');
+      return false;
+    }
+    if (!formData.profilePic) {
+      setError('Profile picture is required');
+      return false;
+    }
+    if (!formData.termsAccepted) {
+      setError('You must accept the terms and conditions');
+      return false;
+    }
+    return true;
+  };
 
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setError('File size must be less than 2MB');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        setError('File must be an image');
+        return;
+      }
       const reader = new FileReader();
       reader.onloadend = () => {
+        updateFormData({ profilePic: reader.result });
         setPreviewImage(reader.result);
       };
       reader.readAsDataURL(file);
@@ -476,14 +588,72 @@ function SellerStep2({ onNext }) {
   };
 
   const handleRemovePhoto = () => {
+    updateFormData({ profilePic: null });
     setPreviewImage(null);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const serverCheck = await fetch('http://localhost:3000/api/health', {
+        method: 'GET',
+        headers: { Accept: 'application/json' },
+      }).catch(() => null);
+
+      if (!serverCheck) {
+        throw new Error('Unable to connect to the server. Please make sure the server is running.');
+      }
+
+      const response = await fetch('http://localhost:3000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+          phoneNumber: formData.phoneNumber,
+          profilePic: formData.profilePic,
+          bio: formData.bio,
+          role: 'seller',
+        }),
+      });
+
+      let data;
+      try {
+        data = await response.json();
+      } catch (jsonError) {
+        throw new Error('Server returned invalid response format');
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Registration failed');
+      }
+
+      onNext();
+    } catch (err) {
+      setError(err.message || 'Registration failed. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="space-y-4">
       <Card>
         <CardContent className="flex flex-col gap-3 p-6">
-          <h1 className="text-sm font-medium">Add a profile picture (optional)</h1>
+          <h1 className="text-sm font-medium">Add a profile picture</h1>
           <Input
             id="avatar-upload"
             type="file"
@@ -526,31 +696,55 @@ function SellerStep2({ onNext }) {
       <Card className="w-full shadow-lg">
         <CardContent className="flex flex-col gap-3 p-6">
           <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
+          {error && <p className="text-red-500 text-sm">{error}</p>}
+
           <label className="text-sm font-medium">Name</label>
-          <Input type="text" placeholder="Enter your name" className="bg-white" />
-          {/* Phone Number (optional) */}
+          <Input
+            type="text"
+            name="name"
+            value={formData.name}
+            onChange={handleChange}
+            placeholder="Enter your name"
+            className="bg-white"
+          />
           <label className="text-sm font-medium">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
-          <Input type="tel" placeholder="e.g. 09171234567" className="bg-white" />
-          {/* Short Bio (optional) */}
+          <Input
+            type="tel"
+            name="phoneNumber"
+            value={formData.phoneNumber}
+            onChange={handleChange}
+            placeholder="e.g. 09171234567"
+            className="bg-white"
+          />
           <label className="text-sm font-medium">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <textarea
+            name="bio"
+            value={formData.bio}
+            onChange={handleChange}
             className="bg-white border rounded-md p-2"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
           <div className="flex items-center gap-2">
-            <Checkbox />
-            <p className="text-sm">I agee to SafeBuy PH's Terms and Privacy Policy</p>
+            <Checkbox
+              id="termsAccepted"
+              checked={formData.termsAccepted}
+              onCheckedChange={handleCheckboxChange}
+            />
+            <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
+              I agree to SafeBuy PH's Terms and Privacy Policy
+            </label>
           </div>
           <Button
-            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
-            onClick={onNext}
+            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+            onClick={handleSubmit}
+            disabled={isLoading}
           >
-            Next
+            {isLoading ? 'Registering...' : 'Next'}
           </Button>
         </CardContent>
       </Card>
@@ -559,49 +753,157 @@ function SellerStep2({ onNext }) {
 }
 
 function SellerStep3({ onNext }) {
-  const [verified, setVerificationData] = useState({
-    options: {
-      driversLicense: false,
-      SSS: false,
-      nationalId: false,
-      passport: false,
-    },
-    idNumber: '',
-  });
+  const { formData, updateFormData } = useForm();
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+  const fileInputRef = useRef(null);
 
-  const handleVerificationChange = (option, idNumber) => {
-    setVerificationData({
-      options: newOptions,
-      idNumber: newIdNumber,
+  const handleVerificationChange = (options, idNumbers) => {
+    const selectedIdType = Object.keys(options).find((key) => options[key]);
+    const selectedIdNumber = selectedIdType ? idNumbers[selectedIdType] : '';
+
+    updateFormData({
+      verificationType: selectedIdType || '',
+      idNumber: selectedIdNumber,
     });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    updateFormData({ [name]: value });
+  };
+
+  const handleDescriptionChange = (e) => {
+    updateFormData({ sellingDescription: e.target.value });
+  };
+
+  const handleIdPhotoChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.size > 2 * 1024 * 1024) {
+        setError('File size must be less than 2MB');
+        return;
+      }
+      if (!file.type.startsWith('image/')) {
+        setError('File must be an image');
+        return;
+      }
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        updateFormData({ idPhoto: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const validateForm = () => {
+    if (!formData.phoneNumber) {
+      setError('Phone number is required');
+      return false;
+    }
+    if (!formData.verificationType) {
+      setError('Please select a valid ID');
+      return false;
+    }
+    if (!formData.idNumber) {
+      setError('ID number is required');
+      return false;
+    }
+    if (!formData.sellingDescription) {
+      setError('Please provide a description of what you are selling');
+      return false;
+    }
+    if (!formData.termsAccepted) {
+      setError('You must accept the terms and conditions');
+      return false;
+    }
+    return true;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError('');
+    setIsLoading(true);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        throw new Error('Authentication token not found');
+      }
+
+      const response = await fetch('http://localhost:3000/api/seller/can-sell', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          phoneNumber: formData.phoneNumber,
+          verificationType: formData.verificationType,
+          idNumber: formData.idNumber,
+          sellingDescription: formData.sellingDescription,
+          idPhoto: formData.idPhoto,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to verify seller status');
+      }
+
+      onNext();
+    } catch (err) {
+      setError(err.message || 'Failed to verify seller status. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col gap-3 p-6">
         <h2 className="text-2xl font-bold text-[#0e1d54]">Verify your Seller Profile</h2>
+        {error && <p className="text-red-500 text-sm">{error}</p>}
         <p className="text-sm">
           To ensure the authenticity of your account, we need to verify your seller profile.
         </p>
-        <label className="text-sm font-medium">Phone Number</label>
-        <Input className="bg-white" type="tel" placeholder="Enter your phone number" />
-        <label className="text-sm font-medium">Select Valid ID</label>
+        <label className="text-sm font-medium">Upload your Valid ID</label>
+        <input type="file" accept="image/*" onChange={handleIdPhotoChange} />
+
         <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
+
         <label className="text-sm font-medium">Description of what you're selling</label>
         <textarea
+          name="sellingDescription"
+          value={formData.sellingDescription}
+          onChange={handleDescriptionChange}
           className="bg-white border rounded-md p-2"
           placeholder="I usually sell electronics like phones and gaming consoles..."
           rows={3}
         />
         <div className="flex items-center gap-2">
-          <Checkbox />
-          <p className="text-sm">I agree to SafeBuy PH's seller policies</p>
+          <Checkbox
+            id="termsAccepted"
+            checked={formData.termsAccepted}
+            onCheckedChange={(checked) => updateFormData({ termsAccepted: checked })}
+          />
+          <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
+            I agree to SafeBuy PH's Terms and Privacy Policy
+          </label>
         </div>
         <Button
-          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
-          onClick={onNext}
+          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+          onClick={handleSubmit}
+          disabled={isLoading}
         >
-          Next
+          {isLoading ? 'Verifying...' : 'Next'}
         </Button>
       </CardContent>
     </Card>

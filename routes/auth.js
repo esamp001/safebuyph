@@ -178,8 +178,6 @@ router.post('/register', async (req, res) => {
     return res.status(500).json({
       error: 'Error creating user',
     });
-  } finally {
-    await prisma.$disconnect();
   }
 });
 
@@ -264,11 +262,6 @@ router.post('/login', async (req, res) => {
     res.status(500).json({
       error: 'Failed to login. Please try again.',
     });
-  } finally {
-    // Optional: Disconnect Prisma in development
-    if (process.env.NODE_ENV === 'development') {
-      await prisma.$disconnect();
-    }
   }
 });
 
