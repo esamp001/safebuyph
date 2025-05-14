@@ -44,7 +44,7 @@ function Signup() {
     <>
       {step === 2 && <FormStep1 onNext={() => setStep(3)} />}
       {step === 3 && <FormStep2 onNext={() => setStep(4)} />}
-      {step === 4 && <FormStep4 onSubmit={() => alert('Signup complete!')} />}
+      {step === 4 && <FormStep4 onSubmit={() => navigate('/dashboard')} />}
     </>
   );
 
@@ -64,9 +64,15 @@ function Signup() {
           setSellerStep1Error={setSellerStep1Error}
         />
       )}
-      {step === 102 && <SellerStep3 onNext={() => setStep(103)} />}
+      {step === 102 && (
+        <SellerStep3
+          onNext={() => setStep(103)}
+          setStep={setStep}
+          setSellerStep1Error={setSellerStep1Error}
+        />
+      )}
       {step === 103 && <SellerStep4 onNext={() => setStep(104)} />}
-      {step === 104 && <SellerStep5 onSubmit={() => alert('Seller signup complete!')} />}
+      {step === 104 && <SellerStep5 onSubmit={() => navigate('/dashboard')} />}
     </>
   );
 
@@ -207,7 +213,6 @@ function FormStep2({ onNext }) {
   const { formData, updateFormData, getFormData } = useForm();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -245,18 +250,6 @@ function FormStep2({ onNext }) {
     }
 
     try {
-      // First check if the server is accessible
-      const serverCheck = await fetch('http://localhost:3000/api/health', {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-      }).catch(() => null);
-
-      if (!serverCheck) {
-        throw new Error('Unable to connect to the server. Please make sure the server is running.');
-      }
-
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
@@ -271,30 +264,20 @@ function FormStep2({ onNext }) {
           phoneNumber: formData.phoneNumber,
           profilePic: formData.profilePic,
           bio: formData.bio,
-          role: 'buyer',
+          role: 'seller',
         }),
       });
 
-      // Log the response for debugging
-      console.log('Response status:', response.status);
-      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
-
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        console.error('Failed to parse JSON:', jsonError);
-        throw new Error('Server returned invalid response format');
-      }
+      const data = await response.json();
 
       if (!response.ok) {
         if (data.error && data.error.toLowerCase().includes('email')) {
-          setError('Email already registered');
-          setLoading(false);
+          setSellerStep1Error('Email already registered');
+          setStep(100); // Go back to SellerStep1
           return;
         } else if (data.error && data.error.toLowerCase().includes('password')) {
-          setError('Password must be at least 8 characters');
-          setLoading(false);
+          setSellerStep1Error('Password must be at least 8 characters');
+          setStep(100); // Go back to SellerStep1
           return;
         } else {
           throw new Error(data.error || 'Registration failed');
@@ -472,13 +455,12 @@ function FormStep4({ onSubmit }) {
 }
 
 // Seller Forms
-
 function SellerStep1({ onNext, error, setError }) {
   const { formData, updateFormData } = useForm();
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log('Handling change:', { name, value }); // Debug log
     updateFormData({ [name]: value });
   };
 
@@ -491,22 +473,56 @@ function SellerStep1({ onNext, error, setError }) {
       setError('Password is required');
       return false;
     }
-    if (formData.password.length < 8) {
-      setError('Password must be at least 8 characters');
-      return false;
-    }
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setError('Please enter a valid email address');
-      return false;
-    }
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-    if (!validateForm()) return;
-    onNext();
+    setIsLoading(true);
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
+    }
+
+    try {
+      console.log('Sending validation request with:', { email: formData.email }); // Debug log
+      const response = await fetch('http://localhost:3000/api/auth/validate-credentials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      console.log('Response status:', response.status); // Debug log
+      const data = await response.json();
+      console.log('Response data:', data); // Debug log
+
+      if (!response.ok) {
+        setError(data.error);
+        return;
+      }
+
+      onNext();
+    } catch (err) {
+      console.error('Full error object:', err); // More detailed error logging
+      console.error('Error message:', err.message);
+      console.error('Error stack:', err.stack);
+
+      if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please make sure the server is running.');
+      } else {
+        setError(err.message || 'Failed to validate credentials. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -549,8 +565,9 @@ function SellerStep1({ onNext, error, setError }) {
         <Button
           className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
           onClick={handleSubmit}
+          disabled={isLoading}
         >
-          Next
+          {isLoading ? 'Validating...' : 'Next'}
         </Button>
       </CardContent>
     </Card>
@@ -646,34 +663,30 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
         }),
       });
 
-      let data;
-      try {
-        data = await response.json();
-      } catch (jsonError) {
-        throw new Error('Server returned invalid response format');
-      }
+      const data = await response.json();
 
       if (!response.ok) {
         if (data.error && data.error.toLowerCase().includes('email')) {
-          setSellerStep1Error(data.error);
-          setStep(100);
-          setIsLoading(false);
+          setSellerStep1Error('Email already registered');
+          setStep(100); // Go back to SellerStep1
           return;
         } else if (data.error && data.error.toLowerCase().includes('password')) {
-          setSellerStep1Error(data.error);
-          setStep(100);
-          setIsLoading(false);
+          setSellerStep1Error('Password must be at least 8 characters');
+          setStep(100); // Go back to SellerStep1
           return;
         } else {
-          setError(data.error || 'Registration failed');
+          throw new Error(data.error || 'Registration failed');
         }
-        setIsLoading(false);
-        return;
       }
 
       onNext();
     } catch (err) {
-      setError(err.message || 'Registration failed. Please try again.');
+      console.error('Registration error:', err);
+      if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please make sure the server is running.');
+      } else {
+        setError(err.message || 'Registration failed. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -782,7 +795,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
   );
 }
 
-function SellerStep3({ onNext }) {
+function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
   const { formData, updateFormData } = useForm();
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -820,7 +833,10 @@ function SellerStep3({ onNext }) {
       }
       const reader = new FileReader();
       reader.onloadend = () => {
-        updateFormData({ idPhoto: reader.result });
+        updateFormData({
+          idPhoto: reader.result,
+          verificationType: 'government_id', // Set a default verification type
+        });
         setIdPreview(reader.result);
       };
       reader.readAsDataURL(file);
@@ -828,6 +844,11 @@ function SellerStep3({ onNext }) {
   };
 
   const validateForm = () => {
+    if (!formData.email || !formData.password) {
+      setError('Please complete your registration details');
+      setStep(100); // Go back to SellerStep1
+      return false;
+    }
     if (!formData.phoneNumber) {
       setError('Phone number is required');
       return false;
@@ -862,35 +883,70 @@ function SellerStep3({ onNext }) {
     }
 
     try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Authentication token not found');
-      }
-
-      const response = await fetch('http://localhost:3000/api/seller/can-sell', {
+      // First register the user if not already registered
+      const registerResponse = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Accept: 'application/json',
         },
+        credentials: 'include',
         body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
           phoneNumber: formData.phoneNumber,
-          verificationType: formData.verificationType,
-          idNumber: formData.idNumber,
-          sellingDescription: formData.sellingDescription,
-          idPhoto: formData.idPhoto,
+          profilePic: formData.profilePic,
+          bio: formData.bio,
+          role: 'seller',
         }),
       });
 
-      const data = await response.json();
+      const registerData = await registerResponse.json();
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Failed to verify seller status');
+      if (!registerResponse.ok) {
+        if (registerData.error && registerData.error.toLowerCase().includes('email')) {
+          setSellerStep1Error('Email already registered');
+          setStep(100); // Go back to SellerStep1
+          return;
+        } else if (registerData.error && registerData.error.toLowerCase().includes('password')) {
+          setSellerStep1Error('Password must be at least 8 characters');
+          setStep(100); // Go back to SellerStep1
+          return;
+        } else {
+          throw new Error(registerData.error || 'Registration failed');
+        }
+      }
+
+      // Then verify seller status
+      const verifyResponse = await fetch('http://localhost:3000/api/profile/become-seller', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          validIdUrl: formData.idPhoto,
+          validIdNumber: formData.idNumber,
+          sellingDescription: formData.sellingDescription,
+        }),
+      });
+
+      const verifyData = await verifyResponse.json();
+
+      if (!verifyResponse.ok) {
+        throw new Error(verifyData.message || 'Failed to verify seller status');
       }
 
       onNext();
     } catch (err) {
-      setError(err.message || 'Failed to verify seller status. Please try again.');
+      console.error('Seller verification error:', err);
+      if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please make sure the server is running.');
+      } else {
+        setError(err.message || 'Failed to verify seller status. Please try again.');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -907,11 +963,7 @@ function SellerStep3({ onNext }) {
             </p>
           </div>
         )}
-        <h2 className="text-2xl font-bold text-[#0e1d54]">Verify your Seller Profile</h2>
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <p className="text-sm">
-          To ensure the authenticity of your account, we need to verify your seller profile.
-        </p>
         <label className="text-sm font-medium">Upload your Valid ID</label>
 
         {idPreview && (

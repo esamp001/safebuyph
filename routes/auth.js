@@ -21,7 +21,6 @@ router.post('/register', async (req, res) => {
   // Call all the data from user Model
   const { name, email, password, phoneNumber, profilePic, role, status, bio } = req.body;
 
-  // Use Validation
   // Required field validation
   if (!name || !email || !password) {
     return res.status(400).json({
@@ -33,20 +32,6 @@ router.post('/register', async (req, res) => {
   if (!validator.isLength(name, { min: 2, max: 50 })) {
     return res.status(400).json({
       error: 'Name must be between 2 and 50 characters',
-    });
-  }
-
-  // Email format validation
-  if (!validator.isEmail(email)) {
-    return res.status(400).json({
-      error: 'Please enter a valid email address',
-    });
-  }
-
-  // Password strength validation
-  if (!validator.isLength(password, { min: 8 })) {
-    return res.status(400).json({
-      error: 'Password must be at least 8 characters long',
     });
   }
 
@@ -152,9 +137,9 @@ router.post('/register', async (req, res) => {
     // Set HTTP-only cookies
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 1 * 60 * 60 * 1000, // 1 hour
+      secure: false, // for local dev (true only for HTTPS/production)
+      sameSite: 'lax', // <-- change from 'strict' to 'lax'
+      maxAge: 1 * 60 * 60 * 1000,
     });
 
     res.status(201).json({
@@ -457,6 +442,55 @@ router.post('/refresh-token', async (req, res) => {
       return res.status(401).json({ error: 'Invalid refresh token' });
     }
     return res.status(500).json({ error: 'Failed to refresh token' });
+  }
+});
+
+router.post('/validate-credentials', async (req, res) => {
+  const { email, password } = req.body;
+
+  // Email format validation
+  if (!validator.isEmail(email)) {
+    return res.status(400).json({
+      error: 'Please enter a valid email address',
+    });
+  }
+
+  // Password strength validation
+  if (!validator.isLength(password, { min: 8 })) {
+    return res.status(400).json({
+      error: 'Password must be at least 8 characters long',
+    });
+  }
+
+  if (
+    !validator.matches(password, /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/)
+  ) {
+    return res.status(400).json({
+      error:
+        'Password must contain at least one uppercase letter, one lowercase letter, one number and one special character',
+    });
+  }
+
+  // Check if email already exists
+  try {
+    const existingUser = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (existingUser) {
+      return res.status(400).json({
+        error: 'Email already registered',
+      });
+    }
+
+    // If all validations pass
+    return res.status(200).json({
+      message: 'Credentials are valid',
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: 'Error validating credentials',
+    });
   }
 });
 

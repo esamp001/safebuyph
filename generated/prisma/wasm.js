@@ -133,7 +133,8 @@ exports.Prisma.UserScalarFieldEnum = {
   isAdmin: 'isAdmin',
   validIdNumber: 'validIdNumber',
   validIdUrl: 'validIdUrl',
-  bio: 'bio'
+  bio: 'bio',
+  sellingDescription: 'sellingDescription'
 };
 
 exports.Prisma.RefreshTokenScalarFieldEnum = {

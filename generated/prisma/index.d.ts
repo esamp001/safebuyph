@@ -1273,6 +1273,7 @@ export namespace Prisma {
     validIdNumber: string | null
     validIdUrl: string | null
     bio: string | null
+    sellingDescription: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1292,6 +1293,7 @@ export namespace Prisma {
     validIdNumber: string | null
     validIdUrl: string | null
     bio: string | null
+    sellingDescription: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1311,6 +1313,7 @@ export namespace Prisma {
     validIdNumber: number
     validIdUrl: number
     bio: number
+    sellingDescription: number
     _all: number
   }
 
@@ -1344,6 +1347,7 @@ export namespace Prisma {
     validIdNumber?: true
     validIdUrl?: true
     bio?: true
+    sellingDescription?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1363,6 +1367,7 @@ export namespace Prisma {
     validIdNumber?: true
     validIdUrl?: true
     bio?: true
+    sellingDescription?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1382,6 +1387,7 @@ export namespace Prisma {
     validIdNumber?: true
     validIdUrl?: true
     bio?: true
+    sellingDescription?: true
     _all?: true
   }
 
@@ -1488,6 +1494,7 @@ export namespace Prisma {
     validIdNumber: string | null
     validIdUrl: string | null
     bio: string | null
+    sellingDescription: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1526,6 +1533,7 @@ export namespace Prisma {
     validIdNumber?: boolean
     validIdUrl?: boolean
     bio?: boolean
+    sellingDescription?: boolean
     buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
     sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
     refreshTokens?: boolean | User$refreshTokensArgs<ExtArgs>
@@ -1551,6 +1559,7 @@ export namespace Prisma {
     validIdNumber?: boolean
     validIdUrl?: boolean
     bio?: boolean
+    sellingDescription?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1570,6 +1579,7 @@ export namespace Prisma {
     validIdNumber?: boolean
     validIdUrl?: boolean
     bio?: boolean
+    sellingDescription?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1589,9 +1599,10 @@ export namespace Prisma {
     validIdNumber?: boolean
     validIdUrl?: boolean
     bio?: boolean
+    sellingDescription?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio" | "sellingDescription", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
     sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
@@ -1629,6 +1640,7 @@ export namespace Prisma {
       validIdNumber: string | null
       validIdUrl: string | null
       bio: string | null
+      sellingDescription: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2073,6 +2085,7 @@ export namespace Prisma {
     readonly validIdNumber: FieldRef<"User", 'String'>
     readonly validIdUrl: FieldRef<"User", 'String'>
     readonly bio: FieldRef<"User", 'String'>
+    readonly sellingDescription: FieldRef<"User", 'String'>
   }
     
 
@@ -6313,7 +6326,8 @@ export namespace Prisma {
     isAdmin: 'isAdmin',
     validIdNumber: 'validIdNumber',
     validIdUrl: 'validIdUrl',
-    bio: 'bio'
+    bio: 'bio',
+    sellingDescription: 'sellingDescription'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -6506,6 +6520,7 @@ export namespace Prisma {
     validIdNumber?: StringNullableFilter<"User"> | string | null
     validIdUrl?: StringNullableFilter<"User"> | string | null
     bio?: StringNullableFilter<"User"> | string | null
+    sellingDescription?: StringNullableFilter<"User"> | string | null
     buyerRatings?: RatingListRelationFilter
     sellerRatings?: RatingListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
@@ -6530,6 +6545,7 @@ export namespace Prisma {
     validIdNumber?: SortOrderInput | SortOrder
     validIdUrl?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
+    sellingDescription?: SortOrderInput | SortOrder
     buyerRatings?: RatingOrderByRelationAggregateInput
     sellerRatings?: RatingOrderByRelationAggregateInput
     refreshTokens?: RefreshTokenOrderByRelationAggregateInput
@@ -6557,6 +6573,7 @@ export namespace Prisma {
     validIdNumber?: StringNullableFilter<"User"> | string | null
     validIdUrl?: StringNullableFilter<"User"> | string | null
     bio?: StringNullableFilter<"User"> | string | null
+    sellingDescription?: StringNullableFilter<"User"> | string | null
     buyerRatings?: RatingListRelationFilter
     sellerRatings?: RatingListRelationFilter
     refreshTokens?: RefreshTokenListRelationFilter
@@ -6581,6 +6598,7 @@ export namespace Prisma {
     validIdNumber?: SortOrderInput | SortOrder
     validIdUrl?: SortOrderInput | SortOrder
     bio?: SortOrderInput | SortOrder
+    sellingDescription?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -6608,6 +6626,7 @@ export namespace Prisma {
     validIdNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     validIdUrl?: StringNullableWithAggregatesFilter<"User"> | string | null
     bio?: StringNullableWithAggregatesFilter<"User"> | string | null
+    sellingDescription?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type RefreshTokenWhereInput = {
@@ -6934,6 +6953,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -6958,6 +6978,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -6981,6 +7002,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -7005,6 +7027,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -7029,6 +7052,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -7047,6 +7071,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -7066,6 +7091,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RefreshTokenCreateInput = {
@@ -7520,6 +7546,7 @@ export namespace Prisma {
     validIdNumber?: SortOrder
     validIdUrl?: SortOrder
     bio?: SortOrder
+    sellingDescription?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -7545,6 +7572,7 @@ export namespace Prisma {
     validIdNumber?: SortOrder
     validIdUrl?: SortOrder
     bio?: SortOrder
+    sellingDescription?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -7564,6 +7592,7 @@ export namespace Prisma {
     validIdNumber?: SortOrder
     validIdUrl?: SortOrder
     bio?: SortOrder
+    sellingDescription?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -8852,6 +8881,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
@@ -8875,6 +8905,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
@@ -8913,6 +8944,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
@@ -8936,6 +8968,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
@@ -8980,6 +9013,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -9003,6 +9037,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -9030,6 +9065,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
@@ -9053,6 +9089,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
@@ -9119,6 +9156,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -9142,6 +9180,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -9175,6 +9214,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
@@ -9198,6 +9238,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
@@ -9220,6 +9261,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     sellerRatings?: RatingCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
@@ -9243,6 +9285,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     sellerRatings?: RatingUncheckedCreateNestedManyWithoutSellerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
@@ -9270,6 +9313,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingCreateNestedManyWithoutBuyerInput
     refreshTokens?: RefreshTokenCreateNestedManyWithoutUserInput
     buyerTransactions?: TransactionCreateNestedManyWithoutBuyerInput
@@ -9293,6 +9337,7 @@ export namespace Prisma {
     validIdNumber?: string | null
     validIdUrl?: string | null
     bio?: string | null
+    sellingDescription?: string | null
     buyerRatings?: RatingUncheckedCreateNestedManyWithoutBuyerInput
     refreshTokens?: RefreshTokenUncheckedCreateNestedManyWithoutUserInput
     buyerTransactions?: TransactionUncheckedCreateNestedManyWithoutBuyerInput
@@ -9395,6 +9440,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     sellerRatings?: RatingUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
@@ -9418,6 +9464,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     sellerRatings?: RatingUncheckedUpdateManyWithoutSellerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput
@@ -9451,6 +9498,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUpdateManyWithoutBuyerNestedInput
     refreshTokens?: RefreshTokenUpdateManyWithoutUserNestedInput
     buyerTransactions?: TransactionUpdateManyWithoutBuyerNestedInput
@@ -9474,6 +9522,7 @@ export namespace Prisma {
     validIdNumber?: NullableStringFieldUpdateOperationsInput | string | null
     validIdUrl?: NullableStringFieldUpdateOperationsInput | string | null
     bio?: NullableStringFieldUpdateOperationsInput | string | null
+    sellingDescription?: NullableStringFieldUpdateOperationsInput | string | null
     buyerRatings?: RatingUncheckedUpdateManyWithoutBuyerNestedInput
     refreshTokens?: RefreshTokenUncheckedUpdateManyWithoutUserNestedInput
     buyerTransactions?: TransactionUncheckedUpdateManyWithoutBuyerNestedInput

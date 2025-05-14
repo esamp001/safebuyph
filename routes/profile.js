@@ -57,37 +57,28 @@ router.put('/', authMiddleware, async (req, res) => {
       });
     }
 
-    if (name.length < 2 || name.length > 50) {
+    if (!validator.isLength(name, { min: 2, max: 50 })) {
       return res.status(400).json({
         error: 'Name must be between 2 and 50 characters',
       });
     }
 
-    if (email) {
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(email)) {
-        return res.status(400).json({
-          error: 'Please enter a valid email address',
-        });
-      }
+    if (email && !validator.isEmail(email)) {
+      return res.status(400).json({
+        error: 'Please enter a valid email address',
+      });
     }
 
-    if (phoneNumber) {
-      const phoneRegex = /^(\+63|0)[0-9]{10}$/;
-      if (!phoneRegex.test(phoneNumber)) {
-        return res.status(400).json({
-          error: 'Please enter a valid Philippine phone number (+63 or 0 followed by 10 digits)',
-        });
-      }
+    if (phoneNumber && !validator.isMobilePhone(phoneNumber, 'en-PH')) {
+      return res.status(400).json({
+        error: 'Please enter a valid Philippine phone number (+63 or 0 followed by 10 digits)',
+      });
     }
 
-    if (profilePic) {
-      const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-      if (!urlRegex.test(profilePic)) {
-        return res.status(400).json({
-          error: 'Please enter a valid URL for profile picture',
-        });
-      }
+    if (profilePic && !validator.isURL(profilePic)) {
+      return res.status(400).json({
+        error: 'Please enter a valid URL for profile picture',
+      });
     }
 
     // Prevent modification of timestamps
@@ -123,7 +114,7 @@ router.put('/', authMiddleware, async (req, res) => {
 
 // Simple seller verification with ID photo and number
 router.post('/become-seller', authMiddleware, async (req, res) => {
-  const { validIdUrl, validIdNumber } = req.body;
+  const { validIdUrl, validIdNumber, sellingDescription } = req.body;
 
   try {
     const user = await prisma.user.findUnique({
@@ -149,6 +140,12 @@ router.post('/become-seller', authMiddleware, async (req, res) => {
       });
     }
 
+    if (!sellingDescription || sellingDescription.length < 4) {
+      return res.status(400).json({
+        error: 'Please provide a description of what you are selling (minimum 4 characters)',
+      });
+    }
+
     // Simple URL format validation
     const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     if (!urlRegex.test(validIdUrl)) {
@@ -171,6 +168,7 @@ router.post('/become-seller', authMiddleware, async (req, res) => {
         canSell: true,
         validIdUrl,
         validIdNumber,
+        sellingDescription,
       },
     });
 
