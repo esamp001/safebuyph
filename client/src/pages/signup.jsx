@@ -132,10 +132,21 @@ function FormStep1({ onNext, error, setError }) {
   };
 
   const validateForm = () => {
+    // Email validation
     if (!formData.email) {
       setError('Email is required');
       return false;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    if (formData.email.length > 100) {
+      setError('Email address is too long (maximum 100 characters)');
+      return false;
+    }
+
+    // Password validation
     if (!formData.password) {
       setError('Password is required');
       return false;
@@ -144,8 +155,32 @@ function FormStep1({ onNext, error, setError }) {
       setError('Password must be at least 8 characters');
       return false;
     }
-    if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      setError('Please enter a valid email address');
+    if (formData.password.length > 64) {
+      setError('Password is too long (maximum 64 characters)');
+      return false;
+    }
+    if (!/[A-Z]/.test(formData.password)) {
+      setError('Password must contain at least one uppercase letter');
+      return false;
+    }
+    if (!/[a-z]/.test(formData.password)) {
+      setError('Password must contain at least one lowercase letter');
+      return false;
+    }
+    if (!/[0-9]/.test(formData.password)) {
+      setError('Password must contain at least one number');
+      return false;
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password)) {
+      setError('Password must contain at least one special character');
+      return false;
+    }
+    if (/\s/.test(formData.password)) {
+      setError('Password cannot contain spaces');
+      return false;
+    }
+    if (formData.password.toLowerCase().includes(formData.email.split('@')[0].toLowerCase())) {
+      setError('Password cannot contain your email username');
       return false;
     }
     return true;
@@ -208,7 +243,7 @@ function FormStep1({ onNext, error, setError }) {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="bg-white"
+              className="bg-white text-black placeholder:text-gray-400"
               required
             />
           </div>
@@ -220,7 +255,7 @@ function FormStep1({ onNext, error, setError }) {
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              className="bg-white"
+              className="bg-white text-black placeholder:text-gray-400"
               required
             />
           </div>
@@ -439,7 +474,9 @@ function FormStep2({ onNext }) {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
-            className="bg-white"
+            className={`text-black placeholder:text-gray-400 ${
+              formData.name ? 'bg-[#e6f0fa]' : 'bg-white'
+            }`}
           />
           <label className="text-sm font-medium">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
@@ -450,7 +487,7 @@ function FormStep2({ onNext }) {
             value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="e.g. 09171234567"
-            className="bg-white"
+            className="bg-white text-black placeholder:text-gray-400"
           />
           <label className="text-sm font-medium">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
@@ -459,7 +496,7 @@ function FormStep2({ onNext }) {
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            className="bg-white border rounded-md p-2"
+            className="bg-white text-black border rounded-md p-2 placeholder:text-gray-400"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
@@ -595,7 +632,7 @@ function SellerStep1({ onNext, error, setError }) {
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className="bg-white"
+          className="bg-white text-black placeholder:text-gray-400"
           required
         />
         <p className="text-sm">Password</p>
@@ -605,7 +642,7 @@ function SellerStep1({ onNext, error, setError }) {
           value={formData.password}
           onChange={handleChange}
           placeholder="Enter your password"
-          className="bg-white"
+          className="bg-white text-black placeholder:text-gray-400"
           required
         />
         <div className="relative flex justify-center text-xs uppercase">
@@ -834,7 +871,9 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
-            className="bg-white"
+            className={`text-black placeholder:text-gray-400 ${
+              formData.name ? 'bg-[#e6f0fa]' : 'bg-white'
+            }`}
           />
           <label className="text-sm font-medium">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
@@ -845,7 +884,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="e.g. 09171234567"
-            className="bg-white"
+            className="bg-white text-black placeholder:text-gray-400"
           />
           <label className="text-sm font-medium">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
@@ -854,7 +893,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            className="bg-white border rounded-md p-2"
+            className="bg-white text-black border rounded-md p-2 placeholder:text-gray-400"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
