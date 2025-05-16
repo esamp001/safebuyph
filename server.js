@@ -7,6 +7,7 @@ const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const checktokenBlacklist = require('./middleware/checktokenBlacklist');
 const validator = require('validator');
+const cookieParser = require('cookie-parser');
 
 // Initialize express
 const app = express();
@@ -55,20 +56,21 @@ app.use(
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow both possible Vite ports
+  origin: ['http://localhost:5173', 'http://localhost:5174'],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  credentials: true, // Allow credentials (cookies, authorization headers)
-  maxAge: 86400, // Cache preflight requests for 24 hours
+  credentials: true, // This is crucial for cookies
+  maxAge: 86400,
   exposedHeaders: ['Content-Range', 'X-Content-Range'],
 };
 
 // Apply CORS with options
 app.use(cors(corsOptions));
 
-// Rest of your middleware
+// Move cookieParser before other middleware
+app.use(cookieParser());
 app.use(bodyParser.json({ limit: '5mb' }));
-app.use(bodyParser.urlencoded({ extended: true, limit: '5mb' }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json({ limit: '5mb' }));
 
 // Create rate limiter

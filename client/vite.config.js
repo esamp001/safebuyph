@@ -16,16 +16,18 @@ export default defineConfig({
         target: 'http://localhost:3000', // Your backend
         changeOrigin: true,
         secure: false,
-        // This ensures cookies are set for the backend, not the frontend
         cookieDomainRewrite: 'localhost',
         // Optionally, remove 'secure' flag from cookies for local dev
         configure: (proxy, options) => {
           proxy.on('proxyRes', (proxyRes, req, res) => {
             let cookies = proxyRes.headers['set-cookie'];
             if (cookies) {
-              proxyRes.headers['set-cookie'] = cookies.map((cookie) =>
-                cookie.replace(/;(\s)?secure/gi, '')
+              cookies = cookies.map((cookie) =>
+                cookie
+                  .replace(/;(\s)?secure/gi, '')
+                  .replace(/;(\s)?SameSite=Lax/gi, ';SameSite=Lax')
               );
+              proxyRes.headers['set-cookie'] = cookies;
             }
           });
         },

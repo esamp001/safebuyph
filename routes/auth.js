@@ -134,28 +134,34 @@ router.post('/register', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Set HTTP-only cookies
+    // Set HTTP-only cookies with more specific options
     res.cookie('accessToken', accessToken, {
       httpOnly: true,
-      secure: false, // for local dev (true only for HTTPS/production)
-      sameSite: 'lax', // <-- change from 'strict' to 'lax'
-      maxAge: 1 * 60 * 60 * 1000,
+      secure: false, // for local development
+      sameSite: 'lax',
+      maxAge: 1 * 60 * 60 * 1000, // 1 hour
+      path: '/',
+    });
+
+    // Log the cookie being set
+    console.log('Setting cookie:', {
+      name: 'accessToken',
+      value: accessToken,
+      options: {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 1 * 60 * 60 * 1000,
+        path: '/',
+      },
     });
 
     res.status(201).json({
-      message: 'User register successfully',
+      message: 'User registered successfully',
       user: {
         id: newUser.id,
         name: newUser.name,
         email: newUser.email,
-        phoneNumber: newUser.phoneNumber,
-        profilePic: newUser.profilePic,
-        status: newUser.status,
-        transactionCount: newUser.transactionCount,
-        rating: newUser.rating,
-        createdAt: newUser.createdAt,
-        updatedAt: newUser.updatedAt,
-        bio: newUser.bio,
       },
     });
   } catch (error) {
@@ -204,7 +210,7 @@ router.post('/login', async (req, res) => {
         name: user.name,
         type: 'access',
       },
-      process.env.JWT_SECRET || 'your-secret-key', // Add fallback secret
+      process.env.JWT_SECRET || 'your-secret-key',
       { expiresIn: '1h' }
     );
 
@@ -229,6 +235,28 @@ router.post('/login', async (req, res) => {
     if (!storedToken) {
       throw new Error('Failed to store refresh token');
     }
+
+    // Set cookie with modified options
+    res.cookie('accessToken', accessToken, {
+      httpOnly: true,
+      secure: false, // for local development
+      sameSite: 'lax',
+      maxAge: 1 * 60 * 60 * 1000, // 1 hour
+      path: '/',
+    });
+
+    // Log the cookie being set
+    console.log('Setting login cookie:', {
+      name: 'accessToken',
+      value: accessToken,
+      options: {
+        httpOnly: true,
+        secure: false,
+        sameSite: 'lax',
+        maxAge: 1 * 60 * 60 * 1000,
+        path: '/',
+      },
+    });
 
     // Send response
     res.status(200).json({

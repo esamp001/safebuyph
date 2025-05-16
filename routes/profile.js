@@ -146,12 +146,15 @@ router.post('/become-seller', authMiddleware, async (req, res) => {
       });
     }
 
-    // Simple URL format validation
-    const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
-    if (!urlRegex.test(validIdUrl)) {
-      return res.status(400).json({
-        error: 'Please provide a valid URL for your ID photo',
-      });
+    // Simple URL or base64 format validation
+    const isBase64 = validIdUrl.startsWith('data:image/');
+    if (!isBase64) {
+      const urlRegex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w .-]*)*\/?$/;
+      if (!urlRegex.test(validIdUrl)) {
+        return res.status(400).json({
+          error: 'Please provide a valid URL or base64 image for your ID photo',
+        });
+      }
     }
 
     // Basic ID number validation (at least 4 characters)

@@ -42,7 +42,13 @@ function Signup() {
 
   const renderBuyerSteps = () => (
     <>
-      {step === 2 && <FormStep1 onNext={() => setStep(3)} />}
+      {step === 2 && (
+        <FormStep1
+          onNext={() => setStep(3)}
+          error={sellerStep1Error}
+          setError={setSellerStep1Error}
+        />
+      )}
       {step === 3 && <FormStep2 onNext={() => setStep(4)} />}
       {step === 4 && <FormStep4 onSubmit={() => navigate('/dashboard')} />}
     </>
@@ -111,13 +117,12 @@ function Signup() {
   );
 }
 
-function FormStep1({ onNext }) {
+function FormStep1({ onNext, error, setError }) {
   const { formData, updateFormData } = useForm();
-  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    console.log('Handling change:', { name, value }); // Debug log
     updateFormData({ [name]: value });
   };
 
@@ -141,15 +146,47 @@ function FormStep1({ onNext }) {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setIsLoading(true);
 
     if (!validateForm()) {
+      setIsLoading(false);
       return;
     }
 
-    onNext();
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/validate-credentials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Validation failed');
+        return;
+      }
+
+      onNext();
+    } catch (err) {
+      console.error('Validation error:', err);
+      if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please make sure the server is running.');
+      } else {
+        setError(err.message || 'Failed to validate credentials. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -199,232 +236,13 @@ function FormStep1({ onNext }) {
           <Button
             type="submit"
             className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+            disabled={isLoading}
           >
-            Next
+            {isLoading ? 'Validating...' : 'Next'}
           </Button>
         </form>
       </CardContent>
     </Card>
-  );
-}
-
-function FormStep2({ onNext }) {
-  const [previewImage, setPreviewImage] = useState(null);
-  const { formData, updateFormData, getFormData } = useForm();
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    updateFormData({ [name]: value });
-  };
-
-  const handleCheckboxChange = (checked) => {
-    updateFormData({ termsAccepted: checked });
-  };
-
-  const validateForm = () => {
-    if (!formData.name) {
-      setError('Name is required');
-      return false;
-    }
-    if (formData.name.length < 2 || formData.name.length > 50) {
-      setError('Name must be between 2 and 50 characters');
-      return false;
-    }
-    if (!formData.termsAccepted) {
-      setError('You must accept the terms and conditions');
-      return false;
-    }
-    return true;
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
-    setLoading(true);
-
-    if (!validateForm()) {
-      setLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          phoneNumber: formData.phoneNumber,
-          profilePic: formData.profilePic,
-          bio: formData.bio,
-          role: 'seller',
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        if (data.error && data.error.toLowerCase().includes('email')) {
-          setSellerStep1Error('Email already registered');
-          setStep(100); // Go back to SellerStep1
-          return;
-        } else if (data.error && data.error.toLowerCase().includes('password')) {
-          setSellerStep1Error('Password must be at least 8 characters');
-          setStep(100); // Go back to SellerStep1
-          return;
-        } else {
-          throw new Error(data.error || 'Registration failed');
-        }
-      }
-
-      onNext();
-    } catch (err) {
-      console.error('Registration error:', err);
-      if (err.message.includes('Failed to fetch')) {
-        setError('Unable to connect to the server. Please make sure the server is running.');
-      } else {
-        setError(err.message || 'Registration failed. Please try again.');
-      }
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      if (file.size >= 5 * 1024 * 1024) {
-        setError('File size must be less than 5MB');
-        return;
-      }
-
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        setError('File must be an image');
-        return;
-      }
-
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        updateFormData({ profilePic: reader.result });
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleRemovePhoto = () => {
-    updateFormData({ profilePic: null });
-  };
-
-  return (
-    <div className="space-y-4">
-      <Card>
-        <CardContent className="flex flex-col gap-3 p-6">
-          <h1 className="text-sm font-medium">Add a profile picture</h1>
-          <Input
-            id="avatar-upload"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-xs text-gray-500">Adding a profile picture builds trust</p>
-          </div>
-
-          {/* Avatar Preview and Upload */}
-          <div className="flex flex-col items-center gap-4">
-            <div className="relative group">
-              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 hover:border-[#0e1d54] transition-all duration-200">
-                <Avatar className="w-full h-full">
-                  <AvatarImage src={previewImage} className="object-cover w-full h-full" />
-                  <AvatarFallback className="text-sm bg-gray-100">CN</AvatarFallback>
-                </Avatar>
-              </div>
-              <label
-                htmlFor="avatar-upload"
-                className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full cursor-pointer"
-              >
-                <span className="text-white text-xs">Change Photo</span>
-              </label>
-              {previewImage && (
-                <button
-                  onClick={handleRemovePhoto}
-                  className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md hover:bg-red-50 transition-colors duration-200"
-                >
-                  <XMarkIcon className="h-4 w-4 text-red-500" />
-                </button>
-              )}
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      <Card className="w-full shadow-lg">
-        <CardContent className="flex flex-col gap-3 p-6">
-          <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
-          {error && <p className="text-red-500 text-sm">{error}</p>}
-          <label className="text-sm font-medium">Name</label>
-          <Input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="Enter your name"
-            className="bg-white"
-          />
-          {/* Phone Number (optional) */}
-          <label className="text-sm font-medium">
-            Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
-          </label>
-          <Input
-            type="tel"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="e.g. 09171234567"
-            className="bg-white"
-          />
-          {/* Short Bio (optional) */}
-          <label className="text-sm font-medium">
-            Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
-          </label>
-          <textarea
-            name="bio"
-            value={formData.bio}
-            onChange={handleChange}
-            className="bg-white border rounded-md p-2"
-            placeholder="Tell us a bit about yourself..."
-            rows={3}
-          />
-          <div className="flex items-center gap-2">
-            <Checkbox
-              id="termsAccepted"
-              checked={formData.termsAccepted}
-              onCheckedChange={handleCheckboxChange}
-            />
-            <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
-              I agree to SafeBuy PH's Terms and Privacy Policy
-            </label>
-          </div>
-          <Button
-            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
-            onClick={handleSubmit}
-            disabled={loading}
-          >
-            {loading ? 'Registering...' : 'Next'}
-          </Button>
-        </CardContent>
-      </Card>
-    </div>
   );
 }
 
@@ -505,7 +323,7 @@ function SellerStep1({ onNext, error, setError }) {
       console.log('Response data:', data); // Debug log
 
       if (!response.ok) {
-        setError(data.error);
+        setError(data.error || 'Validation failed');
         return;
       }
 
@@ -538,6 +356,7 @@ function SellerStep1({ onNext, error, setError }) {
           onChange={handleChange}
           placeholder="Enter your email"
           className="bg-white"
+          required
         />
         <p className="text-sm">Password</p>
         <Input
@@ -547,6 +366,7 @@ function SellerStep1({ onNext, error, setError }) {
           onChange={handleChange}
           placeholder="Enter your password"
           className="bg-white"
+          required
         />
         <div className="relative flex justify-center text-xs uppercase">
           <div className="absolute inset-0 flex items-center">
@@ -645,6 +465,8 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
     }
 
     try {
+      console.log('Starting registration...');
+
       const response = await fetch('http://localhost:3000/api/auth/register', {
         method: 'POST',
         headers: {
@@ -663,20 +485,44 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
         }),
       });
 
+      console.log('Registration response headers:', response.headers);
       const data = await response.json();
+      console.log('Registration response data:', data);
+      console.log('Cookies after registration:', document.cookie);
 
       if (!response.ok) {
         if (data.error && data.error.toLowerCase().includes('email')) {
-          setSellerStep1Error('Email already registered');
-          setStep(100); // Go back to SellerStep1
-          return;
-        } else if (data.error && data.error.toLowerCase().includes('password')) {
-          setSellerStep1Error('Password must be at least 8 characters');
-          setStep(100); // Go back to SellerStep1
-          return;
+          setError('Email already registered');
         } else {
-          throw new Error(data.error || 'Registration failed');
+          setError(data.error || 'Registration failed');
         }
+        return;
+      }
+
+      // After successful registration, automatically login
+      console.log('Starting login...');
+
+      const loginResponse = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      console.log('Login response headers:', loginResponse.headers);
+      const loginData = await loginResponse.json();
+      console.log('Login response data:', loginData);
+      console.log('Cookies after login:', document.cookie);
+
+      if (!loginResponse.ok) {
+        setError(loginData.error || 'Login failed after registration');
+        return;
       }
 
       onNext();
@@ -844,11 +690,6 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
   };
 
   const validateForm = () => {
-    if (!formData.email || !formData.password) {
-      setError('Please complete your registration details');
-      setStep(100); // Go back to SellerStep1
-      return false;
-    }
     if (!formData.phoneNumber) {
       setError('Phone number is required');
       return false;
@@ -883,49 +724,17 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
     }
 
     try {
-      // First register the user if not already registered
-      const registerResponse = await fetch('http://localhost:3000/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          password: formData.password,
-          phoneNumber: formData.phoneNumber,
-          profilePic: formData.profilePic,
-          bio: formData.bio,
-          role: 'seller',
-        }),
-      });
+      // Get the cookie Value
+      console.log('Current cookies before request:', document.cookie);
 
-      const registerData = await registerResponse.json();
-
-      if (!registerResponse.ok) {
-        if (registerData.error && registerData.error.toLowerCase().includes('email')) {
-          setSellerStep1Error('Email already registered');
-          setStep(100); // Go back to SellerStep1
-          return;
-        } else if (registerData.error && registerData.error.toLowerCase().includes('password')) {
-          setSellerStep1Error('Password must be at least 8 characters');
-          setStep(100); // Go back to SellerStep1
-          return;
-        } else {
-          throw new Error(registerData.error || 'Registration failed');
-        }
-      }
-
-      // Then verify seller status
+      // Only verify seller status since we're already registered
       const verifyResponse = await fetch('http://localhost:3000/api/profile/become-seller', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        credentials: 'include',
+        credentials: 'include', // This will send the existing auth cookie
         body: JSON.stringify({
           validIdUrl: formData.idPhoto,
           validIdNumber: formData.idNumber,
@@ -936,7 +745,8 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
       const verifyData = await verifyResponse.json();
 
       if (!verifyResponse.ok) {
-        throw new Error(verifyData.message || 'Failed to verify seller status');
+        setError(verifyData.message || 'Failed to verify seller status');
+        return;
       }
 
       onNext();
