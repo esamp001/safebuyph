@@ -95,9 +95,11 @@ function Signup() {
         <div className="text-sm text-muted-foreground mb-5 text-center">
           {role === 'buyer'
             ? `Step ${step - 1} of ${totalSteps - 1}`
-            : role === 'seller'
+            : role === 'seller' && step >= 100 && step <= 102
               ? `Step ${step - 99} of 3`
-              : ''}
+              : role === 'seller' && step > 102
+                ? 'Seller registration complete'
+                : ''}
         </div>
         {step === 1 && (
           <>
