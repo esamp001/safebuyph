@@ -77,8 +77,7 @@ function Signup() {
           setSellerStep1Error={setSellerStep1Error}
         />
       )}
-      {step === 103 && <SellerStep4 onNext={() => setStep(104)} />}
-      {step === 104 && <SellerStep5 onSubmit={() => navigate('/dashboard')} />}
+      {step === 103 && <SellerStep4 onSubmit={() => navigate('/dashboard')} />}
     </>
   );
 
@@ -88,7 +87,9 @@ function Signup() {
       <div className="max-w-xl mx-auto mt-8 p-4">
         <Progress
           value={
-            role === 'buyer' ? ((step - 1) / (totalSteps - 1)) * 100 : ((step - 100) / 2) * 100
+            role === 'buyer'
+              ? ((step - 1) / 3) * 100 // For buyer: steps 2,3,4 (3 total steps)
+              : ((step - 99) / 3) * 100 // For seller: steps 100,101,102 (3 total steps)
           }
           className="w-full mb-6"
         />
@@ -885,6 +886,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [idPreview, setIdPreview] = useState(formData.idPhoto || null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleVerificationChange = (options, idNumbers) => {
     const selectedIdType = Object.keys(options).find((key) => options[key]);
@@ -905,8 +907,24 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
     updateFormData({ sellingDescription: e.target.value });
   };
 
-  const handleIdPhotoChange = (e) => {
-    const file = e.target.files[0];
+  const handleDragOver = (e) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    handleFileUpload(file);
+  };
+
+  const handleFileUpload = (file) => {
     if (file) {
       if (file.size > 2 * 1024 * 1024) {
         setError('File size must be less than 2MB');
@@ -920,12 +938,17 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
       reader.onloadend = () => {
         updateFormData({
           idPhoto: reader.result,
-          verificationType: 'government_id', // Set a default verification type
+          verificationType: 'government_id',
         });
         setIdPreview(reader.result);
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const handleIdPhotoChange = (e) => {
+    const file = e.target.files[0];
+    handleFileUpload(file);
   };
 
   const validateForm = () => {
@@ -963,17 +986,13 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
     }
 
     try {
-      // Get the cookie Value
-      console.log('Current cookies before request:', document.cookie);
-
-      // Only verify seller status since we're already registered
       const verifyResponse = await fetch('http://localhost:3000/api/profile/become-seller', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Accept: 'application/json',
         },
-        credentials: 'include', // This will send the existing auth cookie
+        credentials: 'include',
         body: JSON.stringify({
           validIdUrl: formData.idPhoto,
           validIdNumber: formData.idNumber,
@@ -1003,66 +1022,142 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
 
   return (
     <Card className="w-full shadow-lg">
-      <CardContent className="flex flex-col gap-3 p-6">
-        {idPreview && (
-          <div className="flex flex-col items-center gap-2">
-            <h2 className="text-2xl font-bold text-[#0e1d54]">Verify your Seller Profile</h2>
-            <p className="text-sm">
-              To ensure the authenticity of your account, we need to verify your seller profile.
+      <CardContent className="flex flex-col gap-6 p-6">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold text-[#0e1d54]">Verify Your Seller Account</h2>
+          <p className="text-sm text-gray-600">
+            To ensure the authenticity of your account, we need to verify your seller profile.
+          </p>
+        </div>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 rounded-md p-3">
+            <p className="text-red-500 text-sm">{error}</p>
+          </div>
+        )}
+
+        <div className="space-y-6">
+          {/* ID Upload Section */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Upload your Valid ID</label>
+            <div
+              className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+                isDragging ? 'border-[#0e1d54] bg-blue-50' : 'border-gray-300'
+              }`}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onDrop={handleDrop}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleIdPhotoChange}
+                className="hidden"
+                id="id-upload"
+              />
+              {idPreview ? (
+                <div className="space-y-3">
+                  <div className="relative w-32 h-32 mx-auto">
+                    <img
+                      src={idPreview}
+                      alt="ID Preview"
+                      className="w-full h-full object-cover rounded-md"
+                    />
+                    <button
+                      onClick={() => {
+                        updateFormData({ idPhoto: null });
+                        setIdPreview(null);
+                      }}
+                      className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md hover:bg-red-50"
+                    >
+                      <XMarkIcon className="h-4 w-4 text-red-500" />
+                    </button>
+                  </div>
+                  <label
+                    htmlFor="id-upload"
+                    className="text-sm text-[#0e1d54] hover:text-[#597aaf] cursor-pointer"
+                  >
+                    Change Photo
+                  </label>
+                </div>
+              ) : (
+                <div className="space-y-2">
+                  <div className="mx-auto w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center">
+                    <svg
+                      className="w-6 h-6 text-gray-400"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+                  <div className="text-sm text-gray-600">
+                    <label
+                      htmlFor="id-upload"
+                      className="text-[#0e1d54] hover:text-[#597aaf] cursor-pointer font-medium"
+                    >
+                      Click to upload
+                    </label>{' '}
+                    or drag and drop
+                  </div>
+                  <p className="text-xs text-gray-500">PNG, JPG up to 2MB</p>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* ID Type Selection */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">Select ID Type</label>
+            <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
+          </div>
+
+          {/* Selling Description */}
+          <div className="space-y-3">
+            <label className="text-sm font-medium">What will you be selling?</label>
+            <textarea
+              name="sellingDescription"
+              value={formData.sellingDescription}
+              onChange={handleDescriptionChange}
+              className="w-full min-h-[100px] p-3 border rounded-md focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent text-[#0e1d54] bg-white"
+              placeholder="Describe the types of items you plan to sell (e.g., electronics, clothing, etc.)"
+            />
+            <p className="text-xs text-gray-500">
+              This helps us understand your product and provide better support.
             </p>
           </div>
-        )}
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <label className="text-sm font-medium">Upload your Valid ID</label>
 
-        {idPreview && (
-          <div className="flex flex-col items-center gap-2 mt-2">
-            <img
-              src={idPreview}
-              alt="ID Preview"
-              className="w-44 h-30 object-contain border rounded shadow"
+          {/* Terms and Conditions */}
+          <div className="flex items-start space-x-3">
+            <Checkbox
+              id="termsAccepted"
+              checked={formData.termsAccepted}
+              onCheckedChange={(checked) => updateFormData({ termsAccepted: checked })}
+              className="mt-1"
             />
-            <button
-              type="button"
-              onClick={() => {
-                updateFormData({ idPhoto: null });
-                setIdPreview(null);
-              }}
-              className="text-xs text-red-500 underline mt-1"
-            >
-              Remove
-            </button>
+            <label htmlFor="termsAccepted" className="text-sm text-gray-600">
+              I confirm that the information provided is accurate and I agree to SafeBuy PH's{' '}
+              <a href="#" className="text-[#0e1d54] hover:underline">
+                Terms and Conditions
+              </a>
+            </label>
           </div>
-        )}
-        <input type="file" accept="image/*" onChange={handleIdPhotoChange} />
-        <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
 
-        <label className="text-sm font-medium">Description of what you're selling</label>
-        <textarea
-          name="sellingDescription"
-          value={formData.sellingDescription}
-          onChange={handleDescriptionChange}
-          className="bg-white border rounded-md p-2"
-          placeholder="I usually sell electronics like phones and gaming consoles..."
-          rows={3}
-        />
-        <div className="flex items-center gap-2">
-          <Checkbox
-            id="termsAccepted"
-            checked={formData.termsAccepted}
-            onCheckedChange={(checked) => updateFormData({ termsAccepted: checked })}
-          />
-          <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
-            I agree to SafeBuy PH's Terms and Privacy Policy
-          </label>
+          {/* Submit Button */}
+          <Button
+            className="w-full bg-[#0e1d54] hover:bg-[#597aaf] text-white py-2 rounded-md transition-colors"
+            onClick={handleSubmit}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Verifying...' : 'Complete Verification'}
+          </Button>
         </div>
-        <Button
-          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Verifying...' : 'Next'}
-        </Button>
       </CardContent>
     </Card>
   );
@@ -1082,23 +1177,6 @@ function SellerStep4({ onNext }) {
           onClick={onNext}
         >
           Go to Dashboard
-        </Button>
-      </CardContent>
-    </Card>
-  );
-}
-
-function SellerStep5({ onSubmit }) {
-  return (
-    <Card className="w-full shadow-lg">
-      <CardContent className="flex flex-col gap-3 p-6">
-        <h2 className="text-2xl font-bold text-[#0e1d54]">Seller Step 5</h2>
-        <p className="text-sm">This is Seller Step 5.</p>
-        <Button
-          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
-          onClick={onSubmit}
-        >
-          Submit
         </Button>
       </CardContent>
     </Card>
