@@ -125,6 +125,7 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password',
   phoneNumber: 'phoneNumber',
   profilePic: 'profilePic',
+  facebookId: 'facebookId',
   rating: 'rating',
   status: 'status',
   transactionCount: 'transactionCount',

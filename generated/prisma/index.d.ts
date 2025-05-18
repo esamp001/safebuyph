@@ -1264,6 +1264,7 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     profilePic: string | null
+    facebookId: string | null
     rating: number | null
     status: string | null
     transactionCount: number | null
@@ -1284,6 +1285,7 @@ export namespace Prisma {
     password: string | null
     phoneNumber: string | null
     profilePic: string | null
+    facebookId: string | null
     rating: number | null
     status: string | null
     transactionCount: number | null
@@ -1304,6 +1306,7 @@ export namespace Prisma {
     password: number
     phoneNumber: number
     profilePic: number
+    facebookId: number
     rating: number
     status: number
     transactionCount: number
@@ -1338,6 +1341,7 @@ export namespace Prisma {
     password?: true
     phoneNumber?: true
     profilePic?: true
+    facebookId?: true
     rating?: true
     status?: true
     transactionCount?: true
@@ -1358,6 +1362,7 @@ export namespace Prisma {
     password?: true
     phoneNumber?: true
     profilePic?: true
+    facebookId?: true
     rating?: true
     status?: true
     transactionCount?: true
@@ -1378,6 +1383,7 @@ export namespace Prisma {
     password?: true
     phoneNumber?: true
     profilePic?: true
+    facebookId?: true
     rating?: true
     status?: true
     transactionCount?: true
@@ -1482,9 +1488,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt: Date
-    password: string
+    password: string | null
     phoneNumber: string | null
     profilePic: string | null
+    facebookId: string | null
     rating: number
     status: string
     transactionCount: number
@@ -1524,6 +1531,7 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
+    facebookId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1550,6 +1558,7 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
+    facebookId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1570,6 +1579,7 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
+    facebookId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1590,6 +1600,7 @@ export namespace Prisma {
     password?: boolean
     phoneNumber?: boolean
     profilePic?: boolean
+    facebookId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1602,7 +1613,7 @@ export namespace Prisma {
     sellingDescription?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio" | "sellingDescription", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "facebookId" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio" | "sellingDescription", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
     sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
@@ -1628,9 +1639,10 @@ export namespace Prisma {
       name: string
       email: string
       createdAt: Date
-      password: string
+      password: string | null
       phoneNumber: string | null
       profilePic: string | null
+      facebookId: string | null
       rating: number
       status: string
       transactionCount: number
@@ -2076,6 +2088,7 @@ export namespace Prisma {
     readonly password: FieldRef<"User", 'String'>
     readonly phoneNumber: FieldRef<"User", 'String'>
     readonly profilePic: FieldRef<"User", 'String'>
+    readonly facebookId: FieldRef<"User", 'String'>
     readonly rating: FieldRef<"User", 'Float'>
     readonly status: FieldRef<"User", 'String'>
     readonly transactionCount: FieldRef<"User", 'Int'>
@@ -6318,6 +6331,7 @@ export namespace Prisma {
     password: 'password',
     phoneNumber: 'phoneNumber',
     profilePic: 'profilePic',
+    facebookId: 'facebookId',
     rating: 'rating',
     status: 'status',
     transactionCount: 'transactionCount',
@@ -6508,9 +6522,10 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
+    facebookId?: StringNullableFilter<"User"> | string | null
     rating?: FloatFilter<"User"> | number
     status?: StringFilter<"User"> | string
     transactionCount?: IntFilter<"User"> | number
@@ -6533,9 +6548,10 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     createdAt?: SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
+    facebookId?: SortOrderInput | SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -6561,9 +6577,10 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     createdAt?: DateTimeFilter<"User"> | Date | string
-    password?: StringFilter<"User"> | string
+    password?: StringNullableFilter<"User"> | string | null
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
+    facebookId?: StringNullableFilter<"User"> | string | null
     rating?: FloatFilter<"User"> | number
     status?: StringFilter<"User"> | string
     transactionCount?: IntFilter<"User"> | number
@@ -6586,9 +6603,10 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     createdAt?: SortOrder
-    password?: SortOrder
+    password?: SortOrderInput | SortOrder
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
+    facebookId?: SortOrderInput | SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -6614,9 +6632,10 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"User"> | string
     email?: StringWithAggregatesFilter<"User"> | string
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
-    password?: StringWithAggregatesFilter<"User"> | string
+    password?: StringNullableWithAggregatesFilter<"User"> | string | null
     phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     profilePic?: StringNullableWithAggregatesFilter<"User"> | string | null
+    facebookId?: StringNullableWithAggregatesFilter<"User"> | string | null
     rating?: FloatWithAggregatesFilter<"User"> | number
     status?: StringWithAggregatesFilter<"User"> | string
     transactionCount?: IntWithAggregatesFilter<"User"> | number
@@ -6941,9 +6960,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -6966,9 +6986,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -6990,9 +7011,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7015,9 +7037,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7040,9 +7063,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -7059,9 +7083,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7079,9 +7104,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7537,6 +7563,7 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
+    facebookId?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -7563,6 +7590,7 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
+    facebookId?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -7583,6 +7611,7 @@ export namespace Prisma {
     password?: SortOrder
     phoneNumber?: SortOrder
     profilePic?: SortOrder
+    facebookId?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -8869,9 +8898,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -8893,9 +8923,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -8932,9 +8963,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -8956,9 +8988,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9001,9 +9034,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9025,9 +9059,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9053,9 +9088,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9077,9 +9113,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9144,9 +9181,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9168,9 +9206,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9202,9 +9241,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9226,9 +9266,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9249,9 +9290,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9273,9 +9315,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9301,9 +9344,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9325,9 +9369,10 @@ export namespace Prisma {
     name: string
     email: string
     createdAt?: Date | string
-    password: string
+    password?: string | null
     phoneNumber?: string | null
     profilePic?: string | null
+    facebookId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9428,9 +9473,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9452,9 +9498,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9486,9 +9533,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9510,9 +9558,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    password?: StringFieldUpdateOperationsInput | string
+    password?: NullableStringFieldUpdateOperationsInput | string | null
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
+    facebookId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number

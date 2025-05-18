@@ -13,9 +13,10 @@ model User {
   name               String
   email              String         @unique
   createdAt          DateTime       @default(now())
-  password           String
+  password           String?
   phoneNumber        String?
   profilePic         String?
+  facebookId         String?
   rating             Float          @default(3.0)
   status             String         @default("active")
   transactionCount   Int            @default(0)

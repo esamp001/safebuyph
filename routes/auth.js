@@ -11,8 +11,43 @@ const bodyParser = require('body-parser');
 const passport = require('passport');
 const res = require('express/lib/response');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 
 
+passport.use(
+  new FacebookStrategy(
+    {
+      clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: "http://localhost:3000/api/auth/facebook/callback",
+    profileFields: ['id', 'emails', 'name', 'picture.type(large)']
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await prisma.user.findUnique({
+          where: { email: profile.emails[0].value },
+        });
+
+        if (!user) {
+          user = await prisma.user.create({
+            data: {
+              email: profile.emails[0].value,
+              name: `${profile.name.givenName} ${profile.name.familyName}`,
+              profilePic: profile.photos[0].value,
+              facebookId: profile.id,
+              canSell: false, // Default to buyer
+              status: 'active'
+            },
+          });
+        }
+
+        return done(null, user);
+    } catch (error) {
+      return done(error, null);
+      }
+    }
+  )
+);
 passport.use(
   new GoogleStrategy(
     {
@@ -34,7 +69,8 @@ passport.use(
               name: profile.displayName,
               profilePic: profile.photos[0].value,
               googleId: profile.id,
-              role: 'buyer',
+              canSell: false, // Default to buyer
+              status: 'active'
              },
           });
         }
@@ -69,7 +105,27 @@ router.get(
   }
 );
 
+router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
 
+router.get(
+  '/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/login', session: false }),
+  (req, res) => {
+    const token = jwt.sign(
+      { userId: req.user.id, email: req.user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+    // Set as cookie (recommended for web apps)
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 1000 // 1 hour
+    });
+    res.redirect('http://localhost:5173/dashboard');
+  }
+);
 // Initialize Prisma client
 const prisma = new PrismaClient();
 
