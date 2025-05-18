@@ -8,6 +8,67 @@ const { redisClient } = require('../config/redis');
 const crypto = require('crypto');
 const validator = require('validator');
 const bodyParser = require('body-parser');
+const passport = require('passport');
+const res = require('express/lib/response');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL: "http://localhost:3000/api/auth/google/callback",
+      scope: ['profile', 'email'],
+    },
+    async (accessToken, refreshToken, profile, done) => {
+      try {
+        let user = await prisma.user.findUnique({
+          where: { email: profile.emails[0].value },
+        });
+
+        if (!user) {
+          user = await prisma.user.create({
+            data: { 
+              email: profile.emails[0].value,
+              name: profile.displayName,
+              profilePic: profile.photos[0].value,
+              googleId: profile.id,
+              role: 'buyer',
+             },
+          });
+        }
+
+        return done(null, user);
+      } catch (error) {
+        return done(error, false);
+      }
+    }
+  )
+);
+
+router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+router.get(
+  '/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login', session: false }),
+  (req, res) => {
+    const token = jwt.sign(
+      { userId: req.user.id, email: req.user.email },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    );
+    // Set the cookie (httpOnly for security)
+    res.cookie('access_token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // true in production
+      sameSite: 'lax',
+      maxAge: 60 * 60 * 1000 // 1 hour
+    });
+    res.redirect('http://localhost:5173/dashboard');
+  }
+);
+
 
 // Initialize Prisma client
 const prisma = new PrismaClient();

@@ -37,7 +37,6 @@ function Signup() {
   const handleBack = () => {
     setStep(1);
     setRole(null);
-    resetFormData();
   };
 
   const renderBuyerSteps = () => (
@@ -554,6 +553,14 @@ function SellerStep1({ onNext, error, setError }) {
   const { formData, updateFormData } = useForm();
   const [isLoading, setIsLoading] = useState(false);
 
+  const handleGoogleSignup = () => {
+    window.location.href = 'http://localhost:3000/api/auth/google';
+  };
+
+  const handleFacebookSignup = () => {
+    window.location.href = 'http://localhost:3000/api/auth/facebook';
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     updateFormData({ [name]: value });
@@ -651,11 +658,11 @@ function SellerStep1({ onNext, error, setError }) {
           </div>
           <span className="px-2 text-muted-foreground relative bg-gray-50">Or continue with</span>
         </div>
-        <Button variant="outline" className="w-full" onClick={() => {}}>
+        <Button variant="outline" className="w-full" onClick={handleGoogleSignup}>
           <FcGoogle className="mr-2 h-4 w-4" />
           Google
         </Button>
-        <Button variant="outline" className="w-full" onClick={() => {}}>
+        <Button variant="outline" className="w-full" onClick={handleFacebookSignup}>
           <FaFacebook className="mr-2 h-4 w-4" />
           Facebook
         </Button>

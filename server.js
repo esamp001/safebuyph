@@ -8,9 +8,28 @@ const helmet = require('helmet');
 const checktokenBlacklist = require('./middleware/checktokenBlacklist');
 const validator = require('validator');
 const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const passport = require('passport');
+
 
 // Initialize express
 const app = express();
+
+// Session configuration
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'your-secret-key',
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    secure: process.env.NODE_ENV === 'production',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Basic Helmet setup with common security headers
 app.use(helmet());
@@ -97,6 +116,22 @@ app.use('/api/profile', checktokenBlacklist, profileRoutes);
 app.use('/api/transaction', checktokenBlacklist, transactionRoutes);
 app.use('/api/admin', checktokenBlacklist, adminRoutes);
 app.use('/api/ratings', checktokenBlacklist, ratingRoutes);
+
+
+
+// Passport serialization
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await prisma.user.findUnique({ where: { id } });
+    done(null, user);
+  } catch (error) {
+    done(error, null);
+  }
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

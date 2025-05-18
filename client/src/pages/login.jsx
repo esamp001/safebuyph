@@ -4,8 +4,19 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import LoginHeader from '@/components/ui/loginHeader';
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
+  const navigate = useNavigate();
+
+  const handleGoogleLogin = () => {
+    window.location.href = 'http://localhost:3000/api/auth/google';
+  };
+
+  const handleFacebookLogin = () => {
+    window.location.href = 'http://localhost:3000/api/auth/facebook';
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col bg-login-gradient">
       <LoginHeader />
@@ -44,11 +55,11 @@ function Login() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Button variant="outline" className="w-full" onClick={() => {}}>
+                <Button variant="outline" className="w-full" onClick={handleGoogleLogin}>
                   <FcGoogle className="mr-2 h-4 w-4" />
                   Google
                 </Button>
-                <Button variant="outline" className="w-full" onClick={() => {}}>
+                <Button variant="outline" className="w-full" onClick={handleFacebookLogin}>
                   <FaFacebook className="mr-2 h-4 w-4" />
                   Facebook
                 </Button>
