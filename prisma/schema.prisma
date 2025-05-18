@@ -17,6 +17,7 @@ model User {
   phoneNumber        String?
   profilePic         String?
   facebookId         String?
+  googleId           String?
   rating             Float          @default(3.0)
   status             String         @default("active")
   transactionCount   Int            @default(0)

@@ -1265,6 +1265,7 @@ export namespace Prisma {
     phoneNumber: string | null
     profilePic: string | null
     facebookId: string | null
+    googleId: string | null
     rating: number | null
     status: string | null
     transactionCount: number | null
@@ -1286,6 +1287,7 @@ export namespace Prisma {
     phoneNumber: string | null
     profilePic: string | null
     facebookId: string | null
+    googleId: string | null
     rating: number | null
     status: string | null
     transactionCount: number | null
@@ -1307,6 +1309,7 @@ export namespace Prisma {
     phoneNumber: number
     profilePic: number
     facebookId: number
+    googleId: number
     rating: number
     status: number
     transactionCount: number
@@ -1342,6 +1345,7 @@ export namespace Prisma {
     phoneNumber?: true
     profilePic?: true
     facebookId?: true
+    googleId?: true
     rating?: true
     status?: true
     transactionCount?: true
@@ -1363,6 +1367,7 @@ export namespace Prisma {
     phoneNumber?: true
     profilePic?: true
     facebookId?: true
+    googleId?: true
     rating?: true
     status?: true
     transactionCount?: true
@@ -1384,6 +1389,7 @@ export namespace Prisma {
     phoneNumber?: true
     profilePic?: true
     facebookId?: true
+    googleId?: true
     rating?: true
     status?: true
     transactionCount?: true
@@ -1492,6 +1498,7 @@ export namespace Prisma {
     phoneNumber: string | null
     profilePic: string | null
     facebookId: string | null
+    googleId: string | null
     rating: number
     status: string
     transactionCount: number
@@ -1532,6 +1539,7 @@ export namespace Prisma {
     phoneNumber?: boolean
     profilePic?: boolean
     facebookId?: boolean
+    googleId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1559,6 +1567,7 @@ export namespace Prisma {
     phoneNumber?: boolean
     profilePic?: boolean
     facebookId?: boolean
+    googleId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1580,6 +1589,7 @@ export namespace Prisma {
     phoneNumber?: boolean
     profilePic?: boolean
     facebookId?: boolean
+    googleId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1601,6 +1611,7 @@ export namespace Prisma {
     phoneNumber?: boolean
     profilePic?: boolean
     facebookId?: boolean
+    googleId?: boolean
     rating?: boolean
     status?: boolean
     transactionCount?: boolean
@@ -1613,7 +1624,7 @@ export namespace Prisma {
     sellingDescription?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "facebookId" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio" | "sellingDescription", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "createdAt" | "password" | "phoneNumber" | "profilePic" | "facebookId" | "googleId" | "rating" | "status" | "transactionCount" | "updatedAt" | "canSell" | "isAdmin" | "validIdNumber" | "validIdUrl" | "bio" | "sellingDescription", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     buyerRatings?: boolean | User$buyerRatingsArgs<ExtArgs>
     sellerRatings?: boolean | User$sellerRatingsArgs<ExtArgs>
@@ -1643,6 +1654,7 @@ export namespace Prisma {
       phoneNumber: string | null
       profilePic: string | null
       facebookId: string | null
+      googleId: string | null
       rating: number
       status: string
       transactionCount: number
@@ -2089,6 +2101,7 @@ export namespace Prisma {
     readonly phoneNumber: FieldRef<"User", 'String'>
     readonly profilePic: FieldRef<"User", 'String'>
     readonly facebookId: FieldRef<"User", 'String'>
+    readonly googleId: FieldRef<"User", 'String'>
     readonly rating: FieldRef<"User", 'Float'>
     readonly status: FieldRef<"User", 'String'>
     readonly transactionCount: FieldRef<"User", 'Int'>
@@ -6332,6 +6345,7 @@ export namespace Prisma {
     phoneNumber: 'phoneNumber',
     profilePic: 'profilePic',
     facebookId: 'facebookId',
+    googleId: 'googleId',
     rating: 'rating',
     status: 'status',
     transactionCount: 'transactionCount',
@@ -6526,6 +6540,7 @@ export namespace Prisma {
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
     facebookId?: StringNullableFilter<"User"> | string | null
+    googleId?: StringNullableFilter<"User"> | string | null
     rating?: FloatFilter<"User"> | number
     status?: StringFilter<"User"> | string
     transactionCount?: IntFilter<"User"> | number
@@ -6552,6 +6567,7 @@ export namespace Prisma {
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
     facebookId?: SortOrderInput | SortOrder
+    googleId?: SortOrderInput | SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -6581,6 +6597,7 @@ export namespace Prisma {
     phoneNumber?: StringNullableFilter<"User"> | string | null
     profilePic?: StringNullableFilter<"User"> | string | null
     facebookId?: StringNullableFilter<"User"> | string | null
+    googleId?: StringNullableFilter<"User"> | string | null
     rating?: FloatFilter<"User"> | number
     status?: StringFilter<"User"> | string
     transactionCount?: IntFilter<"User"> | number
@@ -6607,6 +6624,7 @@ export namespace Prisma {
     phoneNumber?: SortOrderInput | SortOrder
     profilePic?: SortOrderInput | SortOrder
     facebookId?: SortOrderInput | SortOrder
+    googleId?: SortOrderInput | SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -6636,6 +6654,7 @@ export namespace Prisma {
     phoneNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
     profilePic?: StringNullableWithAggregatesFilter<"User"> | string | null
     facebookId?: StringNullableWithAggregatesFilter<"User"> | string | null
+    googleId?: StringNullableWithAggregatesFilter<"User"> | string | null
     rating?: FloatWithAggregatesFilter<"User"> | number
     status?: StringWithAggregatesFilter<"User"> | string
     transactionCount?: IntWithAggregatesFilter<"User"> | number
@@ -6964,6 +6983,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -6990,6 +7010,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -7015,6 +7036,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7041,6 +7063,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7067,6 +7090,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -7087,6 +7111,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7108,6 +7133,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -7564,6 +7590,7 @@ export namespace Prisma {
     phoneNumber?: SortOrder
     profilePic?: SortOrder
     facebookId?: SortOrder
+    googleId?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -7591,6 +7618,7 @@ export namespace Prisma {
     phoneNumber?: SortOrder
     profilePic?: SortOrder
     facebookId?: SortOrder
+    googleId?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -7612,6 +7640,7 @@ export namespace Prisma {
     phoneNumber?: SortOrder
     profilePic?: SortOrder
     facebookId?: SortOrder
+    googleId?: SortOrder
     rating?: SortOrder
     status?: SortOrder
     transactionCount?: SortOrder
@@ -8902,6 +8931,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -8927,6 +8957,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -8967,6 +8998,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -8992,6 +9024,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9038,6 +9071,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9063,6 +9097,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9092,6 +9127,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9117,6 +9153,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9185,6 +9222,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9210,6 +9248,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9245,6 +9284,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9270,6 +9310,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9294,6 +9335,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9319,6 +9361,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9348,6 +9391,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9373,6 +9417,7 @@ export namespace Prisma {
     phoneNumber?: string | null
     profilePic?: string | null
     facebookId?: string | null
+    googleId?: string | null
     rating?: number
     status?: string
     transactionCount?: number
@@ -9477,6 +9522,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9502,6 +9548,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9537,6 +9584,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
@@ -9562,6 +9610,7 @@ export namespace Prisma {
     phoneNumber?: NullableStringFieldUpdateOperationsInput | string | null
     profilePic?: NullableStringFieldUpdateOperationsInput | string | null
     facebookId?: NullableStringFieldUpdateOperationsInput | string | null
+    googleId?: NullableStringFieldUpdateOperationsInput | string | null
     rating?: FloatFieldUpdateOperationsInput | number
     status?: StringFieldUpdateOperationsInput | string
     transactionCount?: IntFieldUpdateOperationsInput | number
