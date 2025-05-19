@@ -203,7 +203,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\Elle\\safebuyph\\safebuyph\\generated\\prisma",
+      "value": "C:\\Users\\ellej\\safebuy-ph\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -217,7 +217,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\Elle\\safebuyph\\safebuyph\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Users\\ellej\\safebuy-ph\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
