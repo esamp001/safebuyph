@@ -237,55 +237,88 @@ function FormStep1({ onNext, error, setError }) {
   };
 
   return (
-    <Card className="w-full shadow-lg">
-      <CardContent className="flex flex-col gap-3 p-6">
-        <h2 className="text-2xl font-bold text-[#0e1d54]">Create an account to shop safely</h2>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <p className="text-sm">Email address</p>
+    <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+      <CardContent className="flex flex-col gap-4 p-8">
+        <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins mb-2">
+          Create an account to shop safely
+        </h2>
+
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm font-poppins">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-[#0e1d54] font-poppins">Email address</label>
             <Input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
-              className="bg-white text-black placeholder:text-gray-400"
+              className="bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
               required
             />
           </div>
-          <div>
-            <p className="text-sm">Password</p>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-[#0e1d54] font-poppins">Password</label>
             <Input
               type="password"
               name="password"
               value={formData.password}
               onChange={handleChange}
               placeholder="Enter your password"
-              className="bg-white text-black placeholder:text-gray-400"
+              className="bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
               required
             />
           </div>
-          <div className="relative flex justify-center text-xs uppercase">
+
+          <div className="relative flex justify-center text-xs uppercase my-6">
             <div className="absolute inset-0 flex items-center">
-              <span className="w-full border-t"></span>
+              <span className="w-full border-t border-gray-200"></span>
             </div>
-            <span className="px-2 text-muted-foreground relative bg-gray-50">Or continue with</span>
+            <span className="px-4 text-muted-foreground relative bg-[#e6f0fa] font-poppins">
+              Or continue with
+            </span>
           </div>
-          <Button type="button" variant="outline" className="w-full" onClick={handleGoogleSignup}>
-            <FcGoogle className="mr-2 h-4 w-4" />
-            Google
-          </Button>
-          <Button type="button" variant="outline" className="w-full" onClick={handleFacebookSignup}>
-            <FaFacebook className="mr-2 h-4 w-4" />
-            Facebook
-          </Button>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
+              onClick={handleGoogleSignup}
+            >
+              <FcGoogle className="h-5 w-5" />
+              <span className="font-poppins">Google</span>
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
+              onClick={handleFacebookSignup}
+            >
+              <FaFacebook className="h-5 w-5 text-[#1877F2]" />
+              <span className="font-poppins">Facebook</span>
+            </Button>
+          </div>
+
           <Button
             type="submit"
-            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02] mt-4"
             disabled={isLoading}
           >
-            {isLoading ? 'Validating...' : 'Next'}
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Validating...</span>
+              </div>
+            ) : (
+              'Next'
+            )}
           </Button>
         </form>
       </CardContent>
