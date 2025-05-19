@@ -128,11 +128,28 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
   const { formData, updateFormData } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [localEmail, setLocalEmail] = useState('');
+  const [localPassword, setLocalPassword] = useState('');
 
   useEffect(() => {
     setError('');
     setSubmitted(false);
   }, [resetSignal]);
+
+  useEffect(() => {
+    setLocalEmail(formData.email || '');
+    setLocalPassword(formData.password || '');
+  }, [formData]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    if (name === 'email') {
+      setLocalEmail(value);
+    } else if (name === 'password') {
+      setLocalPassword(value);
+    }
+    updateFormData({ [name]: value });
+  };
 
   const handleGoogleSignup = () => {
     window.location.href = 'http://localhost:3000/api/auth/google';
@@ -142,60 +159,55 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
     window.location.href = 'http://localhost:3000/api/auth/facebook';
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    updateFormData({ [name]: value });
-  };
-
   const validateForm = () => {
     // Email validation
-    if (!formData.email) {
+    if (!localEmail) {
       setError('Email is required');
       return false;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(localEmail)) {
       setError('Please enter a valid email address');
       return false;
     }
-    if (formData.email.length > 100) {
+    if (localEmail.length > 100) {
       setError('Email address is too long (maximum 100 characters)');
       return false;
     }
 
     // Password validation
-    if (!formData.password) {
+    if (!localPassword) {
       setError('Password is required');
       return false;
     }
-    if (formData.password.length < 8) {
+    if (localPassword.length < 8) {
       setError('Password must be at least 8 characters');
       return false;
     }
-    if (formData.password.length > 64) {
+    if (localPassword.length > 64) {
       setError('Password is too long (maximum 64 characters)');
       return false;
     }
-    if (!/[A-Z]/.test(formData.password)) {
+    if (!/[A-Z]/.test(localPassword)) {
       setError('Password must contain at least one uppercase letter');
       return false;
     }
-    if (!/[a-z]/.test(formData.password)) {
+    if (!/[a-z]/.test(localPassword)) {
       setError('Password must contain at least one lowercase letter');
       return false;
     }
-    if (!/[0-9]/.test(formData.password)) {
+    if (!/[0-9]/.test(localPassword)) {
       setError('Password must contain at least one number');
       return false;
     }
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password)) {
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(localPassword)) {
       setError('Password must contain at least one special character');
       return false;
     }
-    if (/\s/.test(formData.password)) {
+    if (/\s/.test(localPassword)) {
       setError('Password cannot contain spaces');
       return false;
     }
-    if (formData.password.toLowerCase().includes(formData.email.split('@')[0].toLowerCase())) {
+    if (localPassword.toLowerCase().includes(localEmail.split('@')[0].toLowerCase())) {
       setError('Password cannot contain your email username');
       return false;
     }
@@ -221,8 +233,8 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
+          email: localEmail,
+          password: localPassword,
         }),
       });
 
@@ -278,17 +290,14 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
             <Input
               type="email"
               name="email"
-              value={formData.email}
-              onChange={(e) => {
-                handleChange(e);
-                if (submitted && e.target.value) setError('');
-              }}
+              value={localEmail}
+              onChange={handleChange}
               placeholder="Enter your email"
               className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
-                submitted && !formData.email ? 'border-red-500' : 'border-gray-300'
+                submitted && !localEmail ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {submitted && !formData.email && (
+            {submitted && !localEmail && (
               <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
             )}
           </div>
@@ -298,17 +307,14 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
             <Input
               type="password"
               name="password"
-              value={formData.password}
-              onChange={(e) => {
-                handleChange(e);
-                if (submitted && e.target.value) setError('');
-              }}
+              value={localPassword}
+              onChange={handleChange}
               placeholder="Enter your password"
               className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
-                submitted && !formData.password ? 'border-red-500' : 'border-gray-300'
+                submitted && !localPassword ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {submitted && !formData.password && (
+            {submitted && !localPassword && (
               <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
             )}
           </div>
@@ -497,44 +503,102 @@ function FormStep2({ onNext }) {
 
   return (
     <div className="space-y-4">
-      <Card>
-        <CardContent className="flex flex-col gap-3 p-6">
-          <h1 className="text-sm font-medium">Add a profile picture</h1>
-          <Input
-            id="avatar-upload"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-xs text-gray-500">Adding a profile picture builds trust</p>
+      <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+        <CardContent className="flex flex-col gap-4 p-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-xl font-bold text-[#0e1d54] font-poppins">Profile Picture</h2>
+            <p className="text-sm text-gray-600 font-poppins">
+              Add a profile picture to build trust with your customers
+            </p>
           </div>
 
-          {/* Avatar Preview and Upload */}
           <div className="flex flex-col items-center gap-4">
             <div className="relative group">
-              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 hover:border-[#0e1d54] transition-all duration-200">
+              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg hover:border-[#0e1d54] transition-all duration-200">
                 <Avatar className="w-full h-full">
                   <AvatarImage src={previewImage} className="object-cover w-full h-full" />
-                  <AvatarFallback className="text-sm bg-gray-100">CN</AvatarFallback>
+                  <AvatarFallback className="text-2xl bg-gray-100 text-[#0e1d54]">
+                    {formData.name ? formData.name.charAt(0).toUpperCase() : 'U'}
+                  </AvatarFallback>
                 </Avatar>
               </div>
+
+              {/* Upload Button Overlay */}
               <label
                 htmlFor="avatar-upload"
                 className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full cursor-pointer"
               >
-                <span className="text-white text-xs">Change Photo</span>
+                <div className="text-center">
+                  <svg
+                    className="w-8 h-8 text-white mx-auto mb-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <span className="text-white text-sm font-medium">Change Photo</span>
+                </div>
               </label>
+
+              {/* Remove Photo Button */}
               {previewImage && (
                 <button
                   onClick={handleRemovePhoto}
-                  className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md hover:bg-red-50 transition-colors duration-200"
+                  className="absolute -top-2 -right-2 bg-white rounded-full p-1.5 shadow-lg hover:bg-red-50 transition-colors duration-200"
                 >
                   <XMarkIcon className="h-4 w-4 text-red-500" />
                 </button>
               )}
             </div>
+
+            {/* Hidden File Input */}
+            <input
+              id="avatar-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+
+            {/* Upload Instructions */}
+            <div className="text-center space-y-1">
+              <p className="text-sm text-gray-600 font-poppins">
+                Recommended: Square image, at least 400x400px
+              </p>
+              <p className="text-xs text-gray-500 font-poppins">Maximum file size: 2MB</p>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm font-poppins shadow-sm">
+                <svg
+                  className="w-5 h-5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
@@ -544,18 +608,16 @@ function FormStep2({ onNext }) {
           <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <label className="text-sm font-medium">Name</label>
+          <label className="text-sm font-medium text-[#0e1d54] font-poppins">Name</label>
           <Input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
-            className={`text-black placeholder:text-gray-400 ${
-              formData.name ? 'bg-[#e6f0fa]' : 'bg-white'
-            }`}
+            className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
           />
-          <label className="text-sm font-medium">
+          <label className="text-sm font-medium text-[#0e1d54] font-poppins">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <Input
@@ -564,16 +626,17 @@ function FormStep2({ onNext }) {
             value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="e.g. 09171234567"
-            className="bg-white text-black placeholder:text-gray-400"
+            className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
           />
-          <label className="text-sm font-medium">
-            Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
+          <label className="text-sm font-medium text-[#0e1d54] font-poppins">
+            Short Bio{' '}
+            <span className="text-sm font-medium text-[#0e1d54] font-poppins">(optional)</span>
           </label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            className="bg-white text-black border rounded-md p-2 placeholder:text-gray-400"
+            className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
@@ -583,12 +646,12 @@ function FormStep2({ onNext }) {
               checked={formData.termsAccepted}
               onCheckedChange={handleCheckboxChange}
             />
-            <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
+            <label htmlFor="termsAccepted" className="text-sm cursor-pointer font-poppins">
               I agree to SafeBuy PH's Terms and Privacy Policy
             </label>
           </div>
           <Button
-            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
             onClick={handleSubmit}
             disabled={isLoading}
           >
@@ -616,7 +679,7 @@ function FormStep4({ onSubmit }) {
           transactions using SafeBuy PH.
         </p>
         <Button
-          className="bg-cyan-500 text-white w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
+          className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
           onClick={handleSubmit}
         >
           Go to Dashboard
@@ -651,12 +714,55 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
   };
 
   const validateForm = () => {
+    // Email validation
     if (!formData.email) {
       setError('Email is required');
       return false;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      setError('Please enter a valid email address');
+      return false;
+    }
+    if (formData.email.length > 100) {
+      setError('Email address is too long (maximum 100 characters)');
+      return false;
+    }
+
+    // Password validation
     if (!formData.password) {
       setError('Password is required');
+      return false;
+    }
+    if (formData.password.length < 8) {
+      setError('Password must be at least 8 characters');
+      return false;
+    }
+    if (formData.password.length > 64) {
+      setError('Password is too long (maximum 64 characters)');
+      return false;
+    }
+    if (!/[A-Z]/.test(formData.password)) {
+      setError('Password must contain at least one uppercase letter');
+      return false;
+    }
+    if (!/[a-z]/.test(formData.password)) {
+      setError('Password must contain at least one lowercase letter');
+      return false;
+    }
+    if (!/[0-9]/.test(formData.password)) {
+      setError('Password must contain at least one number');
+      return false;
+    }
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password)) {
+      setError('Password must contain at least one special character');
+      return false;
+    }
+    if (/\s/.test(formData.password)) {
+      setError('Password cannot contain spaces');
+      return false;
+    }
+    if (formData.password.toLowerCase().includes(formData.email.split('@')[0].toLowerCase())) {
+      setError('Password cannot contain your email username');
       return false;
     }
     return true;
@@ -674,7 +780,6 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
     }
 
     try {
-      console.log('Sending validation request with:', { email: formData.email }); // Debug log
       const response = await fetch('http://localhost:3000/api/auth/validate-credentials', {
         method: 'POST',
         headers: {
@@ -687,9 +792,7 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
         }),
       });
 
-      console.log('Response status:', response.status); // Debug log
       const data = await response.json();
-      console.log('Response data:', data); // Debug log
 
       if (!response.ok) {
         setError(data.error || 'Validation failed');
@@ -698,10 +801,7 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
 
       onNext();
     } catch (err) {
-      console.error('Full error object:', err); // More detailed error logging
-      console.error('Error message:', err.message);
-      console.error('Error stack:', err.stack);
-
+      console.error('Validation error:', err);
       if (err.message.includes('Failed to fetch')) {
         setError('Unable to connect to the server. Please make sure the server is running.');
       } else {
@@ -713,9 +813,12 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
   };
 
   return (
-    <Card className="w-full shadow-lg">
-      <CardContent className="flex flex-col gap-3 p-6">
-        <h2 className="text-2xl font-bold text-[#0e1d54]">Open your seller account now</h2>
+    <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+      <CardContent className="flex flex-col gap-4 p-8">
+        <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins mb-2">
+          Open your seller account now
+        </h2>
+
         {error && (
           <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm font-poppins shadow-sm mb-2">
             <svg
@@ -734,55 +837,93 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
             <span>{error}</span>
           </div>
         )}
-        <label className="text-sm font-medium text-[#0e1d54]">Email address</label>
-        <Input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-          placeholder="Enter your email"
-          className={`bg-white text-black placeholder:text-gray-400 ${
-            submitted && !formData.email ? 'border-red-500' : 'border-gray-300'
-          }`}
-        />
-        {submitted && !formData.email && (
-          <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
-        )}
-        <label className="text-sm font-medium text-[#0e1d54]">Password</label>
-        <Input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-          placeholder="Enter your password"
-          className={`bg-white text-black placeholder:text-gray-400 ${
-            submitted && !formData.password ? 'border-red-500' : 'border-gray-300'
-          }`}
-        />
-        {submitted && !formData.password && (
-          <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
-        )}
-        <div className="relative flex justify-center text-xs uppercase">
-          <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t"></span>
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-[#0e1d54] font-poppins">Email address</label>
+            <Input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={(e) => {
+                handleChange(e);
+                if (submitted && e.target.value) setError('');
+              }}
+              placeholder="Enter your email"
+              className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
+                submitted && !formData.email ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {submitted && !formData.email && (
+              <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
+            )}
           </div>
-          <span className="px-2 text-muted-foreground relative bg-gray-50">Or continue with</span>
-        </div>
-        <Button variant="outline" className="w-full" onClick={handleGoogleSignup}>
-          <FcGoogle className="mr-2 h-4 w-4" />
-          Google
-        </Button>
-        <Button variant="outline" className="w-full" onClick={handleFacebookSignup}>
-          <FaFacebook className="mr-2 h-4 w-4" />
-          Facebook
-        </Button>
-        <Button
-          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
-          onClick={handleSubmit}
-          disabled={isLoading}
-        >
-          {isLoading ? 'Validating...' : 'Next'}
-        </Button>
+
+          <div className="space-y-2">
+            <label className="text-sm font-medium text-[#0e1d54] font-poppins">Password</label>
+            <Input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={(e) => {
+                handleChange(e);
+                if (submitted && e.target.value) setError('');
+              }}
+              placeholder="Enter your password"
+              className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
+                submitted && !formData.password ? 'border-red-500' : 'border-gray-300'
+              }`}
+            />
+            {submitted && !formData.password && (
+              <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
+            )}
+          </div>
+
+          <Button
+            type="submit"
+            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Validating...</span>
+              </div>
+            ) : (
+              'Next'
+            )}
+          </Button>
+
+          <div className="relative flex justify-center text-xs uppercase my-4">
+            <div className="absolute inset-0 flex items-center">
+              <span className="w-full border-t border-gray-200"></span>
+            </div>
+            <span className="px-4 text-muted-foreground relative bg-[#e6f0fa] font-poppins">
+              Or continue with
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4">
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
+              onClick={handleGoogleSignup}
+            >
+              <FcGoogle className="h-5 w-5" />
+              <span className="font-poppins">Google</span>
+            </Button>
+            <Button
+              type="button"
+              variant="outline"
+              className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
+              onClick={handleFacebookSignup}
+            >
+              <FaFacebook className="h-5 w-5 text-[#1877F2]" />
+              <span className="font-poppins">Facebook</span>
+            </Button>
+          </div>
+        </form>
       </CardContent>
     </Card>
   );
@@ -934,54 +1075,112 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
 
   return (
     <div className="space-y-4">
-      <Card>
-        <CardContent className="flex flex-col gap-3 p-6">
-          <h1 className="text-sm font-medium">Add a profile picture</h1>
-          <Input
-            id="avatar-upload"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={handleFileChange}
-          />
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-xs text-gray-500">Adding a profile picture builds trust</p>
+      <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+        <CardContent className="flex flex-col gap-4 p-8">
+          <div className="text-center space-y-2">
+            <h2 className="text-xl font-bold text-[#0e1d54] font-poppins">Profile Picture</h2>
+            <p className="text-sm text-gray-600 font-poppins">
+              Add a profile picture to build trust with your customers
+            </p>
           </div>
 
-          {/* Avatar Preview and Upload */}
           <div className="flex flex-col items-center gap-4">
             <div className="relative group">
-              <div className="w-20 h-20 rounded-full overflow-hidden border-2 border-gray-200 hover:border-[#0e1d54] transition-all duration-200">
+              <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg hover:border-[#0e1d54] transition-all duration-200">
                 <Avatar className="w-full h-full">
                   <AvatarImage src={previewImage} className="object-cover w-full h-full" />
-                  <AvatarFallback className="text-sm bg-gray-100">CN</AvatarFallback>
+                  <AvatarFallback className="text-2xl bg-gray-100 text-[#0e1d54]">
+                    {formData.name ? formData.name.charAt(0).toUpperCase() : 'U'}
+                  </AvatarFallback>
                 </Avatar>
               </div>
+
+              {/* Upload Button Overlay */}
               <label
                 htmlFor="avatar-upload"
                 className="absolute inset-0 flex items-center justify-center bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-200 rounded-full cursor-pointer"
               >
-                <span className="text-white text-xs">Change Photo</span>
+                <div className="text-center">
+                  <svg
+                    className="w-8 h-8 text-white mx-auto mb-1"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"
+                    />
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"
+                    />
+                  </svg>
+                  <span className="text-white text-sm font-medium">Change Photo</span>
+                </div>
               </label>
+
+              {/* Remove Photo Button */}
               {previewImage && (
                 <button
                   onClick={handleRemovePhoto}
-                  className="absolute -top-2 -right-2 bg-white rounded-full p-1 shadow-md hover:bg-red-50 transition-colors duration-200"
+                  className="absolute -top-2 -right-2 bg-white rounded-full p-1.5 shadow-lg hover:bg-red-50 transition-colors duration-200"
                 >
                   <XMarkIcon className="h-4 w-4 text-red-500" />
                 </button>
               )}
             </div>
+
+            {/* Hidden File Input */}
+            <input
+              id="avatar-upload"
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+
+            {/* Upload Instructions */}
+            <div className="text-center space-y-1">
+              <p className="text-sm text-gray-600 font-poppins">
+                Recommended: Square image, at least 400x400px
+              </p>
+              <p className="text-xs text-gray-500 font-poppins">Maximum file size: 2MB</p>
+            </div>
+
+            {/* Error Message */}
+            {error && (
+              <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm font-poppins shadow-sm">
+                <svg
+                  className="w-5 h-5 flex-shrink-0"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"
+                  />
+                </svg>
+                <span>{error}</span>
+              </div>
+            )}
           </div>
         </CardContent>
       </Card>
 
       <Card className="w-full shadow-lg">
         <CardContent className="flex flex-col gap-3 p-6">
-          <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
+          <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins">Tell us about yourself</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <label className="text-sm font-medium">Name</label>
+          <label className="text-sm font-medium font-poppins text-white">Name</label>
           <Input
             type="text"
             name="name"
@@ -1025,7 +1224,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             </label>
           </div>
           <Button
-            className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#597aaf] hover:bg-[#0e1d54]"
+            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
             onClick={handleSubmit}
             disabled={isLoading}
           >
@@ -1307,7 +1506,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
 
           {/* Submit Button */}
           <Button
-            className="w-full bg-[#0e1d54] hover:bg-[#597aaf] text-white py-2 rounded-md transition-colors"
+            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
             onClick={handleSubmit}
             disabled={isLoading}
           >
@@ -1329,7 +1528,7 @@ function SellerStep4({ onNext }) {
           platform and buyer items.
         </p>
         <Button
-          className="bg-cyan-500 text-white p-1 w-full rounded-md mt-2 bg-[#0e1d54] hover:bg-[#597aaf]"
+          className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
           onClick={onNext}
         >
           Go to Dashboard
