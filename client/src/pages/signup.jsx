@@ -81,7 +81,7 @@ function Signup() {
   );
 
   return (
-    <div className="min-h-screen bg-login-gradient">
+    <div className="min-h-screen bg-[#FFFF]">
       <SignupHeader step={step} totalSteps={totalSteps} onBack={handleBack} />
       <div className="max-w-xl mx-auto mt-8 p-4">
         <Progress
@@ -92,7 +92,7 @@ function Signup() {
           }
           className="w-full mb-6"
         />
-        <div className="text-sm text-muted-foreground mb-5 text-center">
+        <div className="text-sm text-muted-foreground mb-5 text-center font-poppins">
           {role === 'buyer' && step >= 2 && step <= 3
             ? `Step ${step - 1} of ${totalSteps - 1}`
             : role === 'buyer' && step > 3
@@ -105,10 +105,10 @@ function Signup() {
         </div>
         {step === 1 && (
           <>
-            <h1 className="text-3xl font-bold text-[#0e1d54] text-center mb-2">
+            <h1 className="text-3xl font-bold text-[#1f3f70] text-center mb-2 font-poppins">
               Welcome to Safebuy PH!
             </h1>
-            <p className="text-center text-gray-600 mb-6">
+            <p className="text-center text-gray-600 mb-6 font-poppins">
               Let's start by knowing how you want to use the platform.
             </p>
             <ButtonWithIcon onSelect={handleRoleSelection} />
@@ -128,7 +128,7 @@ function FormStep1({ onNext, error, setError }) {
   const handleGoogleSignup = () => {
     window.location.href = 'http://localhost:3000/api/auth/google';
   };
-  
+
   const handleFacebookSignup = () => {
     window.location.href = 'http://localhost:3000/api/auth/facebook';
   };

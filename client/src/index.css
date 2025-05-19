@@ -105,11 +105,9 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
-button:hover {
-  border-color: #646cff;
-}
 button:focus,
-button:focus-visible {
+button:focus-visible,
+button:active {
   outline: none !important;
   box-shadow: none !important;
 }
@@ -125,6 +123,14 @@ button:focus-visible {
   button {
     background-color: #f9f9f9;
   }
+}
+
+.font-roboto-condensed {
+  font-family: 'Roboto Condensed', Arial, sans-serif;
+}
+
+.font-poppins {
+  font-family: 'Poppins', Arial, sans-serif;
 }
 
 /* Autofill background and text color override for inputs and textareas */

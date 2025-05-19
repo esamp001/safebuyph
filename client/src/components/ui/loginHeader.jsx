@@ -15,21 +15,21 @@ const loginHeader = () => {
         <Button
           variant="ghost"
           size="sm"
-          className="text-sm text-[#FFFF] focus:outline-none outline-none ring-0 focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+          className="text-sm font-poppins text-[#FFFF] outline-none focus:outline-none focus-visible:outline-none ring-0 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 hover:bg-[#0e1d54] hover:text-white"
         >
           About
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="text-sm text-[#FFFF] focus:outline-none outline-none ring-0 focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+          className="text-sm font-poppins text-[#FFFF] focus:outline-none outline-none ring-0 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 hover:bg-[#0e1d54] hover:text-white"
         >
           Help
         </Button>
         <Button
           variant="ghost"
           size="sm"
-          className="text-sm text-[#FFFF] focus:outline-none outline-none ring-0 focus:ring-0 focus-visible:outline-none focus-visible:ring-0"
+          className="text-sm font-poppins text-[#FFFF] focus:outline-none outline-none ring-0 focus:ring-0 focus-visible:outline-none focus-visible:ring-0 hover:bg-[#0e1d54] hover:text-white"
           onClick={() => navigate('/signup')}
         >
           Sign Up
