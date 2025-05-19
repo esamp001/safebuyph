@@ -5,6 +5,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import LoginHeader from '@/components/ui/loginHeader';
 import { useNavigate } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
 
 function Login() {
   const navigate = useNavigate();
@@ -39,7 +40,12 @@ function Login() {
                 <label className="text-sm text-[#1f3f6f] font-poppins font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                   Email
                 </label>
-                <Input type="email" placeholder="m@example.com" className="w-full bg-white" />
+                <Input
+                  type="email"
+                  placeholder="m@example.com"
+                  className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 invalid:border-red-500"
+                  required
+                />
               </div>
               <div className="space-y-2">
                 <label className="text-sm text-[#1f3f6f] font-poppins font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
@@ -47,7 +53,7 @@ function Login() {
                 </label>
                 <Input type="password" className="w-full bg-white" />
               </div>
-              <Button className="w-full bg-[#0e1d54] font-poppins hover:bg-[#597aaf] focus:ring-0 focus:outline-none border-none">
+              <Button className="w-full bg-[#0e1d54] font-poppins hover:bg-[#597aaf] focus:ring-0 focus:outline-none border-none transition-transform duration-200 hover:scale-105">
                 Login
               </Button>
               <div className="relative">
@@ -55,7 +61,7 @@ function Login() {
                   <span className="w-full border-t" />
                 </div>
                 <div className="relative flex justify-center text-xs uppercase">
-                  <span className=" px-2 text-muted-foreground font-poppins">Or continue with</span>
+                  <span className="px-2 text-muted-foreground font-poppins">Or continue with</span>
                 </div>
               </div>
               <div className="space-y-2">

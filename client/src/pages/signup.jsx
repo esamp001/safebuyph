@@ -19,6 +19,7 @@ function Signup() {
   const [step, setStep] = useState(1);
   const [role, setRole] = useState(null);
   const [sellerStep1Error, setSellerStep1Error] = useState('');
+  const [resetSignal, setResetSignal] = useState(0);
   const { switchForm } = useForm();
   const totalSteps = 4;
   const navigate = useNavigate();
@@ -37,6 +38,7 @@ function Signup() {
   const handleBack = () => {
     setStep(1);
     setRole(null);
+    setResetSignal((prev) => prev + 1);
   };
 
   const renderBuyerSteps = () => (
@@ -46,6 +48,7 @@ function Signup() {
           onNext={() => setStep(3)}
           error={sellerStep1Error}
           setError={setSellerStep1Error}
+          resetSignal={resetSignal}
         />
       )}
       {step === 3 && <FormStep2 onNext={() => setStep(4)} />}
@@ -121,9 +124,15 @@ function Signup() {
   );
 }
 
-function FormStep1({ onNext, error, setError }) {
+function FormStep1({ onNext, error, setError, resetSignal }) {
   const { formData, updateFormData } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    setError('');
+    setSubmitted(false);
+  }, [resetSignal]);
 
   const handleGoogleSignup = () => {
     window.location.href = 'http://localhost:3000/api/auth/google';
@@ -195,6 +204,7 @@ function FormStep1({ onNext, error, setError }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
     setError('');
     setIsLoading(true);
 
@@ -244,8 +254,21 @@ function FormStep1({ onNext, error, setError }) {
         </h2>
 
         {error && (
-          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-lg text-sm font-poppins">
-            {error}
+          <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm font-poppins shadow-sm mb-2">
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{error}</span>
           </div>
         )}
 
@@ -256,11 +279,18 @@ function FormStep1({ onNext, error, setError }) {
               type="email"
               name="email"
               value={formData.email}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                if (submitted && e.target.value) setError('');
+              }}
               placeholder="Enter your email"
-              className="bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
-              required
+              className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
+                submitted && !formData.email ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {submitted && !formData.email && (
+              <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
+            )}
           </div>
 
           <div className="space-y-2">
@@ -269,14 +299,36 @@ function FormStep1({ onNext, error, setError }) {
               type="password"
               name="password"
               value={formData.password}
-              onChange={handleChange}
+              onChange={(e) => {
+                handleChange(e);
+                if (submitted && e.target.value) setError('');
+              }}
               placeholder="Enter your password"
-              className="bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
-              required
+              className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
+                submitted && !formData.password ? 'border-red-500' : 'border-gray-300'
+              }`}
             />
+            {submitted && !formData.password && (
+              <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
+            )}
           </div>
 
-          <div className="relative flex justify-center text-xs uppercase my-6">
+          <Button
+            type="submit"
+            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center gap-2">
+                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                <span>Validating...</span>
+              </div>
+            ) : (
+              'Next'
+            )}
+          </Button>
+
+          <div className="relative flex justify-center text-xs uppercase my-4">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-gray-200"></span>
             </div>
@@ -305,21 +357,6 @@ function FormStep1({ onNext, error, setError }) {
               <span className="font-poppins">Facebook</span>
             </Button>
           </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02] mt-4"
-            disabled={isLoading}
-          >
-            {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Validating...</span>
-              </div>
-            ) : (
-              'Next'
-            )}
-          </Button>
         </form>
       </CardContent>
     </Card>
@@ -590,9 +627,15 @@ function FormStep4({ onSubmit }) {
 }
 
 // Seller Forms
-function SellerStep1({ onNext, error, setError }) {
+function SellerStep1({ onNext, error, setError, resetSignal }) {
   const { formData, updateFormData } = useForm();
   const [isLoading, setIsLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  useEffect(() => {
+    setError('');
+    setSubmitted(false);
+  }, [resetSignal]);
 
   const handleGoogleSignup = () => {
     window.location.href = 'http://localhost:3000/api/auth/google';
@@ -621,6 +664,7 @@ function SellerStep1({ onNext, error, setError }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSubmitted(true);
     setError('');
     setIsLoading(true);
 
@@ -672,27 +716,52 @@ function SellerStep1({ onNext, error, setError }) {
     <Card className="w-full shadow-lg">
       <CardContent className="flex flex-col gap-3 p-6">
         <h2 className="text-2xl font-bold text-[#0e1d54]">Open your seller account now</h2>
-        {error && <p className="text-red-500 text-sm">{error}</p>}
-        <p className="text-sm">Email address</p>
+        {error && (
+          <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm font-poppins shadow-sm mb-2">
+            <svg
+              className="w-5 h-5 flex-shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M12 8v4m0 4h.01M21 12A9 9 0 113 12a9 9 0 0118 0z"
+              />
+            </svg>
+            <span>{error}</span>
+          </div>
+        )}
+        <label className="text-sm font-medium text-[#0e1d54]">Email address</label>
         <Input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Enter your email"
-          className="bg-white text-black placeholder:text-gray-400"
-          required
+          className={`bg-white text-black placeholder:text-gray-400 ${
+            submitted && !formData.email ? 'border-red-500' : 'border-gray-300'
+          }`}
         />
-        <p className="text-sm">Password</p>
+        {submitted && !formData.email && (
+          <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
+        )}
+        <label className="text-sm font-medium text-[#0e1d54]">Password</label>
         <Input
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
           placeholder="Enter your password"
-          className="bg-white text-black placeholder:text-gray-400"
-          required
+          className={`bg-white text-black placeholder:text-gray-400 ${
+            submitted && !formData.password ? 'border-red-500' : 'border-gray-300'
+          }`}
         />
+        {submitted && !formData.password && (
+          <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
+        )}
         <div className="relative flex justify-center text-xs uppercase">
           <div className="absolute inset-0 flex items-center">
             <span className="w-full border-t"></span>
