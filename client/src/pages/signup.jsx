@@ -14,6 +14,7 @@ import { data, useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenuCheckboxes } from '@/components/ui/DropdownMenuCheckboxes';
 import { FormProvider, useForm } from '@/context/FormContext';
+import { Spinner } from '@/components/ui/Spinner';
 
 function Signup() {
   const [step, setStep] = useState(1);
@@ -23,6 +24,7 @@ function Signup() {
   const { switchForm } = useForm();
   const totalSteps = 4;
   const navigate = useNavigate();
+  const [isPageLoading, setIsPageLoading] = useState(false);
 
   const handleRoleSelection = (selectedRole) => {
     setRole(selectedRole);
@@ -120,6 +122,7 @@ function Signup() {
         {role === 'buyer' && renderBuyerSteps()}
         {role === 'seller' && renderSellerSteps()}
       </div>
+      {isPageLoading && <FullPageLoader />}
     </div>
   );
 }
@@ -128,35 +131,72 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
   const { formData, updateFormData } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
-  const [localEmail, setLocalEmail] = useState('');
-  const [localPassword, setLocalPassword] = useState('');
+  const [localEmail, setLocalEmail] = useState(formData.email || '');
+  const [localPassword, setLocalPassword] = useState(formData.password || '');
 
   useEffect(() => {
     setError('');
     setSubmitted(false);
   }, [resetSignal]);
 
-  useEffect(() => {
-    setLocalEmail(formData.email || '');
-    setLocalPassword(formData.password || '');
-  }, [formData]);
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setLocalEmail(value);
+  };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    if (name === 'email') {
-      setLocalEmail(value);
-    } else if (name === 'password') {
-      setLocalPassword(value);
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setLocalPassword(value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setSubmitted(true);
+    setError('');
+    setIsLoading(true);
+
+    // Update form context with current local values
+    updateFormData({
+      email: localEmail,
+      password: localPassword,
+    });
+
+    if (!validateForm()) {
+      setIsLoading(false);
+      return;
     }
-    updateFormData({ [name]: value });
-  };
 
-  const handleGoogleSignup = () => {
-    window.location.href = 'http://localhost:3000/api/auth/google';
-  };
+    try {
+      const response = await fetch('http://localhost:3000/api/auth/validate-credentials', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          email: localEmail,
+          password: localPassword,
+        }),
+      });
 
-  const handleFacebookSignup = () => {
-    window.location.href = 'http://localhost:3000/api/auth/facebook';
+      const data = await response.json();
+
+      if (!response.ok) {
+        setError(data.error || 'Validation failed');
+        return;
+      }
+
+      onNext();
+    } catch (err) {
+      console.error('Validation error:', err);
+      if (err.message.includes('Failed to fetch')) {
+        setError('Unable to connect to the server. Please make sure the server is running.');
+      } else {
+        setError(err.message || 'Failed to validate credentials. Please try again.');
+      }
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const validateForm = () => {
@@ -214,52 +254,8 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
     return true;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setSubmitted(true);
-    setError('');
-    setIsLoading(true);
-
-    if (!validateForm()) {
-      setIsLoading(false);
-      return;
-    }
-
-    try {
-      const response = await fetch('http://localhost:3000/api/auth/validate-credentials', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          email: localEmail,
-          password: localPassword,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        setError(data.error || 'Validation failed');
-        return;
-      }
-
-      onNext();
-    } catch (err) {
-      console.error('Validation error:', err);
-      if (err.message.includes('Failed to fetch')) {
-        setError('Unable to connect to the server. Please make sure the server is running.');
-      } else {
-        setError(err.message || 'Failed to validate credentials. Please try again.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+    <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
       <CardContent className="flex flex-col gap-4 p-8">
         <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins mb-2">
           Create an account to shop safely
@@ -289,9 +285,8 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
             <label className="text-sm font-medium text-[#0e1d54] font-poppins">Email address</label>
             <Input
               type="email"
-              name="email"
               value={localEmail}
-              onChange={handleChange}
+              onChange={handleEmailChange}
               placeholder="Enter your email"
               className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
                 submitted && !localEmail ? 'border-red-500' : 'border-gray-300'
@@ -306,9 +301,8 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
             <label className="text-sm font-medium text-[#0e1d54] font-poppins">Password</label>
             <Input
               type="password"
-              name="password"
               value={localPassword}
-              onChange={handleChange}
+              onChange={handlePasswordChange}
               placeholder="Enter your password"
               className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
                 submitted && !localPassword ? 'border-red-500' : 'border-gray-300'
@@ -325,10 +319,10 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
             disabled={isLoading}
           >
             {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Validating...</span>
-              </div>
+              <>
+                <Spinner className="w-5 h-5 mr-2" />
+                Validating...
+              </>
             ) : (
               'Next'
             )}
@@ -338,7 +332,7 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-gray-200"></span>
             </div>
-            <span className="px-4 text-muted-foreground relative bg-[#e6f0fa] font-poppins">
+            <span className="px-4 text-muted-foreground relative bg-[#dce1e6] font-poppins">
               Or continue with
             </span>
           </div>
@@ -348,7 +342,9 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
               type="button"
               variant="outline"
               className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
-              onClick={handleGoogleSignup}
+              onClick={() => {
+                window.location.href = 'http://localhost:3000/api/auth/google';
+              }}
             >
               <FcGoogle className="h-5 w-5" />
               <span className="font-poppins">Google</span>
@@ -357,7 +353,9 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
               type="button"
               variant="outline"
               className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
-              onClick={handleFacebookSignup}
+              onClick={() => {
+                window.location.href = 'http://localhost:3000/api/auth/facebook';
+              }}
             >
               <FaFacebook className="h-5 w-5 text-[#1877F2]" />
               <span className="font-poppins">Facebook</span>
@@ -503,7 +501,7 @@ function FormStep2({ onNext }) {
 
   return (
     <div className="space-y-4">
-      <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+      <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
         <CardContent className="flex flex-col gap-4 p-8">
           <div className="text-center space-y-2">
             <h2 className="text-xl font-bold text-[#0e1d54] font-poppins">Profile Picture</h2>
@@ -603,7 +601,7 @@ function FormStep2({ onNext }) {
         </CardContent>
       </Card>
 
-      <Card className="w-full shadow-lg">
+      <Card className="w-full shadow-lg bg-[#FFFF] hover:shadow-xl transition-all duration-300 rounded-xl">
         <CardContent className="flex flex-col gap-3 p-6">
           <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -671,7 +669,7 @@ function FormStep4({ onSubmit }) {
   };
 
   return (
-    <Card className="w-full shadow-lg">
+    <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
       <CardContent className="flex flex-col items-center gap-4 p-6">
         <h2 className="text-2xl font-bold text-[#0e1d54] mb-2">You're all set!</h2>
         <p className="text-center text-gray-600">
@@ -694,74 +692,73 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
   const { formData, updateFormData } = useForm();
   const [isLoading, setIsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [localEmail, setLocalEmail] = useState(formData.email || '');
+  const [localPassword, setLocalPassword] = useState(formData.password || '');
 
   useEffect(() => {
     setError('');
     setSubmitted(false);
   }, [resetSignal]);
 
-  const handleGoogleSignup = () => {
-    window.location.href = 'http://localhost:3000/api/auth/google';
+  const handleEmailChange = (e) => {
+    const value = e.target.value;
+    setLocalEmail(value);
   };
 
-  const handleFacebookSignup = () => {
-    window.location.href = 'http://localhost:3000/api/auth/facebook';
-  };
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    updateFormData({ [name]: value });
+  const handlePasswordChange = (e) => {
+    const value = e.target.value;
+    setLocalPassword(value);
   };
 
   const validateForm = () => {
     // Email validation
-    if (!formData.email) {
+    if (!localEmail) {
       setError('Email is required');
       return false;
     }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(localEmail)) {
       setError('Please enter a valid email address');
       return false;
     }
-    if (formData.email.length > 100) {
+    if (localEmail.length > 100) {
       setError('Email address is too long (maximum 100 characters)');
       return false;
     }
 
     // Password validation
-    if (!formData.password) {
+    if (!localPassword) {
       setError('Password is required');
       return false;
     }
-    if (formData.password.length < 8) {
+    if (localPassword.length < 8) {
       setError('Password must be at least 8 characters');
       return false;
     }
-    if (formData.password.length > 64) {
+    if (localPassword.length > 64) {
       setError('Password is too long (maximum 64 characters)');
       return false;
     }
-    if (!/[A-Z]/.test(formData.password)) {
+    if (!/[A-Z]/.test(localPassword)) {
       setError('Password must contain at least one uppercase letter');
       return false;
     }
-    if (!/[a-z]/.test(formData.password)) {
+    if (!/[a-z]/.test(localPassword)) {
       setError('Password must contain at least one lowercase letter');
       return false;
     }
-    if (!/[0-9]/.test(formData.password)) {
+    if (!/[0-9]/.test(localPassword)) {
       setError('Password must contain at least one number');
       return false;
     }
-    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(formData.password)) {
+    if (!/[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(localPassword)) {
       setError('Password must contain at least one special character');
       return false;
     }
-    if (/\s/.test(formData.password)) {
+    if (/\s/.test(localPassword)) {
       setError('Password cannot contain spaces');
       return false;
     }
-    if (formData.password.toLowerCase().includes(formData.email.split('@')[0].toLowerCase())) {
+    if (localPassword.toLowerCase().includes(localEmail.split('@')[0].toLowerCase())) {
       setError('Password cannot contain your email username');
       return false;
     }
@@ -773,6 +770,12 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
     setSubmitted(true);
     setError('');
     setIsLoading(true);
+
+    // Update form context with current local values
+    updateFormData({
+      email: localEmail,
+      password: localPassword,
+    });
 
     if (!validateForm()) {
       setIsLoading(false);
@@ -787,8 +790,8 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
           Accept: 'application/json',
         },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
+          email: localEmail,
+          password: localPassword,
         }),
       });
 
@@ -813,7 +816,7 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
   };
 
   return (
-    <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+    <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
       <CardContent className="flex flex-col gap-4 p-8">
         <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins mb-2">
           Open your seller account now
@@ -843,18 +846,14 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
             <label className="text-sm font-medium text-[#0e1d54] font-poppins">Email address</label>
             <Input
               type="email"
-              name="email"
-              value={formData.email}
-              onChange={(e) => {
-                handleChange(e);
-                if (submitted && e.target.value) setError('');
-              }}
+              value={localEmail}
+              onChange={handleEmailChange}
               placeholder="Enter your email"
               className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
-                submitted && !formData.email ? 'border-red-500' : 'border-gray-300'
+                submitted && !localEmail ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {submitted && !formData.email && (
+            {submitted && !localEmail && (
               <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
             )}
           </div>
@@ -863,18 +862,14 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
             <label className="text-sm font-medium text-[#0e1d54] font-poppins">Password</label>
             <Input
               type="password"
-              name="password"
-              value={formData.password}
-              onChange={(e) => {
-                handleChange(e);
-                if (submitted && e.target.value) setError('');
-              }}
+              value={localPassword}
+              onChange={handlePasswordChange}
               placeholder="Enter your password"
               className={`bg-white text-black placeholder:text-gray-400 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300 ${
-                submitted && !formData.password ? 'border-red-500' : 'border-gray-300'
+                submitted && !localPassword ? 'border-red-500' : 'border-gray-300'
               }`}
             />
-            {submitted && !formData.password && (
+            {submitted && !localPassword && (
               <p className="text-red-500 text-xs mt-1">Please fill out this field.</p>
             )}
           </div>
@@ -885,10 +880,10 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
             disabled={isLoading}
           >
             {isLoading ? (
-              <div className="flex items-center justify-center gap-2">
-                <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                <span>Validating...</span>
-              </div>
+              <>
+                <Spinner className="w-5 h-5 mr-2" />
+                Validating...
+              </>
             ) : (
               'Next'
             )}
@@ -898,7 +893,7 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-gray-200"></span>
             </div>
-            <span className="px-4 text-muted-foreground relative bg-[#e6f0fa] font-poppins">
+            <span className="px-4 text-muted-foreground relative bg-[#dce1e6] font-poppins">
               Or continue with
             </span>
           </div>
@@ -908,7 +903,9 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
               type="button"
               variant="outline"
               className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
-              onClick={handleGoogleSignup}
+              onClick={() => {
+                window.location.href = 'http://localhost:3000/api/auth/google';
+              }}
             >
               <FcGoogle className="h-5 w-5" />
               <span className="font-poppins">Google</span>
@@ -917,7 +914,9 @@ function SellerStep1({ onNext, error, setError, resetSignal }) {
               type="button"
               variant="outline"
               className="w-full hover:bg-gray-50 transition-all duration-300 flex items-center justify-center gap-2"
-              onClick={handleFacebookSignup}
+              onClick={() => {
+                window.location.href = 'http://localhost:3000/api/auth/facebook';
+              }}
             >
               <FaFacebook className="h-5 w-5 text-[#1877F2]" />
               <span className="font-poppins">Facebook</span>
@@ -1075,7 +1074,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
 
   return (
     <div className="space-y-4">
-      <Card className="w-full shadow-lg bg-[#e6f0fa] hover:shadow-xl transition-all duration-300 rounded-xl">
+      <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
         <CardContent className="flex flex-col gap-4 p-8">
           <div className="text-center space-y-2">
             <h2 className="text-xl font-bold text-[#0e1d54] font-poppins">Profile Picture</h2>
@@ -1175,12 +1174,11 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
         </CardContent>
       </Card>
 
-      <Card className="w-full shadow-lg">
+      <Card className="w-full shadow-lg bg-[#FFFF] hover:shadow-xl transition-all duration-300 rounded-xl">
         <CardContent className="flex flex-col gap-3 p-6">
           <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins">Tell us about yourself</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
-
-          <label className="text-sm font-medium font-poppins text-white">Name</label>
+          <label className="text-sm font-medium font-poppins text-[#1f3f70]">Name</label>
           <Input
             type="text"
             name="name"
@@ -1191,7 +1189,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
               formData.name ? 'bg-[#e6f0fa]' : 'bg-white'
             }`}
           />
-          <label className="text-sm font-medium">
+          <label className="text-sm font-medium text-[#0e1d54] font-poppins">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <Input
@@ -1202,7 +1200,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             placeholder="e.g. 09171234567"
             className="bg-white text-black placeholder:text-gray-400"
           />
-          <label className="text-sm font-medium">
+          <label className="text-sm font-medium text-[#0e1d54] font-poppins">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <textarea
@@ -1219,7 +1217,10 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
               checked={formData.termsAccepted}
               onCheckedChange={handleCheckboxChange}
             />
-            <label htmlFor="termsAccepted" className="text-sm cursor-pointer">
+            <label
+              htmlFor="termsAccepted"
+              className="text-sm cursor-pointer text-[#0e1d54] font-poppins"
+            >
               I agree to SafeBuy PH's Terms and Privacy Policy
             </label>
           </div>
@@ -1376,11 +1377,13 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
   };
 
   return (
-    <Card className="w-full shadow-lg">
+    <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
       <CardContent className="flex flex-col gap-6 p-6">
         <div className="text-center space-y-2">
-          <h2 className="text-2xl font-bold text-[#0e1d54]">Verify Your Seller Account</h2>
-          <p className="text-sm text-gray-600">
+          <h2 className="text-2xl font-bold text-[#0e1d54] font-poppins">
+            Verify Your Seller Account
+          </h2>
+          <p className="text-sm text-gray-600 font-poppins">
             To ensure the authenticity of your account, we need to verify your seller profile.
           </p>
         </div>
@@ -1394,7 +1397,9 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
         <div className="space-y-6">
           {/* ID Upload Section */}
           <div className="space-y-3">
-            <label className="text-sm font-medium">Upload your Valid ID</label>
+            <label className="text-sm font-medium font-poppins text-[#0e1d54]">
+              Upload your Valid ID
+            </label>
             <div
               className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
                 isDragging ? 'border-[#0e1d54] bg-blue-50' : 'border-gray-300'
@@ -1430,7 +1435,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
                   </div>
                   <label
                     htmlFor="id-upload"
-                    className="text-sm text-[#0e1d54] hover:text-[#597aaf] cursor-pointer"
+                    className="text-sm text-[#0e1d54] hover:text-[#597aaf] cursor-pointer font-poppins"
                   >
                     Change Photo
                   </label>
@@ -1452,16 +1457,16 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
                       />
                     </svg>
                   </div>
-                  <div className="text-sm text-gray-600">
+                  <div className="text-sm text-gray-600 font-poppins">
                     <label
                       htmlFor="id-upload"
-                      className="text-[#0e1d54] hover:text-[#597aaf] cursor-pointer font-medium"
+                      className="text-[#0e1d54] hover:text-[#597aaf] cursor-pointer font-medium font-poppins"
                     >
                       Click to upload
                     </label>{' '}
                     or drag and drop
                   </div>
-                  <p className="text-xs text-gray-500">PNG, JPG up to 2MB</p>
+                  <p className="text-xs text-gray-500 font-poppins">PNG, JPG up to 2MB</p>
                 </div>
               )}
             </div>
@@ -1469,13 +1474,17 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
 
           {/* ID Type Selection */}
           <div className="space-y-3">
-            <label className="text-sm font-medium">Select ID Type</label>
+            <label className="text-sm font-medium font-poppins text-[#0e1d54]">
+              Select ID Type
+            </label>
             <DropdownMenuCheckboxes onVerificationChange={handleVerificationChange} />
           </div>
 
           {/* Selling Description */}
           <div className="space-y-3">
-            <label className="text-sm font-medium">What will you be selling?</label>
+            <label className="text-sm font-medium font-poppins text-[#0e1d54]">
+              What will you be selling?
+            </label>
             <textarea
               name="sellingDescription"
               value={formData.sellingDescription}
@@ -1520,7 +1529,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
 
 function SellerStep4({ onNext }) {
   return (
-    <Card className="w-full shadow-lg">
+    <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
       <CardContent className="flex flex-col gap-3 p-6">
         <h2 className="text-2xl font-bold text-[#0e1d54]">Thank you for signing up!</h2>
         <p className="text-center text-gray-600">
@@ -1535,6 +1544,15 @@ function SellerStep4({ onNext }) {
         </Button>
       </CardContent>
     </Card>
+  );
+}
+
+function FullPageLoader() {
+  return (
+    <div className="fixed inset-0 flex flex-col items-center justify-center bg-white bg-opacity-80 z-50">
+      <Spinner className="w-12 h-12 text-[#597aaf]" />
+      <span className="mt-4 text-lg font-poppins text-[#0e1d54]">Loading...</span>
+    </div>
   );
 }
 

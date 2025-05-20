@@ -60,7 +60,11 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
     <div className="space-y-4">
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm" className="w-full h-10 text-sm font-medium">
+          <Button
+            variant="outline"
+            size="sm"
+            className="w-full h-10 text-sm font-medium bg-[#597aaf] hover:bg-[#0e1d54] text-[#FFFF] hover:text-[#FFFF] font-poppins"
+          >
             Select Valid ID
           </Button>
         </DropdownMenuTrigger>
@@ -97,7 +101,7 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
         if (checked) {
           return (
             <div key={key} className="space-y-2">
-              <label className="text-sm font-medium">
+              <label className="text-sm font-medium font-poppins text-[#0e1d54]">
                 {key === 'driversLicense'
                   ? "Driver's License"
                   : key === 'SSS'
@@ -120,7 +124,7 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
                 } number`}
                 value={idNumbers[key]}
                 onChange={(e) => handleIdNumberChange(key, e.target.value)}
-                className="w-full"
+                className="w-full bg-white"
                 required
               />
               {!idNumbers[key] && (

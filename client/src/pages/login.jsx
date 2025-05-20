@@ -6,6 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import LoginHeader from '@/components/ui/loginHeader';
 import { useNavigate } from 'react-router-dom';
 import React, { useRef, useState } from 'react';
+import { Spinner } from '@/components/ui/Spinner';
 
 function Login() {
   const navigate = useNavigate();
@@ -143,6 +144,7 @@ function Login() {
                 className="w-full bg-[#0e1d54] font-poppins hover:bg-[#597aaf] focus:ring-0 focus:outline-none border-none transition-transform duration-200 hover:scale-105"
                 disabled={isLoading}
               >
+                {isLoading && <Spinner className="w-5 h-5 mr-2" />}
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
