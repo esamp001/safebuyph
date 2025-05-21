@@ -117,10 +117,9 @@ function Login() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
               {error && (
-                <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-4 py-3 rounded-lg text-sm font-poppins shadow-sm">
-                  <svg>...</svg>
+                <div className="flex items-center gap-2 bg-red-50 border border-red-400 text-red-700 px-3 py-2 rounded text-sm font-poppins">
                   <span>{error}</span>
                 </div>
               )}
@@ -133,7 +132,6 @@ function Login() {
                   onChange={handleChange}
                   placeholder="m@example.com"
                   className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
-                  required
                 />
               </div>
               <div className="space-y-2">
@@ -144,7 +142,6 @@ function Login() {
                   value={formData.password}
                   onChange={handleChange}
                   className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
-                  required
                 />
               </div>
               <Button
