@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
-import LandingPageHeader from '@/components/landingpageHeader';
+import LandingPageHeader from '@/components/ui/landingpageHeader';
 
 const LandingPage = () => {
   const navigate = useNavigate();
