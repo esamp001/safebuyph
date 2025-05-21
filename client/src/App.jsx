@@ -5,28 +5,38 @@ import Signup from './pages/signup';
 import { FormProvider } from './context/FormContext';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '@/context/AuthContext'; // or however you manage auth
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import LandingPage from './pages/landingPage';
+import Dashboard from './pages/dashboard';
 
-function App() {
+function AppContent() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate('/dashboard'); // or your transaction page
+      navigate('/dashboard');
     }
   }, [isAuthenticated, navigate]);
 
   return (
+    <FormProvider>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+      </Routes>
+    </FormProvider>
+  );
+}
+
+function App() {
+  return (
     <BrowserRouter>
-      <FormProvider>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-        </Routes>
-      </FormProvider>
+      <AuthProvider>
+        <AppContent />
+      </AuthProvider>
     </BrowserRouter>
   );
 }

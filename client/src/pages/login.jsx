@@ -75,10 +75,18 @@ function Login() {
 
       const data = await response.json();
 
+      if (response.status === 401) {
+        setUser(null);
+        setIsAuthenticated(false);
+        return;
+      }
+
       if (!response.ok) {
         throw new Error(data.message || 'Login failed');
       }
 
+      await checkAuthStatus();
+      setIsAuthenticated(true);
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);

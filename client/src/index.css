@@ -101,7 +101,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: transparent;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -146,3 +146,5 @@ textarea:-webkit-autofill:hover {
   color: #111 !important;
   transition: background-color 5000s ease-in-out 0s;
 }
+
+/* Remove the problematic checkbox reset styles */
