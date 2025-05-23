@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import LandingPageHeader from '@/components/ui/landingpageHeader';
 import landingPageImage from '@/assets/start-landpage.png';
+import yesLogo from '@/assets/yes-high.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -56,13 +57,56 @@ const LandingPage = () => {
       </div>
       {/* KEY FEATURES SECTION */}
       <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-        <h2 className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl font-bold text-center mb-4 sm:mb-6 font-poppins">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto">
           The Smartest All-in-One Marketplace Solution
         </h2>
-        <p className="text-base sm:text-lg md:text-xl text-center mb-6 sm:mb-8 font-poppins">
+        <p className="text-base sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
           Smarter buying and selling starts with SafeBuy PH. Track, protect, and enjoy expert-backed
           escrow security—all in one place.
         </p>
+        <div className="flex flex-col items-center gap-8 mt-10">
+          <div className="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
+            {/* Center Image - comes first on mobile */}
+            <div className="order-1 md:order-2 flex-1 flex items-center justify-center mb-6 md:mb-0">
+              <img
+                src={yesLogo}
+                alt="App Preview"
+                className="w-full max-w-xs h-[500px] object-cover rounded-2xl shadow-lg"
+              />
+            </div>
+            {/* Left Cards */}
+            <div className="order-2 md:order-1 flex flex-col gap-6 flex-1 w-full">
+              <div className="bg-white p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
+                <p className="text-gray-600 text-lg">
+                  Your funds are held securely until you confirm receipt of your purchase, ensuring
+                  a safe transaction.
+                </p>
+              </div>
+              <div className="bg-white p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Real-time Tracking</h3>
+                <p className="text-gray-600 text-lg">
+                  Monitor your transaction status in real-time with our intuitive tracking system.
+                </p>
+              </div>
+            </div>
+            {/* Right Cards */}
+            <div className="order-3 md:order-3 flex flex-col gap-6 flex-1 w-full">
+              <div className="bg-white p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Expert Support</h3>
+                <p className="text-gray-600 text-lg">
+                  Get assistance from our dedicated support team whenever you need help.
+                </p>
+              </div>
+              <div className="bg-white p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
+                <p className="text-gray-600 text-lg">
+                  Seamlessly integrate our service with your existing marketplace or business.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

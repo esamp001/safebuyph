@@ -19,7 +19,7 @@ const LandingPageHeader = () => {
   }, [menuOpen]);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full h-16 flex items-center justify-between px-5 h-[80px] overflow-hidden bg-white/50 backdrop-blur-lg">
+    <nav className="fixed top-0 left-0 right-0 z-50 w-full h-16 flex items-center justify-between px-5 h-[80px] bg-white/50 backdrop-blur-lg">
       <div className="flex-shrink-0">
         <img src={logo} alt="SafeBuy PH Logo" className="w-26 h-16" />
       </div>
@@ -87,7 +87,7 @@ const LandingPageHeader = () => {
 
       {/* Mobile Nav */}
       {menuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white shadow-lg z-40 flex flex-col items-center py-4 lg:hidden">
+        <div className="fixed top-16 left-0 w-full bg-white shadow-lg z-50 flex flex-col items-center py-4">
           <a
             href="#about"
             className="text-[#1f3f6f] font-poppins py-2"
