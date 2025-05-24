@@ -70,7 +70,7 @@ const LandingPage = () => {
             expert-backed escrow security—all in one place.
           </p>
           <div className="flex flex-col items-center gap-8 mt-10">
-            <div className="w-full max-w-6xl flex flex-col md:flex-row items-center justify-center gap-8">
+            <div className="w-full max-w-7xl flex flex-col md:flex-row items-center justify-center gap-16">
               {/* Center Image - comes first on mobile */}
               <div className="order-1 md:order-2 flex-1 flex items-center justify-center mb-6 md:mb-0">
                 <img
