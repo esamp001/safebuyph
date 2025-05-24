@@ -4,6 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import LandingPageHeader from '@/components/ui/landingpageHeader';
 import landingPageImage from '@/assets/start-landpage.png';
 import yesLogo from '@/assets/yes-high.png';
+import activeSupportImg from '@/assets/Active Support-pana.png';
+import realTimeSystemImg from '@/assets/Real-time Sync-pana.png';
+import SecureLogin from '@/assets/Secure login-pana.png';
+import SoftwareIntegration from '@/assets/Software integration-amico.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -72,12 +76,19 @@ const LandingPage = () => {
                 <img
                   src={yesLogo}
                   alt="App Preview"
-                  className="w-full max-w-xs h-[500px] object-cover rounded-2xl shadow-lg"
+                  className="w-full max-w-xs h-[700px] object-cover rounded-2xl shadow-lg"
                 />
               </div>
               {/* Left Cards */}
               <div className="order-2 md:order-1 flex flex-col gap-6 flex-1 w-full">
-                <div className="bg-[#98d2e1] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                <div className="bg-[#98d2e1] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300 relative">
+                  <div className="top-8 left-8 h-20 w-20">
+                    <img
+                      src={SecureLogin}
+                      alt="Secure Login"
+                      className="w-20 h-20 object-contain"
+                    />
+                  </div>
                   <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
                   <p className="text-[#1f3f6f] text-lg">
                     Your funds are held securely until you confirm receipt of your purchase,
@@ -85,6 +96,13 @@ const LandingPage = () => {
                   </p>
                 </div>
                 <div className="bg-[#1f3f6f] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                  <div className="top-8 left-8">
+                    <img
+                      src={realTimeSystemImg}
+                      alt="Real-time Tracking"
+                      className="w-28 h-28 object-contain"
+                    />
+                  </div>
                   <h3 className="text-2xl font-bold mb-4 text-white">Real-time Tracking</h3>
                   <p className="text-white text-lg">
                     Monitor your transaction status in real-time with our intuitive tracking system.
@@ -94,12 +112,26 @@ const LandingPage = () => {
               {/* Right Cards */}
               <div className="order-3 md:order-3 flex flex-col gap-6 flex-1 w-full">
                 <div className="bg-[#4a8bb2] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                  <div className="top-8 left-8">
+                    <img
+                      src={activeSupportImg}
+                      alt="Active Support"
+                      className="w-28 h-28 object-contain"
+                    />
+                  </div>
                   <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
                   <p className="text-white text-lg">
                     Get assistance from our dedicated support team whenever you need help.
                   </p>
                 </div>
                 <div className="bg-[#dce1e6] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
+                  <div className="top-8 left-8 h-20 w-20">
+                    <img
+                      src={SoftwareIntegration}
+                      alt="Software Integration"
+                      className="w-20 h-20 object-contain"
+                    />
+                  </div>
                   <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
                   <p className="text-[#1f3f6f] text-lg">
                     Seamlessly integrate our service with your existing marketplace or business.

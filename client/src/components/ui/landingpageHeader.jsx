@@ -5,6 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/SAFEBUYPH - TRANS.png';
 import { Separator } from '@/components/ui/separator';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import {
+  ShieldCheckIcon,
+  ChartBarIcon,
+  UserGroupIcon,
+  PuzzlePieceIcon,
+} from '@heroicons/react/24/outline';
 
 const LandingPageHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
