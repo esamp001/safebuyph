@@ -76,14 +76,14 @@ const LandingPage = () => {
             </div>
             {/* Left Cards */}
             <div className="order-2 md:order-1 flex flex-col gap-6 flex-1 w-full">
-              <div className="bg-white p-12 rounded-xl bg-[#98d2e1] shadow-lg transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-[#98d2e1] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
                 <p className="text-[#1f3f6f] text-lg">
                   Your funds are held securely until you confirm receipt of your purchase, ensuring
                   a safe transaction.
                 </p>
               </div>
-              <div className="bg-white p-12 rounded-xl shadow-lg bg-[#1f3f6f] transform hover:scale-105 transition-transform duration-300">
+              <div className="bg-[#1f3f6f] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-white">Real-time Tracking</h3>
                 <p className="text-white text-lg">
                   Monitor your transaction status in real-time with our intuitive tracking system.
@@ -92,13 +92,13 @@ const LandingPage = () => {
             </div>
             {/* Right Cards */}
             <div className="order-3 md:order-3 flex flex-col gap-6 flex-1 w-full">
-              <div className="bg-white p-12 rounded-xl shadow-lg transform bg-[#4a8bb2] hover:scale-105 transition-transform duration-300">
+              <div className="bg-[#4a8bb2] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
                 <p className="text-white text-lg">
                   Get assistance from our dedicated support team whenever you need help.
                 </p>
               </div>
-              <div className="bg-white p-12 rounded-xl shadow-lg transform bg-[#dce1e6] hover:scale-105 transition-transform duration-300">
+              <div className="bg-[#dce1e6] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
                 <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
                 <p className="text-[#1f3f6f] text-lg">
                   Seamlessly integrate our service with your existing marketplace or business.
