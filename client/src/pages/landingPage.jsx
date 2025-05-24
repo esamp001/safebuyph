@@ -9,6 +9,7 @@ import realTimeSystemImg from '@/assets/Real-time Sync-pana.png';
 import SecureLogin from '@/assets/Secure login-pana.png';
 import SoftwareIntegration from '@/assets/Software integration-amico.png';
 import { Card } from '@/components/ui/card';
+import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -18,22 +19,25 @@ const LandingPage = () => {
       {/* HEADER SECTION */}
       <LandingPageHeader />
       {/* HERO SECTION */}
-      <div className="w-full bg-[#1eafd0] relative">
+      <div className="w-full bg-[#1eafd0] relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[900px]">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8">
             {/* Left Content */}
-            <div className="flex-1 max-w-2xl">
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
-                Secure your online transactions
-              </h1>
-              <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">
-                Safebuy PH provides a secure escrow service for your online purchase and sales.
-              </p>
+            <div className="flex-1 w-full max-w-2xl px-4 sm:px-6 md:px-8 lg:px-0">
+              <div className="mt-6 sm:mt-10 md:mt-16 lg:mt-32">
+                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-10 sm:mb-6">
+                  Secure your online transactions with confidence
+                </h1>
+                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">
+                  Safebuy PH provides a secure escrow service for your online purchase and sales.
+                </p>
+              </div>
               <Button
-                className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-12 px-8 text-lg flex items-center gap-2"
+                className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
+                <ArrowRightIcon className="w-6 h-6" />
               </Button>
             </div>
 
@@ -43,22 +47,13 @@ const LandingPage = () => {
                 <img
                   src={landingPageImage}
                   alt="Hero Image"
-                  className="w-[90%] h-auto object-contain rounded-2xl bg-[#1eafd0]"
+                  className="w-full max-w-md sm:max-w-xl md:max-w-xl lg:max-w-2xl h-48 sm:h-64 md:h-80 lg:h-[400px] object-contain rounded-2xl bg-[#1eafd0]"
                   style={{ backgroundColor: '#1eafd0' }}
                 />
               </div>
             </div>
           </div>
         </div>
-        <svg
-          className="absolute left-0 bottom-0 w-full"
-          viewBox="0 0 1440 320"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          style={{ display: 'block' }}
-        >
-          <path fill="#fff" d="M0,250 C480,400 960,100 1440,250 L1440,320 L0,320 Z" />
-        </svg>
       </div>
       {/* KEY FEATURES SECTION */}
       <div className="w-full">
