@@ -71,64 +71,52 @@ const LandingPage = () => {
             expert-backed escrow security—all in one place.
           </p>
           <div className="flex flex-col items-center gap-8 mt-10">
-            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
-              {/* Left Cards */}
-              <div className="flex flex-col gap-8 flex-1 w-full">
-                <Card className="w-full bg-[#98d2e1] rounded-xl shadow-lg p-8 flex flex-col items-center">
-                  <img
-                    src={SecureLogin}
-                    alt="Secure Login"
-                    className="w-20 h-20 object-contain mb-4"
-                  />
-                  <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
-                  <p className="text-[#1f3f6f] text-lg text-center">
-                    Your funds are held securely until you confirm receipt of your purchase,
-                    ensuring a safe transaction.
-                  </p>
-                </Card>
-                <Card className="w-full bg-[#1f3f6f] rounded-xl shadow-lg p-8 flex flex-col items-center">
-                  <img
-                    src={realTimeSystemImg}
-                    alt="Real-time Tracking"
-                    className="w-28 h-28 object-contain mb-4"
-                  />
-                  <h3 className="text-2xl font-bold mb-4 text-white">Real-time Tracking</h3>
-                  <p className="text-white text-lg text-center">
-                    Monitor your transaction status in real-time with our intuitive tracking system.
-                  </p>
-                </Card>
-              </div>
-
-              {/* Center Image */}
-              <div className="w-full max-w-md flex flex-col items-center justify-center">
-                <img src={yesLogo} alt="App Preview" className="object-contain" />
-              </div>
-
-              {/* Right Cards */}
-              <div className="flex flex-col gap-8 flex-1 w-full">
-                <Card className="w-full bg-[#4a8bb2] rounded-xl shadow-lg p-8 flex flex-col items-center">
-                  <img
-                    src={activeSupportImg}
-                    alt="Active Support"
-                    className="w-28 h-28 object-contain mb-4"
-                  />
-                  <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
-                  <p className="text-white text-lg text-center">
-                    Get assistance from our dedicated support team whenever you need help.
-                  </p>
-                </Card>
-                <Card className="w-full bg-[#dce1e6] rounded-xl shadow-lg p-8 flex flex-col items-center">
-                  <img
-                    src={SoftwareIntegration}
-                    alt="Software Integration"
-                    className="w-20 h-20 object-contain mb-4"
-                  />
-                  <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
-                  <p className="text-[#1f3f6f] text-lg text-center">
-                    Seamlessly integrate our service with your existing marketplace or business.
-                  </p>
-                </Card>
-              </div>
+            <div className="flex flex-col md:flex-row w-full gap-y-8 md:gap-y-0 md:gap-x-8">
+              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#98d2e1] rounded-xl p-8 flex flex-col items-center">
+                <img
+                  src={SecureLogin}
+                  alt="Secure Login"
+                  className="w-20 h-20 object-contain mb-4"
+                />
+                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
+                <p className="text-[#1f3f6f] text-lg text-center">
+                  Your funds are held securely until you confirm receipt of your purchase, ensuring
+                  a safe transaction.
+                </p>
+              </Card>
+              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#1f3f6f] rounded-xl p-8 flex flex-col items-center">
+                <img
+                  src={realTimeSystemImg}
+                  alt="Real-time Tracking"
+                  className="w-28 h-28 object-contain mb-4"
+                />
+                <h3 className="text-2xl font-bold mb-4 text-white">Real-time Tracking</h3>
+                <p className="text-white text-lg text-center">
+                  Monitor your transaction status in real-time with our intuitive tracking system.
+                </p>
+              </Card>
+              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#4a8bb2] rounded-xl p-8 flex flex-col items-center">
+                <img
+                  src={activeSupportImg}
+                  alt="Active Support"
+                  className="w-28 h-28 object-contain mb-4"
+                />
+                <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
+                <p className="text-white text-lg text-center">
+                  Get assistance from our dedicated support team whenever you need help.
+                </p>
+              </Card>
+              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#dce1e6] rounded-xl p-8 flex flex-col items-center">
+                <img
+                  src={SoftwareIntegration}
+                  alt="Software Integration"
+                  className="w-20 h-20 object-contain mb-4"
+                />
+                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
+                <p className="text-[#1f3f6f] text-lg text-center">
+                  Seamlessly integrate our service with your existing marketplace or business.
+                </p>
+              </Card>
             </div>
           </div>
         </div>
