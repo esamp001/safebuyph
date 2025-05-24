@@ -8,6 +8,7 @@ import activeSupportImg from '@/assets/Active Support-pana.png';
 import realTimeSystemImg from '@/assets/Real-time Sync-pana.png';
 import SecureLogin from '@/assets/Secure login-pana.png';
 import SoftwareIntegration from '@/assets/Software integration-amico.png';
+import { Card } from '@/components/ui/card';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -70,73 +71,63 @@ const LandingPage = () => {
             expert-backed escrow security—all in one place.
           </p>
           <div className="flex flex-col items-center gap-8 mt-10">
-            <div className="w-full max-w-7xl flex flex-col md:flex-row items-center justify-center gap-16">
-              {/* Center Image - comes first on mobile */}
-              <div className="order-1 md:order-2 flex-1 flex items-center justify-center mb-6 md:mb-0">
-                <img
-                  src={yesLogo}
-                  alt="App Preview"
-                  className="w-full max-w-xs h-[700px] object-cover rounded-2xl shadow-lg"
-                />
-              </div>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
               {/* Left Cards */}
-              <div className="order-2 md:order-1 flex flex-col gap-6 flex-1 w-full">
-                <div className="bg-[#98d2e1] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300 relative">
-                  <div className="top-8 left-8 h-20 w-20">
-                    <img
-                      src={SecureLogin}
-                      alt="Secure Login"
-                      className="w-20 h-20 object-contain"
-                    />
-                  </div>
+              <div className="flex flex-col gap-8 flex-1 w-full">
+                <Card className="w-full bg-[#98d2e1] rounded-xl shadow-lg p-8 flex flex-col items-center">
+                  <img
+                    src={SecureLogin}
+                    alt="Secure Login"
+                    className="w-20 h-20 object-contain mb-4"
+                  />
                   <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
-                  <p className="text-[#1f3f6f] text-lg">
+                  <p className="text-[#1f3f6f] text-lg text-center">
                     Your funds are held securely until you confirm receipt of your purchase,
                     ensuring a safe transaction.
                   </p>
-                </div>
-                <div className="bg-[#1f3f6f] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                  <div className="top-8 left-8">
-                    <img
-                      src={realTimeSystemImg}
-                      alt="Real-time Tracking"
-                      className="w-28 h-28 object-contain"
-                    />
-                  </div>
+                </Card>
+                <Card className="w-full bg-[#1f3f6f] rounded-xl shadow-lg p-8 flex flex-col items-center">
+                  <img
+                    src={realTimeSystemImg}
+                    alt="Real-time Tracking"
+                    className="w-28 h-28 object-contain mb-4"
+                  />
                   <h3 className="text-2xl font-bold mb-4 text-white">Real-time Tracking</h3>
-                  <p className="text-white text-lg">
+                  <p className="text-white text-lg text-center">
                     Monitor your transaction status in real-time with our intuitive tracking system.
                   </p>
-                </div>
+                </Card>
               </div>
+
+              {/* Center Image */}
+              <div className="w-full max-w-md flex flex-col items-center justify-center">
+                <img src={yesLogo} alt="App Preview" className="object-contain" />
+              </div>
+
               {/* Right Cards */}
-              <div className="order-3 md:order-3 flex flex-col gap-6 flex-1 w-full">
-                <div className="bg-[#4a8bb2] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                  <div className="top-8 left-8">
-                    <img
-                      src={activeSupportImg}
-                      alt="Active Support"
-                      className="w-28 h-28 object-contain"
-                    />
-                  </div>
+              <div className="flex flex-col gap-8 flex-1 w-full">
+                <Card className="w-full bg-[#4a8bb2] rounded-xl shadow-lg p-8 flex flex-col items-center">
+                  <img
+                    src={activeSupportImg}
+                    alt="Active Support"
+                    className="w-28 h-28 object-contain mb-4"
+                  />
                   <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
-                  <p className="text-white text-lg">
+                  <p className="text-white text-lg text-center">
                     Get assistance from our dedicated support team whenever you need help.
                   </p>
-                </div>
-                <div className="bg-[#dce1e6] p-12 rounded-xl shadow-lg transform hover:scale-105 transition-transform duration-300">
-                  <div className="top-8 left-8 h-20 w-20">
-                    <img
-                      src={SoftwareIntegration}
-                      alt="Software Integration"
-                      className="w-20 h-20 object-contain"
-                    />
-                  </div>
+                </Card>
+                <Card className="w-full bg-[#dce1e6] rounded-xl shadow-lg p-8 flex flex-col items-center">
+                  <img
+                    src={SoftwareIntegration}
+                    alt="Software Integration"
+                    className="w-20 h-20 object-contain mb-4"
+                  />
                   <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
-                  <p className="text-[#1f3f6f] text-lg">
+                  <p className="text-[#1f3f6f] text-lg text-center">
                     Seamlessly integrate our service with your existing marketplace or business.
                   </p>
-                </div>
+                </Card>
               </div>
             </div>
           </div>

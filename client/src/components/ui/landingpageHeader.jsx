@@ -5,12 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import logo from '@/assets/SAFEBUYPH - TRANS.png';
 import { Separator } from '@/components/ui/separator';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import {
-  ShieldCheckIcon,
-  ChartBarIcon,
-  UserGroupIcon,
-  PuzzlePieceIcon,
-} from '@heroicons/react/24/outline';
 
 const LandingPageHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -33,7 +27,7 @@ const LandingPageHeader = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 w-full h-16 flex items-center justify-between px-5 h-[80px] ${
-        isScrolled ? 'bg-white/60 backdrop-blur-lg' : 'bg-[#1eafd0]'
+        isScrolled ? 'bg-white/5 backdrop-blur-lg' : 'bg-[#1eafd0]'
       }`}
     >
       <div className="flex-shrink-0">
