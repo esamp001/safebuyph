@@ -8,18 +8,28 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 
 const LandingPageHeader = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (menuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'auto';
-    }
-  }, [menuOpen]);
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 50); // Change backround after50px scroll
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 w-full h-16 flex items-center justify-between px-5 h-[80px] bg-white/50 backdrop-blur-lg">
+    <nav
+      className={`fixed top-0 left-0 right-0 z-50 w-full h-16 flex items-center justify-between px-5 h-[80px] ${
+        isScrolled ? 'bg-white/60 backdrop-blur-lg' : 'bg-[#1eafd0]'
+      }`}
+    >
       <div className="flex-shrink-0">
         <img src={logo} alt="SafeBuy PH Logo" className="w-26 h-16" />
       </div>
