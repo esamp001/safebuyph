@@ -10,9 +10,34 @@ import SecureLogin from '@/assets/Secure login-pana.png';
 import SoftwareIntegration from '@/assets/Software integration-amico.png';
 import { Card } from '@/components/ui/card';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from 'embla-carousel-autoplay';
 
 const LandingPage = () => {
   const navigate = useNavigate();
+
+  const partnershipItems = [
+    {
+      icon: '🛡️',
+      title: 'Trusted',
+      description: 'Secure Transactions',
+    },
+    {
+      icon: '⭐',
+      title: 'Reliable',
+      description: '24/7 Support',
+    },
+    {
+      icon: '✅',
+      title: 'Verified',
+      description: 'Safe & Secure',
+    },
+    {
+      icon: '🤝',
+      title: 'Partners',
+      description: 'Growing Network',
+    },
+  ];
 
   return (
     <div className="min-h-screen">
@@ -52,6 +77,36 @@ const LandingPage = () => {
                 />
               </div>
             </div>
+          </div>
+          {/* Partnership Section */}
+          <div className="w-full max-w-7xl mx-auto px-4">
+            <Carousel
+              opts={{
+                align: 'start',
+                loop: true,
+              }}
+              plugins={[
+                Autoplay({
+                  delay: 2000,
+                  stopOnInteraction: false,
+                }),
+              ]}
+              className="w-full"
+            >
+              <CarouselContent>
+                {partnershipItems.map((item, index) => (
+                  <CarouselItem key={index} className="md:basis-1/4 lg:basis-1/4">
+                    <Card className="p-6 bg-white/10 backdrop-blur-sm border-none">
+                      <div className="flex flex-col items-center text-center">
+                        <span className="text-4xl mb-2">{item.icon}</span>
+                        <h3 className="text-lg font-semibold text-white">{item.title}</h3>
+                        <p className="text-sm text-gray-200 mt-1">{item.description}</p>
+                      </div>
+                    </Card>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
           </div>
         </div>
       </div>
