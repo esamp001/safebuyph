@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Button } from '@/components/ui/button';
 import { useNavigate } from 'react-router-dom';
 import LandingPageHeader from '@/components/ui/landingpageHeader';
@@ -10,8 +10,10 @@ import SecureLogin from '@/assets/Secure login-pana.png';
 import SoftwareIntegration from '@/assets/Software integration-amico.png';
 import { Card } from '@/components/ui/card';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
-import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
+import '@/styles/carousel.css';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -37,7 +39,31 @@ const LandingPage = () => {
       title: 'Partners',
       description: 'Growing Network',
     },
+    {
+      icon: '🚀',
+      title: 'Fast',
+      description: 'Quick Escrow Release',
+    },
+    {
+      icon: '💬',
+      title: 'Support',
+      description: 'Live Chat',
+    },
+    {
+      icon: '🔒',
+      title: 'Privacy',
+      description: 'Data Protection',
+    },
+    {
+      icon: '🌐',
+      title: 'Global',
+      description: 'Worldwide Access',
+    },
   ];
+
+  const autoplay = useMemo(() => Autoplay({ delay: 2000 }), []);
+
+  const [emblaRef] = useEmblaCarousel({ loop: true }, [autoplay]);
 
   return (
     <div className="min-h-screen">
@@ -80,22 +106,10 @@ const LandingPage = () => {
           </div>
           {/* Partnership Section */}
           <div className="w-full max-w-7xl mx-auto px-4">
-            <Carousel
-              opts={{
-                align: 'start',
-                loop: true,
-              }}
-              plugins={[
-                Autoplay({
-                  delay: 2000,
-                  stopOnInteraction: false,
-                }),
-              ]}
-              className="w-full"
-            >
-              <CarouselContent>
+            <div className="embla" ref={emblaRef}>
+              <div className="embla__container flex">
                 {partnershipItems.map((item, index) => (
-                  <CarouselItem key={index} className="md:basis-1/4 lg:basis-1/4">
+                  <div className="embla__slide basis-1/2 md:basis-1/3 lg:basis-1/4" key={index}>
                     <Card className="p-6 bg-white/10 backdrop-blur-sm border-none">
                       <div className="flex flex-col items-center text-center">
                         <span className="text-4xl mb-2">{item.icon}</span>
@@ -103,10 +117,10 @@ const LandingPage = () => {
                         <p className="text-sm text-gray-200 mt-1">{item.description}</p>
                       </div>
                     </Card>
-                  </CarouselItem>
+                  </div>
                 ))}
-              </CarouselContent>
-            </Carousel>
+              </div>
+            </div>
           </div>
         </div>
       </div>
