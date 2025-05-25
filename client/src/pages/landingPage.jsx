@@ -70,9 +70,9 @@ const LandingPage = () => {
       {/* HEADER SECTION */}
       <LandingPageHeader />
       {/* HERO SECTION */}
-      <div className="w-full bg-[#1eafd0] relative min-h-[500px] sm:min-h-[600px] md:min-h-[700px] lg:min-h-[900px]">
-        <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-          <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-8">
+      <div className="w-full bg-[#1eafd0] relative min-h-[350px]">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-6">
             {/* Left Content */}
             <div className="flex-1 w-full max-w-2xl px-4 sm:px-6 md:px-8 lg:px-0">
               <div className="mt-6 sm:mt-10 md:mt-16 lg:mt-32">
@@ -105,7 +105,7 @@ const LandingPage = () => {
             </div>
           </div>
           {/* Partnership Section */}
-          <div className="w-full max-w-7xl mx-auto px-4">
+          <div className="w-full max-w-7xl mx-auto px-4 mt-16">
             <div className="embla" ref={emblaRef}>
               <div className="embla__container flex">
                 {partnershipItems.map((item, index) => (
