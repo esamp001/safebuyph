@@ -18,6 +18,7 @@ import colabPana from '@/assets/Collab-pana.png';
 import comingPana from '@/assets/coming-set.png';
 import futurePana from '@/assets/future-pana.png';
 import stayPana from '@/assets/stay-pana.png';
+import ZigzagCard from '@/components/ui/zigzag-card';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -194,6 +195,19 @@ const LandingPage = () => {
               </Card>
             </div>
           </div>
+        </div>
+      </div>
+      {/* HOW IT WORKS SECTION */}
+      <div className="w-full">
+        <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
+            How It Works
+          </h2>
+          <p className="text-base sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
+            SafeBuy PH is designed to make your online transactions as secure and seamless as
+            possible. Here's how it works:
+          </p>
+          <ZigzagCard />
         </div>
       </div>
     </div>
