@@ -61,7 +61,17 @@ const LandingPage = () => {
     },
   ];
 
-  const autoplay = useMemo(() => Autoplay({ delay: 2000 }), []);
+  const autoplay = useMemo(
+    () =>
+      Autoplay({
+        delay: 2000,
+        stopOnInteraction: false,
+        stopOnMouseEnter: false,
+        playOnInit: true,
+        stopOnFocusIn: false,
+      }),
+    []
+  );
 
   const [emblaRef] = useEmblaCarousel({ loop: true }, [autoplay]);
 
@@ -113,7 +123,7 @@ const LandingPage = () => {
                     className="embla__slide basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                     key={index}
                   >
-                    <Card className="p-4 sm:p-5 md:p-6 bg-white/10 backdrop-blur-sm border-none">
+                    <Card className="p-6 bg-white/10 backdrop-blur-sm border-none">
                       <div className="flex flex-col items-center text-center">
                         <span className="text-4xl mb-2">{item.icon}</span>
                         <h3 className="text-lg font-semibold text-white">{item.title}</h3>
