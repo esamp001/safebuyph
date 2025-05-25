@@ -14,50 +14,44 @@ import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import '@/styles/carousel.css';
 import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import colabPana from '@/assets/Collab-pana.png';
+import comingPana from '@/assets/coming-set.png';
+import futurePana from '@/assets/future-pana.png';
+import stayPana from '@/assets/stay-pana.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   const partnershipItems = [
     {
-      icon: '🛡️',
-      title: 'Trusted',
-      description: 'Secure Transactions',
+      title: 'Coming Soon',
+      description: 'Strategic partnerships with leading payment providers',
+      image: comingPana,
     },
     {
-      icon: '⭐',
-      title: 'Reliable',
-      description: '24/7 Support',
+      title: 'In Development',
+      description: 'Integration with major logistics companies',
+      image: futurePana,
     },
     {
-      icon: '✅',
-      title: 'Verified',
-      description: 'Safe & Secure',
+      title: 'Future Partners',
+      description: 'Security and verification service providers',
+      image: futurePana,
     },
     {
-      icon: '🤝',
-      title: 'Partners',
-      description: 'Growing Network',
+      title: 'Stay Tuned',
+      description: 'E-commerce platform integrations',
+      image: stayPana,
     },
     {
-      icon: '🚀',
-      title: 'Fast',
-      description: 'Quick Escrow Release',
+      title: 'Coming Up',
+      description: 'Customer support service partnerships',
+      image: comingPana,
     },
     {
-      icon: '💬',
-      title: 'Support',
-      description: 'Live Chat',
-    },
-    {
-      icon: '🔒',
-      title: 'Privacy',
-      description: 'Data Protection',
-    },
-    {
-      icon: '🌐',
-      title: 'Global',
-      description: 'Worldwide Access',
+      title: 'Watch This Space',
+      description: 'Technology and infrastructure collaborations',
+      image: colabPana,
     },
   ];
 
@@ -118,14 +112,18 @@ const LandingPage = () => {
           <div className="w-full max-w-7xl mx-auto px-4 mt-16">
             <div className="embla" ref={emblaRef}>
               <div className="embla__container flex">
-                {partnershipItems.map((item, index) => (
+                {partnershipItems.map((item, idx) => (
                   <div
+                    key={idx}
                     className="embla__slide basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
-                    key={index}
                   >
-                    <Card className="p-6 bg-white/10 backdrop-blur-sm border-none">
+                    <Card className="p-6 bg-white/10 backdrop-blur-sm border-none h-[200px] flex flex-col items-center justify-center">
+                      <img
+                        src={item.image}
+                        alt={item.title}
+                        className="w-16 h-16 mb-2 object-contain"
+                      />
                       <div className="flex flex-col items-center text-center">
-                        <span className="text-4xl mb-2">{item.icon}</span>
                         <h3 className="text-lg font-semibold text-white">{item.title}</h3>
                         <p className="text-sm text-gray-200 mt-1">{item.description}</p>
                       </div>
