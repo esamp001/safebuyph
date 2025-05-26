@@ -19,13 +19,6 @@ import futurePana from '@/assets/future-pana.png';
 import stayPana from '@/assets/stay-pana.png';
 import { ZigzagCard } from '@/components/ui/zigzag-card';
 import TestimonialCarousel from '@/components/ui/testimonialCarousel';
-import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselPrevious,
-  CarouselNext,
-} from '@/components/ui/carousel';
 const LandingPage = () => {
   const navigate = useNavigate();
 
@@ -128,7 +121,7 @@ const LandingPage = () => {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-16 h-16 mb-2 object-contain"
+                        className="w-16 h-16 mb-2 object-contain self-start"
                       />
                       <div className="flex flex-col items-center text-center">
                         <h3 className="text-lg font-semibold text-white">{item.title}</h3>

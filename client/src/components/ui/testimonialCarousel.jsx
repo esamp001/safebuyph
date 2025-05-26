@@ -47,12 +47,14 @@ export default function TestimonialCarousel() {
         <CarouselContent>
           {testimonials.map((testimonial, index) => (
             <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-              <Card className="aspect-square p-6">
-                <img
-                  src={testimonial.avatar}
-                  alt={testimonial.name}
-                  className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
-                />
+              <Card className="aspect-square p-6 border-radius-lg">
+                <div className="flex items-end h-full">
+                  <img
+                    src={testimonial.avatar}
+                    alt={testimonial.name}
+                    className="w-16 h-16 object-cover rounded-full"
+                  />
+                </div>
                 <p className="italic text-lg mb-2 text-center text-black">"{testimonial.quote}"</p>
                 <div className="font-bold text-black">{testimonial.name}</div>
                 <div className="text-xs text-black">{testimonial.role}</div>
