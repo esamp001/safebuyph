@@ -219,8 +219,8 @@ const LandingPage = () => {
             <p className="text-base sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
               Join the millions of users who trust SafeBuy PH for their online transactions.
             </p>
-            <div className="flex justify-center">
-              <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3">
+            <div className="flex justify-center mb-12">
+              <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-12 sm:h-14 md:h-16 lg:h-20 px-8 sm:px-10 md:px-12 lg:px-14 text-xl sm:text-2xl md:text-3xl flex items-center gap-3 sm:gap-4">
                 Join now!
               </Button>
             </div>

@@ -1,0 +1,18 @@
+/* Primary Colors */
+--primary-blue: #1eafd0; /* Keep your main brand color */
+--primary-navy: #1f3f6f; /* Keep your main text color */
+--primary-light: #498db2; /* Keep your header color */
+
+/* Secondary Colors */
+--accent-orange: #ff7e5f; /* New accent color for CTAs */
+--accent-green: #4caf50; /* New accent for success states */
+
+/* Background Colors */
+--bg-white: #ffffff; /* Keep your white */
+--bg-light: #f8f9fa; /* Slightly warmer light gray */
+--bg-gray: #e9ecef; /* Slightly warmer medium gray */
+
+/* Text Colors */
+--text-dark: #1f3f6f; /* Keep your main text color */
+--text-light: #6c757d; /* New lighter text color */
+--text-white: #ffffff; /* White text */

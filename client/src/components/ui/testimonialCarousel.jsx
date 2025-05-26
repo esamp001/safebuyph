@@ -49,28 +49,27 @@ const testimonials = [
 export default function TestimonialCarousel() {
   return (
     <section>
-      <Carousel className="w-full max-w-2x1 mx-auto">
-        <CarouselContent>
+      <Carousel className="w-full max-w-5xl mx-auto relative">
+        <CarouselContent className="-ml-4">
           {testimonials.map((testimonial, index) => (
-            <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-              <Card className="p-6 border-radius-lg h-[500px] w-full">
+            <CarouselItem key={index} className="pl-6 md:basis-1/2 lg:basis-1/3">
+              <Card className="p-4 border-radius-lg h-[400px] w-full">
                 <div className="flex flex-col h-full">
                   <div className="flex flex-row items-start justify-start">
                     <img
                       src={Quotation}
                       alt="Quotation"
-                      className="w-16 h-16 object-cover rounded-full mr-4"
+                      className="w-12 h-12 object-cover rounded-full mr-4"
                     />
                   </div>
-                  <div className="flex flex-col items-start justify-start mt-6 px-8 py-4 flex-grow">
-                    <p className="italic text-base sm:text-lg md:text-xl mb-4 text-start text-black">
+                  <div className="flex flex-col items-start justify-start mt-4 px-6 py-3 flex-grow">
+                    <p className="italic text-sm sm:text-base md:text-lg mb-3 text-start text-black">
                       {testimonial.quote}
                     </p>
                   </div>
                   <div className="flex items-end mt-auto">
-                    {/* PUT STAR AT THE TOP OF THE AVATAR */}
-                    <div className="flex items-center gap-4 relative">
-                      <div className="absolute -top-2 left-5">
+                    <div className="flex items-center gap-3 relative">
+                      <div className="absolute -top-2 left-4">
                         <div className="flex gap-1">
                           {[...Array(6)].map((_, i) => (
                             <svg
@@ -78,7 +77,7 @@ export default function TestimonialCarousel() {
                               xmlns="http://www.w3.org/2000/svg"
                               viewBox="0 0 24 24"
                               fill="currentColor"
-                              className="w-5 h-5 text-yellow-400"
+                              className="w-4 h-4 text-yellow-400"
                             >
                               <path
                                 fillRule="evenodd"
@@ -89,15 +88,15 @@ export default function TestimonialCarousel() {
                           ))}
                         </div>
                       </div>
-                      <div className="flex items-center gap-4 p-4">
+                      <div className="flex items-center gap-3 p-3">
                         <img
                           src={testimonial.avatar}
                           alt={testimonial.name}
-                          className="w-12 h-12 object-cover rounded-full"
+                          className="w-10 h-10 object-cover rounded-full"
                         />
-                        <div className="flex flex-col p-2">
-                          <div className="font-bold text-black text-xl">{testimonial.name}</div>
-                          <div className="text-sm text-black">{testimonial.role}</div>
+                        <div className="flex flex-col p-1">
+                          <div className="font-bold text-black text-lg">{testimonial.name}</div>
+                          <div className="text-xs text-black">{testimonial.role}</div>
                         </div>
                       </div>
                     </div>
@@ -107,8 +106,8 @@ export default function TestimonialCarousel() {
             </CarouselItem>
           ))}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        <CarouselPrevious className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-12 bg-white hover:bg-gray-100 text-[#1f3f6f] rounded-full w-10 h-10" />
+        <CarouselNext className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-12 bg-white hover:bg-gray-100 text-[#1f3f6f] rounded-full w-10 h-10" />
       </Carousel>
     </section>
   );
