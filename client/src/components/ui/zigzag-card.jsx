@@ -37,76 +37,54 @@ export function ZigzagCard() {
   return (
     <section className="py-8 bg-white">
       <div className="container mx-auto px-4 space-y-4">
-        <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
-          <CardContent className="flex flex-row items-center gap-2">
-            <img
-              src="/src/assets/Browsing online-pana.png"
-              alt="Buyer Finds Product"
-              className="w-96 h-96 object-contain"
-            />
-            <div className="w-1/2 ml-auto">
-              <h3 className="text-2xl font-bold text-center mb-2 font-poppins">{steps[0].title}</h3>
-              <p className="text-gray-700 font-sans">{steps[0].description}</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
-          <CardContent className="flex flex-row items-center gap-2">
-            <div className="w-1/2">
-              <h3 className="text-2xl font-bold text-center mb-2 font-poppins">{steps[1].title}</h3>
-              <p className="text-gray-700 font-sans">{steps[1].description}</p>
-            </div>
-            <img
-              src="/src/assets/future-pana.png"
-              alt="Buyer Initiates Transaction"
-              className="w-96 h-96 object-contain"
-            />
-          </CardContent>
-        </Card>
-        <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
-          <CardContent className="flex flex-row items-center gap-2">
-            <img src={steps[2].icon} alt="Seller Ships Item" className="w-96 h-96 object-contain" />
-            <div className="w-1/2 ml-auto">
-              <h3 className="text-2xl font-bold text-center mb-2 font-poppins">{steps[2].title}</h3>
-              <p className="text-gray-700 font-sans">{steps[2].description}</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
-          <CardContent className="flex flex-row items-center gap-2">
-            <div className="w-1/2">
-              <h3 className="text-2xl font-bold text-center mb-2 font-poppins">{steps[3].title}</h3>
-              <p className="text-gray-700 font-sans">{steps[3].description}</p>
-            </div>
-            <img
-              src={steps[3].icon}
-              alt="Buyer Sends Payment"
-              className="w-96 h-96 object-contain"
-            />
-          </CardContent>
-        </Card>
-        <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
-          <CardContent className="flex flex-row items-center gap-2">
-            <img src={steps[4].icon} alt="Seller Ships Item" className="w-96 h-96 object-contain" />
-            <div className="w-1/2 ml-auto">
-              <h3 className="text-2xl font-bold text-center mb-2 font-poppins">{steps[4].title}</h3>
-              <p className="text-gray-700 font-sans">{steps[4].description}</p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
-          <CardContent className="flex flex-row items-center gap-2">
-            <div className="w-1/2">
-              <h3 className="text-2xl font-bold text-center mb-2 font-poppins">{steps[5].title}</h3>
-              <p className="text-gray-700 font-sans">{steps[5].description}</p>
-            </div>
-            <img
-              src={steps[5].icon}
-              alt="Confirmation Window"
-              className="w-96 h-96 object-contain"
-            />
-          </CardContent>
-        </Card>
+        {steps.map((step, index) => (
+          <Card
+            key={index}
+            className="relative flex flex-col md:flex-row items-center gap-4 p-4 border-radius-lg bg-[#f5f5f5]"
+          >
+            <CardContent className="flex flex-col md:flex-row items-center gap-4 w-full">
+              {index % 2 === 0 ? (
+                <>
+                  <span className="absolute top-4 left-4 bg-[#1eafd0] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
+                    {index + 1}
+                  </span>
+                  <img
+                    src={step.icon}
+                    alt={step.title}
+                    className="w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 object-contain"
+                  />
+                  <div className="w-full md:w-1/2 text-center md:text-left">
+                    <h3 className="text-xl md:text-2xl font-bold mb-2 font-poppins">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-gray-700 font-sans">
+                      {step.description}
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="w-full md:w-1/2 text-center md:text-left">
+                    <span className="absolute top-4 left-4 bg-[#1eafd0] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
+                      {index + 1}
+                    </span>
+                    <h3 className="text-xl md:text-2xl font-bold mb-2 font-poppins">
+                      {step.title}
+                    </h3>
+                    <p className="text-sm md:text-base text-gray-700 font-sans">
+                      {step.description}
+                    </p>
+                  </div>
+                  <img
+                    src={step.icon}
+                    alt={step.title}
+                    className="w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 object-contain"
+                  />
+                </>
+              )}
+            </CardContent>
+          </Card>
+        ))}
       </div>
     </section>
   );
