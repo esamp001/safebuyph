@@ -13,6 +13,12 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import '@/styles/carousel.css';
+import colabPana from '@/assets/Collab-pana.png';
+import comingPana from '@/assets/coming-set.png';
+import futurePana from '@/assets/future-pana.png';
+import stayPana from '@/assets/stay-pana.png';
+import { ZigzagCard } from '@/components/ui/zigzag-card';
+import TestimonialCarousel from '@/components/ui/testimonialCarousel';
 import {
   Carousel,
   CarouselContent,
@@ -20,12 +26,6 @@ import {
   CarouselPrevious,
   CarouselNext,
 } from '@/components/ui/carousel';
-import colabPana from '@/assets/Collab-pana.png';
-import comingPana from '@/assets/coming-set.png';
-import futurePana from '@/assets/future-pana.png';
-import stayPana from '@/assets/stay-pana.png';
-import { ZigzagCard } from '@/components/ui/zigzag-card';
-
 const LandingPage = () => {
   const navigate = useNavigate();
 
@@ -233,23 +233,7 @@ const LandingPage = () => {
             </div>
 
             {/* SHADCDN CAROUSEL*/}
-            <Carousel className="w-full max-w-2x1 mx-auto">
-              <CarouselContent>
-                {Array.from({ length: 5 }).map((_, index) => (
-                  <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-                    <div className="p-1">
-                      <Card>
-                        <CardContent className="flex aspect-square items-center justify-center p-6">
-                          <span className="text-2xl font-semibold">{index + 1}</span>
-                        </CardContent>
-                      </Card>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <CarouselPrevious />
-              <CarouselNext />
-            </Carousel>
+            <TestimonialCarousel />
           </CardContent>
         </Card>
       </div>

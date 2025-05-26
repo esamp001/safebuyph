@@ -1,3 +1,12 @@
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from '@/components/ui/carousel';
+import { Card } from '@/components/ui/card';
+
 const testimonials = [
   {
     name: 'Jane D.',
@@ -36,15 +45,18 @@ export default function TestimonialCarousel() {
     <section>
       <Carousel className="w-full max-w-2x1 mx-auto">
         <CarouselContent>
-          {Array.from({ length: 5 }).map((_, index) => (
+          {testimonials.map((testimonial, index) => (
             <CarouselItem key={index} className="pl-1 md:basis-1/2 lg:basis-1/3">
-              <div className="p-1">
-                <Card>
-                  <CardContent className="flex aspect-square items-center justify-center p-6">
-                    <span className="text-2xl font-semibold">{index + 1}</span>
-                  </CardContent>
-                </Card>
-              </div>
+              <Card className="aspect-square p-6">
+                <img
+                  src={testimonial.avatar}
+                  alt={testimonial.name}
+                  className="w-24 h-24 object-cover rounded-full mx-auto mb-4"
+                />
+                <p className="italic text-lg mb-2 text-center text-black">"{testimonial.quote}"</p>
+                <div className="font-bold text-black">{testimonial.name}</div>
+                <div className="text-xs text-black">{testimonial.role}</div>
+              </Card>
             </CarouselItem>
           ))}
         </CarouselContent>
