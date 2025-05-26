@@ -8,7 +8,7 @@ import activeSupportImg from '@/assets/Active Support-pana.png';
 import realTimeSystemImg from '@/assets/Real-time Sync-pana.png';
 import SecureLogin from '@/assets/Secure login-pana.png';
 import SoftwareIntegration from '@/assets/Software integration-amico.png';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
@@ -209,6 +209,38 @@ const LandingPage = () => {
           </p>
           <ZigzagCard />
         </div>
+      </div>
+      {/* TRUST INDICATORS SECTION */}
+      <div className="w-full bg-[#FFFF]">
+        <Card className="container mx-auto px-4 py-8 sm:py-12 md:py-16 bg-[linear-gradient(to_right_top,#1eafd0,#0b92bc,#0f75a4,#195a8b,#1f3f6f)] p-6 text-white shadow-lg">
+          <CardContent>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#FFFF]">
+              Why Choose SafeBuy PH?
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
+              Join the millions of users who trust SafeBuy PH for their online transactions.
+            </p>
+            <div className="flex justify-center">
+              <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3">
+                Join now!
+              </Button>
+            </div>
+
+            {/* SHADCDN CAROUSEL*/}
+            <Carousel className="w-full" max-w-4xl mx-auto>
+              <CarouselContent>
+                {[1, 2, 3, 4].map((item) => (
+                  <CarouselItem
+                    key={item}
+                    className="flex justify-center items-center h-64 bg-gray-100 rounded-lg"
+                  >
+                    <span className="text-2xl font-bold">Slide {item}</span>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+            </Carousel>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );
