@@ -18,7 +18,7 @@ import colabPana from '@/assets/Collab-pana.png';
 import comingPana from '@/assets/coming-set.png';
 import futurePana from '@/assets/future-pana.png';
 import stayPana from '@/assets/stay-pana.png';
-import ZigzagCard from '@/components/ui/zigzag-card';
+import { ZigzagCard } from '@/components/ui/zigzag-card';
 
 const LandingPage = () => {
   const navigate = useNavigate();
