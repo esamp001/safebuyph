@@ -14,22 +14,22 @@ const steps = [
   {
     title: 'Seller Accepts the Transaction',
     description: `The seller logs in and accepts the pending request. The transaction status changes to ACCEPTED, and the buyer is notified to proceed with payment.`,
-    icon: '/src/assets/Active Support-pana.png',
+    icon: '/src/assets/Accept request-bro.png',
   },
   {
     title: 'Buyer Sends Payment to Escrow',
     description: `The buyer uploads payment proof. Once verified, SafeBuy PH securely holds the funds in escrow. This protects both sides before shipment.`,
-    icon: '/src/assets/coming-soon.gif',
+    icon: '/src/assets/Payment Information-bro.png',
   },
   {
     title: 'Seller Ships the Item',
     description: `The seller ships the product via courier (e.g. LBC) and optionally uploads proof. The transaction is marked as SHIPPED, and a 3-day confirmation countdown begins.`,
-    icon: '/src/assets/Real-time Sync-pana.png',
+    icon: '/src/assets/Profile Interface-bro.png',
   },
   {
     title: 'Buyer Confirms Item Received with 3-Day Confirmation Window',
     description: `The buyer has 3 days to confirm the item arrived. If confirmed, escrow is released. If disputed, SafeBuy PH steps in to resolve. If no action, funds auto-release to the seller.`,
-    icon: '/src/assets/stay-pana.png',
+    icon: '/src/assets/Enthusiastic-pana.png',
   },
 ];
 
@@ -40,7 +40,7 @@ export function ZigzagCard() {
         <Card className="flex flex-row items-center gap-2 p-2 border-radius-lg bg-[#f5f5f5]">
           <CardContent className="flex flex-row items-center gap-2">
             <img
-              src="/src/assets/Collab-pana.png"
+              src="/src/assets/Browsing online-pana.png"
               alt="Buyer Finds Product"
               className="w-96 h-96 object-contain"
             />
