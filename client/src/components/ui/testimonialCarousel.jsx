@@ -55,17 +55,19 @@ export default function TestimonialCarousel() {
             <CarouselItem key={index} className="pl-6 md:basis-1/2 lg:basis-1/3">
               <Card className="p-4 border-radius-lg h-[400px] w-full">
                 <div className="flex flex-col h-full">
-                  <div className="flex flex-row items-start justify-start">
-                    <img
-                      src={Quotation}
-                      alt="Quotation"
-                      className="w-12 h-12 object-cover rounded-full mr-4"
-                    />
-                  </div>
-                  <div className="flex flex-col items-start justify-start mt-4 px-6 py-3 flex-grow">
-                    <p className="italic text-sm sm:text-base md:text-lg mb-3 text-start text-black">
-                      {testimonial.quote}
-                    </p>
+                  <div>
+                    <div className="flex flex-row items-start justify-start">
+                      <img
+                        src={Quotation}
+                        alt="Quotation"
+                        className="w-12 h-12 object-cover rounded-full mr-4"
+                      />
+                    </div>
+                    <div className="flex flex-col items-start justify-start mt-4 px-3 py-3">
+                      <p className="italic text-sm sm:text-base md:text-lg mb-3 text-start text-black line-clamp-5">
+                        {testimonial.quote}
+                      </p>
+                    </div>
                   </div>
                   <div className="flex items-end mt-auto">
                     <div className="flex items-center gap-3 relative">
