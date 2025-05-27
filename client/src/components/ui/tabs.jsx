@@ -5,25 +5,22 @@ function cn(...classes) {
 }
 
 export function Tabs({ defaultValue, className, children, ...props }) {
-  const [value, setValue] = React.useState(defaultValue);
+  const [activeTab, setActiveTab] = React.useState(defaultValue);
 
-  // Find all TabsContent children and only render the one matching the current value
-  const contents = React.Children.toArray(children).filter(
-    (child) => child.type.displayName === 'TabsContent'
-  );
-  const triggers = React.Children.toArray(children).filter(
-    (child) => child.type.displayName !== 'TabsContent'
+  const tabsList = React.Children.toArray(children).find((child) => child.type === TabsList);
+  const tabsContent = React.Children.toArray(children).find(
+    (child) => child.type === TabsContent && child.props.value === activeTab
   );
 
   return (
     <div className={cn('w-full', className)} {...props}>
-      <div>{triggers.map((child) => React.cloneElement(child, { value, setValue }))}</div>
-      {contents.find((child) => child.props.value === value)}
+      {React.cloneElement(tabsList, { activeTab, setActiveTab })}
+      {tabsContent}
     </div>
   );
 }
 
-export function TabsList({ children, className, ...props }) {
+export function TabsList({ children, className, activeTab, setActiveTab, ...props }) {
   return (
     <div
       className={cn(
@@ -32,21 +29,19 @@ export function TabsList({ children, className, ...props }) {
       )}
       {...props}
     >
-      {children}
+      {React.Children.map(children, (child) => {
+        if (child.type === TabsTrigger) {
+          return React.cloneElement(child, { activeTab, setActiveTab });
+        }
+        return child;
+      })}
     </div>
   );
 }
 TabsList.displayName = 'TabsList';
 
-export function TabsTrigger({
-  value: triggerValue,
-  setValue,
-  value,
-  children,
-  className,
-  ...props
-}) {
-  const isActive = value === triggerValue;
+export function TabsTrigger({ value, activeTab, setActiveTab, children, className, ...props }) {
+  const isActive = activeTab === value;
   return (
     <button
       type="button"
@@ -55,7 +50,7 @@ export function TabsTrigger({
         isActive ? 'bg-white text-black shadow' : 'bg-transparent',
         className
       )}
-      onClick={() => setValue(triggerValue)}
+      onClick={() => setActiveTab(value)}
       {...props}
     >
       {children}

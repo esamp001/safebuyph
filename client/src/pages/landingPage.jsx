@@ -237,7 +237,13 @@ const LandingPage = () => {
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
             Pricing and Plans
           </h2>
-          <PricingTabs />
+          <div className="flex justify-center items-center">
+            <Card className="max-w-2xl w-full">
+              <CardContent className="p-6">
+                <PricingTabs />
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
