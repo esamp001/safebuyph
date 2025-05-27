@@ -122,7 +122,7 @@ const LandingPage = () => {
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-16 h-16 mb-2 object-contain self-start"
+                        className="w-16 h-16 mb-2 object-contain mx-auto"
                       />
                       <div className="flex flex-col items-center text-center">
                         <h3 className="text-lg font-semibold text-white">{item.title}</h3>
