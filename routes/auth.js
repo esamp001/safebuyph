@@ -653,7 +653,6 @@ router.get('/check', async (req, res) => {
         id: true,
         email: true,
         name: true,
-        role: true,
         status: true,
         profilePic: true,
       },

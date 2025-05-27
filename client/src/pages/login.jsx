@@ -7,9 +7,11 @@ import LoginHeader from '@/components/ui/loginHeader';
 import { useNavigate } from 'react-router-dom';
 import React, { useRef, useState } from 'react';
 import { Spinner } from '@/components/ui/Spinner';
+import { useAuth } from '@/context/AuthContext';
 
 function Login() {
   const navigate = useNavigate();
+  const { login, checkAuthStatus } = useAuth();
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -60,33 +62,14 @@ function Login() {
     }
 
     try {
-      const response = await fetch('http://localhost:3000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        credentials: 'include',
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-        }),
-      });
+      const result = await login(formData.email, formData.password);
 
-      const data = await response.json();
-
-      if (response.status === 401) {
-        setUser(null);
-        setIsAuthenticated(false);
+      if (!result.success) {
+        setError(result.error || 'Login failed. Please try again.');
         return;
       }
 
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
       await checkAuthStatus();
-      setIsAuthenticated(true);
       navigate('/dashboard');
     } catch (err) {
       console.error('Login error:', err);
