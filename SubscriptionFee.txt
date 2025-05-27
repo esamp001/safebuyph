@@ -1,0 +1,44 @@
+1. Per-Transaction Fee (Default for All Users)
+Fee: 1.5% – 3% per transaction (minimum ₱20, maximum ₱500)
+How it works:
+Every time a transaction is completed using SafeBuy PH, a small percentage is deducted as a service fee. This is simple, transparent, and familiar to most users.
+Example:
+Transaction amount: ₱1,000 → Fee: ₱20 (minimum)
+Transaction amount: ₱10,000 → Fee: ₱150
+Transaction amount: ₱50,000 → Fee: ₱500 (maximum)
+
+2. Subscription Plan (For Power Users/Businesses)
+Monthly Plan: ₱499/month
+Up to 20 transactions/month included
+Lower per-transaction fee after limit (e.g., 1%)
+Priority customer support
+Early access to new features
+Yearly Plan: ₱4,999/year (save 2 months)
+Up to 250 transactions/year included
+Lower per-transaction fee after limit (e.g., 1%)
+Priority customer support
+Early access to new features
+
+3. Hybrid Option
+Casual users: Use per-transaction fee, no subscription required.
+Frequent users/businesses: Can opt for a subscription for savings and perks.
+Add-on/Optional Fees
+Dispute Resolution Fee: ₱100 per dispute (only if a dispute is filed and resolved by SafeBuy PH)
+International Card Processing Fee: +1% on top of base fee (to cover extra gateway costs)
+Payment Methods
+GCash, PayMaya, BPI/BDO Online, Credit/Debit Card (Visa/Mastercard), and soon: international cards.
+Sample Pricing Table for Your Website
+| Plan | Fee Structure | Best For | Perks/Notes |
+|---------------------|-----------------------------|-------------------------|-------------------------------------|
+| Pay-as-you-go | 2% per transaction | Casual users | No monthly fee, pay only when used |
+| Monthly | ₱499/month (20 txns incl.) | Frequent users, SMEs | Lower fee after 20 txns, priority support |
+| Yearly | ₱4,999/year (250 txns incl.)| Businesses, Power users | Lower fee after 250 txns, priority support |
+Why this works for SafeBuy PH
+Low barrier to entry for new users (no upfront cost).
+Predictable costs for businesses and power users.
+Scalable as you grow and expand to other countries.
+Flexible for different user types.
+Tips
+Be transparent about all fees on your pricing page.
+Offer a calculator so users can estimate their costs.
+Highlight the value (security, support, peace of mind) that your fee provides.

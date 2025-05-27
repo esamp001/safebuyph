@@ -19,6 +19,7 @@ import futurePana from '@/assets/future-pana.png';
 import stayPana from '@/assets/stay-pana.png';
 import { ZigzagCard } from '@/components/ui/zigzag-card';
 import TestimonialCarousel from '@/components/ui/testimonialCarousel';
+import PricingTabs from '@/components/ui/PricingTabs';
 const LandingPage = () => {
   const navigate = useNavigate();
 
@@ -229,6 +230,15 @@ const LandingPage = () => {
             <TestimonialCarousel />
           </CardContent>
         </Card>
+      </div>
+      {/* PRICING AND PLANS SECTION */}
+      <div className="w-full">
+        <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
+            Pricing and Plans
+          </h2>
+          <PricingTabs />
+        </div>
       </div>
     </div>
   );
