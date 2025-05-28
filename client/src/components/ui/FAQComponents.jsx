@@ -34,31 +34,31 @@ const faqData = [
   },
 ];
 
-export default function FAQ() {
+const FAQ = () => {
   return (
-    <section className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
-      <div className="container px-4 md:px-6">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-              Frequently Asked Questions
-            </h2>
-            <p className="max-w-[900px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-              Find answers to common questions about our escrow service
-            </p>
-          </div>
-        </div>
-        <div className="mx-auto max-w-3xl mt-8">
-          <Accordion type="single" collapsible className="w-full">
-            {faqData.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`}>
-                <AccordionTrigger className="text-left">{faq.question}</AccordionTrigger>
-                <AccordionContent>{faq.answer}</AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+    <div className="container px-4 md:px-6 bg-[#f5f5f5]">
+      <div className="flex flex-col items-center justify-center space-y-4 text-center">
+        <div className="space-y-2">
+          <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl font-poppins">
+            Frequently Asked Questions
+          </h2>
+          <p className="max-w-[900px] font-poppins text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+            Find answers to common questions about our escrow service
+          </p>
         </div>
       </div>
-    </section>
+      <div className="mx-auto max-w-3xl mt-8">
+        <Accordion type="single" collapsible defaultValue="item-0" className="w-full">
+          {faqData.map((faq, index) => (
+            <AccordionItem key={index} value={`item-${index}`}>
+              <AccordionTrigger className="text-left font-poppins">{faq.question}</AccordionTrigger>
+              <AccordionContent className="px-4 py-2">{faq.answer}</AccordionContent>
+            </AccordionItem>
+          ))}
+        </Accordion>
+      </div>
+    </div>
   );
-}
+};
+
+export default FAQ;

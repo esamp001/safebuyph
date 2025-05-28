@@ -234,11 +234,8 @@ const LandingPage = () => {
         </Card>
       </div>
       {/* FAQ SECTION */}
-      <div className="w-full">
+      <div className="w-full bg-[#f5f5f5]">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
-            FAQ
-          </h2>
           <FAQ />
         </div>
       </div>
