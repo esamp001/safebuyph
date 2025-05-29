@@ -248,6 +248,11 @@ const LandingPage = () => {
           <div className="flex justify-center items-center">
             <PricingTabs />
           </div>
+          <div className="flex justify-center mt-8">
+            <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 px-4 text-sm flex items-center gap-2">
+              Learn More
+            </Button>
+          </div>
         </div>
       </div>
     </div>

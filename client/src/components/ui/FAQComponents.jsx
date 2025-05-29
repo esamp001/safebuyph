@@ -34,7 +34,7 @@ const faqData = [
   },
 ];
 
-const FAQ = () => {
+export function FAQ() {
   return (
     <div className="container px-4 md:px-6 bg-[#f5f5f5]">
       <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -59,6 +59,6 @@ const FAQ = () => {
       </div>
     </div>
   );
-};
+}
 
 export default FAQ;

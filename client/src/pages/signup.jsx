@@ -10,7 +10,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import { XMarkIcon } from '@heroicons/react/24/outline';
 import { Checkbox } from '@/components/ui/checkbox';
-import { data, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenuCheckboxes } from '@/components/ui/DropdownMenuCheckboxes';
 import { FormProvider, useForm } from '@/context/FormContext';
