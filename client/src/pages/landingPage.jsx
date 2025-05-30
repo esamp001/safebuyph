@@ -24,6 +24,7 @@ import secureTransaction from '@/assets/secure-trans.jpg';
 import thanksSB from '@/assets/thanks-sb.jpg';
 import lookingItem from '@/assets/lookingItem.jpg';
 import setusApart from '@/assets/setusApart.png';
+import Footer from '@/components/ui/footer';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -352,6 +353,8 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+      {/* FOOTER SECTION */}
+      <Footer />
     </div>
   );
 };
