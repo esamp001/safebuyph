@@ -20,6 +20,7 @@ import { ZigzagCard } from '@/components/ui/zigzag-card';
 import TestimonialCarousel from '@/components/ui/testimonialCarousel';
 import PricingTabs from '@/components/ui/PricingTabs';
 import FAQ from '@/components/ui/FAQComponents';
+import secureTransaction from '@/assets/secure-trans.jpg';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -210,31 +211,19 @@ const LandingPage = () => {
         </div>
       </div>
       <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-        <div className="grid grid-cols-4 grid-rows-6 gap-4">
-          <Card className="col-span-2 row-span-6 col-start-2 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-            <CardContent className="flex flex-col items-center justify-center h-full p-8">
-              <div className="bg-[#1eafd0]/10 p-4 rounded-full mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-[#1eafd0]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+        <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px]">
+          <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:scale-105 transition-transform duration-300 h-full">
+            <CardContent className="p-0 h-full">
+              <div className="relative w-full h-full">
+                <div className="relative w-full h-full">
+                  <img
+                    src={secureTransaction}
+                    alt="Secure Transactions"
+                    className="w-full h-full object-cover rounded-2xl group-hover:brightness-110 transition-all duration-300"
                   />
-                </svg>
+                  <div className="absolute inset-0 bg-black/30 rounded-2xl group-hover:bg-black/40 transition-all duration-300"></div>
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-[#1eafd0] font-poppins">
-                Secure Transactions
-              </h3>
-              <p className="text-gray-600 font-poppins text-center text-lg leading-relaxed">
-                Your funds are held securely until you confirm receipt.
-              </p>
             </CardContent>
           </Card>
           <Card className="row-span-3 col-start-1 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
