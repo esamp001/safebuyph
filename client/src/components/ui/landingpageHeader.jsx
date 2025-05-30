@@ -37,22 +37,34 @@ const LandingPageHeader = () => {
       {/* Desktop Nav */}
       <ul className="hidden lg:flex space-x-10">
         <li>
-          <a href="#about" className="text-[#1f3f6f] font-poppins hover:text-gray-300 font-bold">
+          <a
+            href="#about"
+            className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
+          >
             Features & Pricing
           </a>
         </li>
         <li>
-          <a href="#features" className="text-[#1f3f6f] font-poppins hover:text-gray-300 font-bold">
+          <a
+            href="#features"
+            className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
+          >
             How It Works
           </a>
         </li>
         <li>
-          <a href="#pricing" className="text-[#1f3f6f] font-poppins hover:text-gray-300 font-bold">
+          <a
+            href="#pricing"
+            className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
+          >
             Why Safebuy?
           </a>
         </li>
         <li>
-          <a href="#aboutus" className="text-[#1f3f6f] font-poppins hover:text-gray-300 font-bold">
+          <a
+            href="#aboutus"
+            className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
+          >
             About Us
           </a>
         </li>
