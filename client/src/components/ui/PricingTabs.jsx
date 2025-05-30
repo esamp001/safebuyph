@@ -1,5 +1,6 @@
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs';
 import { Card } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
 export default function PricingTabs() {
   return (
     <Tabs
@@ -40,6 +41,11 @@ export default function PricingTabs() {
                   <p className="text-lg font-semibold font-poppins">₱20</p>
                   <p className="text-sm text-gray-600 font-poppins">Minimum Fee</p>
                 </div>
+                <div className="flex justify-center">
+                  <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 px-4 text-sm flex items-center gap-2">
+                    Get Started
+                  </Button>
+                </div>
               </div>
             </Card>
 
@@ -51,6 +57,11 @@ export default function PricingTabs() {
                 <div className="border-t pt-2">
                   <p className="text-lg font-semibold font-poppins">₱150</p>
                   <p className="text-sm text-gray-600 font-poppins">1.5% Fee</p>
+                </div>
+                <div className="flex justify-center">
+                  <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 px-4 text-sm flex items-center gap-2">
+                    Get Started
+                  </Button>
                 </div>
               </div>
             </Card>
@@ -64,6 +75,11 @@ export default function PricingTabs() {
                   <p className="text-lg font-semibold font-poppins">₱500</p>
                   <p className="text-sm text-gray-600 font-poppins">Maximum Fee</p>
                 </div>
+                <div className="flex justify-center">
+                  <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 px-4 text-sm flex items-center gap-2">
+                    Get Started
+                  </Button>
+                </div>
               </div>
             </Card>
           </div>
@@ -71,11 +87,14 @@ export default function PricingTabs() {
       </TabsContent>
       <TabsContent value="subscription" className="text-center mt-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
-          <Card className="p-6 bg-white shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="p-6 bg-white shadow-lg hover:shadow-xl transition-shadow max-w-xs mx-auto">
             <h3 className="text-xl font-semibold mb-3 text-[#1eafd0] font-poppins">Monthly Plan</h3>
             <div className="space-y-4">
               <p className="text-3xl font-bold font-poppins">
                 ₱499<span className="text-lg text-gray-600 font-poppins">/month</span>
+              </p>
+              <p className="text-gray-600 font-poppins text-sm">
+                Ideal for growing businesses and active sellers looking to scale their operations
               </p>
               <ul className="text-left space-y-2">
                 <li className="flex items-center font-poppins">
@@ -91,14 +110,22 @@ export default function PricingTabs() {
                   Lower fees after limit
                 </li>
               </ul>
+              <div className="flex justify-center">
+                <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 px-4 text-sm flex items-center gap-2">
+                  Choose Monthly Plan
+                </Button>
+              </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white shadow-lg hover:shadow-xl transition-shadow">
+          <Card className="p-6 bg-white shadow-lg hover:shadow-xl transition-shadow max-w-xs mx-auto">
             <h3 className="text-xl font-semibold mb-3 text-[#1eafd0] font-poppins">Yearly Plan</h3>
             <div className="space-y-4">
               <p className="text-3xl font-bold font-poppins">
                 ₱4,999<span className="text-lg text-gray-600 font-poppins">/year</span>
+              </p>
+              <p className="text-gray-600 font-poppins text-sm">
+                Ideal for established businesses looking for long-term savings
               </p>
               <ul className="text-left space-y-2">
                 <li className="flex items-center font-poppins">
@@ -118,6 +145,11 @@ export default function PricingTabs() {
                   Save ₱989 annually
                 </li>
               </ul>
+              <div className="flex justify-center">
+                <Button className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 px-4 text-sm flex items-center gap-2">
+                  Choose Yearly Plan
+                </Button>
+              </div>
             </div>
           </Card>
         </div>
