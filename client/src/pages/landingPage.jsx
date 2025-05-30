@@ -23,6 +23,7 @@ import FAQ from '@/components/ui/FAQComponents';
 import secureTransaction from '@/assets/secure-trans.jpg';
 import thanksSB from '@/assets/thanks-sb.jpg';
 import lookingItem from '@/assets/lookingItem.jpg';
+import setusApart from '@/assets/setusApart.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -140,74 +141,13 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
-      {/* KEY FEATURES SECTION */}
-      <div className="w-full">
-        <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
-            Key Features That Set Us Apart
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
-            Discover the powerful features that make SafeBuy PH the preferred choice for secure
-            online transactions
-          </p>
-          <div className="flex flex-col items-center gap-8 mt-10">
-            <div className="flex flex-col md:flex-row w-full gap-y-8 md:gap-y-0 md:gap-x-8">
-              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#98d2e1] rounded-xl p-8 flex flex-col items-center">
-                <img
-                  src={SecureLogin}
-                  alt="Secure Login"
-                  className="w-20 h-20 object-contain mb-4"
-                />
-                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Secure Escrow Service</h3>
-                <p className="text-[#1f3f6f] text-lg text-center">
-                  Advanced escrow protection ensuring your funds are safe until delivery
-                  confirmation
-                </p>
-              </Card>
-              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#1f3f6f] rounded-xl p-8 flex flex-col items-center">
-                <img
-                  src={realTimeSystemImg}
-                  alt="Real-time Tracking"
-                  className="w-28 h-28 object-contain mb-4"
-                />
-                <h3 className="text-2xl font-bold mb-4 text-white">Real-time Tracking</h3>
-                <p className="text-white text-lg text-center">
-                  Live transaction monitoring with detailed status updates and delivery tracking
-                </p>
-              </Card>
-              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#4a8bb2] rounded-xl p-8 flex flex-col items-center">
-                <img
-                  src={activeSupportImg}
-                  alt="Active Support"
-                  className="w-28 h-28 object-contain mb-4"
-                />
-                <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
-                <p className="text-white text-lg text-center">
-                  Get assistance from our dedicated support team whenever you need help.
-                </p>
-              </Card>
-              <Card className="w-full md:w-1/2 lg:w-1/4 bg-[#dce1e6] rounded-xl p-8 flex flex-col items-center">
-                <img
-                  src={SoftwareIntegration}
-                  alt="Software Integration"
-                  className="w-20 h-20 object-contain mb-4"
-                />
-                <h3 className="text-2xl font-bold mb-4 text-[#1f3f6f]">Easy Integration</h3>
-                <p className="text-[#1f3f6f] text-lg text-center">
-                  One-click integration with major marketplaces and business platforms
-                </p>
-              </Card>
-            </div>
-          </div>
-        </div>
-      </div>
       {/* BENEFITS SECTION */}
       <div className="w-full">
         <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-3 sm:mb-4 font-poppins px-2 sm:px-4 md:px-6 max-w-4xl mx-auto text-[#1f3f6f]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
             Experience SafeBuy PH
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-center mb-3 sm:mb-4 font-poppins px-2 sm:px-4 md:px-6 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
             Experience the benefits of using SafeBuy PH for your online transactions
           </p>
         </div>
@@ -284,6 +224,80 @@ const LandingPage = () => {
               </p>
             </CardContent>
           </Card>
+        </div>
+      </div>
+      {/* KEY FEATURES SECTION */}
+      <div className="w-full bg-gradient-to-b from-white to-gray-50">
+        <div className="container mx-auto px-4 py-16">
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            {/* Left Side - Title and Description */}
+            <div className="lg:w-1/3 flex flex-col">
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-poppins text-[#1f3f6f]">
+                Key Features That Set Us Apart
+              </h2>
+              <p className="text-base sm:text-lg text-gray-600">
+                Discover the powerful features that make SafeBuy PH the preferred choice for secure
+                online transactions
+              </p>
+              <div>
+                <img
+                  src={setusApart}
+                  alt="Secure Transactions"
+                  className="w-3/4 h-auto object-cover rounded-1xl mx-auto"
+                />
+              </div>
+            </div>
+
+            {/* Right Side - Feature Cards */}
+            <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8">
+              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
+                  <img src={SecureLogin} alt="Secure Login" className="w-10 h-10 object-contain" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">Secure Escrow</h3>
+                <p className="text-gray-600 text-center">
+                  Your funds are protected until you confirm delivery
+                </p>
+              </Card>
+              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
+                  <img
+                    src={realTimeSystemImg}
+                    alt="Real-time Tracking"
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">Live Tracking</h3>
+                <p className="text-gray-600 text-center">
+                  Real-time updates on your transaction status
+                </p>
+              </Card>
+              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
+                  <img
+                    src={activeSupportImg}
+                    alt="Active Support"
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">24/7 Support</h3>
+                <p className="text-gray-600 text-center">Expert assistance whenever you need it</p>
+              </Card>
+              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
+                  <img
+                    src={SoftwareIntegration}
+                    alt="Software Integration"
+                    className="w-10 h-10 object-contain"
+                  />
+                </div>
+                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">Easy Integration</h3>
+                <p className="text-gray-600 text-center">
+                  Seamless connection with major platforms
+                </p>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
       {/* HOW IT WORKS SECTION */}
