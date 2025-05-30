@@ -221,33 +221,35 @@ const LandingPage = () => {
                     alt="Secure Transactions"
                     className="w-full h-full object-cover rounded-2xl group-hover:brightness-110 transition-all duration-300"
                   />
-                  <div className="absolute inset-0 bg-black/30 rounded-2xl group-hover:bg-black/40 transition-all duration-300"></div>
+                  {/* Top left text */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
+                  <div className="absolute top-0 left-0 p-8">
+                    <p className="text-5xl text-white font-bold tracking-tight">
+                      100% Secure
+                      <br />
+                      Transactions
+                    </p>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-start">
+                    <div className="absolute bottom-0 left-0 right-0 text-white p-8">
+                      <h3 className="text-4xl font-bold mb-6 text-left">Secure Transactions</h3>
+                      <p className="text-md text-gray-100 font-poppins text-left">
+                        At SafeBuy PH, we understand the importance of secure online transactions.
+                        Our platform provides a safe environment where your funds are protected
+                        until you confirm receipt of your purchase.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <Card className="row-span-3 col-start-1 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-            <CardContent className="flex flex-col items-center justify-center h-full p-8">
-              <div className="bg-[#1eafd0]/10 p-4 rounded-full mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-[#1eafd0]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-[#1eafd0] font-poppins">
+          <Card className="bg-[#95a7ba] row-span-3 col-start-1 row-start-1 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
+            <CardContent className="flex flex-col items-start justify-start h-full p-8">
+              <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
                 Real-time Tracking
               </h3>
-              <p className="text-gray-600 font-poppins text-center text-lg leading-relaxed">
+              <p className="text-gray-600 font-poppins text-left text-lg leading-relaxed mt-auto">
                 Monitor your transaction status in real-time.
               </p>
             </CardContent>
