@@ -35,12 +35,12 @@ const steps = [
 
 export function ZigzagCard() {
   return (
-    <section className="py-8 bg-white">
+    <section className="py-8">
       <div className="container mx-auto px-4 space-y-4">
         {steps.map((step, index) => (
           <Card
             key={index}
-            className="relative flex flex-col md:flex-row items-center gap-4 p-4 border-radius-lg bg-[#f5f5f5]"
+            className="relative flex flex-col md:flex-row items-center gap-4 p-4 border-radius-lg bg-white hover:shadow-xl transition-all duration-300 border border-gray-100"
           >
             <CardContent className="flex flex-col md:flex-row items-center gap-4 w-full">
               {index % 2 === 0 ? (

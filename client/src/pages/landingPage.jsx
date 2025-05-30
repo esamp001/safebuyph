@@ -142,7 +142,7 @@ const LandingPage = () => {
         </div>
       </div>
       {/* BENEFITS SECTION */}
-      <div className="w-full">
+      <div className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
             Experience SafeBuy PH
@@ -150,84 +150,85 @@ const LandingPage = () => {
           <p className="text-base sm:text-lg md:text-xl text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
             Experience the benefits of using SafeBuy PH for your online transactions
           </p>
-        </div>
-      </div>
-      <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-        <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px] mx-8">
-          <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:shadow-xl transition-all duration-300 h-full">
-            <CardContent className="p-0 h-full">
-              <div className="relative w-full h-full">
-                <div className="relative w-full h-full">
-                  <img
-                    src={secureTransaction}
-                    alt="Secure Transactions"
-                    className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
-                  />
-                  {/* Top left text */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
-                  <div className="absolute top-0 left-0 p-8">
-                    <p className="text-5xl text-white font-bold tracking-tight">
-                      100% Secure
-                      <br />
-                      Transactions
-                    </p>
-                  </div>
-                  <div className="absolute inset-0 flex items-center justify-start">
-                    <div className="absolute bottom-0 left-0 right-0 text-white p-8">
-                      <h3 className="text-4xl font-bold mb-6 text-left">Secure Transactions</h3>
-                      <p className="text-md text-gray-100 font-poppins text-left">
-                        At SafeBuy PH, we understand the importance of secure online transactions.
-                        Our platform provides a safe environment where your funds are protected
-                        until you confirm receipt of your purchase.
-                      </p>
+          <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
+            <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px] mx-8">
+              <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:shadow-xl transition-all duration-300 h-full">
+                <CardContent className="p-0 h-full">
+                  <div className="relative w-full h-full">
+                    <div className="relative w-full h-full">
+                      <img
+                        src={secureTransaction}
+                        alt="Secure Transactions"
+                        className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
+                      />
+                      {/* Top left text */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
+                      <div className="absolute top-0 left-0 p-8">
+                        <p className="text-5xl text-white font-bold tracking-tight">
+                          100% Secure
+                          <br />
+                          Transactions
+                        </p>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-start">
+                        <div className="absolute bottom-0 left-0 right-0 text-white p-8">
+                          <h3 className="text-4xl font-bold mb-6 text-left">Secure Transactions</h3>
+                          <p className="text-md text-gray-100 font-poppins text-left">
+                            At SafeBuy PH, we understand the importance of secure online
+                            transactions. Our platform provides a safe environment where your funds
+                            are protected until you confirm receipt of your purchase.
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="col-span-1 row-span-3 col-start-1 row-start-1 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
-            <CardContent className="flex flex-col items-start justify-start h-full p-8">
-              <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
-                Dispute Resolution
-              </h3>
-              <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
-                Fair and efficient handling of transaction disputes with our mediation system.
-              </p>
-            </CardContent>
-          </Card>
-          <Card className="row-span-3 col-start-1 row-start-4 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-            <CardContent className="flex flex-col items-center justify-center h-full p-0">
-              <img
-                src={thanksSB}
-                alt="Secure Transactions"
-                className="w-full h-full object-cover rounded-2xl brightness-75"
-              />
-            </CardContent>
-          </Card>
-          <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
-            <CardContent className="flex flex-col items-center justify-center h-full p-0">
-              <img
-                src={lookingItem}
-                alt="Secure Transactions"
-                className="w-full h-full object-cover rounded-2xl brightness-75"
-              />
-            </CardContent>
-          </Card>
-          <Card className="row-span-3 col-start-4 row-start-4 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
-            <CardContent className="flex flex-col items-start justify-start h-full p-8">
-              <h3 className="text-2xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
-                Secure Payment Options
-              </h3>
-              <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
-                Shop securely with multiple payment options, all protected by advanced encryption.
-              </p>
-            </CardContent>
-          </Card>
+                </CardContent>
+              </Card>
+              <Card className="col-span-1 row-span-3 col-start-1 row-start-1 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+                <CardContent className="flex flex-col items-start justify-start h-full p-8">
+                  <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
+                    Dispute Resolution
+                  </h3>
+                  <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                    Fair and efficient handling of transaction disputes with our mediation system.
+                  </p>
+                </CardContent>
+              </Card>
+              <Card className="row-span-3 col-start-1 row-start-4 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                <CardContent className="flex flex-col items-center justify-center h-full p-0">
+                  <img
+                    src={thanksSB}
+                    alt="Secure Transactions"
+                    className="w-full h-full object-cover rounded-2xl brightness-75"
+                  />
+                </CardContent>
+              </Card>
+              <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
+                <CardContent className="flex flex-col items-center justify-center h-full p-0">
+                  <img
+                    src={lookingItem}
+                    alt="Secure Transactions"
+                    className="w-full h-full object-cover rounded-2xl brightness-75"
+                  />
+                </CardContent>
+              </Card>
+              <Card className="row-span-3 col-start-4 row-start-4 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+                <CardContent className="flex flex-col items-start justify-start h-full p-8">
+                  <h3 className="text-2xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
+                    Secure Payment Options
+                  </h3>
+                  <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                    Shop securely with multiple payment options, all protected by advanced
+                    encryption.
+                  </p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </div>
       </div>
       {/* KEY FEATURES SECTION */}
-      <div className="w-full bg-gradient-to-b from-white to-gray-50">
+      <div className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col lg:flex-row gap-12 items-start">
             {/* Left Side - Title and Description */}
@@ -301,7 +302,7 @@ const LandingPage = () => {
         </div>
       </div>
       {/* HOW IT WORKS SECTION */}
-      <div className="w-full">
+      <div className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <ZigzagCard />
         </div>
@@ -330,13 +331,13 @@ const LandingPage = () => {
         </Card>
       </div>
       {/* FAQ SECTION */}
-      <div className="w-full bg-[#f5f5f5]">
+      <div className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <FAQ />
         </div>
       </div>
       {/* PRICING AND PLANS SECTION */}
-      <div className="w-full">
+      <div className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
             Pricing and Plans
