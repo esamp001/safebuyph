@@ -21,6 +21,8 @@ import TestimonialCarousel from '@/components/ui/testimonialCarousel';
 import PricingTabs from '@/components/ui/PricingTabs';
 import FAQ from '@/components/ui/FAQComponents';
 import secureTransaction from '@/assets/secure-trans.jpg';
+import thanksSB from '@/assets/thanks-sb.jpg';
+import lookingItem from '@/assets/lookingItem.jpg';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -201,25 +203,25 @@ const LandingPage = () => {
       </div>
       {/* BENEFITS SECTION */}
       <div className="w-full">
-        <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
+        <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-3 sm:mb-4 font-poppins px-2 sm:px-4 md:px-6 max-w-4xl mx-auto text-[#1f3f6f]">
             Experience SafeBuy PH
           </h2>
-          <p className="text-base sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl text-center mb-3 sm:mb-4 font-poppins px-2 sm:px-4 md:px-6 max-w-3xl mx-auto">
             Experience the benefits of using SafeBuy PH for your online transactions
           </p>
         </div>
       </div>
       <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-        <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px]">
-          <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:scale-105 transition-transform duration-300 h-full">
+        <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px] mx-8">
+          <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:shadow-xl transition-all duration-300 h-full">
             <CardContent className="p-0 h-full">
               <div className="relative w-full h-full">
                 <div className="relative w-full h-full">
                   <img
                     src={secureTransaction}
                     alt="Secure Transactions"
-                    className="w-full h-full object-cover rounded-2xl group-hover:brightness-110 transition-all duration-300"
+                    className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
                   />
                   {/* Top left text */}
                   <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
@@ -244,91 +246,41 @@ const LandingPage = () => {
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-[#95a7ba] row-span-3 col-start-1 row-start-1 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
+          <Card className="col-span-1 row-span-3 col-start-1 row-start-1 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
             <CardContent className="flex flex-col items-start justify-start h-full p-8">
               <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
-                Real-time Tracking
+                Dispute Resolution
               </h3>
-              <p className="text-gray-600 font-poppins text-left text-lg leading-relaxed mt-auto">
-                Monitor your transaction status in real-time.
+              <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                Fair and efficient handling of transaction disputes with our mediation system.
               </p>
             </CardContent>
           </Card>
           <Card className="row-span-3 col-start-1 row-start-4 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-            <CardContent className="flex flex-col items-center justify-center h-full p-8">
-              <div className="bg-[#1eafd0]/10 p-4 rounded-full mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-[#1eafd0]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-[#1eafd0] font-poppins">
-                Expert Support
-              </h3>
-              <p className="text-gray-600 font-poppins text-center text-lg leading-relaxed">
-                Get assistance from our dedicated support team.
-              </p>
+            <CardContent className="flex flex-col items-center justify-center h-full p-0">
+              <img
+                src={thanksSB}
+                alt="Secure Transactions"
+                className="w-full h-full object-cover rounded-2xl brightness-75"
+              />
             </CardContent>
           </Card>
-          <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-            <CardContent className="flex flex-col items-center justify-center h-full p-8">
-              <div className="bg-[#1eafd0]/10 p-4 rounded-full mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-[#1eafd0]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-[#1eafd0] font-poppins">
-                Easy Integration
-              </h3>
-              <p className="text-gray-600 font-poppins text-center text-lg leading-relaxed">
-                Seamlessly integrate our service into your existing workflow.
-              </p>
+          <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
+            <CardContent className="flex flex-col items-center justify-center h-full p-0">
+              <img
+                src={lookingItem}
+                alt="Secure Transactions"
+                className="w-full h-full object-cover rounded-2xl brightness-75"
+              />
             </CardContent>
           </Card>
-          <Card className="row-span-3 col-start-4 row-start-4 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-            <CardContent className="flex flex-col items-center justify-center h-full p-8">
-              <div className="bg-[#1eafd0]/10 p-4 rounded-full mb-6">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  className="h-8 w-8 text-[#1eafd0]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
-                  />
-                </svg>
-              </div>
-              <h3 className="text-2xl font-bold mb-4 text-[#1eafd0] font-poppins">
-                User-Friendly Interface
+          <Card className="row-span-3 col-start-4 row-start-4 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+            <CardContent className="flex flex-col items-start justify-start h-full p-8">
+              <h3 className="text-2xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
+                Secure Payment Options
               </h3>
-              <p className="text-gray-600 font-poppins text-center text-lg leading-relaxed">
-                Enjoy a simple and intuitive user experience.
+              <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                Shop securely with multiple payment options, all protected by advanced encryption.
               </p>
             </CardContent>
           </Card>

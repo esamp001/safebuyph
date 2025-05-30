@@ -16,6 +16,8 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      port: 5173,
+      strictPort: true, // This will prevent Vite from trying the next available port
       proxy: {
         '/api': {
           target: 'http://localhost:3000', // Your backend
