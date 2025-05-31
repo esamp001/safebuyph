@@ -21,7 +21,7 @@ import thanksSB from '@/assets/thanks-sb.jpg';
 import lookingItem from '@/assets/lookingItem.jpg';
 import setusApart from '@/assets/setusApart.png';
 import Footer from '@/components/ui/footer';
-import facebookMarketplace from '@/assets/fb-marketplace.png';
+import facebookMarketplace from '@/assets/facebook-logo.png';
 import mayaIcon from '@/assets/maya-icon.png';
 import lbcIcon from '@/assets/lbc-icon.png';
 import jtIcon from '@/assets/jnt.png';
@@ -123,12 +123,10 @@ const LandingPage = () => {
                     key={idx}
                     className="embla__slide basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                   >
-                    <Card className="p-6 bg-[#E9EEF3] border-none h-[200px] flex flex-col items-center justify-center">
-                      <div className="flex flex-col items-center text-center h-full w-full">
-                        <div className="flex-1 flex items-center justify-center w-full">
-                          {item.icon}
-                        </div>
-                        <p className="text-sm text-black mb-2">{item.description}</p>
+                    <Card className="p-6 bg-[#E9EEF3] border-none h-[150px] flex flex-col items-center justify-center">
+                      <div className="flex flex-col items-center justify-center h-full text-center">
+                        <div className="flex-1 flex items-center justify-center">{item.icon}</div>
+                        <p className="text-xs text-black text-center">{item.description}</p>
                       </div>
                     </Card>
                   </div>

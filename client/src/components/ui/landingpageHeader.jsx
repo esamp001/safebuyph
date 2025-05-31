@@ -73,7 +73,7 @@ const LandingPageHeader = () => {
       {/* Desktop Buttons */}
       <div className="hidden lg:flex items-center gap-4">
         <Button
-          className="bg-[#2a5888] text-white hover:bg-[##22486D] rounded-full h-10 px-8 text-lg flex items-center"
+          className="bg-[#2a5888] text-white hover:bg-[#22486D] rounded-full h-10 px-8 text-lg flex items-center"
           onClick={() => navigate('/login')}
         >
           Login
