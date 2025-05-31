@@ -54,7 +54,7 @@ const LandingPageHeader = () => {
         </li>
         <li>
           <a
-            href="#pricing"
+            href="#key-features"
             className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
           >
             Why Safebuy?
@@ -62,10 +62,10 @@ const LandingPageHeader = () => {
         </li>
         <li>
           <a
-            href="#aboutus"
+            href="#testimonials"
             className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
           >
-            About Us
+            Success Stories
           </a>
         </li>
       </ul>

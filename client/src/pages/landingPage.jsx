@@ -417,7 +417,7 @@ const LandingPage = () => {
         </div>
       </div>
       {/* TRUST INDICATORS SECTION */}
-      <div id="about-us" className="w-full bg-[#FFFF] -mt-8">
+      <div id="testimonials" className="w-full bg-[#FFFF] -mt-8">
         <Card className="container mx-auto px-4 py-8 sm:py-12 md:py-16 bg-gradient-to-br from-[#1eafd0] via-[#0b92bc] to-[#1f3f6f] p-6 text-white shadow-lg min-h-[600px] relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
           <CardContent className="flex flex-col items-center justify-center relative z-10">
