@@ -139,7 +139,7 @@ const LandingPage = () => {
       {/* BENEFITS SECTION */}
       <div className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f] mt-8">
             Experience SafeBuy PH
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
@@ -303,14 +303,14 @@ const LandingPage = () => {
         </div>
       </div>
       {/* TRUST INDICATORS SECTION */}
-      <div className="w-full bg-[#FFFF] -mt-10">
+      <div className="w-full bg-[#FFFF] -mt-8">
         <Card className="container mx-auto px-4 py-8 sm:py-12 md:py-16 bg-gradient-to-br from-[#1eafd0] via-[#0b92bc] to-[#1f3f6f] p-6 text-white shadow-lg min-h-[600px] relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
           <CardContent className="flex flex-col items-center justify-center relative z-10">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-10 text-center font-poppins text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 text-center font-poppins text-white">
               What Others Say About SafebuyPH
             </h2>
-            <h2 className="sm:text-lg md:text-xl text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto text-white/90 font-poppins mb-10">
+            <h2 className="sm:text-lg md:text-xl text-center sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto text-white/90 font-poppins mb-10">
               Read what our users have to say about SafebuyPH
             </h2>
             <TestimonialCarousel />
