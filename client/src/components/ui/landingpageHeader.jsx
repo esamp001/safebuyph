@@ -38,18 +38,18 @@ const LandingPageHeader = () => {
       <ul className="hidden lg:flex space-x-10">
         <li>
           <a
-            href="#about"
+            href="#how-it-works"
             className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
           >
-            Features & Pricing
+            How It Works
           </a>
         </li>
         <li>
           <a
-            href="#features"
+            href="#pricing"
             className="text-[#1f3f6f]/80 font-poppins hover:text-[#132848] font-bold transition-colors duration-200"
           >
-            How It Works
+            Pricing and Plans
           </a>
         </li>
         <li>
@@ -111,14 +111,14 @@ const LandingPageHeader = () => {
       {menuOpen && (
         <div className="fixed top-16 left-0 w-full bg-white shadow-lg z-50 flex flex-col items-center py-4">
           <a
-            href="#about"
+            href="#key-features"
             className="text-[#1f3f6f] font-poppins py-2"
             onClick={() => setMenuOpen(false)}
           >
             Features & Pricing
           </a>
           <a
-            href="#features"
+            href="#how-it-works"
             className="text-[#1f3f6f] font-poppins py-2"
             onClick={() => setMenuOpen(false)}
           >

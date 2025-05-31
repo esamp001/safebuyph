@@ -26,6 +26,15 @@ import mayaIcon from '@/assets/maya-icon.png';
 import lbcIcon from '@/assets/lbc-icon.png';
 import jtIcon from '@/assets/jnt.png';
 import bankIcon from '@/assets/bdo-logo.png';
+import { FaShieldAlt } from 'react-icons/fa';
+import { FaUserCheck } from 'react-icons/fa';
+import { FaChartLine } from 'react-icons/fa';
+import { FaUpload } from 'react-icons/fa';
+import { FaGavel } from 'react-icons/fa';
+import { FaStar } from 'react-icons/fa';
+import { FaCreditCard } from 'react-icons/fa';
+import { FaBell } from 'react-icons/fa';
+import { FaChrome } from 'react-icons/fa';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -137,7 +146,7 @@ const LandingPage = () => {
         </div>
       </div>
       {/* BENEFITS SECTION */}
-      <div className="w-full bg-gray-50">
+      <div id="features" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f] mt-8">
             Experience SafeBuy PH
@@ -222,88 +231,193 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+
       {/* KEY FEATURES SECTION */}
-      <div className="w-full bg-gray-50">
+      <div id="key-features" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-16">
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            {/* Left Side - Title and Description */}
-            <div className="lg:w-1/3 flex flex-col">
+          <div className="flex flex-col gap-12">
+            {/* Title Section */}
+            <div className="text-center">
               <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-poppins text-[#1f3f6f]">
-                Key Features That Set Us Apart
+                Trusted & Reliable Features
               </h2>
-              <p className="text-base sm:text-lg text-gray-600">
-                Discover the powerful features that make SafeBuy PH the preferred choice for secure
-                online transactions
+              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                Discover why thousands of Filipinos trust SafeBuy PH for their online transactions.
+                Our platform combines advanced security features with user-friendly tools to make
+                buying and selling safer and more convenient than ever.
               </p>
-              <div>
-                <img
-                  src={setusApart}
-                  alt="Secure Transactions"
-                  className="w-3/4 h-auto object-cover rounded-1xl mx-auto"
-                />
-              </div>
             </div>
 
-            {/* Right Side - Feature Cards */}
-            <div className="lg:w-2/3 grid grid-cols-1 md:grid-cols-2 gap-8">
-              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
-                  <img src={SecureLogin} alt="Secure Login" className="w-10 h-10 object-contain" />
+            {/* Feature Cards Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {/* First Row */}
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaShieldAlt className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Escrow Payment Protection
+                    </h3>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">Secure Escrow</h3>
-                <p className="text-gray-600 text-center">
-                  Your funds are protected until you confirm delivery
+                <p className="text-gray-600 mt-3 text-sm">
+                  Funds are held securely until the buyer confirms item delivery, helping prevent
+                  scams and fake transactions that are common on Facebook Marketplace.
                 </p>
               </Card>
-              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
-                  <img
-                    src={realTimeSystemImg}
-                    alt="Real-time Tracking"
-                    className="w-10 h-10 object-contain"
-                  />
+
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaUserCheck className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Verified Seller Access
+                    </h3>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">Live Tracking</h3>
-                <p className="text-gray-600 text-center">
-                  Real-time updates on your transaction status
+                <p className="text-gray-600 mt-3 text-sm">
+                  To ensure safety, sellers must go through an application and verification process
+                  before receiving payments. This adds a layer of trust and helps prevent scams.
                 </p>
               </Card>
-              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
-                  <img
-                    src={activeSupportImg}
-                    alt="Active Support"
-                    className="w-10 h-10 object-contain"
-                  />
+
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaChartLine className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Transaction Progress Tracker
+                    </h3>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">24/7 Support</h3>
-                <p className="text-gray-600 text-center">Expert assistance whenever you need it</p>
+                <p className="text-gray-600 mt-3 text-sm">
+                  Real-time status updates guide the transaction through each stage: Pending →
+                  Accepted → Paid → Shipped → Completed.
+                </p>
               </Card>
-              <Card className="bg-white rounded-xl p-8 flex flex-col items-center hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="w-16 h-16 bg-[#1eafd0]/10 rounded-full flex items-center justify-center mb-6">
-                  <img
-                    src={SoftwareIntegration}
-                    alt="Software Integration"
-                    className="w-10 h-10 object-contain"
-                  />
+
+              {/* Second Row */}
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaUpload className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Shipping Proof Upload
+                    </h3>
+                  </div>
                 </div>
-                <h3 className="text-xl font-bold mb-3 text-[#1f3f6f]">Easy Integration</h3>
-                <p className="text-gray-600 text-center">
-                  Seamless connection with major platforms
+                <p className="text-gray-600 mt-3 text-sm">
+                  To ensure trust, the seller must upload a valid shipping receipt (e.g., LBC, J&T)
+                  as proof before funds are released from escrow.
+                </p>
+              </Card>
+
+              {/* Add more cards for the remaining slots */}
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaGavel className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Dispute Filing & Admin Resolution
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 mt-3 text-sm">
+                  If issues arise, our admin team will review evidence and mediate disputes to
+                  ensure fair resolution for both parties.
+                </p>
+              </Card>
+
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaStar className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Ratings & Reviews System
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 mt-3 text-sm">
+                  Build trust through our community-driven ratings and reviews system that helps
+                  users make informed decisions.
+                </p>
+              </Card>
+
+              {/* Third Row */}
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaCreditCard className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Multiple Payment Options
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 mt-3 text-sm">
+                  Support for various payment methods including bank transfers and digital wallets.
+                </p>
+              </Card>
+
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaBell className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      Real-time Notifications
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 mt-3 text-sm">
+                  Stay updated with instant notifications about your transaction status.
+                </p>
+              </Card>
+
+              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center">
+                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                      <FaChrome className="w-4 h-4 text-[#1f3f6f]" />
+                    </div>
+                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                      {' '}
+                      Browser Extension for Instant Import
+                    </h3>
+                  </div>
+                </div>
+                <p className="text-gray-600 mt-3 text-sm">
+                  With the SafeBuy PH Chrome Extension, users can instantly capture product details
+                  directly from Facebook Marketplace listings.
                 </p>
               </Card>
             </div>
           </div>
         </div>
       </div>
+
       {/* HOW IT WORKS SECTION */}
-      <div className="w-full bg-gray-50">
+      <div id="how-it-works" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <ZigzagCard />
         </div>
       </div>
       {/* TRUST INDICATORS SECTION */}
-      <div className="w-full bg-[#FFFF] -mt-8">
+      <div id="about-us" className="w-full bg-[#FFFF] -mt-8">
         <Card className="container mx-auto px-4 py-8 sm:py-12 md:py-16 bg-gradient-to-br from-[#1eafd0] via-[#0b92bc] to-[#1f3f6f] p-6 text-white shadow-lg min-h-[600px] relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
           <CardContent className="flex flex-col items-center justify-center relative z-10">
@@ -324,6 +438,7 @@ const LandingPage = () => {
             </Button>
           </div>
         </Card>
+        \
       </div>
       {/* FAQ SECTION */}
       <div className="w-full bg-gray-50">
@@ -332,7 +447,7 @@ const LandingPage = () => {
         </div>
       </div>
       {/* PRICING AND PLANS SECTION */}
-      <div className="w-full bg-gray-50">
+      <div id="pricing" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-4 sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f]">
             Pricing and Plans
