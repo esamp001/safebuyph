@@ -413,6 +413,17 @@ const LandingPage = () => {
       {/* HOW IT WORKS SECTION */}
       <div id="how-it-works" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
+          <div className="justify-center mb-8">
+            <div className="flex flex-col items-center">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-poppins text-[#1f3f6f] mb-4 text-center">
+                How SafeBuy PH Works
+              </h3>
+              <p className="text-gray-600 max-w-2xl text-lg text-center">
+                A simple and secure way to buy and sell online in the Philippines, with escrow
+                protection and instant notifications
+              </p>
+            </div>
+          </div>
           <ZigzagCard />
         </div>
       </div>
