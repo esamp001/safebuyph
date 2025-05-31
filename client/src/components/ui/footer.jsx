@@ -21,30 +21,30 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-white">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/about" className="text-gray-200 hover:text-[#1eafd0] transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/how-it-works"
-                  className="text-gray-200 hover:text-[#1eafd0] transition-colors"
+                <a
+                  href="#how-it-works"
+                  className="text-gray-200 hover:text-[#C1C6D2] transition-colors"
                 >
                   How It Works
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/pricing"
-                  className="text-gray-200 hover:text-[#1eafd0] transition-colors"
+                <a href="#pricing" className="text-gray-200 hover:text-[#C1C6D2] transition-colors">
+                  Pricing and Plans
+                </a>
+              </li>
+              <li>
+                <a
+                  href="#why-safebuy-ph"
+                  className="text-gray-200 hover:text-[#C1C6D2] transition-colors"
                 >
-                  Pricing
-                </Link>
+                  Why SafeBuy PH?
+                </a>
               </li>
               <li>
-                <Link to="/faq" className="text-gray-200 hover:text-[#1eafd0] transition-colors">
+                <a href="#faq" className="text-gray-200 hover:text-[#C1C6D2] transition-colors">
                   FAQ
-                </Link>
+                </a>
               </li>
             </ul>
           </div>
@@ -54,8 +54,8 @@ const Footer = () => {
             <h3 className="text-xl font-bold text-white">Contact Us</h3>
             <ul className="space-y-2">
               <li className="text-gray-200">Email: support@safebuy.ph</li>
-              <li className="text-gray-200">Phone: +63 (XXX) XXX-XXXX</li>
-              <li className="text-gray-200">Address: Manila, Philippines</li>
+              <li className="text-gray-200">Phone: +63 (947) 208-4004</li>
+              <li className="text-gray-200">Address: #178 Main St, San Juan, Philippines</li>
             </ul>
           </div>
 

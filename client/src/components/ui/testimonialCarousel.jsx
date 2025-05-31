@@ -7,41 +7,46 @@ import {
 } from '@/components/ui/carousel';
 import { Card } from '@/components/ui/card';
 import Quotation from '@/assets/quote.png';
+import person1 from '@/assets/person-1.jpg';
+import person2 from '@/assets/person-2.jpg';
+import person3 from '@/assets/person-3.jpg';
+import person4 from '@/assets/person-4.jpg';
+import person5 from '@/assets/person-5.jpg';
 
 const testimonials = [
   {
     name: 'Jane D.',
     quote:
       'SafeBuy PH made my transaction so much safer! I can now shop online with confidence. The escrow system gives me peace of mind knowing my money is protected until I receive my items.',
-    avatar: '/src/assets/yes-high.png',
+    avatar: person1,
     role: 'Verified Buyer',
   },
   {
     name: 'Mark S.',
     quote:
       'The escrow system gave me peace of mind as a seller. I know my payments are secure and the platform handles all the complex parts of the transaction process.',
-    avatar: '/src/assets/Collab-pana.png',
+    avatar: person2,
     role: 'Seller',
   },
   {
     name: 'Aira P.',
     quote:
       'Super easy to use and very secure. The platform is intuitive and customer service is excellent. I love how they guide you through each step of the process.',
-    avatar: '/src/assets/Enthusiastic-pana.png',
+    avatar: person3,
     role: 'Buyer',
   },
   {
     name: 'Juan C.',
     quote:
       'I love how transparent and fair the process is. Every step is clearly explained and monitored. The real-time updates keep me informed throughout the entire transaction.',
-    avatar: '/src/assets/Profile Interface-bro.png',
+    avatar: person4,
     role: 'Seller',
   },
   {
     name: 'Liza M.',
     quote:
       'Customer support was quick and helpful. They resolved my issue within minutes. The team went above and beyond to ensure my transaction was completed successfully.',
-    avatar: '/src/assets/Active Support-pana.png',
+    avatar: person5,
     role: 'Buyer',
   },
 ];

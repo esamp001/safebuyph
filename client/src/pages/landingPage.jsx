@@ -35,6 +35,8 @@ import { FaStar } from 'react-icons/fa';
 import { FaCreditCard } from 'react-icons/fa';
 import { FaBell } from 'react-icons/fa';
 import { FaChrome } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { ScrollAnimation } from '@/components/ui/ScrollAnimation';
 
 const LandingPage = () => {
   const navigate = useNavigate();
@@ -94,25 +96,56 @@ const LandingPage = () => {
           <div className="flex flex-col-reverse lg:flex-row items-center justify-between gap-6">
             {/* Left Content */}
             <div className="flex-1 w-full max-w-2xl px-4 sm:px-6 md:px-8 lg:px-0">
-              <div className="mt-6 sm:mt-10 md:mt-16 lg:mt-32">
-                <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-10 sm:mb-6">
-                  Secure your online transactions with confidence
-                </h1>
-                <p className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8">
-                  Safebuy PH provides a secure escrow service for your online purchase and sales.
-                </p>
-              </div>
-              <Button
-                className="bg-[#FFFF] text-[#1eafd0] hover:bg-[#F1E9E9] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3"
-                onClick={() => navigate('/signup')}
+              <motion.div
+                className="mt-6 sm:mt-10 md:mt-16 lg:mt-32"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.8, ease: 'easeOut' }}
               >
-                Get Started
-                <ArrowRightIcon className="w-6 h-6" />
-              </Button>
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 0.5, delay: 0.2 }}
+                  className="text-2xl sm:text-3xl md:text-4xl lg:text-6xl font-bold text-white mb-10 sm:mb-6"
+                >
+                  Secure your online transactions with confidence
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 0.5, delay: 0.4 }}
+                  className="text-base sm:text-lg md:text-xl text-white/90 mb-6 sm:mb-8"
+                >
+                  Safebuy PH provides a secure escrow service for your online purchase and sales.
+                </motion.p>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-100px' }}
+                  transition={{ duration: 0.5, delay: 0.6 }}
+                >
+                  <Button
+                    className="bg-[#FFFF] text-[#1eafd0] hover:bg-[#F1E9E9] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3"
+                    onClick={() => navigate('/signup')}
+                  >
+                    Get Started
+                    <ArrowRightIcon className="w-6 h-6" />
+                  </Button>
+                </motion.div>
+              </motion.div>
             </div>
 
             {/* Right Content - Image */}
-            <div className="flex-1 max-w-4xl flex items-center justify-end bg-[#1eafd0] rounded-2xl p-4">
+            <motion.div
+              className="flex-1 max-w-4xl flex items-center justify-end bg-[#1eafd0] rounded-2xl p-4"
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+            >
               <div className="w-full h-full flex items-center justify-end">
                 <img
                   src={landingPageImage}
@@ -121,7 +154,7 @@ const LandingPage = () => {
                   style={{ backgroundColor: '#1eafd0' }}
                 />
               </div>
-            </div>
+            </motion.div>
           </div>
           {/* Partnership Section */}
           <div className="w-full max-w-7xl mx-auto px-4 mt-16">
@@ -148,85 +181,136 @@ const LandingPage = () => {
       {/* BENEFITS SECTION */}
       <div id="features" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-4 sm:py-6 md:py-8">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f] mt-8">
-            Experience SafeBuy PH
-          </h2>
-          <p className="text-base sm:text-lg md:text-xl text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
-            Experience the benefits of using SafeBuy PH for your online transactions
-          </p>
+          <motion.div
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.6 }}
+          >
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f] mt-8">
+              Experience SafeBuy PH
+            </h2>
+            <p className="text-base sm:text-lg md:text-xl text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
+              Experience the benefits of using SafeBuy PH for your online transactions
+            </p>
+          </motion.div>
           <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
             <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px] mx-8">
-              <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:shadow-xl transition-all duration-300 h-full">
-                <CardContent className="p-0 h-full">
-                  <div className="relative w-full h-full">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="col-span-2 row-span-6 col-start-2 row-start-1 h-full"
+              >
+                <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:shadow-xl transition-all duration-300 h-full">
+                  <CardContent className="p-0 h-full">
                     <div className="relative w-full h-full">
-                      <img
-                        src={secureTransaction}
-                        alt="Secure Transactions"
-                        className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
-                      />
-                      {/* Top left text */}
-                      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
-                      <div className="absolute top-0 left-0 p-8">
-                        <p className="text-5xl text-white font-bold tracking-tight">
-                          100% Secure
-                          <br />
-                          Transactions
-                        </p>
-                      </div>
-                      <div className="absolute inset-0 flex items-center justify-start">
-                        <div className="absolute bottom-0 left-0 right-0 text-white p-8">
-                          <h3 className="text-4xl font-bold mb-6 text-left">Secure Transactions</h3>
-                          <p className="text-md text-gray-100 font-poppins text-left">
-                            At SafeBuy PH, we understand the importance of secure online
-                            transactions. Our platform provides a safe environment where your funds
-                            are protected until you confirm receipt of your purchase.
+                      <div className="relative w-full h-full">
+                        <img
+                          src={secureTransaction}
+                          alt="Secure Transactions"
+                          className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
+                        />
+                        {/* Top left text */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
+                        <div className="absolute top-0 left-0 p-8">
+                          <p className="text-5xl text-white font-bold tracking-tight">
+                            100% Secure
+                            <br />
+                            Transactions
                           </p>
+                        </div>
+                        <div className="absolute inset-0 flex items-center justify-start">
+                          <div className="absolute bottom-0 left-0 right-0 text-white p-8">
+                            <h3 className="text-4xl font-bold mb-6 text-left">
+                              Secure Transactions
+                            </h3>
+                            <p className="text-md text-gray-100 font-poppins text-left">
+                              At SafeBuy PH, we understand the importance of secure online
+                              transactions. Our platform provides a safe environment where your
+                              funds are protected until you confirm receipt of your purchase.
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-              <Card className="col-span-1 row-span-3 col-start-1 row-start-1 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
-                <CardContent className="flex flex-col items-start justify-start h-full p-8">
-                  <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
-                    Dispute Resolution
-                  </h3>
-                  <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
-                    Fair and efficient handling of transaction disputes with our mediation system.
-                  </p>
-                </CardContent>
-              </Card>
-              <Card className="row-span-3 col-start-1 row-start-4 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
-                <CardContent className="flex flex-col items-center justify-center h-full p-0">
-                  <img
-                    src={thanksSB}
-                    alt="Secure Transactions"
-                    className="w-full h-full object-cover rounded-2xl brightness-75"
-                  />
-                </CardContent>
-              </Card>
-              <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
-                <CardContent className="flex flex-col items-center justify-center h-full p-0">
-                  <img
-                    src={lookingItem}
-                    alt="Secure Transactions"
-                    className="w-full h-full object-cover rounded-2xl brightness-75"
-                  />
-                </CardContent>
-              </Card>
-              <Card className="row-span-3 col-start-4 row-start-4 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
-                <CardContent className="flex flex-col items-start justify-start h-full p-8">
-                  <h3 className="text-2xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
-                    Secure Payment Options
-                  </h3>
-                  <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
-                    Shop securely with multiple payment options, all protected by advanced
-                    encryption.
-                  </p>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: -50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="col-span-1 row-span-3 col-start-1 row-start-1 h-full"
+              >
+                <Card className="col-span-1 row-span-3 col-start-1 row-start-1 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+                  <CardContent className="flex flex-col items-start justify-start h-full p-8">
+                    <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
+                      Dispute Resolution
+                    </h3>
+                    <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                      Fair and efficient handling of transaction disputes with our mediation system.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="row-span-3 col-start-1 row-start-4 h-full"
+              >
+                <Card className="h-full bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
+                  <CardContent className="relative h-full p-0">
+                    <div className="absolute inset-0">
+                      <img
+                        src={thanksSB}
+                        alt="Secure Transactions"
+                        className="w-full h-full object-cover rounded-2xl brightness-75"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, x: 50 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="row-span-3 col-start-4 row-start-1 h-full"
+              >
+                <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
+                  <CardContent className="flex flex-col items-center justify-center h-full p-0">
+                    <img
+                      src={lookingItem}
+                      alt="Secure Transactions"
+                      className="w-full h-full object-cover rounded-2xl brightness-75"
+                    />
+                  </CardContent>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="row-span-3 col-start-4 row-start-4 h-full"
+              >
+                <Card className="row-span-3 col-start-4 row-start-4 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+                  <CardContent className="flex flex-col items-start justify-start h-full p-8">
+                    <h3 className="text-2xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
+                      Secure Payment Options
+                    </h3>
+                    <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                      Shop securely with multiple payment options, all protected by advanced
+                      encryption.
+                    </p>
+                  </CardContent>
+                </Card>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -237,174 +321,252 @@ const LandingPage = () => {
         <div className="container mx-auto px-4 py-16">
           <div className="flex flex-col gap-12">
             {/* Title Section */}
-            <div className="text-center">
-              <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-poppins text-[#1f3f6f]">
-                Trusted & Reliable Features
-              </h2>
-              <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
-                Discover why thousands of Filipinos trust SafeBuy PH for their online transactions.
-                Our platform combines advanced security features with user-friendly tools to make
-                buying and selling safer and more convenient than ever.
-              </p>
-            </div>
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-100px' }}
+              transition={{ duration: 0.5 }}
+              className="text-center"
+            >
+              <div className="text-center">
+                <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-6 font-poppins text-[#1f3f6f]">
+                  Trusted & Reliable Features
+                </h2>
+                <p className="text-base sm:text-lg text-gray-600 max-w-2xl mx-auto">
+                  Discover why thousands of Filipinos trust SafeBuy PH for their online
+                  transactions. Our platform combines advanced security features with user-friendly
+                  tools to make buying and selling safer and more convenient than ever.
+                </p>
+              </div>
+            </motion.div>
 
             {/* Feature Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {/* First Row */}
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaShieldAlt className="w-4 h-4 text-[#1f3f6f]" />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaShieldAlt className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Escrow Payment Protection
+                      </h3>
                     </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Escrow Payment Protection
-                    </h3>
                   </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  Funds are held securely until the buyer confirms item delivery, helping prevent
-                  scams and fake transactions that are common on Facebook Marketplace.
-                </p>
-              </Card>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    Funds are held securely until the buyer confirms item delivery, helping prevent
+                    scams and fake transactions that are common on Facebook Marketplace.
+                  </p>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaUserCheck className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Verified Seller Access
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    To ensure safety, sellers must go through an application and verification
+                    process before receiving payments. This adds a layer of trust and helps prevent
+                    scams.
+                  </p>
+                </Card>
+              </motion.div>
 
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaUserCheck className="w-4 h-4 text-[#1f3f6f]" />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaChartLine className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Transaction Progress Tracker
+                      </h3>
                     </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Verified Seller Access
-                    </h3>
                   </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  To ensure safety, sellers must go through an application and verification process
-                  before receiving payments. This adds a layer of trust and helps prevent scams.
-                </p>
-              </Card>
-
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaChartLine className="w-4 h-4 text-[#1f3f6f]" />
-                    </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Transaction Progress Tracker
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  Real-time status updates guide the transaction through each stage: Pending →
-                  Accepted → Paid → Shipped → Completed.
-                </p>
-              </Card>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    Real-time status updates guide the transaction through each stage: Pending →
+                    Accepted → Paid → Shipped → Completed.
+                  </p>
+                </Card>
+              </motion.div>
 
               {/* Second Row */}
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaUpload className="w-4 h-4 text-[#1f3f6f]" />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaUpload className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Shipping Proof Upload
+                      </h3>
                     </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Shipping Proof Upload
-                    </h3>
                   </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  To ensure trust, the seller must upload a valid shipping receipt (e.g., LBC, J&T)
-                  as proof before funds are released from escrow.
-                </p>
-              </Card>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    To ensure trust, the seller must upload a valid shipping receipt (e.g., LBC,
+                    J&T) as proof before funds are released from escrow.
+                  </p>
+                </Card>
+              </motion.div>
 
               {/* Add more cards for the remaining slots */}
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaGavel className="w-4 h-4 text-[#1f3f6f]" />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaGavel className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Dispute Filing & Admin Resolution
+                      </h3>
                     </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Dispute Filing & Admin Resolution
-                    </h3>
                   </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  If issues arise, our admin team will review evidence and mediate disputes to
-                  ensure fair resolution for both parties.
-                </p>
-              </Card>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    If issues arise, our admin team will review evidence and mediate disputes to
+                    ensure fair resolution for both parties.
+                  </p>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaStar className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Ratings & Reviews System
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    Build trust through our community-driven ratings and reviews system that helps
+                    users make informed decisions.
+                  </p>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                {/* Third Row */}
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaCreditCard className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Multiple Payment Options
+                      </h3>
+                    </div>
+                  </div>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    Support for various payment methods including bank transfers and digital
+                    wallets.
+                  </p>
+                </Card>
+              </motion.div>
 
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaStar className="w-4 h-4 text-[#1f3f6f]" />
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaBell className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        Real-time Notifications
+                      </h3>
                     </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Ratings & Reviews System
-                    </h3>
                   </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  Build trust through our community-driven ratings and reviews system that helps
-                  users make informed decisions.
-                </p>
-              </Card>
-
-              {/* Third Row */}
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaCreditCard className="w-4 h-4 text-[#1f3f6f]" />
+                  <p className="text-gray-600 mt-3 text-sm">
+                    Stay updated with instant notifications about your transaction status.
+                  </p>
+                </Card>
+              </motion.div>
+              <motion.div
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="h-full"
+              >
+                <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100 h-full">
+                  <div className="flex items-center gap-2">
+                    <div className="flex items-center">
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
+                        <FaChrome className="w-4 h-4 text-[#1f3f6f]" />
+                      </div>
+                      <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
+                        {' '}
+                        Browser Extension for Instant Import
+                      </h3>
                     </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Multiple Payment Options
-                    </h3>
                   </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  Support for various payment methods including bank transfers and digital wallets.
-                </p>
-              </Card>
-
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaBell className="w-4 h-4 text-[#1f3f6f]" />
-                    </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      Real-time Notifications
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  Stay updated with instant notifications about your transaction status.
-                </p>
-              </Card>
-
-              <Card className="bg-white rounded-xl p-4 flex flex-col items-start hover:shadow-xl transition-all duration-300 border border-gray-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center">
-                    <div className="w-10 h-10 rounded-full flex items-center justify-center bg-[#1eafd0]/10">
-                      <FaChrome className="w-4 h-4 text-[#1f3f6f]" />
-                    </div>
-                    <h3 className="text-base font-bold text-[#1f3f6f] ml-2">
-                      {' '}
-                      Browser Extension for Instant Import
-                    </h3>
-                  </div>
-                </div>
-                <p className="text-gray-600 mt-3 text-sm">
-                  With the SafeBuy PH Chrome Extension, users can instantly capture product details
-                  directly from Facebook Marketplace listings.
-                </p>
-              </Card>
+                  <p className="text-gray-600 mt-3 text-sm">
+                    With the SafeBuy PH Chrome Extension, users can instantly capture product
+                    details directly from Facebook Marketplace listings.
+                  </p>
+                </Card>
+              </motion.div>
             </div>
           </div>
         </div>
@@ -413,17 +575,35 @@ const LandingPage = () => {
       {/* HOW IT WORKS SECTION */}
       <div id="how-it-works" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-          <div className="justify-center mb-8">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{ duration: 0.5 }}
+            className="justify-center mb-8"
+          >
             <div className="flex flex-col items-center">
-              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold font-poppins text-[#1f3f6f] mb-4 text-center">
+              <motion.h3
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5 }}
+                className="text-xl sm:text-2xl md:text-3xl font-bold font-poppins text-[#1f3f6f] mb-4 text-center"
+              >
                 How SafeBuy PH Works
-              </h3>
-              <p className="text-gray-600 max-w-2xl text-lg text-center">
+              </motion.h3>
+              <motion.p
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-100px' }}
+                transition={{ duration: 0.5 }}
+                className="text-gray-600 max-w-2xl text-lg text-center"
+              >
                 A simple and secure way to buy and sell online in the Philippines, with escrow
                 protection and instant notifications
-              </p>
+              </motion.p>
             </div>
-          </div>
+          </motion.div>
           <ZigzagCard />
         </div>
       </div>
@@ -452,7 +632,7 @@ const LandingPage = () => {
         \
       </div>
       {/* FAQ SECTION */}
-      <div className="w-full bg-gray-50">
+      <div id="faq" className="w-full bg-gray-50">
         <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
           <FAQ />
         </div>

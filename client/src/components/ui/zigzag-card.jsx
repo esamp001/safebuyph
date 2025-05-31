@@ -1,4 +1,5 @@
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
+import { motion } from 'framer-motion';
 
 const steps = [
   {
@@ -38,52 +39,93 @@ export function ZigzagCard() {
     <section className="py-8">
       <div className="container mx-auto px-4 space-y-4">
         {steps.map((step, index) => (
-          <Card
+          <motion.div
             key={index}
-            className="relative flex flex-col md:flex-row items-center gap-4 p-4 border-radius-lg bg-white hover:shadow-xl transition-all duration-300 border border-gray-100"
+            initial={{ opacity: 0, x: index % 2 === 0 ? -50 : 50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, margin: '-100px' }}
+            transition={{
+              duration: 0.6,
+              delay: index * 0.2,
+              ease: 'easeOut',
+            }}
           >
-            <CardContent className="flex flex-col md:flex-row items-center gap-4 w-full">
-              {index % 2 === 0 ? (
-                <>
-                  <span className="absolute top-4 left-4 bg-[#1eafd0] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
-                    {index + 1}
-                  </span>
-                  <img
-                    src={step.icon}
-                    alt={step.title}
-                    className="w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 object-contain"
-                  />
-                  <div className="w-full md:w-1/2 text-center md:text-left">
-                    <h3 className="text-xl md:text-2xl font-bold mb-2 font-poppins">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm md:text-base text-gray-700 font-sans">
-                      {step.description}
-                    </p>
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div className="w-full md:w-1/2 text-center md:text-left">
-                    <span className="absolute top-4 left-4 bg-[#1eafd0] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center shadow">
+            <Card className="relative flex flex-col md:flex-row items-center gap-4 p-4 border-radius-lg bg-white hover:shadow-xl transition-all duration-300 border border-gray-100">
+              <CardContent className="flex flex-col md:flex-row items-center gap-4 w-full">
+                {index % 2 === 0 ? (
+                  <>
+                    <motion.span
+                      initial={{ scale: 0 }}
+                      whileInView={{ scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 + 0.3 }}
+                      className="absolute top-4 left-4 bg-[#1eafd0] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center shadow"
+                    >
                       {index + 1}
-                    </span>
-                    <h3 className="text-xl md:text-2xl font-bold mb-2 font-poppins">
-                      {step.title}
-                    </h3>
-                    <p className="text-sm md:text-base text-gray-700 font-sans">
-                      {step.description}
-                    </p>
-                  </div>
-                  <img
-                    src={step.icon}
-                    alt={step.title}
-                    className="w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 object-contain"
-                  />
-                </>
-              )}
-            </CardContent>
-          </Card>
+                    </motion.span>
+                    <motion.img
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 + 0.4 }}
+                      src={step.icon}
+                      alt={step.title}
+                      className="w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 object-contain"
+                    />
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 + 0.5 }}
+                      className="w-full md:w-1/2 text-center md:text-left"
+                    >
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 font-poppins">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-700 font-sans">
+                        {step.description}
+                      </p>
+                    </motion.div>
+                  </>
+                ) : (
+                  <>
+                    <motion.div
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 + 0.5 }}
+                      className="w-full md:w-1/2 text-center md:text-left"
+                    >
+                      <motion.span
+                        initial={{ scale: 0 }}
+                        whileInView={{ scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: index * 0.2 + 0.3 }}
+                        className="absolute top-4 left-4 bg-[#1eafd0] text-white font-bold rounded-full w-8 h-8 flex items-center justify-center shadow"
+                      >
+                        {index + 1}
+                      </motion.span>
+                      <h3 className="text-xl md:text-2xl font-bold mb-2 font-poppins">
+                        {step.title}
+                      </h3>
+                      <p className="text-sm md:text-base text-gray-700 font-sans">
+                        {step.description}
+                      </p>
+                    </motion.div>
+                    <motion.img
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      whileInView={{ opacity: 1, scale: 1 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: index * 0.2 + 0.4 }}
+                      src={step.icon}
+                      alt={step.title}
+                      className="w-48 h-48 sm:w-64 sm:h-64 md:w-96 md:h-96 object-contain"
+                    />
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
         ))}
       </div>
     </section>
