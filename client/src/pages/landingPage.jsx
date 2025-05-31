@@ -12,10 +12,6 @@ import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import useEmblaCarousel from 'embla-carousel-react';
 import Autoplay from 'embla-carousel-autoplay';
 import '@/styles/carousel.css';
-import colabPana from '@/assets/Collab-pana.png';
-import comingPana from '@/assets/coming-set.png';
-import futurePana from '@/assets/future-pana.png';
-import stayPana from '@/assets/stay-pana.png';
 import { ZigzagCard } from '@/components/ui/zigzag-card';
 import TestimonialCarousel from '@/components/ui/testimonialCarousel';
 import PricingTabs from '@/components/ui/PricingTabs';
@@ -25,40 +21,43 @@ import thanksSB from '@/assets/thanks-sb.jpg';
 import lookingItem from '@/assets/lookingItem.jpg';
 import setusApart from '@/assets/setusApart.png';
 import Footer from '@/components/ui/footer';
+import facebookMarketplace from '@/assets/fb-marketplace.png';
+import mayaIcon from '@/assets/maya-icon.png';
+import lbcIcon from '@/assets/lbc-icon.png';
+import jtIcon from '@/assets/jnt.png';
+import bankIcon from '@/assets/bdo-logo.png';
 
 const LandingPage = () => {
   const navigate = useNavigate();
 
   const partnershipItems = [
     {
-      title: 'Coming Soon',
-      description: 'Strategic partnerships with leading payment providers',
-      image: comingPana,
+      title: 'Facebook Marketplace',
+      description:
+        'Where most of our buyers and sellers discover products before securing them on SafeBuy PH',
+      icon: (
+        <img src={facebookMarketplace} alt="Facebook Marketplace" className="w-16 object-contain" />
+      ),
     },
     {
-      title: 'In Development',
-      description: 'Integration with major logistics companies',
-      image: futurePana,
+      title: 'Maya',
+      description: 'Digital wallet and bank features trusted by Filipino users.',
+      icon: <img src={mayaIcon} alt="Maya" className="w-16 object-contain" />,
     },
     {
-      title: 'Future Partners',
-      description: 'Security and verification service providers',
-      image: futurePana,
+      title: 'LBC Express',
+      description: 'Often used by sellers to ship items after escrow is confirmed.',
+      icon: <img src={lbcIcon} alt="LBC" className="w-16 object-contain" />,
     },
     {
-      title: 'Stay Tuned',
-      description: 'E-commerce platform integrations',
-      image: stayPana,
+      title: 'J&T Express',
+      description: 'Reliable door-to-door delivery — chosen by many SafeBuy PH users.',
+      icon: <img src={jtIcon} alt="J&T" className="w-16 object-contain" />,
     },
     {
-      title: 'Coming Up',
-      description: 'Customer support service partnerships',
-      image: comingPana,
-    },
-    {
-      title: 'Watch This Space',
-      description: 'Technology and infrastructure collaborations',
-      image: colabPana,
+      title: 'BPI / BDO / Metrobank',
+      description: 'SafeBuy PH supports bank-to-bank transfers for escrow payments.',
+      icon: <img src={bankIcon} alt="Bank" className="w-16 object-contain" />,
     },
   ];
 
@@ -95,7 +94,7 @@ const LandingPage = () => {
                 </p>
               </div>
               <Button
-                className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3"
+                className="bg-[#FFFF] text-[#1eafd0] hover:bg-[#F1E9E9] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl flex items-center gap-2 sm:gap-3"
                 onClick={() => navigate('/signup')}
               >
                 Get Started
@@ -124,15 +123,12 @@ const LandingPage = () => {
                     key={idx}
                     className="embla__slide basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                   >
-                    <Card className="p-6 bg-white/10 backdrop-blur-sm border-none h-[200px] flex flex-col items-center justify-center">
-                      <img
-                        src={item.image}
-                        alt={item.title}
-                        className="w-16 h-16 mb-2 object-contain mx-auto"
-                      />
-                      <div className="flex flex-col items-center text-center">
-                        <h3 className="text-lg font-semibold text-white">{item.title}</h3>
-                        <p className="text-sm text-gray-200 mt-1">{item.description}</p>
+                    <Card className="p-6 bg-[#E9EEF3] border-none h-[200px] flex flex-col items-center justify-center">
+                      <div className="flex flex-col items-center text-center h-full w-full">
+                        <div className="flex-1 flex items-center justify-center w-full">
+                          {item.icon}
+                        </div>
+                        <p className="text-sm text-black mb-2">{item.description}</p>
                       </div>
                     </Card>
                   </div>
