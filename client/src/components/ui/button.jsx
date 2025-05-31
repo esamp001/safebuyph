@@ -32,10 +32,16 @@ const buttonVariants = cva(
   }
 );
 
-const Button = React.forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
-  const Comp = asChild ? Slot : 'button';
-  return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} />;
-});
+const Button = React.forwardRef(
+  ({ className, variant, size, asChild = false, children, ...props }, ref) => {
+    const Comp = asChild ? Slot : 'button';
+    return (
+      <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props}>
+        <span className="flex items-center justify-center gap-2">{children}</span>
+      </Comp>
+    );
+  }
+);
 Button.displayName = 'Button';
 
 export { Button, buttonVariants };

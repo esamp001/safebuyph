@@ -8,7 +8,12 @@ const LoginHeader = () => {
   return (
     <nav className="justify-start w-full h-16 bg-[#498db2] border-b flex items-center px-5 h-[80px] relative overflow-hidden">
       <div className="flex-shrink-0">
-        <img src={logo} alt="SafeBuy PH Logo" className="w-26 h-16" />
+        <img
+          src={logo}
+          alt="SafeBuy PH Logo"
+          className="w-26 h-16 cursor-pointer hover:opacity-90 transition-opacity duration-200"
+          onClick={() => navigate('/')}
+        />
       </div>
       <Separator orientation="vertical" className="mx-3 h-6" />
       <div className="flex items-center space-x-1">

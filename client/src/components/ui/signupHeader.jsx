@@ -13,15 +13,20 @@ const signupHeader = ({ step, totalSteps, onBack }) => {
         <Button
           variant="ghost"
           className="p-2 rounded-full flex items-center text-sm font-poppins text-[#0e1d54] bg-transparent hover:bg-[#0e1d54] hover:text-white transition-colors"
-          onClick={step === 1 ? () => navigate('/login') : onBack}
+          onClick={step === 1 ? () => navigate('/') : onBack}
           aria-label="Go back"
         >
           <ChevronLeftIcon className="w-6 h-6" />
-          {step === 1 && <span className="ml-2 text-white">Back to Login</span>}
+          {step === 1 && <span className="ml-2 text-white">Back to Home</span>}
         </Button>
       </div>
       <div className="flex-1 flex items-center justify-center">
-        <img src={logo} alt="logo" className="w-26 h-16" />
+        <div
+          className="flex-shrink-0 cursor-pointer hover:opacity-90 transition-opacity duration-200"
+          onClick={() => navigate('/')}
+        >
+          <img src={logo} alt="SafeBuy PH Logo" className="w-26 h-16" />
+        </div>
         <span className="ml-1 text-[#0e1d54] font-semibold font-poppins text-white">
           SafeBuy PH
         </span>

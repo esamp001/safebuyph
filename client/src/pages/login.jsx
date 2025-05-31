@@ -1,6 +1,7 @@
 import { FcGoogle } from 'react-icons/fc';
 import { FaFacebook } from 'react-icons/fa';
 import { Button } from '@/components/ui/button';
+import { SocialLoginButton } from '@/components/ui/SocialLoginButton';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import LoginHeader from '@/components/ui/loginHeader';
@@ -151,22 +152,12 @@ function Login() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Button
-                  variant="outline"
-                  className="w-full font-poppins"
-                  onClick={handleGoogleLogin}
-                >
-                  <FcGoogle className="mr-2 h-4 w-4" />
-                  Google
-                </Button>
-                <Button
-                  variant="outline"
-                  className="w-full font-poppins"
+                <SocialLoginButton icon={FcGoogle} text="Google" onClick={handleGoogleLogin} />
+                <SocialLoginButton
+                  icon={FaFacebook}
+                  text="Facebook"
                   onClick={handleFacebookLogin}
-                >
-                  <FaFacebook className="mr-2 h-4 w-4" />
-                  Facebook
-                </Button>
+                />
                 <p className="text-xs text-gray-500 text-center font-poppins">
                   By continuing, you acknowledge that you understand and agree to the{' '}
                   <a href="#" className="hover:underline">
@@ -179,6 +170,15 @@ function Login() {
                 </p>
               </div>
             </form>
+            <div className="pt-4 mt-4 border-t">
+              <Button
+                variant="ghost"
+                className="w-full font-poppins text-[#1f3f6f] hover:text-[#0e1d54] hover:bg-[#dce1e6]"
+                onClick={() => navigate('/')}
+              >
+                ← Back to Home
+              </Button>
+            </div>
           </CardContent>
         </Card>
       </div>
