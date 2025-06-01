@@ -639,7 +639,7 @@ function FormStep2({ onNext }) {
               hover:border-[#0e1d54]
             "
           />
-          <label className="text-base font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
+          <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <textarea
@@ -658,7 +658,7 @@ function FormStep2({ onNext }) {
             />
             <label
               htmlFor="termsAccepted"
-              className="text-sm cursor-pointer text-[#0e1d54] font-poppins"
+              className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins cursor-pointer"
             >
               I agree to SafeBuy PH's Terms and Privacy Policy
             </label>
