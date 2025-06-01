@@ -130,7 +130,7 @@ function Login() {
               </div>
               <Button
                 type="submit"
-                className="w-full bg-[#0e1d54] font-poppins hover:bg-[#597aaf] focus:ring-0 focus:outline-none border-none transition-transform duration-200 hover:scale-105"
+                className="w-full bg-[#0e1d54] font-poppins hover:bg-[#0C163F] focus:ring-0 focus:outline-none border-none transition-transform duration-200 hover:scale-105"
                 disabled={isLoading}
               >
                 {isLoading && <Spinner className="w-5 h-5 mr-2" />}

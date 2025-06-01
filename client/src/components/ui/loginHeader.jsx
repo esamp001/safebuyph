@@ -6,7 +6,7 @@ import logo from '@/assets/SAFEBUYPH - TRANS.png';
 const LoginHeader = () => {
   const navigate = useNavigate();
   return (
-    <nav className="justify-start w-full h-16 bg-[#498db2] border-b flex items-center px-5 h-[80px] relative overflow-hidden">
+    <nav className="justify-start w-full h-16 bg-[#1eafd0] border-b flex items-center px-5 h-[80px] relative overflow-hidden">
       <div className="flex-shrink-0">
         <img
           src={logo}
@@ -17,14 +17,14 @@ const LoginHeader = () => {
       </div>
       <Separator orientation="vertical" className="mx-3 h-6" />
       <div className="flex items-center space-x-1">
-        <Button className="bg-transparent text-white font-poppins px-5 py-2 rounded-lg shadow-none border-none hover:text-[#dce1e6] transition-colors duration-200 focus:outline-none focus:ring-0 active:text-[#dce1e6]">
+        <Button className="bg-transparent text-white font-poppins px-5 py-2 rounded-lg shadow-none border-none hover:bg-[#1F99B5] transition-colors duration-200 focus:outline-none focus:ring-0 active:bg-[#1F99B5]">
           About
         </Button>
-        <Button className="bg-transparent text-white font-poppins px-5 py-2 rounded-lg shadow-none border-none hover:text-[#dce1e6] transition-colors duration-200 focus:outline-none focus:ring-0 active:text-[#dce1e6]">
+        <Button className="bg-transparent text-white font-poppins px-5 py-2 rounded-lg shadow-none border-none hover:bg-[#1F99B5] transition-colors duration-200 focus:outline-none focus:ring-0 active:bg-[#1F99B5]">
           Help
         </Button>
         <Button
-          className="bg-transparent text-white font-poppins px-5 py-2 rounded-lg shadow-none border-none hover:text-[#dce1e6] transition-colors duration-200 focus:outline-none focus:ring-0 active:text-[#dce1e6]"
+          className="bg-transparent text-white font-poppins px-5 py-2 rounded-lg shadow-none border-none hover:bg-[#1F99B5] transition-colors duration-200 focus:outline-none focus:ring-0 active:bg-[#1F99B5]"
           onClick={() => navigate('/signup')}
         >
           Sign Up

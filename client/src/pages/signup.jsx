@@ -1514,10 +1514,10 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
               name="sellingDescription"
               value={formData.sellingDescription}
               onChange={handleDescriptionChange}
-              className="w-full min-h-[100px] p-3 border rounded-md focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent text-[#0e1d54] bg-white"
+              className="w-full min-h-[100px] p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent text-black bg-white font-poppins transition-all duration-300 placeholder:text-xs text-sm"
               placeholder="Describe the types of items you plan to sell (e.g., electronics, clothing, etc.)"
             />
-            <p className="text-xs text-gray-500">
+            <p className="text-xs text-gray-500 font-poppins">
               This helps us understand your product and provide better support.
             </p>
           </div>
@@ -1530,7 +1530,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
               onCheckedChange={(checked) => updateFormData({ termsAccepted: checked })}
               className="mt-1"
             />
-            <label htmlFor="termsAccepted" className="text-sm text-gray-600">
+            <label htmlFor="termsAccepted" className="text-sm text-gray-600 font-poppins">
               I confirm that the information provided is accurate and I agree to SafeBuy PH's{' '}
               <a href="#" className="text-[#0e1d54] hover:underline">
                 Terms and Conditions
@@ -1540,7 +1540,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
 
           {/* Submit Button */}
           <Button
-            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+            className="w-full bg-[#597aaf] hover:bg-[#415C87] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
             onClick={handleSubmit}
             disabled={isLoading}
           >
@@ -1556,13 +1556,15 @@ function SellerStep4({ onNext }) {
   return (
     <Card className="w-full shadow-lg bg-[#dce1e6] hover:shadow-xl transition-all duration-300 rounded-xl">
       <CardContent className="flex flex-col gap-3 p-6">
-        <h2 className="text-2xl font-bold text-[#0e1d54]">Thank you for signing up!</h2>
-        <p className="text-center text-gray-600">
-          Your profile is being reviewed for seller access. Meanwhile, you can still browse the
-          platform and buyer items.
-        </p>
+        <div className="text-center space-y-2 justify-center items-center">
+          <h2 className="text-2xl font-bold text-[#0e1d54]">Thank you for signing up!</h2>
+          <p className="text-center text-gray-600">
+            Your profile is now under review for seller access. In the meantime, you can still use
+            SafeBuy PH to browse transactions or purchase items safely from Facebook Marketplace.
+          </p>
+        </div>
         <Button
-          className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+          className="w-full bg-[#597aaf] hover:bg-[#445C83] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
           onClick={onNext}
         >
           Go to Dashboard

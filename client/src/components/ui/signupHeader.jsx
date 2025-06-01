@@ -8,11 +8,11 @@ const signupHeader = ({ step, totalSteps, onBack }) => {
   const navigate = useNavigate();
 
   return (
-    <nav className="relative bg-[#498db2] w-full h-16 border-b flex items-center px-5 h-[80px] overflow-hidden">
+    <nav className="relative bg-[#1eafd0] w-full h-16 border-b flex items-center px-5 h-[80px] overflow-hidden">
       <div className="absolute left-5 top-1/2 -translate-y-1/2">
         <Button
           variant="ghost"
-          className="p-2 rounded-full flex items-center text-sm font-poppins text-[#0e1d54] bg-transparent hover:bg-[#415C87] hover:text-black transition-all duration-200"
+          className="p-2 rounded-full flex items-center text-sm font-poppins text-[#0e1d54] bg-transparent hover:bg-[#1F99B5] hover:text-black transition-all duration-200"
           onClick={step === 1 ? () => navigate('/') : onBack}
           aria-label="Go back"
         >
