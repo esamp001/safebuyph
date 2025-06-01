@@ -12,12 +12,12 @@ const signupHeader = ({ step, totalSteps, onBack }) => {
       <div className="absolute left-5 top-1/2 -translate-y-1/2">
         <Button
           variant="ghost"
-          className="p-2 rounded-full flex items-center text-sm font-poppins text-[#0e1d54] bg-transparent hover:bg-[#0e1d54] hover:text-white transition-colors"
+          className="p-2 rounded-full flex items-center text-sm font-poppins text-[#0e1d54] bg-transparent hover:bg-[#415C87] hover:text-black transition-all duration-200"
           onClick={step === 1 ? () => navigate('/') : onBack}
           aria-label="Go back"
         >
           <ChevronLeftIcon className="w-6 h-6" />
-          {step === 1 && <span className="ml-2 text-white">Back to Home</span>}
+          {step === 1 && <span className="ml-2 text-white font-poppins">Back to Home</span>}
         </Button>
       </div>
       <div className="flex-1 flex items-center justify-center">

@@ -22,7 +22,7 @@ export function ButtonWithIcon({ onSelect }) {
             </p>
           </div>
           <Button
-            className="bg-[#597aaf] hover:bg-[#0e1d54] w-full rounded-full font-poppins mt-auto py-2 transition-all duration-300"
+            className="bg-[#597aaf] hover:bg-[#415C87] w-full rounded-full font-poppins mt-auto py-2 transition-all duration-300"
             onClick={() => onSelect('buyer')}
           >
             Select
@@ -43,7 +43,7 @@ export function ButtonWithIcon({ onSelect }) {
             </p>
           </div>
           <Button
-            className="bg-[#597aaf] hover:bg-[#0e1d54] w-full rounded-full font-poppins mt-auto py-2 transition-all duration-300"
+            className="bg-[#597aaf] hover:bg-[#415C87] w-full rounded-full font-poppins mt-auto py-2 transition-all duration-300"
             onClick={() => onSelect('seller')}
           >
             Select

@@ -315,7 +315,7 @@ function FormStep1({ onNext, error, setError, resetSignal }) {
 
           <Button
             type="submit"
-            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+            className="w-full bg-[#597aaf] hover:bg-[#415C87] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
             disabled={isLoading}
           >
             {isLoading ? (
