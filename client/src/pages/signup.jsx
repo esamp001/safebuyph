@@ -1200,9 +1200,13 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
-            className={`text-black placeholder:text-gray-400 ${
-              formData.name ? 'bg-[#e6f0fa]' : 'bg-white'
-            }`}
+            className="
+              w-full font-poppins bg-white text-black placeholder:text-gray-400
+              border border-gray-300 rounded-lg px-3 py-2
+              transition-all duration-300
+              focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
+              hover:border-[#0e1d54]
+            "
           />
           <label className="text-sm font-medium text-[#0e1d54] font-poppins">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
@@ -1213,7 +1217,13 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="e.g. 09171234567"
-            className="bg-white text-black placeholder:text-gray-400"
+            className="
+              w-full font-poppins bg-white text-black placeholder:text-gray-400
+              border border-gray-300 rounded-lg px-3 py-2
+              transition-all duration-300
+              focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
+              hover:border-[#0e1d54]
+            "
           />
           <label className="text-sm font-medium text-[#0e1d54] font-poppins">
             Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
@@ -1475,7 +1485,7 @@ function SellerStep3({ onNext, setStep, setSellerStep1Error }) {
                   <div className="text-sm text-gray-600 font-poppins">
                     <label
                       htmlFor="id-upload"
-                      className="text-[#0e1d54] hover:text-[#597aaf] cursor-pointer font-medium font-poppins"
+                      className="text-[#0e1d54] hover:text-[#080F2D] cursor-pointer font-medium font-poppins"
                     >
                       Click to upload
                     </label>{' '}

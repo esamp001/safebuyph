@@ -63,7 +63,7 @@ export function DropdownMenuCheckboxes({ onVerificationChange }) {
           <Button
             variant="outline"
             size="sm"
-            className="w-full h-10 text-sm font-medium bg-[#597aaf] hover:bg-[#0e1d54] text-[#FFFF] hover:text-[#FFFF] font-poppins"
+            className="w-full h-10 text-sm font-medium bg-[#597aaf] hover:bg-[#415C87] text-[#FFFF] hover:text-[#FFFF] font-poppins"
           >
             Select Valid ID
           </Button>
