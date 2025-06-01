@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenuCheckboxes } from '@/components/ui/DropdownMenuCheckboxes';
 import { FormProvider, useForm } from '@/context/FormContext';
 import { Spinner } from '@/components/ui/Spinner';
+import { FormInput } from '@/components/ui/form-input';
 
 function Signup() {
   const [step, setStep] = useState(1);
@@ -606,16 +607,15 @@ function FormStep2({ onNext }) {
           <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <label className="text-sm font-medium text-[#0e1d54] font-poppins">Name</label>
-          <Input
+          <FormInput
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
-            className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
+            label="Name"
           />
-          <label className="text-sm font-medium text-[#0e1d54] font-poppins">
+          <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <Input
@@ -626,7 +626,7 @@ function FormStep2({ onNext }) {
             placeholder="e.g. 09171234567"
             className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
           />
-          <label className="text-sm font-medium text-[#0e1d54] font-poppins">
+          <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
             Short Bio{' '}
             <span className="text-sm font-medium text-[#0e1d54] font-poppins">(optional)</span>
           </label>
@@ -644,12 +644,15 @@ function FormStep2({ onNext }) {
               checked={formData.termsAccepted}
               onCheckedChange={handleCheckboxChange}
             />
-            <label htmlFor="termsAccepted" className="text-sm cursor-pointer font-poppins">
+            <label
+              htmlFor="termsAccepted"
+              className="text-sm cursor-pointer text-[#0e1d54] font-poppins"
+            >
               I agree to SafeBuy PH's Terms and Privacy Policy
             </label>
           </div>
           <Button
-            className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+            className="w-full bg-[#597aaf] hover:bg-[#415C87] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
             onClick={handleSubmit}
             disabled={isLoading}
           >
