@@ -615,12 +615,12 @@ function FormStep2({ onNext }) {
             onChange={handleChange}
             placeholder="Enter your name"
             className="
-            w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400
-            border border-gray-300 rounded-lg px-3 py-2
-            transition-all duration-300
-            focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
-            hover:border-[#0e1d54]
-          "
+              w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400
+              border border-gray-300 rounded-lg px-3 py-2
+              transition-all duration-300
+              focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
+              hover:border-[#0e1d54]
+            "
           />
           <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
@@ -646,7 +646,7 @@ function FormStep2({ onNext }) {
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            className="w-full text-base font-poppins bg-white text-black placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
+            className="w-full text-sm font-poppins bg-white text-black placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
@@ -697,6 +697,25 @@ function FormStep4({ onSubmit }) {
         >
           Go to Dashboard
         </Button>
+        {/* Go login instead */}
+        <div
+          className="text-[#597aaf] text-sm hover:text-[#0e1d54] font-poppins cursor-pointer flex items-center justify-center gap-2 transition-all duration-300"
+          onClick={() => navigate('/login')}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          Go to Login instead
+        </div>
       </CardContent>
     </Card>
   );
@@ -1201,7 +1220,7 @@ function SellerStep2({ onNext, setStep, setSellerStep1Error }) {
             onChange={handleChange}
             placeholder="Enter your name"
             className="
-              w-full font-poppins bg-white text-black placeholder:text-gray-400
+              w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400
               border border-gray-300 rounded-lg px-3 py-2
               transition-all duration-300
               focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
@@ -1564,11 +1583,29 @@ function SellerStep4({ onNext }) {
           </p>
         </div>
         <Button
-          className="w-full bg-[#597aaf] hover:bg-[#445C83] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
+          className="w-full bg-[#597aaf] hover:bg-[#0e1d54] text-white py-3 rounded-lg font-poppins transition-all duration-300 hover:scale-[1.02]"
           onClick={onNext}
         >
           Go to Dashboard
         </Button>
+        <div
+          className="text-[#597aaf] text-sm hover:text-[#0e1d54] font-poppins cursor-pointer flex items-center justify-center gap-2 transition-all duration-300"
+          onClick={() => navigate('/login')}
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            className="h-5 w-5"
+            viewBox="0 0 20 20"
+            fill="currentColor"
+          >
+            <path
+              fillRule="evenodd"
+              d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm7.707 3.293a1 1 0 010 1.414L9.414 9H17a1 1 0 110 2H9.414l1.293 1.293a1 1 0 01-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0z"
+              clipRule="evenodd"
+            />
+          </svg>
+          Go to Login instead
+        </div>
       </CardContent>
     </Card>
   );

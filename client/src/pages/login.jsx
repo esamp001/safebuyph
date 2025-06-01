@@ -19,11 +19,20 @@ function Login() {
   });
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const emailRef = useRef();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
     if (error) setError('');
+  };
+
+  const handleEmailInput = (e) => {
+    const value = e.target.value;
+    setFormData((prev) => ({ ...prev, email: value }));
+    setTimeout(() => {
+      setFormData((prev) => ({ ...prev, email: value }));
+    }, 10);
   };
 
   // All validation
@@ -57,13 +66,27 @@ function Login() {
     setError('');
     setIsLoading(true);
 
-    if (!validateForm()) {
+    // Get the email value from the ref
+    const email = emailRef.current.value;
+
+    if (!email) {
+      setError('Email is required');
+      setIsLoading(false);
+      return;
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setError('Please enter a valid email address');
+      setIsLoading(false);
+      return;
+    }
+    if (!formData.password) {
+      setError('Password is required');
       setIsLoading(false);
       return;
     }
 
     try {
-      const result = await login(formData.email, formData.password);
+      const result = await login(email, formData.password);
 
       if (!result.success) {
         setError(result.error || 'Login failed. Please try again.');
@@ -112,10 +135,11 @@ function Login() {
                 <Input
                   type="email"
                   name="email"
-                  value={formData.email}
-                  onChange={handleChange}
+                  ref={emailRef}
+                  defaultValue={formData.email}
+                  autoComplete="email"
                   placeholder="m@example.com"
-                  className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
+                  className="w-full bg-white border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54] transition-all duration-300"
                 />
               </div>
               <div className="space-y-2">

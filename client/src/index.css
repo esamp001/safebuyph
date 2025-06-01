@@ -147,9 +147,11 @@ textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:hover {
   -webkit-box-shadow: 0 0 0 1000px #fff inset !important; /* your filled color */
   box-shadow: 0 0 0 1000px #fff inset !important;
-  -webkit-text-fill-color: #111 !important; /* black text */
-  color: #111 !important;
-  transition: background-color 5000s ease-in-out 0s;
+  background-color: #000000 !important;
+  -webkit-text-fill-color: #0e1d54 !important;
+  color: #0e1d54 !important;
+  caret-color: #0e1d54 !important;
+  transition: background-color 0s;
 }
 
 /* Remove the problematic checkbox reset styles */
