@@ -607,13 +607,20 @@ function FormStep2({ onNext }) {
           <h2 className="text-2xl font-bold text-[#0e1d54]">Tell us about yourself</h2>
           {error && <p className="text-red-500 text-sm">{error}</p>}
 
-          <FormInput
+          <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">Name</label>
+          <Input
             type="text"
             name="name"
             value={formData.name}
             onChange={handleChange}
             placeholder="Enter your name"
-            label="Name"
+            className="
+            w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400
+            border border-gray-300 rounded-lg px-3 py-2
+            transition-all duration-300
+            focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
+            hover:border-[#0e1d54]
+          "
           />
           <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
             Phone Number <span className="text-xs text-muted-foreground">(optional)</span>
@@ -624,17 +631,22 @@ function FormStep2({ onNext }) {
             value={formData.phoneNumber}
             onChange={handleChange}
             placeholder="e.g. 09171234567"
-            className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
+            className="
+              w-full font-poppins bg-white text-black placeholder:text-gray-400
+              border border-gray-300 rounded-lg px-3 py-2
+              transition-all duration-300
+              focus:outline-none focus:ring-2 focus:ring-[#0e1d54] focus:border-[#0e1d54]
+              hover:border-[#0e1d54]
+            "
           />
-          <label className="text-sm font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
-            Short Bio{' '}
-            <span className="text-sm font-medium text-[#0e1d54] font-poppins">(optional)</span>
+          <label className="text-base font-medium text-[#0e1d54] bg-[#FFFF] font-poppins">
+            Short Bio <span className="text-xs text-muted-foreground">(optional)</span>
           </label>
           <textarea
             name="bio"
             value={formData.bio}
             onChange={handleChange}
-            className="w-full font-poppins bg-white text-[#0e1d54] placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
+            className="w-full text-base font-poppins bg-white text-black placeholder:text-gray-400 border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-[#0e1d54] focus:border-transparent transition-all duration-300"
             placeholder="Tell us a bit about yourself..."
             rows={3}
           />
