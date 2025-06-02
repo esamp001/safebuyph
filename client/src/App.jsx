@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import LandingPage from './pages/landingPage';
 import Dashboard from './pages/dashboard';
+import DashboardLayout from './components/dashboard/DashboardLayout';
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
@@ -23,7 +24,14 @@ function AppContent() {
     <FormProvider>
       <Routes>
         <Route path="/" element={<LandingPage />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <DashboardLayout>
+              <Dashboard />
+            </DashboardLayout>
+          }
+        />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>

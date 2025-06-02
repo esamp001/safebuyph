@@ -147,7 +147,7 @@ textarea:-webkit-autofill:focus,
 textarea:-webkit-autofill:hover {
   -webkit-box-shadow: 0 0 0 1000px #fff inset !important; /* your filled color */
   box-shadow: 0 0 0 1000px #fff inset !important;
-  background-color: #000000 !important;
+  background-color: #fff !important;
   -webkit-text-fill-color: #0e1d54 !important;
   color: #0e1d54 !important;
   caret-color: #0e1d54 !important;
