@@ -157,7 +157,7 @@ const LandingPage = () => {
             </motion.div>
           </div>
           {/* Partnership Section */}
-          <div className="w-full max-w-7xl mx-auto px-4 mt-16">
+          <div className="w-full max-w-7xl mx-auto px-4 mt-8 sm:mt-12 md:mt-16">
             <div className="embla" ref={emblaRef}>
               <div className="embla__container flex">
                 {partnershipItems.map((item, idx) => (
@@ -165,10 +165,16 @@ const LandingPage = () => {
                     key={idx}
                     className="embla__slide basis-full sm:basis-1/2 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                   >
-                    <Card className="p-6 bg-[#E9EEF3] border-none h-[150px] flex flex-col items-center justify-center">
+                    <Card className="p-4 sm:p-6 bg-[#E9EEF3] border-none min-h-[120px] sm:min-h-[150px] flex flex-col items-center justify-center">
                       <div className="flex flex-col items-center justify-center h-full text-center">
-                        <div className="flex-1 flex items-center justify-center">{item.icon}</div>
-                        <p className="text-xs text-black text-center">{item.description}</p>
+                        <div className="flex-1 flex items-center justify-center mb-2">
+                          <div className="w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center">
+                            {item.icon}
+                          </div>
+                        </div>
+                        <p className="text-[10px] sm:text-xs text-black text-center line-clamp-2 sm:line-clamp-3">
+                          {item.description}
+                        </p>
                       </div>
                     </Card>
                   </div>
@@ -187,51 +193,49 @@ const LandingPage = () => {
             viewport={{ once: true, margin: '-100px' }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-4xl mx-auto text-[#1f3f6f] mt-8">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-center mb-2 sm:mb-3 font-poppins px-2 sm:px-4 md:px-6 max-w-4xl mx-auto text-[#1f3f6f] mt-8 break-words">
               Experience SafeBuy PH
             </h2>
-            <p className="text-base sm:text-lg md:text-xl text-center mb-2 sm:mb-3 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto">
+            <p className="text-sm sm:text-base md:text-lg text-center mb-2 sm:mb-3 font-poppins px-2 sm:px-4 md:px-6 max-w-3xl mx-auto break-words">
               Experience the benefits of using SafeBuy PH for your online transactions
             </p>
           </motion.div>
           <div className="container mx-auto px-4 py-8 sm:py-12 md:py-16">
-            <div className="grid grid-cols-4 grid-rows-6 gap-4 h-[600px] mx-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 grid-rows-auto gap-4 h-auto lg:h-[600px] mx-4 lg:mx-8">
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: 0.2 }}
-                className="col-span-2 row-span-6 col-start-2 row-start-1 h-full"
+                className="sm:col-span-2 lg:col-span-2 lg:row-span-6 lg:col-start-2 lg:row-start-1 h-[300px] sm:h-[400px] lg:h-full"
               >
-                <Card className="col-span-2 row-span-6 col-start-2 row-start-1 group hover:shadow-xl transition-all duration-300 h-full">
+                <Card className="group hover:shadow-xl transition-all duration-300 h-full">
                   <CardContent className="p-0 h-full">
                     <div className="relative w-full h-full">
-                      <div className="relative w-full h-full">
-                        <img
-                          src={secureTransaction}
-                          alt="Secure Transactions"
-                          className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
-                        />
-                        {/* Top left text */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
-                        <div className="absolute top-0 left-0 p-8">
-                          <p className="text-5xl text-white font-bold tracking-tight">
-                            100% Secure
-                            <br />
-                            Transactions
+                      <img
+                        src={secureTransaction}
+                        alt="Secure Transactions"
+                        className="w-full h-full object-cover rounded-2xl group-hover:brightness-105 transition-all duration-300"
+                      />
+                      {/* Top left text */}
+                      <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60 rounded-2xl group-hover:from-black/50 group-hover:to-black/70 transition-all duration-300"></div>
+                      <div className="absolute top-0 left-0 p-4 sm:p-6 md:p-8">
+                        <p className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl text-white font-bold tracking-tight">
+                          100% Secure
+                          <br />
+                          Transactions
+                        </p>
+                      </div>
+                      <div className="absolute inset-0 flex items-center justify-start">
+                        <div className="absolute bottom-0 left-0 right-0 text-white p-4 sm:p-6 md:p-8">
+                          <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-left">
+                            Secure Transactions
+                          </h3>
+                          <p className="text-xs sm:text-sm md:text-base lg:text-lg text-gray-100 font-poppins text-left">
+                            At SafeBuy PH, we understand the importance of secure online
+                            transactions. Our platform provides a safe environment where your funds
+                            are protected until you confirm receipt of your purchase.
                           </p>
-                        </div>
-                        <div className="absolute inset-0 flex items-center justify-start">
-                          <div className="absolute bottom-0 left-0 right-0 text-white p-8">
-                            <h3 className="text-4xl font-bold mb-6 text-left">
-                              Secure Transactions
-                            </h3>
-                            <p className="text-md text-gray-100 font-poppins text-left">
-                              At SafeBuy PH, we understand the importance of secure online
-                              transactions. Our platform provides a safe environment where your
-                              funds are protected until you confirm receipt of your purchase.
-                            </p>
-                          </div>
                         </div>
                       </div>
                     </div>
@@ -243,14 +247,14 @@ const LandingPage = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="col-span-1 row-span-3 col-start-1 row-start-1 h-full"
+                className="h-[200px] sm:h-[300px] lg:h-full lg:col-span-1 lg:row-span-3 lg:col-start-1 lg:row-start-1"
               >
-                <Card className="col-span-1 row-span-3 col-start-1 row-start-1 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
-                  <CardContent className="flex flex-col items-start justify-start h-full p-8">
-                    <h3 className="text-3xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
+                <Card className="group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+                  <CardContent className="flex flex-col items-start justify-start h-full p-4 sm:p-6 md:p-8">
+                    <h3 className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl font-bold mb-2 sm:mb-3 md:mb-4 lg:mb-6 text-[#FFFF] font-poppins text-left">
                       Dispute Resolution
                     </h3>
-                    <p className="text-white font-poppins text-left text-md leading-relaxed mt-auto">
+                    <p className="text-white font-poppins text-left text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed mt-auto">
                       Fair and efficient handling of transaction disputes with our mediation system.
                     </p>
                   </CardContent>
@@ -261,7 +265,7 @@ const LandingPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="row-span-3 col-start-1 row-start-4 h-full"
+                className="h-[200px] sm:h-[300px] lg:h-full lg:col-span-1 lg:row-span-3 lg:col-start-1 lg:row-start-4"
               >
                 <Card className="h-full bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100">
                   <CardContent className="relative h-full p-0">
@@ -280,9 +284,9 @@ const LandingPage = () => {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: 0.3 }}
-                className="row-span-3 col-start-4 row-start-1 h-full"
+                className="h-[200px] sm:h-[300px] lg:h-full lg:col-span-1 lg:row-span-3 lg:col-start-4 lg:row-start-1"
               >
-                <Card className="row-span-3 col-start-4 row-start-1 bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
+                <Card className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 border border-gray-100 p-0 h-full">
                   <CardContent className="flex flex-col items-center justify-center h-full p-0">
                     <img
                       src={lookingItem}
@@ -297,9 +301,9 @@ const LandingPage = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-100px' }}
                 transition={{ duration: 0.5, delay: 0.4 }}
-                className="row-span-3 col-start-4 row-start-4 h-full"
+                className="h-[200px] sm:h-[300px] lg:h-full lg:col-span-1 lg:row-span-3 lg:col-start-4 lg:row-start-4"
               >
-                <Card className="row-span-3 col-start-4 row-start-4 group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
+                <Card className="group hover:shadow-xl transition-all duration-300 h-full bg-gradient-to-br from-[#1eafd0] to-[#2a5888] rounded-2xl">
                   <CardContent className="flex flex-col items-start justify-start h-full p-8">
                     <h3 className="text-2xl font-bold mb-4 text-[#FFFF] font-poppins text-left">
                       Secure Payment Options
@@ -609,27 +613,28 @@ const LandingPage = () => {
       </div>
       {/* TRUST INDICATORS SECTION */}
       <div id="testimonials" className="w-full bg-[#FFFF] -mt-8">
-        <Card className="container mx-auto px-4 py-8 sm:py-12 md:py-16 bg-gradient-to-br from-[#1eafd0] via-[#0b92bc] to-[#1f3f6f] p-6 text-white shadow-lg min-h-[600px] relative overflow-hidden">
+        <Card className="container mx-auto px-4 py-6 sm:py-8 md:py-12 lg:py-16 bg-gradient-to-br from-[#1eafd0] via-[#0b92bc] to-[#1f3f6f] p-4 sm:p-6 text-white shadow-lg min-h-[400px] sm:min-h-[500px] md:min-h-[600px] relative overflow-hidden">
           <div className="absolute inset-0 bg-white/5 backdrop-blur-sm"></div>
           <CardContent className="flex flex-col items-center justify-center relative z-10">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-5 text-center font-poppins text-white">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 md:mb-5 text-center font-poppins text-white">
               What Others Say About SafebuyPH
             </h2>
-            <h2 className="sm:text-lg md:text-xl text-center sm:mb-6 font-poppins px-4 sm:px-8 md:px-12 max-w-3xl mx-auto text-white/90 font-poppins mb-10">
+            <h2 className="text-base sm:text-lg md:text-xl text-center sm:mb-4 md:mb-6 font-poppins px-2 sm:px-4 md:px-8 lg:px-12 max-w-2xl sm:max-w-3xl mx-auto text-white/90 mb-6 sm:mb-8 md:mb-10">
               Read what our users have to say about SafebuyPH
             </h2>
-            <TestimonialCarousel />
+            <div className="w-full max-w-[90%] sm:max-w-[85%] md:max-w-[80%] lg:max-w-[75%]">
+              <TestimonialCarousel />
+            </div>
           </CardContent>
-          <div className="flex justify-center mt-12 relative z-10">
+          <div className="flex justify-center mt-6 sm:mt-8 md:mt-10 lg:mt-12 relative z-10">
             <Button
-              className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-12 sm:h-14 md:h-16 lg:h-20 px-8 sm:px-10 md:px-12 lg:px-14 text-xl sm:text-2xl md:text-3xl flex items-center gap-3 sm:gap-4 transform hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
+              className="bg-white text-[#1eafd0] hover:bg-gray-100 rounded-full font-bold h-10 sm:h-12 md:h-14 lg:h-16 px-6 sm:px-8 md:px-10 lg:px-12 text-lg sm:text-xl md:text-2xl lg:text-3xl flex items-center gap-2 sm:gap-3 md:gap-4 transform hover:scale-105 transition-transform duration-300 shadow-lg hover:shadow-xl"
               onClick={() => navigate('/signup')}
             >
               Join now!
             </Button>
           </div>
         </Card>
-        \
       </div>
       {/* FAQ SECTION */}
       <div id="faq" className="w-full bg-gray-50">
