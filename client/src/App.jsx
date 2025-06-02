@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '@/context/AuthContext';
 import LandingPage from './pages/landingPage';
 import Dashboard from './pages/dashboard';
-import DashboardLayout from './components/dashboard/DashboardLayout';
+import DashboardLayout from './components/layout/DashboardLayout';
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
