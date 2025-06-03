@@ -4,8 +4,11 @@ import { ShoppingBag, Package, Bell, TrendingUp, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SimpleScrollArea } from '@/components/SimpleScrollArea';
+import { useAuth } from '@/context/AuthContext';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function Dashboard() {
+  const { user } = useAuth();
   const [message, setMessage] = useState('');
   const [selectedChat, setSelectedChat] = useState(null);
 
@@ -57,8 +60,8 @@ function Dashboard() {
           </div>
         </div>
 
-        <SimpleScrollArea className="flex-1">
-          <div className="space-y-2">
+        <SimpleScrollArea className="flex-1 h-[300px] p-4 border rounded-lg mb-4">
+          <div className="space-y-4">
             {transactions.map((transaction) => (
               <div
                 key={transaction.id}
@@ -142,22 +145,26 @@ function Dashboard() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="flex flex-col">
-                <SimpleScrollArea className="h-[300px] p-4 border rounded-lg mb-4">
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-2">
-                      <div className="w-8 h-8 rounded-full bg-gray-200" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">System</p>
-                        <p className="text-sm text-gray-600">
-                          Welcome to SafeBuyPH! How can I help you today?
-                        </p>
+              <div className="flex flex-col h-[300px]">
+                {/* Messages Container */}
+                <div className="flex-1 overflow-hidden">
+                  <SimpleScrollArea className="h-full">
+                    <div className="space-y-4 p-4">
+                      <div className="flex items-start gap-2">
+                        <div className="w-8 h-8 rounded-full bg-gray-200" />
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">System</p>
+                          <p className="text-sm text-gray-600">
+                            Welcome to SafeBuyPH! How can I help you today?
+                          </p>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </SimpleScrollArea>
+                  </SimpleScrollArea>
+                </div>
 
-                <div className="flex gap-2">
+                {/* Input Area */}
+                <div className="flex gap-2 p-4 border-t">
                   <Input
                     placeholder="Type your message or paste Facebook Marketplace link..."
                     value={message}
