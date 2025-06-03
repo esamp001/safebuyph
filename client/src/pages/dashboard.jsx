@@ -4,11 +4,8 @@ import { ShoppingBag, Package, Bell, TrendingUp, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { SimpleScrollArea } from '@/components/SimpleScrollArea';
-import { useAuth } from '@/context/AuthContext';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 function Dashboard() {
-  const { user } = useAuth();
   const [message, setMessage] = useState('');
   const [selectedChat, setSelectedChat] = useState(null);
 
