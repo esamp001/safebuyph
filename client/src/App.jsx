@@ -1,5 +1,5 @@
 import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Login from './pages/login';
 import Signup from './pages/signup';
 import { FormProvider } from './context/FormContext';
@@ -9,16 +9,18 @@ import { AuthProvider, useAuth } from '@/context/AuthContext';
 import LandingPage from './pages/landingPage';
 import Dashboard from './pages/dashboard';
 import DashboardLayout from './components/layout/DashboardLayout';
+import NewTransaction from './pages/NewTransaction';
 
 function AppContent() {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (isAuthenticated) {
+    if (isAuthenticated && location.pathname === '/') {
       navigate('/dashboard');
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, location]);
 
   return (
     <FormProvider>
@@ -29,6 +31,14 @@ function AppContent() {
           element={
             <DashboardLayout>
               <Dashboard />
+            </DashboardLayout>
+          }
+        />
+        <Route
+          path="/transaction/new"
+          element={
+            <DashboardLayout>
+              <NewTransaction />
             </DashboardLayout>
           }
         />

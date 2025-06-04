@@ -20,8 +20,16 @@ import {
   LogOut,
   FileClock,
 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 
 const navigationItems = [
   {
@@ -66,6 +74,8 @@ const DashboardLayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const navigate = useNavigate();
   const { user, logout, isLoading } = useAuth();
+  const location = useLocation();
+  const isDashboard = location.pathname === '/dashboard';
 
   const handleLogout = async () => {
     try {
@@ -145,180 +155,227 @@ const DashboardLayout = ({ children }) => {
 
       {/* Main Content Area */}
       <main className="container mx-auto p-4">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
-          {/* Left Side - Transaction History & Chat List */}
-          <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-lg h-[calc(100vh-8rem)]">
-              <div className="flex flex-col h-full">
-                {/* Header */}
-                <div className="p-4 border-b">
-                  <div className="flex items-center justify-between mb-4">
-                    <h3 className="font-semibold text-lg">Transactions</h3>
-                    <Button variant="outline" size="sm" className="h-8">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        className="mr-2"
-                      >
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <path d="m21 21-4.3-4.3"></path>
-                      </svg>
-                      Search
-                    </Button>
+        {isDashboard ? (
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            {/* Left Side - Transaction History & Chat List */}
+            <div className="lg:col-span-1">
+              <div className="bg-white rounded-lg shadow-lg h-[calc(100vh-8rem)]">
+                <div className="flex flex-col h-full">
+                  {/* Header */}
+                  <div className="p-4 border-b">
+                    <div className="flex items-center justify-between mb-4">
+                      <h3 className="font-semibold text-lg">Transactions</h3>
+                      <Dialog>
+                        <DialogTrigger asChild>
+                          <Button className="h-8 bg-[#1eafd0] text-white hover:bg-[#1eafd0]/90">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              className="mr-2"
+                            >
+                              <path d="M12 5v14M5 12h14" />
+                            </svg>
+                            New Transaction
+                          </Button>
+                        </DialogTrigger>
+                        <DialogContent className="sm:max-w-[425px]">
+                          <DialogHeader>
+                            <DialogTitle>Start New Transaction</DialogTitle>
+                            <DialogDescription>
+                              Choose how you want to start your transaction
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="grid gap-4 py-4">
+                            <Button
+                              className="h-24 flex flex-col items-start justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200"
+                              onClick={() => navigate('/transaction/new')}
+                            >
+                              <div className="w-12 h-12 rounded-full bg-[#1eafd0]/10 flex items-center justify-center">
+                                <FilePlus className="w-6 h-6 text-[#1eafd0]" />
+                              </div>
+                              <div className="flex flex-col items-start">
+                                <span className="font-medium text-[#1f3f6f]">
+                                  Create New Transaction
+                                </span>
+                                <span className="text-sm text-gray-500">Start from scratch</span>
+                              </div>
+                            </Button>
+                            <Button
+                              className="h-24 flex flex-col items-start justify-center gap-2 bg-white hover:bg-gray-50 border border-gray-200"
+                              onClick={() => navigate('/import')}
+                            >
+                              <div className="w-12 h-12 rounded-full bg-[#1eafd0]/10 flex items-center justify-center">
+                                <Facebook className="w-6 h-6 text-[#1eafd0]" />
+                              </div>
+                              <div className="flex flex-col items-start">
+                                <span className="font-medium text-[#1f3f6f]">
+                                  Import from Facebook
+                                </span>
+                                <span className="text-sm text-gray-500">
+                                  Import from Facebook Marketplace
+                                </span>
+                              </div>
+                            </Button>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
+                    </div>
+                    <Input placeholder="Search transactions..." className="w-full" />
                   </div>
-                  <Input placeholder="Search transactions..." className="w-full" />
-                </div>
 
-                {/* Transaction List */}
-                <div className="flex-1 overflow-y-auto">
-                  <div className="divide-y">
-                    {/* Sample transaction items - replace with actual data */}
-                    <div className="p-4 hover:bg-gray-50 cursor-pointer">
-                      <div className="flex items-start gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                  {/* Transaction List */}
+                  <div className="flex-1 overflow-y-auto">
+                    <div className="divide-y">
+                      {/* Sample transaction items - replace with actual data */}
+                      <div className="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div className="flex items-start gap-3">
+                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img
+                              src="/placeholder-product.jpg"
+                              alt="Product"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm font-medium">iPhone 13 Pro Max</p>
+                              <span className="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">
+                                Pending
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-500 truncate">John Doe</p>
+                            <p className="text-xs text-gray-400">Last message: 2m ago</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div className="flex items-start gap-3">
+                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img
+                              src="/placeholder-product.jpg"
+                              alt="Product"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm font-medium">MacBook Air M2</p>
+                              <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-800">
+                                Paid
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-500 truncate">Jane Smith</p>
+                            <p className="text-xs text-gray-400">Last message: 5m ago</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="p-4 hover:bg-gray-50 cursor-pointer">
+                        <div className="flex items-start gap-3">
+                          <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
+                            <img
+                              src="/placeholder-product.jpg"
+                              alt="Product"
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between">
+                              <p className="text-sm font-medium">Samsung Galaxy S23</p>
+                              <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-800">
+                                Shipped
+                              </span>
+                            </div>
+                            <p className="text-sm text-gray-500 truncate">Mike Johnson</p>
+                            <p className="text-xs text-gray-400">Last message: 1h ago</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Side - Conversation Area */}
+            <div className="lg:col-span-3">
+              <div className="bg-white rounded-lg shadow-lg h-[calc(100vh-8rem)]">
+                <div className="flex flex-col h-full">
+                  {/* Chat Header */}
+                  <div className="p-4 border-b">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-3">
+                        <div className="w-16 h-16 rounded-lg overflow-hidden">
                           <img
                             src="/placeholder-product.jpg"
                             alt="Product"
                             className="w-full h-full object-cover"
                           />
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <p className="text-sm font-medium">iPhone 13 Pro Max</p>
+                        <div>
+                          <h3 className="font-semibold">iPhone 13 Pro Max</h3>
+                          <div className="flex items-center gap-2">
+                            <p className="text-sm text-gray-500">John Doe</p>
                             <span className="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">
                               Pending
                             </span>
                           </div>
-                          <p className="text-sm text-gray-500 truncate">John Doe</p>
-                          <p className="text-xs text-gray-400">Last message: 2m ago</p>
                         </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button variant="outline" size="sm">
+                          View Details
+                        </Button>
+                        <Button variant="outline" size="sm">
+                          Report Issue
+                        </Button>
                       </div>
                     </div>
+                  </div>
 
-                    <div className="p-4 hover:bg-gray-50 cursor-pointer">
-                      <div className="flex items-start gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
-                            src="/placeholder-product.jpg"
-                            alt="Product"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <p className="text-sm font-medium">MacBook Air M2</p>
-                            <span className="text-xs px-2 py-1 rounded-full bg-green-100 text-green-800">
-                              Paid
-                            </span>
-                          </div>
-                          <p className="text-sm text-gray-500 truncate">Jane Smith</p>
-                          <p className="text-xs text-gray-400">Last message: 5m ago</p>
-                        </div>
+                  {/* Messages Area */}
+                  <div className="flex-1 overflow-y-auto p-4 space-y-4">
+                    {/* Sample messages - replace with actual data */}
+                    <div className="flex justify-start">
+                      <div className="bg-gray-100 rounded-lg p-3 max-w-[70%]">
+                        <p className="text-sm">
+                          Hi! I'm interested in the iPhone 13 Pro Max. Is it still available?
+                        </p>
+                        <span className="text-xs text-gray-500">10:30 AM</span>
                       </div>
                     </div>
-
-                    <div className="p-4 hover:bg-gray-50 cursor-pointer">
-                      <div className="flex items-start gap-3">
-                        <div className="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0">
-                          <img
-                            src="/placeholder-product.jpg"
-                            alt="Product"
-                            className="w-full h-full object-cover"
-                          />
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <p className="text-sm font-medium">Samsung Galaxy S23</p>
-                            <span className="text-xs px-2 py-1 rounded-full bg-blue-100 text-blue-800">
-                              Shipped
-                            </span>
-                          </div>
-                          <p className="text-sm text-gray-500 truncate">Mike Johnson</p>
-                          <p className="text-xs text-gray-400">Last message: 1h ago</p>
-                        </div>
+                    <div className="flex justify-end">
+                      <div className="bg-[#1eafd0] text-white rounded-lg p-3 max-w-[70%]">
+                        <p className="text-sm">
+                          Yes, it's still available! Would you like to proceed with the transaction?
+                        </p>
+                        <span className="text-xs text-white/80">10:31 AM</span>
                       </div>
+                    </div>
+                  </div>
+
+                  {/* Input Area */}
+                  <div className="border-t p-4">
+                    <div className="flex gap-2">
+                      <Input placeholder="Type your message..." className="flex-1" />
+                      <Button>Send</Button>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-
-          {/* Right Side - Conversation Area */}
-          <div className="lg:col-span-3">
-            <div className="bg-white rounded-lg shadow-lg h-[calc(100vh-8rem)]">
-              <div className="flex flex-col h-full">
-                {/* Chat Header */}
-                <div className="p-4 border-b">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <div className="w-16 h-16 rounded-lg overflow-hidden">
-                        <img
-                          src="/placeholder-product.jpg"
-                          alt="Product"
-                          className="w-full h-full object-cover"
-                        />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">iPhone 13 Pro Max</h3>
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm text-gray-500">John Doe</p>
-                          <span className="text-xs px-2 py-1 rounded-full bg-yellow-100 text-yellow-800">
-                            Pending
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm">
-                        View Details
-                      </Button>
-                      <Button variant="outline" size="sm">
-                        Report Issue
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Messages Area */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-4">
-                  {/* Sample messages - replace with actual data */}
-                  <div className="flex justify-start">
-                    <div className="bg-gray-100 rounded-lg p-3 max-w-[70%]">
-                      <p className="text-sm">
-                        Hi! I'm interested in the iPhone 13 Pro Max. Is it still available?
-                      </p>
-                      <span className="text-xs text-gray-500">10:30 AM</span>
-                    </div>
-                  </div>
-                  <div className="flex justify-end">
-                    <div className="bg-[#1eafd0] text-white rounded-lg p-3 max-w-[70%]">
-                      <p className="text-sm">
-                        Yes, it's still available! Would you like to proceed with the transaction?
-                      </p>
-                      <span className="text-xs text-white/80">10:31 AM</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Input Area */}
-                <div className="border-t p-4">
-                  <div className="flex gap-2">
-                    <Input placeholder="Type your message..." className="flex-1" />
-                    <Button>Send</Button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        ) : (
+          <div className="w-full">{children}</div>
+        )}
       </main>
     </div>
   );
