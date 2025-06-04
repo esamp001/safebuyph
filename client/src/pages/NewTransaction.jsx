@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FilePlus, Facebook } from 'lucide-react';
+import { FilePlus, Facebook, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
@@ -23,6 +23,9 @@ const NewTransaction = () => {
   const [agreedToTerms, setAgreedToTerms] = useState(false);
   const [referenceNumber, setReferenceNumber] = useState('');
   const [status, setStatus] = useState('');
+  const [marketplaceUrl, setMarketplaceUrl] = useState('');
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [urlError, setUrlError] = useState('');
 
   // Auto-generate reference/order number on mount
   useEffect(() => {
@@ -63,6 +66,44 @@ const NewTransaction = () => {
     }
   };
 
+  const handleMarketplaceUrlChange = async (e) => {
+    const url = e.target.value;
+    setMarketplaceUrl(url);
+    setUrlError('');
+
+    if (!url) return;
+
+    if (url.includes('facebook.com/marketplace')) {
+      setIsLoadingData(true);
+      try {
+        const response = await axios.post('/api/marketplace/extract', { url });
+        const data = response.data;
+
+        // Update all fields with the extracted data
+        setItemImage(data.image);
+        setItem(data.title);
+        setItemDescription(data.description);
+        setPrice(data.price);
+
+        setUrlError('');
+      } catch (error) {
+        setUrlError('Could not extract data from URL. Please try again.');
+        console.error('Error:', error);
+      } finally {
+        setIsLoadingData(false);
+      }
+    }
+  };
+
+  const clearMarketplaceData = () => {
+    setMarketplaceUrl('');
+    setItemImage('');
+    setItem('');
+    setItemDescription('');
+    setPrice('');
+    setUrlError('');
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -71,6 +112,24 @@ const NewTransaction = () => {
       <div className="space-y-2">
         <h2 className="text-2xl font-bold text-gray-900">Create New Transaction</h2>
         <p className="text-sm text-gray-500">Fill in the details to start a new transaction</p>
+      </div>
+
+      <div className="space-y-2 border-b pb-4">
+        <label htmlFor="marketplaceUrl" className="text-sm font-medium text-gray-700">
+          Facebook Marketplace URL
+        </label>
+        <div className="space-y-2">
+          <Input
+            id="marketplaceUrl"
+            type="text"
+            placeholder="Paste Facebook Marketplace URL to auto-fill details"
+            value={marketplaceUrl}
+            onChange={handleMarketplaceUrlChange}
+            className="w-full"
+          />
+          {isLoadingData && <div className="text-sm text-gray-500">Loading data from URL...</div>}
+          {urlError && <div className="text-sm text-red-500">{urlError}</div>}
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -98,6 +157,7 @@ const NewTransaction = () => {
             placeholder="Enter item name"
             value={item}
             onChange={(e) => setItem(e.target.value)}
+            readOnly={!!marketplaceUrl}
             required
           />
         </div>
@@ -112,6 +172,7 @@ const NewTransaction = () => {
             value={itemDescription}
             onChange={(e) => setItemDescription(e.target.value)}
             className="w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-[#020202] focus:border-transparent bg-white text-gray-900"
+            readOnly={!!marketplaceUrl}
             required
           />
         </div>
@@ -120,13 +181,28 @@ const NewTransaction = () => {
           <label htmlFor="itemImage" className="text-sm font-medium text-gray-700">
             Item Image URL
           </label>
-          <Input
-            id="itemImage"
-            type="text"
-            placeholder="Paste image URL"
-            value={itemImage}
-            onChange={(e) => setItemImage(e.target.value)}
-          />
+          <div className="space-y-2">
+            <Input
+              id="itemImage"
+              type="text"
+              placeholder="Paste image URL"
+              value={itemImage}
+              onChange={(e) => setItemImage(e.target.value)}
+              readOnly={!!marketplaceUrl}
+            />
+            {itemImage && (
+              <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-200">
+                <img src={itemImage} alt="Item preview" className="w-full h-full object-contain" />
+                <button
+                  type="button"
+                  onClick={clearMarketplaceData}
+                  className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-md hover:bg-gray-100"
+                >
+                  <X className="w-4 h-4 text-gray-500" />
+                </button>
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="space-y-2">
@@ -153,6 +229,7 @@ const NewTransaction = () => {
             placeholder="Enter price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            readOnly={!!marketplaceUrl}
             required
           />
         </div>

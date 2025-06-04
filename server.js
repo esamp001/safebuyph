@@ -10,22 +10,24 @@ const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
-
+const marketplaceRoutes = require('./routes/marketplace');
 
 // Initialize express
 const app = express();
 
 // Session configuration
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'your-secret-key',
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production',
-    httpOnly: true,
-    maxAge: 24 * 60 * 60 * 1000 // 24 hours
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || 'your-secret-key',
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+    },
+  })
+);
 
 // Initialize Passport
 app.use(passport.initialize());
@@ -116,8 +118,7 @@ app.use('/api/profile', checktokenBlacklist, profileRoutes);
 app.use('/api/transaction', checktokenBlacklist, transactionRoutes);
 app.use('/api/admin', checktokenBlacklist, adminRoutes);
 app.use('/api/ratings', checktokenBlacklist, ratingRoutes);
-
-
+app.use('/api/marketplace', marketplaceRoutes);
 
 // Passport serialization
 passport.serializeUser((user, done) => {
