@@ -6,6 +6,8 @@ import { FilePlus, Facebook, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { FaFacebook } from 'react-icons/fa';
 
 const ESCROW_FEE_PERCENT = 2; // Example: 2% escrow fee
 
@@ -26,6 +28,7 @@ const NewTransaction = () => {
   const [marketplaceUrl, setMarketplaceUrl] = useState('');
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [urlError, setUrlError] = useState('');
+  const [showFacebookLogin, setShowFacebookLogin] = useState(false);
 
   // Auto-generate reference/order number on mount
   useEffect(() => {
@@ -80,14 +83,20 @@ const NewTransaction = () => {
         const data = response.data;
 
         // Update all fields with the extracted data
-        setItemImage(data.image);
-        setItem(data.title);
-        setItemDescription(data.description);
-        setPrice(data.price);
+        if (data.image) setItemImage(data.image);
+        if (data.title) setItem(data.title);
+        if (data.description) setItemDescription(data.description);
+        if (data.price) setPrice(data.price);
 
         setUrlError('');
       } catch (error) {
-        setUrlError('Could not extract data from URL. Please try again.');
+        if (error.response?.status === 401) {
+          setShowFacebookLogin(true);
+        } else {
+          setUrlError(
+            'Could not extract data from URL. Please try again or enter the details manually.'
+          );
+        }
         console.error('Error:', error);
       } finally {
         setIsLoadingData(false);
@@ -321,6 +330,30 @@ const NewTransaction = () => {
           {status}
         </div>
       )}
+
+      <Dialog open={showFacebookLogin} onOpenChange={setShowFacebookLogin}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Connect with Facebook</DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="text-sm text-gray-600 mb-4">
+              To access this Facebook Marketplace listing, you need to connect your Facebook
+              account.
+            </p>
+            <Button
+              onClick={() => (window.location.href = 'http://localhost:3000/api/auth/facebook')}
+              className="w-full flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
+            >
+              <FaFacebook className="w-5 h-5" />
+              Connect with Facebook
+            </Button>
+            <p className="text-xs text-gray-500 mt-4">
+              After connecting, you can paste the Marketplace URL again to auto-fill the details.
+            </p>
+          </div>
+        </DialogContent>
+      </Dialog>
     </form>
   );
 };

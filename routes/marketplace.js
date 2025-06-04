@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const puppeteer = require('puppeteer');
-const cheerio = require('cheerio');
 
-router.post('/extract-data', async (req, res) => {
+router.post('/extract', async (req, res) => {
+  let browser;
   try {
     const { url } = req.body;
 
@@ -11,44 +11,77 @@ router.post('/extract-data', async (req, res) => {
       return res.status(400).json({ error: 'Invalid Facebook Marketplace URL' });
     }
 
-    // Launch a headless browser
-    const browser = await puppeteer.launch({
+    browser = await puppeteer.launch({
       headless: 'new',
       args: ['--no-sandbox', '--disable-setuid-sandbox'],
     });
 
     const page = await browser.newPage();
-
-    // Set a user agent to avoid detection
     await page.setUserAgent(
       'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     );
+    await page.setViewport({ width: 1280, height: 800 });
 
     // Navigate to the URL
-    await page.goto(url, { waitUntil: 'networkidle0' });
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
 
-    // Wait for the content to load
-    await page.waitForSelector('img[src*="scontent"]', { timeout: 5000 });
+    // Check for login page
+    const isLoginPage = await page.evaluate(() => {
+      return document.querySelector('input[name="email"]') !== null;
+    });
 
-    // Get the page content
-    const content = await page.content();
-    const $ = cheerio.load(content);
+    if (isLoginPage) {
+      return res.status(401).json({
+        error: 'Authentication required',
+        message: 'This listing requires Facebook authentication',
+      });
+    }
 
-    // Extract data
-    const data = {
-      image: $('img[src*="scontent"]').first().attr('src'),
-      title: $('h1').first().text().trim(),
-      description: $('div[data-ad-preview="message"]').text().trim(),
-      price: $('span[data-ad-preview="price"]')
-        .text()
-        .trim()
-        .replace(/[^0-9]/g, ''),
-    };
+    // Try multiple selectors for each element
+    const data = await page.evaluate(() => {
+      const getElementText = (selectors) => {
+        for (const selector of selectors) {
+          const element = document.querySelector(selector);
+          if (element) return element.textContent.trim();
+        }
+        return null;
+      };
 
+      const getImageSrc = (selectors) => {
+        for (const selector of selectors) {
+          const element = document.querySelector(selector);
+          if (element) return element.src;
+        }
+        return null;
+      };
+
+      return {
+        image: getImageSrc([
+          'img[src*="scontent"]',
+          'img[src*="marketplace"]',
+          'img[src*="facebook"]',
+        ]),
+        title: getElementText(['h1', '[data-ad-preview="title"]', '.marketplace-listing-title']),
+        description: getElementText([
+          'div[data-ad-preview="message"]',
+          '.marketplace-listing-description',
+        ]),
+        price: getElementText([
+          'span[data-ad-preview="price"]',
+          '.marketplace-listing-price',
+        ])?.replace(/[^0-9]/g, ''),
+      };
+    });
+
+    await browser.close();
     res.json(data);
   } catch (error) {
     console.error('Error extracting marketplace data:', error);
-    res.status(500).json({ error: 'Failed to extract data from Facebook Marketplace' });
+    if (browser) await browser.close();
+    res.status(500).json({
+      error: 'Failed to extract data from Facebook Marketplace',
+      details: error.message,
+    });
   }
 });
 
