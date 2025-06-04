@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import { FilePlus, Facebook } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -189,13 +190,11 @@ const NewTransaction = () => {
             Buyer's Payment Confirmation
           </label>
           <div className="flex items-center space-x-2">
-            <input
+            <Checkbox
               id="buyerConfirmed"
-              type="checkbox"
               checked={buyerConfirmed}
-              onChange={(e) => setBuyerConfirmed(e.target.checked)}
+              onCheckedChange={(checked) => setBuyerConfirmed(checked)}
               required
-              className="accent-[#1eafd0] bg-white"
             />
             <label htmlFor="buyerConfirmed" className="text-sm text-gray-700">
               I confirm I will pay via SafeBuyPH escrow.
@@ -208,13 +207,11 @@ const NewTransaction = () => {
             Escrow Terms & Agreement
           </label>
           <div className="flex items-center space-x-2">
-            <input
+            <Checkbox
               id="agreedToTerms"
-              type="checkbox"
               checked={agreedToTerms}
-              onChange={(e) => setAgreedToTerms(e.target.checked)}
+              onCheckedChange={(checked) => setAgreedToTerms(checked)}
               required
-              className="accent-[#1eafd0] bg-white"
             />
             <label htmlFor="agreedToTerms" className="text-sm text-gray-700">
               I agree to the{' '}
