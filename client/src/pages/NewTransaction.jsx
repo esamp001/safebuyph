@@ -29,6 +29,7 @@ const NewTransaction = () => {
   const [isLoadingData, setIsLoadingData] = useState(false);
   const [urlError, setUrlError] = useState('');
   const [showFacebookLogin, setShowFacebookLogin] = useState(false);
+  const [user, setUser] = useState(null);
 
   // Auto-generate reference/order number on mount
   useEffect(() => {
@@ -79,8 +80,23 @@ const NewTransaction = () => {
     if (url.includes('facebook.com/marketplace')) {
       setIsLoadingData(true);
       try {
-        const response = await axios.post('/api/marketplace/extract', { url });
-        const data = response.data;
+        // First check if we have a Facebook token
+        const response = await axios.get('/api/auth/facebook-token');
+        const { hasToken } = response.data;
+
+        if (!hasToken) {
+          setShowFacebookLogin(true);
+          return;
+        }
+
+        // If we have a token, try to extract the data
+        const extractResponse = await axios.post('/api/marketplace/extract', { url });
+        const data = extractResponse.data;
+
+        // Validate the extracted data
+        if (!data.title && !data.price) {
+          throw new Error('No data could be extracted from the URL');
+        }
 
         // Update all fields with the extracted data
         if (data.image) setItemImage(data.image);
@@ -90,19 +106,30 @@ const NewTransaction = () => {
 
         setUrlError('');
       } catch (error) {
+        console.error('Error details:', error.response?.data || error.message);
+
         if (error.response?.status === 401) {
           setShowFacebookLogin(true);
         } else {
           setUrlError(
-            'Could not extract data from URL. Please try again or enter the details manually.'
+            error.response?.data?.message ||
+              'Could not extract data from URL. Please try again or enter the details manually.'
           );
         }
-        console.error('Error:', error);
       } finally {
         setIsLoadingData(false);
       }
     }
   };
+
+  // Add this effect to retry URL extraction after Facebook login
+  useEffect(() => {
+    const pendingUrl = localStorage.getItem('pendingMarketplaceUrl');
+    if (pendingUrl) {
+      localStorage.removeItem('pendingMarketplaceUrl');
+      handleMarketplaceUrlChange({ target: { value: pendingUrl } });
+    }
+  }, []);
 
   const clearMarketplaceData = () => {
     setMarketplaceUrl('');
@@ -336,22 +363,21 @@ const NewTransaction = () => {
           <DialogHeader>
             <DialogTitle>Connect with Facebook</DialogTitle>
           </DialogHeader>
-          <div className="py-4">
-            <p className="text-sm text-gray-600 mb-4">
-              To access this Facebook Marketplace listing, you need to connect your Facebook
-              account.
-            </p>
-            <Button
-              onClick={() => (window.location.href = 'http://localhost:3000/api/auth/facebook')}
-              className="w-full flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
-            >
-              <FaFacebook className="w-5 h-5" />
-              Connect with Facebook
-            </Button>
-            <p className="text-xs text-gray-500 mt-4">
-              After connecting, you can paste the Marketplace URL again to auto-fill the details.
-            </p>
-          </div>
+          <p className="text-sm text-gray-500 mb-4">
+            To extract data from Facebook Marketplace, you need to connect your Facebook account.
+          </p>
+          <Button
+            onClick={() => {
+              // Store the current URL before redirecting
+              localStorage.setItem('pendingMarketplaceUrl', marketplaceUrl);
+              const returnUrl = encodeURIComponent(window.location.href);
+              window.location.href = `http://localhost:3000/api/auth/facebook?returnTo=${returnUrl}`;
+            }}
+            className="w-full flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
+          >
+            <FaFacebook className="w-5 h-5" />
+            Connect with Facebook
+          </Button>
         </DialogContent>
       </Dialog>
     </form>

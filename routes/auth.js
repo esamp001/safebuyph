@@ -12,6 +12,7 @@ const passport = require('passport');
 const res = require('express/lib/response');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const FacebookStrategy = require('passport-facebook').Strategy;
+const puppeteer = require('puppeteer');
 
 passport.use(
   new FacebookStrategy(
@@ -102,7 +103,13 @@ router.get(
   }
 );
 
-router.get('/facebook', passport.authenticate('facebook', { scope: ['email'] }));
+router.get('/facebook', (req, res, next) => {
+  const { returnTo } = req.query;
+  if (returnTo) {
+    req.session.returnTo = returnTo;
+  }
+  passport.authenticate('facebook', { scope: ['email'] })(req, res, next);
+});
 
 router.get(
   '/facebook/callback',
@@ -111,16 +118,37 @@ router.get(
     const token = jwt.sign({ userId: req.user.id, email: req.user.email }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     });
-    // Set as cookie (recommended for web apps)
+
     res.cookie('access_token', token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: 60 * 60 * 1000, // 1 hour
     });
-    res.redirect('http://localhost:5173/dashboard');
+
+    // Get the return URL from the session or default to dashboard
+    const returnTo = req.session.returnTo || 'http://localhost:5173/dashboard';
+    delete req.session.returnTo; // Clean up the session
+
+    res.redirect(returnTo);
   }
 );
+
+// Add this route to check if user has Facebook token
+router.get('/facebook-token', auth, async (req, res) => {
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+      select: { facebookId: true },
+    });
+
+    res.json({ hasToken: !!user?.facebookId });
+  } catch (error) {
+    console.error('Error checking Facebook token:', error);
+    res.status(500).json({ error: 'Failed to check Facebook token' });
+  }
+});
+
 // Initialize Prisma client
 const prisma = new PrismaClient();
 
@@ -677,6 +705,113 @@ router.get('/check', async (req, res) => {
   } catch (error) {
     console.error('Auth check error:', error);
     return res.status(401).json({ isAuthenticated: false });
+  }
+});
+
+router.post('/extract', auth, async (req, res) => {
+  let browser;
+  try {
+    const { url } = req.body;
+    const user = await prisma.user.findUnique({
+      where: { id: req.user.userId },
+      select: { facebookId: true },
+    });
+
+    if (!user?.facebookId) {
+      return res.status(401).json({ error: 'Facebook authentication required' });
+    }
+
+    if (!url.includes('facebook.com/marketplace')) {
+      return res.status(400).json({ error: 'Invalid Facebook Marketplace URL' });
+    }
+
+    browser = await puppeteer.launch({
+      headless: 'new',
+      args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    });
+
+    const page = await browser.newPage();
+    await page.setUserAgent(
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+    );
+
+    // Navigate to the URL
+    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
+
+    // Check if we're on a login page
+    const isLoginPage = await page.evaluate(() => {
+      return document.querySelector('input[name="email"]') !== null;
+    });
+
+    if (isLoginPage) {
+      return res.status(401).json({
+        error: 'Authentication required',
+        message: 'This listing requires Facebook authentication',
+      });
+    }
+
+    // Extract data with multiple selector attempts
+    const data = await page.evaluate(() => {
+      const getElementText = (selectors) => {
+        for (const selector of selectors) {
+          const element = document.querySelector(selector);
+          if (element) return element.textContent.trim();
+        }
+        return null;
+      };
+
+      const getImageSrc = (selectors) => {
+        for (const selector of selectors) {
+          const element = document.querySelector(selector);
+          if (element) return element.src;
+        }
+        return null;
+      };
+
+      return {
+        image: getImageSrc([
+          'img[src*="scontent"]',
+          'img[src*="marketplace"]',
+          'img[src*="facebook"]',
+          '[data-ad-preview="image"] img',
+          '.marketplace-listing-image img',
+        ]),
+        title: getElementText([
+          'h1',
+          '[data-ad-preview="title"]',
+          '.marketplace-listing-title',
+          '[data-testid="marketplace_listing_title"]',
+        ]),
+        description: getElementText([
+          'div[data-ad-preview="message"]',
+          '.marketplace-listing-description',
+          '[data-testid="marketplace_listing_description"]',
+        ]),
+        price: getElementText([
+          'span[data-ad-preview="price"]',
+          '.marketplace-listing-price',
+          '[data-testid="marketplace_listing_price"]',
+        ])?.replace(/[^0-9]/g, ''),
+      };
+    });
+
+    // Log the extracted data for debugging
+    console.log('Extracted data:', data);
+
+    // Validate that we got at least some data
+    if (!data.title && !data.price) {
+      throw new Error('Could not extract required data from the listing');
+    }
+
+    await browser.close();
+    res.json(data);
+  } catch (error) {
+    console.error('Error extracting marketplace data:', error);
+    if (browser) await browser.close();
+    res.status(500).json({
+      error: 'Failed to extract data from Facebook Marketplace',
+      details: error.message,
+    });
   }
 });
 
