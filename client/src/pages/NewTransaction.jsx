@@ -38,6 +38,8 @@ const NewTransaction = () => {
     image: '',
     // ... other form fields
   });
+  const [showImportModal, setShowImportModal] = useState(false);
+  const [importUrl, setImportUrl] = useState('');
 
   console.log('Location:', location);
   console.log('Search params:', location.search);
@@ -60,27 +62,61 @@ const NewTransaction = () => {
     const params = new URLSearchParams(location.search);
     const dataParam = params.get('data');
 
+    console.log('URL params:', location.search);
+    console.log('Data param:', dataParam);
+
     if (dataParam) {
       try {
         const importedData = JSON.parse(decodeURIComponent(dataParam));
-        console.log('Imported data:', importedData); // Debug log
+        console.log('Parsed imported data:', importedData);
 
-        // Update form state with the imported data
-        setFormData((prev) => ({
-          ...prev,
-          title: importedData.title || '',
-          price: importedData.price || '',
-          description: importedData.description || '',
-          image: importedData.image || '',
-        }));
+        // Update form fields with imported data
+        if (importedData.title) {
+          console.log('Setting title:', importedData.title);
+          setItem(importedData.title);
+        }
+        if (importedData.price) {
+          // Format price to remove any non-numeric characters
+          const cleanPrice = importedData.price.replace(/[^0-9.]/g, '');
+          console.log('Setting price:', cleanPrice);
+          setPrice(cleanPrice);
+        }
+        if (importedData.description) {
+          // Clean up description
+          const cleanDescription = importedData.description.replace(/\n+/g, '\n').trim();
+          console.log('Setting description:', cleanDescription);
+          setItemDescription(cleanDescription);
+        }
+        if (importedData.image) {
+          console.log('Setting image:', importedData.image);
+          setItemImage(importedData.image);
+        }
+        if (importedData.url) {
+          console.log('Setting marketplace URL:', importedData.url);
+          setMarketplaceUrl(importedData.url);
+        }
 
-        // If you're using any form library like Formik or React Hook Form,
-        // update their values here as well
+        // Clear the URL parameter to prevent re-importing
+        const newUrl = '/transaction/new';
+        window.history.replaceState({}, '', newUrl);
+        console.log('URL cleared, new URL:', newUrl);
       } catch (error) {
         console.error('Error parsing imported data:', error);
+        console.error('Raw data param:', dataParam);
       }
     }
   }, [location]);
+
+  // Add a debug effect to monitor state changes
+  useEffect(() => {
+    console.log('Form state updated:', {
+      item,
+      price,
+      itemDescription,
+      itemImage,
+      marketplaceUrl,
+    });
+  }, [item, price, itemDescription, itemImage, marketplaceUrl]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -189,6 +225,31 @@ const NewTransaction = () => {
     setUrlError('');
   };
 
+  // Add this function to handle direct URL import
+  const handleDirectImport = async (url) => {
+    if (!url.includes('facebook.com/marketplace')) {
+      setUrlError('Please enter a valid Facebook Marketplace URL');
+      return;
+    }
+
+    setIsLoadingData(true);
+    try {
+      const response = await axios.post('/api/marketplace/extract', { url });
+      const data = response.data;
+
+      if (data.title) setItem(data.title);
+      if (data.price) setPrice(data.price);
+      if (data.description) setItemDescription(data.description);
+      if (data.image) setItemImage(data.image);
+
+      setUrlError('');
+    } catch (error) {
+      setUrlError(error.response?.data?.error || 'Failed to import data');
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -197,6 +258,36 @@ const NewTransaction = () => {
       <div className="space-y-2">
         <h2 className="text-2xl font-bold text-gray-900">Create New Transaction</h2>
         <p className="text-sm text-gray-500">Fill in the details to start a new transaction</p>
+      </div>
+
+      <div className="space-y-4 border-b pb-4">
+        <div className="flex items-center gap-2">
+          <Button
+            type="button"
+            onClick={() => setShowImportModal(true)}
+            className="flex-1 flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
+          >
+            <FaFacebook className="w-5 h-5" />
+            Import from Facebook
+          </Button>
+          <Button
+            type="button"
+            onClick={() => {
+              // Open extension installation page if not installed
+              window.open(
+                'https://chrome.google.com/webstore/detail/safebuy-ph-helper/your-extension-id',
+                '_blank'
+              );
+            }}
+            className="flex-1 flex items-center justify-center gap-2 bg-[#1eafd0] hover:bg-[#0b92bc] text-white"
+          >
+            <FaFacebook className="w-5 h-5" />
+            Use Extension
+          </Button>
+        </div>
+        <p className="text-xs text-gray-500 text-center">
+          Use the extension for faster imports or paste the URL directly
+        </p>
       </div>
 
       <div className="space-y-2 border-b pb-4">
@@ -448,6 +539,46 @@ const NewTransaction = () => {
             <FaFacebook className="w-5 h-5" />
             Connect with Facebook
           </Button>
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={showImportModal} onOpenChange={setShowImportModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Import from Facebook Marketplace</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <p className="text-sm text-gray-500">
+              Paste the Facebook Marketplace listing URL to import item details
+            </p>
+            <Input
+              type="text"
+              placeholder="Paste Facebook Marketplace URL"
+              value={importUrl}
+              onChange={(e) => setImportUrl(e.target.value)}
+            />
+            {urlError && <div className="text-sm text-red-500">{urlError}</div>}
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                onClick={() => handleDirectImport(importUrl)}
+                className="flex-1 bg-[#1877F2] hover:bg-[#166FE5] text-white"
+                disabled={isLoadingData}
+              >
+                {isLoadingData ? 'Importing...' : 'Import'}
+              </Button>
+              <Button
+                type="button"
+                onClick={() => {
+                  setShowImportModal(false);
+                  setImportUrl('');
+                }}
+                className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800"
+              >
+                Cancel
+              </Button>
+            </div>
+          </div>
         </DialogContent>
       </Dialog>
     </form>

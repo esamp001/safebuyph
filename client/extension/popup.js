@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   async function checkSafeBuyLogin() {
     try {
       const response = await fetch('http://localhost:3000/api/auth/check', {
-        credentials: 'include', // This sends cookies
+        credentials: 'include',
       });
       const data = await response.json();
       return data.isAuthenticated;
@@ -25,14 +25,24 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to update preview
   function updatePreview(data) {
-    console.log('Preview data:', data); // Debug log
+    console.log('Preview data:', data);
     previewDiv.innerHTML = `
-        <h3>Preview:</h3>
-        <p><strong>Title:</strong> ${data.title || 'Not found'}</p>
-        <p><strong>Price:</strong> ${data.price ? '₱' + data.price : 'Not found'}</p>
-        <p><strong>Description:</strong> ${data.description || 'Not found'}</p>
-        ${data.image ? `<img src="${data.image}" style="max-width: 100%;">` : ''}
-      `;
+      <h3>Preview:</h3>
+      <p><strong>Title:</strong> ${data.title || 'Not found'}</p>
+      <p><strong>Price:</strong> ${data.price ? '₱' + data.price : 'Not found'}</p>
+      <p><strong>Description:</strong> ${data.description || 'Not found'}</p>
+      ${data.image ? `<img src="${data.image}" style="max-width: 100%;">` : ''}
+    `;
+  }
+
+  // Function to store data in extension storage
+  async function storeData(data) {
+    try {
+      await chrome.storage.local.set({ safebuyData: data });
+      console.log('Data stored in extension storage');
+    } catch (error) {
+      console.error('Error storing data:', error);
+    }
   }
 
   // Handle import button click
@@ -61,35 +71,46 @@ document.addEventListener('DOMContentLoaded', function () {
 
       showStatus('Importing...', 'info');
 
-      // Inject the content script first
+      // Inject the content script
       await chrome.scripting.executeScript({
         target: { tabId: tab.id },
         files: ['content.js'],
       });
 
       // Wait a moment for the script to initialize
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Send message to content script to extract data
       const response = await chrome.tabs.sendMessage(tab.id, { action: 'extractData' });
 
       if (response.success) {
+        // Store the data in extension storage
+        await storeData(response.data);
+
+        // Update the preview
         updatePreview(response.data);
         showStatus('Data extracted successfully!', 'success');
 
-        // Store the data in extension storage
-        await chrome.storage.local.set({ safebuyData: response.data });
-
         // Open SafeBuy in a new tab with the data
+        const encodedData = encodeURIComponent(
+          JSON.stringify({
+            title: response.data.title,
+            price: response.data.price,
+            description: response.data.description,
+            image: response.data.image,
+            url: response.data.url,
+          })
+        );
+
         chrome.tabs.create({
-          url: `http://localhost:5173/new-transaction?data=${encodeURIComponent(JSON.stringify(response.data))}`,
+          url: `http://localhost:5173/transaction/new?data=${encodedData}`,
         });
       } else {
         showStatus('Failed to extract data: ' + response.error, 'error');
       }
     } catch (error) {
-      showStatus('Error: ' + error.message, 'error');
       console.error('Extension error:', error);
+      showStatus('Error: ' + error.message, 'error');
     }
   });
 });
