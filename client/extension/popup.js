@@ -25,10 +25,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Function to update preview
   function updatePreview(data) {
+    console.log('Preview data:', data); // Debug log
     previewDiv.innerHTML = `
         <h3>Preview:</h3>
         <p><strong>Title:</strong> ${data.title || 'Not found'}</p>
-        <p><strong>Price:</strong> ${data.price || 'Not found'}</p>
+        <p><strong>Price:</strong> ${data.price ? '₱' + data.price : 'Not found'}</p>
         <p><strong>Description:</strong> ${data.description || 'Not found'}</p>
         ${data.image ? `<img src="${data.image}" style="max-width: 100%;">` : ''}
       `;

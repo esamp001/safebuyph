@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { FilePlus, Facebook, X } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
@@ -30,6 +30,17 @@ const NewTransaction = () => {
   const [urlError, setUrlError] = useState('');
   const [showFacebookLogin, setShowFacebookLogin] = useState(false);
   const [user, setUser] = useState(null);
+  const location = useLocation();
+  const [formData, setFormData] = useState({
+    title: '',
+    price: '',
+    description: '',
+    image: '',
+    // ... other form fields
+  });
+
+  console.log('Location:', location);
+  console.log('Search params:', location.search);
 
   // Auto-generate reference/order number on mount
   useEffect(() => {
@@ -43,6 +54,33 @@ const NewTransaction = () => {
     setEscrowFee(fee);
     setTotalAmount(subtotal + fee);
   }, [price, quantity]);
+
+  useEffect(() => {
+    // Parse the data from URL
+    const params = new URLSearchParams(location.search);
+    const dataParam = params.get('data');
+
+    if (dataParam) {
+      try {
+        const importedData = JSON.parse(decodeURIComponent(dataParam));
+        console.log('Imported data:', importedData); // Debug log
+
+        // Update form state with the imported data
+        setFormData((prev) => ({
+          ...prev,
+          title: importedData.title || '',
+          price: importedData.price || '',
+          description: importedData.description || '',
+          image: importedData.image || '',
+        }));
+
+        // If you're using any form library like Formik or React Hook Form,
+        // update their values here as well
+      } catch (error) {
+        console.error('Error parsing imported data:', error);
+      }
+    }
+  }, [location]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();

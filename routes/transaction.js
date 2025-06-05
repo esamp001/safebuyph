@@ -743,4 +743,29 @@ router.post('/:id/report-seller', authMiddleware, async (req, res) => {
   }
 });
 
+router.post('/new-transaction', authMiddleware, async (req, res) => {
+  try {
+    const { title, price, description, image } = req.body;
+
+    // Log the received data
+    console.log('Received transaction data:', { title, price, description, image });
+
+    // Create the transaction
+    const transaction = await prisma.transaction.create({
+      data: {
+        title,
+        price: parseInt(price),
+        description,
+        image,
+        // ... other fields
+      },
+    });
+
+    res.json({ success: true, transaction });
+  } catch (error) {
+    console.error('Transaction creation error:', error);
+    res.status(500).json({ error: 'Failed to create transaction' });
+  }
+});
+
 module.exports = router;

@@ -31,20 +31,24 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 // Helper functions to extract data
 function extractTitle() {
-  // Updated selectors for Facebook's current structure
+  // Try multiple selectors
   const selectors = [
     '[data-testid="marketplace_listing_title"]',
     'h1',
     '[data-ad-preview="title"]',
-    'span[dir="auto"]', // Common Facebook text container
-    '.x1lliihq', // Common Facebook class for text
+    'span[dir="auto"]',
+    '.x1lliihq',
+    // Add more specific selectors
+    '[data-pagelet="MarketplacePDP"] h1',
+    '[data-pagelet="MarketplacePDP"] span[dir="auto"]',
   ];
 
   for (const selector of selectors) {
     const elements = document.querySelectorAll(selector);
     for (const element of elements) {
       const text = element.textContent.trim();
-      if (text && text !== 'Marketplace') {
+      if (text && text !== 'Marketplace' && text.length > 3) {
+        console.log('Found title:', text); // Debug log
         return text;
       }
     }
@@ -56,8 +60,10 @@ function extractPrice() {
   const selectors = [
     '[data-testid="marketplace_listing_price"]',
     '[data-ad-preview="price"]',
-    'span[dir="auto"]', // Common Facebook text container
-    '.x1lliihq', // Common Facebook class for text
+    'span[dir="auto"]',
+    '.x1lliihq',
+    // Add more specific selectors
+    '[data-pagelet="MarketplacePDP"] span[dir="auto"]',
   ];
 
   for (const selector of selectors) {
@@ -66,6 +72,7 @@ function extractPrice() {
       const text = element.textContent.trim();
       // Look for price patterns like "₱1,234" or "1,234"
       if (text.match(/[₱]?\d+([,.]\d+)?/)) {
+        console.log('Found price:', text); // Debug log
         return text.replace(/[^0-9]/g, '');
       }
     }
@@ -77,8 +84,10 @@ function extractDescription() {
   const selectors = [
     '[data-testid="marketplace_listing_description"]',
     '[data-ad-preview="message"]',
-    'div[dir="auto"]', // Common Facebook text container
-    '.x1lliihq', // Common Facebook class for text
+    'div[dir="auto"]',
+    '.x1lliihq',
+    // Add more specific selectors
+    '[data-pagelet="MarketplacePDP"] div[dir="auto"]',
   ];
 
   for (const selector of selectors) {
@@ -86,7 +95,7 @@ function extractDescription() {
     for (const element of elements) {
       const text = element.textContent.trim();
       if (text && text.length > 10) {
-        // Basic validation for description
+        console.log('Found description:', text); // Debug log
         return text;
       }
     }
@@ -100,15 +109,17 @@ function extractImage() {
     'img[src*="marketplace"]',
     '[data-ad-preview="image"] img',
     'img[src*="fbcdn.net"]',
+    // Add more specific selectors
+    '[data-pagelet="MarketplacePDP"] img',
   ];
 
   for (const selector of selectors) {
-    const element = document.querySelector(selector);
-    if (element) {
-      // Get the highest resolution image available
+    const elements = document.querySelectorAll(selector);
+    for (const element of elements) {
       const src = element.src;
-      if (src) {
-        // Remove size parameters from URL to get full resolution
+      if (src && src.includes('fbcdn.net')) {
+        console.log('Found image:', src); // Debug log
+        // Get the highest resolution image
         return src.split('?')[0];
       }
     }
