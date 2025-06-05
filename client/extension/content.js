@@ -45,6 +45,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             .replace(/Condition/g, 'Condition: ') // Format condition
             .replace(/Rfs:/g, 'Reason for selling: ') // Format RFS
             .trim();
+        } else {
+          data.description = 'No description';
         }
         if (data.image) {
           // Ensure the image URL is absolute and clean
@@ -191,37 +193,138 @@ function extractDescription() {
     document.querySelector('[role="main"]') ||
     document.querySelector('[data-pagelet="MarketplacePDP"]');
   if (mainContent) {
-    // Look for description elements with specific classes
+    // First try to find the details section specifically
+    const detailsSection =
+      mainContent.querySelector('div[data-ad-preview="message"]') ||
+      mainContent.querySelector('div[data-adid]') ||
+      mainContent.querySelector('div[data-pagelet="MarketplacePDP"] div[dir="auto"]');
+
+    if (detailsSection) {
+      const text = detailsSection.textContent.trim();
+      console.log('Found details section:', text);
+
+      // Skip if it's too short or contains sponsored content
+      if (text && text.length >= 10 && !text.includes('Sponsored')) {
+        // Clean up the description
+        let cleanedText = text
+          .replace(/\n{3,}/g, '\n\n') // Replace multiple newlines with double newlines
+          .replace(/Details/g, '') // Remove "Details" prefix
+          .replace(/Condition:/g, 'Condition: ') // Format condition
+          .replace(/Rfs:/g, 'Reason for selling: ') // Format RFS
+          .replace(/Brand:/g, 'Brand: ') // Format brand
+          .replace(/Specs:/g, 'Specifications: ') // Format specs
+          .trim();
+
+        if (cleanedText) {
+          console.log('Found valid description:', cleanedText);
+          return cleanedText;
+        }
+      }
+    }
+
+    // If we couldn't find the details section, try the fallback method
     const descriptionElements = mainContent.querySelectorAll(
       'div[class*="x1lliihq"], div[class*="x1heor9g"], div[class*="x193iq5w"]'
     );
+
+    let fullDescription = '';
+    let structuredData = {
+      condition: '',
+      brand: '',
+      specifications: [],
+      otherDetails: [],
+    };
 
     for (const element of descriptionElements) {
       const text = element.textContent.trim();
       console.log('Found potential description text:', text);
 
-      // Validate that this is actually a description
+      // Skip invalid elements
       if (
-        text &&
-        text.length > 10 &&
-        !text.includes('Marketplace') &&
-        !text.includes('Browse') &&
-        !text.includes('Notifications') &&
-        !text.includes('Menu') &&
-        !text.includes('See more') &&
-        !text.includes('See less') &&
-        !text.includes('PHP') && // Exclude price text
-        !text.match(/^[₱]?\d+([,.]\d+)?/) && // Exclude price numbers
-        !element.closest('button')
+        !text ||
+        text.length < 10 ||
+        text.includes('Marketplace') ||
+        text.includes('Browse') ||
+        text.includes('Notifications') ||
+        text.includes('Menu') ||
+        text.includes('See more') ||
+        text.includes('See less') ||
+        text.includes('PHP') ||
+        text.includes('Sponsored') || // Skip sponsored content
+        text.match(/^[₱]?\d+([,.]\d+)?/) ||
+        element.closest('button')
       ) {
-        // Exclude button text
-        console.log('Found valid description:', text);
-        return text;
+        continue;
       }
+
+      // Extract structured data
+      if (text.toLowerCase().includes('condition:')) {
+        structuredData.condition = text.split('condition:')[1].trim();
+      } else if (text.toLowerCase().includes('brand:')) {
+        structuredData.brand = text.split('brand:')[1].trim();
+      } else if (
+        text.toLowerCase().includes('specs:') ||
+        text.toLowerCase().includes('specifications:')
+      ) {
+        const specs = text.split(/specs:|specifications:/i)[1].trim();
+        structuredData.specifications = specs.split(',').map((spec) => spec.trim());
+      } else if (
+        text.toLowerCase().includes('rfs:') ||
+        text.toLowerCase().includes('reason for selling:')
+      ) {
+        structuredData.otherDetails.push(
+          'Reason for selling: ' + text.split(/rfs:|reason for selling:/i)[1].trim()
+        );
+      } else {
+        // Add to full description if it's not a structured field
+        if (!fullDescription.includes(text)) {
+          fullDescription += (fullDescription ? '\n\n' : '') + text;
+        }
+      }
+    }
+
+    // Clean up the full description
+    fullDescription = fullDescription
+      .replace(/\n{3,}/g, '\n\n') // Replace multiple newlines with double newlines
+      .replace(/Details/g, '') // Remove "Details" prefix
+      .replace(/Condition:/g, 'Condition: ') // Format condition
+      .replace(/Rfs:/g, 'Reason for selling: ') // Format RFS
+      .replace(/Brand:/g, 'Brand: ') // Format brand
+      .replace(/Specs:/g, 'Specifications: ') // Format specs
+      .trim();
+
+    // Combine structured data with full description
+    let finalDescription = fullDescription;
+
+    // Add structured data if available
+    if (structuredData.condition) {
+      finalDescription = `Condition: ${structuredData.condition}\n\n${finalDescription}`;
+    }
+    if (structuredData.brand) {
+      finalDescription = `Brand: ${structuredData.brand}\n\n${finalDescription}`;
+    }
+    if (structuredData.specifications.length > 0) {
+      finalDescription = `Specifications:\n${structuredData.specifications.join('\n')}\n\n${finalDescription}`;
+    }
+    if (structuredData.otherDetails.length > 0) {
+      finalDescription = `${structuredData.otherDetails.join('\n')}\n\n${finalDescription}`;
+    }
+
+    // Remove any duplicate sections
+    finalDescription = finalDescription
+      .split('\n\n')
+      .filter((section, index, self) => self.indexOf(section) === index)
+      .join('\n\n')
+      .trim();
+
+    if (finalDescription) {
+      console.log('Found valid description:', finalDescription);
+      return finalDescription;
     }
   }
 
-  return null;
+  console.log('No description found, returning default message');
+  return 'No description';
 }
 
 function extractImage() {
@@ -260,3 +363,70 @@ function extractImage() {
 
   return null;
 }
+
+function injectButtonsToMarketplaceImages() {
+  // Select all images that represent items (update selector as needed)
+  const images = document.querySelectorAll('img.x168nmei');
+  images.forEach((img) => {
+    // Find the clickable parent (usually an <a> tag)
+    const parent = img.closest('a');
+    if (!parent) return;
+
+    // Prevent duplicate buttons
+    if (parent.querySelector('.safebuyph-btn')) return;
+
+    // Try to extract the title from the alt attribute
+    const title = img.alt || '';
+    const image = img.src;
+    const url = parent.href;
+
+    // Create the button
+    const btn = document.createElement('button');
+    btn.textContent = 'Buy this item on SafeBuy PH';
+    btn.className = 'safebuyph-btn';
+    btn.style = `
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 9999;
+      background: linear-gradient(90deg, #1eafd0 60%, #0b92bc 100%);
+      color: #fff;
+      border: none;
+      border-radius: 20px;
+      padding: 8px 16px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(30,175,208,0.15), 0 1.5px 4px rgba(0,0,0,0.10);
+      transition: background 0.2s, transform 0.1s;
+      outline: none;
+    `;
+    btn.onmouseover = () => {
+      btn.style.background = 'linear-gradient(90deg, #0b92bc 60%, #1eafd0 100%)';
+      btn.style.transform = 'scale(1.05)';
+    };
+    btn.onmouseout = () => {
+      btn.style.background = 'linear-gradient(90deg, #1eafd0 60%, #0b92bc 100%)';
+      btn.style.transform = 'scale(1)';
+    };
+
+    // Make parent position:relative so button overlays correctly
+    parent.style.position = 'relative';
+
+    // On click, open SafeBuy PH with the item data
+    btn.onclick = (e) => {
+      e.stopPropagation();
+      e.preventDefault();
+      const data = encodeURIComponent(JSON.stringify({ title, image, url }));
+      window.open(`http://localhost:5173/transaction/new?data=${data}`, '_blank');
+    };
+
+    // Append the button to the parent container
+    parent.appendChild(btn);
+  });
+}
+
+// Run on page load and when the DOM changes (for infinite scroll)
+injectButtonsToMarketplaceImages();
+const observer = new MutationObserver(injectButtonsToMarketplaceImages);
+observer.observe(document.body, { childList: true, subtree: true });
