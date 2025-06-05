@@ -124,11 +124,22 @@ const NewTransaction = () => {
 
   // Add this effect to retry URL extraction after Facebook login
   useEffect(() => {
-    const pendingUrl = localStorage.getItem('pendingMarketplaceUrl');
-    if (pendingUrl) {
-      localStorage.removeItem('pendingMarketplaceUrl');
-      handleMarketplaceUrlChange({ target: { value: pendingUrl } });
-    }
+    const checkStoredUrl = async () => {
+      try {
+        const response = await axios.get('/api/marketplace/get-stored-url');
+        const { url } = response.data;
+        if (url) {
+          // Add a small delay to ensure the Facebook token is available
+          setTimeout(() => {
+            handleMarketplaceUrlChange({ target: { value: url } });
+          }, 1000);
+        }
+      } catch (error) {
+        console.error('Failed to retrieve stored URL:', error);
+      }
+    };
+
+    checkStoredUrl();
   }, []);
 
   const clearMarketplaceData = () => {
@@ -367,11 +378,32 @@ const NewTransaction = () => {
             To extract data from Facebook Marketplace, you need to connect your Facebook account.
           </p>
           <Button
-            onClick={() => {
-              // Store the current URL before redirecting
-              localStorage.setItem('pendingMarketplaceUrl', marketplaceUrl);
-              const returnUrl = encodeURIComponent(window.location.href);
-              window.location.href = `http://localhost:3000/api/auth/facebook?returnTo=${returnUrl}`;
+            type="button"
+            onClick={async () => {
+              try {
+                if (!marketplaceUrl) {
+                  setUrlError('Please enter a Facebook Marketplace URL first');
+                  return;
+                }
+
+                // Store the URL in the session via a POST request
+                const response = await axios.post('/api/marketplace/store-url', {
+                  url: marketplaceUrl,
+                });
+
+                if (response.data.success) {
+                  // Redirect to Facebook auth with return URL
+                  const returnUrl = encodeURIComponent(window.location.href);
+                  window.location.href = `http://localhost:3000/api/auth/facebook?returnTo=${returnUrl}`;
+                }
+              } catch (error) {
+                console.error('Failed to store URL:', error);
+                setUrlError(
+                  error.response?.data?.error ||
+                    error.response?.data?.details ||
+                    'Failed to process URL. Please try again.'
+                );
+              }
             }}
             className="w-full flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
           >
