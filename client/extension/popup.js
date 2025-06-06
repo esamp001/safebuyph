@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
   const importButton = document.getElementById('importButton');
   const statusDiv = document.getElementById('status');
-  const previewDiv = document.getElementById('preview');
 
   // Check if user is logged in to SafeBuy PH
   async function checkSafeBuyLogin() {
@@ -21,18 +20,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function showStatus(message, type = 'info') {
     statusDiv.textContent = message;
     statusDiv.className = `status-message ${type}`;
-  }
-
-  // Function to update preview
-  function updatePreview(data) {
-    console.log('Preview data:', data);
-    previewDiv.innerHTML = `
-      <h3>Preview:</h3>
-      <p><strong>Title:</strong> ${data.title || 'Not found'}</p>
-      <p><strong>Price:</strong> ${data.price ? '₱' + data.price : 'Not found'}</p>
-      <p><strong>Description:</strong> ${data.description || 'Not found'}</p>
-      ${data.image ? `<img src="${data.image}" style="max-width: 100%;">` : ''}
-    `;
   }
 
   // Function to store data in extension storage
@@ -80,31 +67,20 @@ document.addEventListener('DOMContentLoaded', function () {
       // Wait a moment for the script to initialize
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Send message to content script to extract data
-      const response = await chrome.tabs.sendMessage(tab.id, { action: 'extractData' });
+      // Send message to content script to extract data and inject SafeBuy button
+      const response = await chrome.tabs.sendMessage(tab.id, {
+        action: 'extractData',
+        injectButton: true, // New flag to indicate we want to inject the button
+      });
 
       if (response.success) {
         // Store the data in extension storage
         await storeData(response.data);
 
-        // Update the preview
-        updatePreview(response.data);
-        showStatus('Data extracted successfully!', 'success');
-
-        // Open SafeBuy in a new tab with the data
-        const encodedData = encodeURIComponent(
-          JSON.stringify({
-            title: response.data.title,
-            price: response.data.price,
-            description: response.data.description,
-            image: response.data.image,
-            url: response.data.url,
-          })
+        showStatus(
+          'Data extracted successfully! SafeBuy button has been added to the page.',
+          'success'
         );
-
-        chrome.tabs.create({
-          url: `http://localhost:5173/transaction/new?data=${encodedData}`,
-        });
       } else {
         showStatus('Failed to extract data: ' + response.error, 'error');
       }

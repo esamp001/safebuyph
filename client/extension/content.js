@@ -55,6 +55,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     // Execute the extraction with retries
     extractWithRetry().then((data) => {
       if (data) {
+        // If injectButton flag is true, inject the SafeBuy button
+        if (request.injectButton) {
+          injectSafeBuyButton(data);
+        }
+
         sendResponse({
           success: true,
           data: data,
@@ -70,6 +75,71 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     return true; // Keep the message channel open for async response
   }
 });
+
+// Function to inject the SafeBuy button
+function injectSafeBuyButton(data) {
+  // Find the main content area where we want to inject the button
+  const mainContent =
+    document.querySelector('[role="main"]') ||
+    document.querySelector('[data-pagelet="MarketplacePDP"]');
+
+  if (!mainContent) return;
+
+  // Remove any existing SafeBuy button
+  const existingButton = document.querySelector('.safebuy-button');
+  if (existingButton) {
+    existingButton.remove();
+  }
+
+  // Create the button
+  const button = document.createElement('button');
+  button.className = 'safebuy-button';
+  button.innerHTML = `
+    <div style="
+      background: linear-gradient(90deg, #1eafd0 60%, #0b92bc 100%);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: all 0.3s ease;
+    ">
+      <img src="${chrome.runtime.getURL('sb.png')}" style="width: 24px; height: 24px;">
+      Buy Safely with SafeBuy PH
+    </div>
+  `;
+
+  // Add hover effect
+  button.style.cssText = `
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    transition: transform 0.3s ease;
+  `;
+
+  button.addEventListener('mouseover', () => {
+    button.style.transform = 'scale(1.05)';
+  });
+
+  button.addEventListener('mouseout', () => {
+    button.style.transform = 'scale(1)';
+  });
+
+  // Add click handler
+  button.addEventListener('click', () => {
+    const encodedData = encodeURIComponent(JSON.stringify(data));
+    window.open(`http://localhost:5173/transaction/new?data=${encodedData}`, '_blank');
+  });
+
+  // Add the button to the page
+  document.body.appendChild(button);
+}
 
 // Helper functions to extract data
 function extractTitle() {
