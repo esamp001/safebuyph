@@ -202,6 +202,17 @@ function extractTitle() {
 function extractPrice() {
   console.log('Extracting price...');
 
+  // Helper to extract the integer (with commas) immediately after 'PHP', stopping at the first non-digit/non-comma
+  function extractPHPInteger(text) {
+    // Match 'PHP' followed by optional spaces and then digits/commas
+    const match = text.match(/PHP\s*([\d,]+)/i);
+    if (match && match[1]) {
+      // Remove commas for thousands
+      return match[1].replace(/,/g, '');
+    }
+    return null;
+  }
+
   // First try the exact class combination we know works
   const exactPriceSelector =
     'span.x193iq5w.xeuugli.x13faqbe.x1vvkbs.x1xmvt09.x1lliihq.x1s928wv.xhkezso.x1gmr53x.x1cpjm7i.x1fgarty.x1943h6x.xudqn12.x676frb.x1lkfr7t.x1lbecb7.xk50ysn.xzsf02u';
@@ -210,13 +221,8 @@ function extractPrice() {
   if (exactPriceElement) {
     const text = exactPriceElement.textContent.trim();
     console.log('Found price with exact selector:', text);
-
-    // Handle PHP prefix
-    if (text.toUpperCase().startsWith('PHP')) {
-      const price = text.replace(/^PHP/i, '').trim();
-      console.log('Extracted price after removing PHP prefix:', price);
-      return price.replace(/[^0-9]/g, '');
-    }
+    const price = extractPHPInteger(text);
+    if (price) return price;
   }
 
   // Try finding price in the main content area
@@ -230,12 +236,13 @@ function extractPrice() {
     );
     for (const element of priceElements) {
       const text = element.textContent.trim();
-      console.log('Found potential price text:', text);
-
-      if (text.toUpperCase().startsWith('PHP')) {
-        const price = text.replace(/^PHP/i, '').trim();
-        console.log('Found price with PHP prefix:', price);
-        return price.replace(/[^0-9]/g, '');
+      // Only consider if it starts with PHP
+      if (/^PHP/i.test(text)) {
+        const price = extractPHPInteger(text);
+        if (price) {
+          console.log('Extracted price:', price, 'from text:', text);
+          return price;
+        }
       }
     }
   }
@@ -298,10 +305,13 @@ function injectButtonsToMarketplaceImages() {
 
     // Try to find the price (look for a nearby span with PHP or ₱)
     let price = '';
-    // Look for a sibling or parent element with price text
     const priceElem = parent.parentElement.querySelector('span, div');
-    if (priceElem && /PHP|₱/.test(priceElem.textContent)) {
-      price = priceElem.textContent.trim();
+    if (priceElem && /PHP/.test(priceElem.textContent)) {
+      // Extract only the first integer after PHP (with commas)
+      const match = priceElem.textContent.match(/PHP\s*([\d,]+)/i);
+      if (match && match[1]) {
+        price = match[1].replace(/,/g, '');
+      }
     }
 
     // Create the button
