@@ -354,3 +354,28 @@ function injectButtonsToMarketplaceImages() {
 injectButtonsToMarketplaceImages();
 const observer = new MutationObserver(injectButtonsToMarketplaceImages);
 observer.observe(document.body, { childList: true, subtree: true });
+
+// --- URL Change Detection for SPA Navigation ---
+let lastUrl = location.href;
+setInterval(() => {
+  if (location.href !== lastUrl) {
+    lastUrl = location.href;
+    // Only re-inject on Facebook Marketplace listing pages
+    if (location.href.includes('facebook.com/marketplace')) {
+      // Remove any existing SafeBuy button
+      const existingButton = document.querySelector('.safebuy-button');
+      if (existingButton) existingButton.remove();
+      // Extract new data and inject button
+      const data = {
+        title: extractTitle(),
+        price: extractPrice(),
+        image: extractImage(),
+        url: window.location.href,
+      };
+      // Only inject if we have at least a title and price
+      if (data.title && data.price) {
+        injectSafeBuyButton(data);
+      }
+    }
+  }
+}, 800);
