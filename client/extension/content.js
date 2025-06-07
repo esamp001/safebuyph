@@ -8,13 +8,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
       for (let attempt = 1; attempt <= maxRetries; attempt++) {
         console.log(`Extraction attempt ${attempt} of ${maxRetries}`);
 
-        // Wait for content to load
-        await new Promise((resolve) => setTimeout(resolve, 2000 * attempt));
+        // Wait for content to load - increase wait time for description
+        await new Promise((resolve) => setTimeout(resolve, 3000 * attempt));
 
         const data = {
           title: extractTitle(),
           price: extractPrice(),
           image: extractImage(),
+          description: extractDescription(),
           url: window.location.href,
         };
 
@@ -39,6 +40,9 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (data.image) {
           // Ensure the image URL is absolute and clean
           data.image = new URL(data.image, window.location.origin).href;
+        }
+        if (data.description) {
+          data.description = data.description.trim();
         }
 
         // Check if we got the essential data
@@ -280,6 +284,70 @@ function extractImage() {
         console.log('Found valid image:', src);
         // Get the highest resolution image by removing size parameters
         return src.split('?')[0];
+      }
+    }
+  }
+
+  return null;
+}
+
+function extractDescription() {
+  console.log('Extracting description...');
+
+  // Try finding description in the main content area
+  const mainContent =
+    document.querySelector('[role="main"]') ||
+    document.querySelector('[data-pagelet="MarketplacePDP"]');
+
+  if (mainContent) {
+    // First try to find the description in the expanded view
+    const descriptionElement = mainContent.querySelector('div[data-ad-preview="message"]');
+
+    if (descriptionElement) {
+      const text = descriptionElement.textContent.trim();
+      if (text && text.length > 0) {
+        console.log('Found description in expanded view:', text);
+        return text;
+      }
+    }
+
+    // If not found in expanded view, try the preview description
+    const previewDescription = mainContent.querySelector(
+      'div[class*="x1lliihq"][class*="x6ikm8r"][class*="x10wlt62"][class*="x1n2onr6"]'
+    );
+
+    if (previewDescription) {
+      const text = previewDescription.textContent.trim();
+      if (text && text.length > 0) {
+        console.log('Found preview description:', text);
+        return text;
+      }
+    }
+
+    // If still not found, try to find any div that might contain the description
+    const descriptionElements = mainContent.querySelectorAll(
+      'div[class*="x1lliihq"], div[class*="x1heor9g"], div[class*="x193iq5w"]'
+    );
+
+    for (const element of descriptionElements) {
+      const text = element.textContent.trim();
+      console.log('Found potential description text:', text);
+
+      // Validate that this is actually a listing description
+      if (
+        text &&
+        text.length > 10 && // Descriptions are usually longer
+        !text.includes('Marketplace') &&
+        !text.includes('Browse') &&
+        !text.includes('Notifications') &&
+        !text.includes('Menu') &&
+        !text.includes('PHP') && // Exclude price text
+        !text.match(/^[₱]?\d+([,.]\d+)?/) && // Exclude price numbers
+        !text.includes('See more') && // Exclude "See more" button text
+        !text.includes('See less') // Exclude "See less" button text
+      ) {
+        console.log('Found valid description:', text);
+        return text;
       }
     }
   }
