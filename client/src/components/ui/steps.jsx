@@ -4,7 +4,7 @@ export const Steps = ({ currentStep, totalSteps, steps }) => {
       {steps.map((step, index) => (
         <div key={index} className="flex items-center">
           <div
-            className={`flex items-center justify-center w-8 h-8 rounded-full ${
+            className={`flex items-center justify-center w-8 h-8 rounded-full flex-shrink-0 flex-grow-0 ${
               index + 1 <= currentStep ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600'
             }`}
           >

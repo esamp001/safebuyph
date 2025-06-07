@@ -309,10 +309,8 @@ const NewTransaction = () => {
       <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <div className="flex items-center gap-2">
-            <FaFacebook className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-semibold text-gray-800">
-              Import from Facebook Marketplace
-            </h3>
+            <FilePlus className="w-5 h-5 text-blue-600" />
+            <h3 className="text-lg font-semibold text-gray-800">Import from Marketplace</h3>
             <Button
               variant="ghost"
               size="sm"
