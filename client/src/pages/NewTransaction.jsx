@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
-import { FilePlus, Facebook, X, Edit2 } from 'lucide-react';
+import { FilePlus, Facebook, X, Edit2, ArrowRight } from 'lucide-react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
@@ -620,7 +620,14 @@ const NewTransaction = () => {
             }
           }}
         >
-          {currentStep === totalSteps ? 'Submit Transaction' : 'Next'}
+          {currentStep === totalSteps ? (
+            'Submit Transaction'
+          ) : (
+            <>
+              Next
+              <ArrowRight className="ml-2 w-4 h-4" />
+            </>
+          )}
         </Button>
       </div>
     </div>
