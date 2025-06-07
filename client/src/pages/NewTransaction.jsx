@@ -304,75 +304,180 @@ const NewTransaction = () => {
 
   // Step 1: Item Details
   const ItemDetailsStep = () => (
-    <Card className="p-6 space-y-6">
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold">Item Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Item Name</label>
-              <Input
-                value={item}
-                onChange={(e) => setItem(e.target.value)}
-                placeholder="Enter item name"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">Price</label>
-              <Input
-                value={formatPrice(price)}
-                onChange={handlePriceChange}
-                placeholder="Enter price"
-                type="text"
-              />
-            </div>
-            <div>
-              <label className="text-sm font-medium">Quantity</label>
-              <Input
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                type="number"
-                min="1"
-              />
+    <div className="max-w-4xl mx-auto">
+      {/* Marketplace Import Section */}
+      <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center gap-2">
+            <FaFacebook className="w-5 h-5 text-blue-600" />
+            <h3 className="text-lg font-semibold text-gray-800">
+              Import from Facebook Marketplace
+            </h3>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                // Check if extension is installed
+                if (window.chrome?.runtime?.id) {
+                  window.open('chrome-extension://' + chrome.runtime.id + '/popup.html', '_blank');
+                } else {
+                  // If extension is not installed, open extension store
+                  window.open(
+                    'https://chrome.google.com/webstore/detail/safebuysph-marketplace-importer/YOUR_EXTENSION_ID',
+                    '_blank'
+                  );
+                }
+              }}
+              className="ml-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+            ></Button>
+          </div>
+          {marketplaceUrl && (
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={clearMarketplaceData}
+              className="text-red-500 hover:text-red-600 hover:bg-red-50"
+            >
+              <X className="w-4 h-4 mr-2" />
+              Clear Data
+            </Button>
+          )}
+        </div>
+        <div className="flex gap-3">
+          <Input
+            value={marketplaceUrl}
+            onChange={handleMarketplaceUrlChange}
+            placeholder="Paste Facebook Marketplace URL"
+            className="flex-1 bg-white/50 backdrop-blur-sm"
+          />
+          <Button
+            onClick={() => {
+              if (window.chrome?.runtime?.id) {
+                window.open('chrome-extension://' + chrome.runtime.id + '/popup.html', '_blank');
+              } else {
+                window.open(
+                  'https://chrome.google.com/webstore/detail/safebuysph-marketplace-importer/YOUR_EXTENSION_ID',
+                  '_blank'
+                );
+              }
+            }}
+            className="bg-blue-600 hover:bg-blue-700 text-white"
+          >
+            Import
+          </Button>
+        </div>
+        {urlError && (
+          <p className="mt-2 text-sm text-red-500 flex items-center">
+            <X className="w-4 h-4 mr-1" />
+            {urlError}
+          </p>
+        )}
+      </div>
+
+      {/* Main Form Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Left Column - Basic Info */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">Basic Information</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Item Name</label>
+                <Input
+                  value={item}
+                  onChange={(e) => setItem(e.target.value)}
+                  placeholder="Enter item name"
+                  className="w-full"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₱</span>
+                  <Input
+                    value={formatPrice(price)}
+                    onChange={handlePriceChange}
+                    placeholder="0.00"
+                    className="w-full pl-8"
+                  />
+                </div>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
+                <Input
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  type="number"
+                  min="1"
+                  className="w-full"
+                />
+              </div>
             </div>
           </div>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Item Description</label>
-              <textarea
-                value={itemDescription}
-                onChange={(e) => setItemDescription(e.target.value)}
-                className="w-full min-h-[100px] p-2 border rounded-md bg-white"
-                placeholder="Manually enter item description"
-              />
-            </div>
-            <div>
-              <div className="space-y-2">
-                <label className="text-sm font-medium">Item Image URL</label>
-                <Input
-                  value={itemImage}
-                  onChange={(e) => setItemImage(e.target.value)}
-                  placeholder="Enter image URL"
+        </div>
+
+        {/* Right Column - Description and Image */}
+        <div className="space-y-6">
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+            <h3 className="text-lg font-semibold mb-4 text-gray-800">Item Details</h3>
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+                <textarea
+                  value={itemDescription}
+                  onChange={(e) => setItemDescription(e.target.value)}
+                  className="w-full min-h-[120px] bg-white p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Enter item description"
                 />
-                {itemImage && (
-                  <div className="mt-2">
-                    <img
-                      src={itemImage}
-                      alt="Item preview"
-                      className="w-full h-48 object-contain rounded-lg border"
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL';
-                      }}
-                    />
-                  </div>
-                )}
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
+                <div className="flex gap-4">
+                  <Input
+                    value={itemImage}
+                    onChange={(e) => setItemImage(e.target.value)}
+                    placeholder="Enter image URL"
+                    className="flex-1"
+                  />
+                  {itemImage && (
+                    <div className="w-16 h-16 rounded-lg overflow-hidden border shadow-sm">
+                      <img
+                        src={itemImage}
+                        alt="Item preview"
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </Card>
+
+      {/* Preview Section */}
+      {itemImage && (
+        <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <h3 className="text-lg font-semibold mb-4 text-gray-800">Preview</h3>
+          <div className="flex gap-6">
+            <div className="w-32 h-32 rounded-lg overflow-hidden border shadow-sm">
+              <img src={itemImage} alt="Item preview" className="w-full h-full object-cover" />
+            </div>
+            <div className="flex-1">
+              <h4 className="font-medium text-lg text-gray-800">{item || 'Untitled Item'}</h4>
+              <p className="text-sm text-gray-600 mt-2 line-clamp-2">
+                {itemDescription || 'No description provided'}
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="text-lg font-semibold text-gray-900">₱{formatPrice(price)}</span>
+                <span className="text-gray-500">×</span>
+                <span className="text-gray-700">{quantity}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
   );
 
   // Step 2: Payment Details
