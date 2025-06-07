@@ -8,6 +8,9 @@ import axios from 'axios';
 import { v4 as uuidv4 } from 'uuid';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { FaFacebook } from 'react-icons/fa';
+import { Steps } from '@/components/ui/steps';
+import { Card } from '@/components/ui/card';
+import { formatPrice } from '@/lib/utils';
 
 const ESCROW_FEE_PERCENT = 2; // Example: 2% escrow fee
 
@@ -48,6 +51,8 @@ const NewTransaction = () => {
     description: false,
     image: false,
   });
+  const [currentStep, setCurrentStep] = useState(1);
+  const totalSteps = 3;
 
   console.log('Location:', location);
   console.log('Search params:', location.search);
@@ -276,434 +281,237 @@ const NewTransaction = () => {
     setIsEditing(false);
   };
 
-  return (
-    <div className="container mx-auto px-4 py-8">
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6 max-w-md mx-auto p-6 bg-white rounded-lg shadow-lg"
-      >
-        <div className="space-y-2">
-          <h2 className="text-2xl font-bold text-gray-900">Create New Transaction</h2>
-          <p className="text-sm text-gray-500">Fill in the details to start a new transaction</p>
-        </div>
+  // // For displaying the price
+  // <div className="flex justify-between mb-2">
+  //   <span>Subtotal:</span>
+  //   <span>₱{formatPrice(Number(price) * Number(quantity))}</span>
+  // </div>
+  // <div className="flex justify-between mb-2">
+  //   <span>Escrow Fee ({ESCROW_FEE_PERCENT}%):</span>
+  //   <span>₱{formatPrice(escrowFee)}</span>
+  // </div>
+  // <div className="flex justify-between font-semibold">
+  //   <span>Total Amount:</span>
+  //   <span>₱{formatPrice(totalAmount)}</span>
+  // </div>
 
-        <div className="space-y-4 border-b pb-4">
-          <div className="flex items-center gap-2">
-            <Button
-              type="button"
-              onClick={() => setShowImportModal(true)}
-              className="flex-1 flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
-            >
-              <FaFacebook className="w-5 h-5" />
-              Import from Facebook
-            </Button>
-            <Button
-              type="button"
-              onClick={() => {
-                // Open extension installation page if not installed
-                window.open(
-                  'https://chrome.google.com/webstore/detail/safebuy-ph-helper/your-extension-id',
-                  '_blank'
-                );
-              }}
-              className="flex-1 flex items-center justify-center gap-2 bg-[#1eafd0] hover:bg-[#0b92bc] text-white"
-            >
-              <FaFacebook className="w-5 h-5" />
-              Use Extension
-            </Button>
-          </div>
-          <p className="text-xs text-gray-500 text-center">
-            Use the extension for faster imports or paste the URL directly
-          </p>
-        </div>
+  // For the price input, you can add an onChange handler that formats the display
+  // but keeps the raw number in state
+  const handlePriceChange = (e) => {
+    const value = e.target.value.replace(/[^0-9.]/g, '');
+    setPrice(value);
+  };
 
-        <div className="space-y-2 border-b pb-4">
-          <label htmlFor="marketplaceUrl" className="text-sm font-medium text-gray-700">
-            Facebook Marketplace URL
-          </label>
-          <div className="space-y-2">
-            <Input
-              id="marketplaceUrl"
-              type="text"
-              placeholder="Paste Facebook Marketplace URL to auto-fill details"
-              value={marketplaceUrl}
-              onChange={handleMarketplaceUrlChange}
-              className="w-full"
-            />
-            {isLoadingData && <div className="text-sm text-gray-500">Loading data from URL...</div>}
-            {urlError && <div className="text-sm text-red-500">{urlError}</div>}
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="sellerId" className="text-sm font-medium text-gray-700">
-              Seller ID
-            </label>
-            <Input
-              id="sellerId"
-              type="text"
-              placeholder="Enter seller ID"
-              value={sellerId}
-              onChange={(e) => setSellerId(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="item" className="text-sm font-medium text-gray-700">
-              Item
-            </label>
-            <div className="flex items-center gap-2">
+  // Step 1: Item Details
+  const ItemDetailsStep = () => (
+    <Card className="p-6 space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">Item Details</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Item Name</label>
               <Input
-                id="item"
-                type="text"
-                placeholder="Enter item name"
                 value={item}
                 onChange={(e) => setItem(e.target.value)}
-                readOnly={!!marketplaceUrl}
-                required
-                className={`flex-1 ${editedFields.item ? 'border-blue-500' : ''}`}
-                disabled={!editedFields.item}
+                placeholder="Enter item name"
               />
-              {!editedFields.item ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleFieldEdit('item')}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleFieldSave('item')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
+            </div>
+            <div>
+              <label className="text-sm font-medium">Price</label>
+              <Input
+                value={formatPrice(price)}
+                onChange={handlePriceChange}
+                placeholder="Enter price"
+                type="text"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium">Quantity</label>
+              <Input
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                type="number"
+                min="1"
+              />
             </div>
           </div>
-
-          <div className="space-y-2">
-            <label htmlFor="itemDescription" className="text-sm font-medium text-gray-700">
-              Item Description
-            </label>
-            <div className="flex items-center gap-2">
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Item Description</label>
               <textarea
-                id="itemDescription"
-                placeholder="Describe the item"
                 value={itemDescription}
                 onChange={(e) => setItemDescription(e.target.value)}
-                className={`w-full px-3 py-2 text-sm border rounded-md focus:outline-none focus:ring-2 focus:ring-[#020202] focus:border-transparent bg-white text-gray-900 ${editedFields.description ? 'border-blue-500' : ''}`}
-                readOnly={!!marketplaceUrl}
-                required
-                disabled={!editedFields.description}
+                className="w-full min-h-[100px] p-2 border rounded-md bg-white"
+                placeholder="Manually enter item description"
               />
-              {!editedFields.description ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleFieldEdit('description')}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleFieldSave('description')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="itemImage" className="text-sm font-medium text-gray-700">
-              Item Image URL
-            </label>
-            <div className="space-y-2">
-              <div className="flex items-center gap-2">
+            <div>
+              <div className="space-y-2">
+                <label className="text-sm font-medium">Item Image URL</label>
                 <Input
-                  id="itemImage"
-                  type="text"
-                  placeholder="Paste image URL"
                   value={itemImage}
                   onChange={(e) => setItemImage(e.target.value)}
-                  readOnly={!!marketplaceUrl}
-                  className={`flex-1 ${editedFields.image ? 'border-blue-500' : ''}`}
-                  disabled={!editedFields.image}
+                  placeholder="Enter image URL"
                 />
-                {!editedFields.image ? (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleFieldEdit('image')}
-                  >
-                    <Edit2 className="h-4 w-4" />
-                  </Button>
-                ) : (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="icon"
-                    onClick={() => handleFieldSave('image')}
-                  >
-                    <X className="h-4 w-4" />
-                  </Button>
+                {itemImage && (
+                  <div className="mt-2">
+                    <img
+                      src={itemImage}
+                      alt="Item preview"
+                      className="w-full h-48 object-contain rounded-lg border"
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = 'https://via.placeholder.com/400x300?text=Invalid+Image+URL';
+                      }}
+                    />
+                  </div>
                 )}
               </div>
-              {itemImage && (
-                <div className="relative w-full h-48 rounded-lg overflow-hidden border border-gray-200">
-                  <img
-                    src={itemImage}
-                    alt="Item preview"
-                    className="w-full h-full object-contain"
-                  />
-                  <button
-                    type="button"
-                    onClick={clearMarketplaceData}
-                    className="absolute top-2 right-2 p-1 bg-white rounded-full shadow-md hover:bg-gray-100"
-                  >
-                    <X className="w-4 h-4 text-gray-500" />
-                  </button>
-                </div>
-              )}
             </div>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="quantity" className="text-sm font-medium text-gray-700">
-              Quantity
-            </label>
-            <Input
-              id="quantity"
-              type="number"
-              min="1"
-              value={quantity}
-              onChange={(e) => setQuantity(e.target.value)}
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="price" className="text-sm font-medium text-gray-700">
-              Price
-            </label>
-            <div className="flex items-center gap-2">
-              <Input
-                id="price"
-                type="number"
-                placeholder="Enter price"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                readOnly={!!marketplaceUrl}
-                required
-                className={`flex-1 ${editedFields.price ? 'border-blue-500' : ''}`}
-                disabled={!editedFields.price}
-              />
-              {!editedFields.price ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleFieldEdit('price')}
-                >
-                  <Edit2 className="h-4 w-4" />
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="icon"
-                  onClick={() => handleFieldSave('price')}
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="escrowFee" className="text-sm font-medium text-gray-700">
-              Escrow Fee ({ESCROW_FEE_PERCENT}%)
-            </label>
-            <Input id="escrowFee" type="number" value={escrowFee.toFixed(2)} readOnly />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="totalAmount" className="text-sm font-medium text-gray-700">
-              Total Amount
-            </label>
-            <Input id="totalAmount" type="number" value={totalAmount.toFixed(2)} readOnly />
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="paymentMethod" className="text-sm font-medium text-gray-700">
-              Payment Method
-            </label>
-            <select
-              id="paymentMethod"
-              value={paymentMethod}
-              onChange={(e) => setPaymentMethod(e.target.value)}
-              className="w-full px-3 py-2 text-sm border rounded-md bg-white text-gray-900"
-            >
-              <option value="SafeBuyPH Escrow">SafeBuyPH Escrow</option>
-            </select>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="buyerConfirmed" className="text-sm font-medium text-gray-700">
-              Buyer's Payment Confirmation
-            </label>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="buyerConfirmed"
-                checked={buyerConfirmed}
-                onCheckedChange={(checked) => setBuyerConfirmed(checked)}
-                required
-              />
-              <label htmlFor="buyerConfirmed" className="text-sm text-gray-700">
-                I confirm I will pay via SafeBuyPH escrow.
-              </label>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="agreedToTerms" className="text-sm font-medium text-gray-700">
-              Escrow Terms & Agreement
-            </label>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="agreedToTerms"
-                checked={agreedToTerms}
-                onCheckedChange={(checked) => setAgreedToTerms(checked)}
-                required
-              />
-              <label htmlFor="agreedToTerms" className="text-sm text-gray-700">
-                I agree to the{' '}
-                <a href="/terms" className="underline" target="_blank" rel="noopener noreferrer">
-                  escrow terms & agreement
-                </a>
-                .
-              </label>
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <label htmlFor="referenceNumber" className="text-sm font-medium text-gray-700">
-              Reference/Order Number
-            </label>
-            <Input id="referenceNumber" type="text" value={referenceNumber} readOnly />
           </div>
         </div>
+      </div>
+    </Card>
+  );
 
-        <Button type="submit" className="w-full bg-[#1eafd0] hover:bg-[#1eafd0]/90">
-          Send Transaction
-        </Button>
-
-        {status && (
-          <div
-            className={`p-3 rounded-md text-sm ${
-              status.includes('Error') ? 'bg-red-50 text-red-700' : 'bg-green-50 text-green-700'
-            }`}
-          >
-            {status}
-          </div>
-        )}
-
-        <Dialog open={showFacebookLogin} onOpenChange={setShowFacebookLogin}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Connect with Facebook</DialogTitle>
-            </DialogHeader>
-            <p className="text-sm text-gray-500 mb-4">
-              To extract data from Facebook Marketplace, you need to connect your Facebook account.
-            </p>
-            <Button
-              type="button"
-              onClick={async () => {
-                try {
-                  if (!marketplaceUrl) {
-                    setUrlError('Please enter a Facebook Marketplace URL first');
-                    return;
-                  }
-
-                  // Store the URL in the session via a POST request
-                  const response = await axios.post('/api/marketplace/store-url', {
-                    url: marketplaceUrl,
-                  });
-
-                  if (response.data.success) {
-                    // Redirect to Facebook auth with return URL
-                    const returnUrl = encodeURIComponent(window.location.href);
-                    window.location.href = `http://localhost:3000/api/auth/facebook?returnTo=${returnUrl}`;
-                  }
-                } catch (error) {
-                  console.error('Failed to store URL:', error);
-                  setUrlError(
-                    error.response?.data?.error ||
-                      error.response?.data?.details ||
-                      'Failed to process URL. Please try again.'
-                  );
-                }
-              }}
-              className="w-full flex items-center justify-center gap-2 bg-[#1877F2] hover:bg-[#166FE5] text-white"
-            >
-              <FaFacebook className="w-5 h-5" />
-              Connect with Facebook
-            </Button>
-          </DialogContent>
-        </Dialog>
-
-        <Dialog open={showImportModal} onOpenChange={setShowImportModal}>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Import from Facebook Marketplace</DialogTitle>
-            </DialogHeader>
-            <div className="space-y-4">
-              <p className="text-sm text-gray-500">
-                Paste the Facebook Marketplace listing URL to import item details
-              </p>
-              <Input
-                type="text"
-                placeholder="Paste Facebook Marketplace URL"
-                value={importUrl}
-                onChange={(e) => setImportUrl(e.target.value)}
-              />
-              {urlError && <div className="text-sm text-red-500">{urlError}</div>}
-              <div className="flex gap-2">
-                <Button
-                  type="button"
-                  onClick={() => handleDirectImport(importUrl)}
-                  className="flex-1 bg-[#1877F2] hover:bg-[#166FE5] text-white"
-                  disabled={isLoadingData}
-                >
-                  {isLoadingData ? 'Importing...' : 'Import'}
-                </Button>
-                <Button
-                  type="button"
-                  onClick={() => {
-                    setShowImportModal(false);
-                    setImportUrl('');
-                  }}
-                  className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800"
-                >
-                  Cancel
-                </Button>
+  // Step 2: Payment Details
+  const PaymentDetailsStep = () => (
+    <Card className="p-6 space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">Payment Details</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div className="p-4 bg-gray-50 rounded-lg">
+              <div className="flex justify-between mb-2">
+                <span>Subtotal:</span>
+                <span>₱{formatPrice(Number(price) * Number(quantity))}</span>
+              </div>
+              <div className="flex justify-between mb-2">
+                <span>Escrow Fee ({ESCROW_FEE_PERCENT}%):</span>
+                <span>₱{formatPrice(escrowFee)}</span>
+              </div>
+              <div className="flex justify-between font-semibold">
+                <span>Total Amount:</span>
+                <span>₱{formatPrice(totalAmount)}</span>
               </div>
             </div>
-          </DialogContent>
-        </Dialog>
-      </form>
+            <div>
+              <label className="text-sm font-medium">Payment Method</label>
+              <select
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="w-full p-2 border rounded-md"
+              >
+                <option value="SafeBuyPH Escrow">SafeBuyPH Escrow</option>
+                {/* Add other payment methods */}
+              </select>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <div>
+              <label className="text-sm font-medium">Reference Number</label>
+              <Input value={referenceNumber} readOnly />
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox checked={buyerConfirmed} onCheckedChange={setBuyerConfirmed} />
+              <label>I confirm that I will pay the total amount</label>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox checked={agreedToTerms} onCheckedChange={setAgreedToTerms} />
+              <label>I agree to the escrow terms and conditions</label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
+  // Step 3: Review and Submit
+  const ReviewStep = () => (
+    <Card className="p-6 space-y-6">
+      <div className="space-y-4">
+        <h2 className="text-2xl font-semibold">Review Transaction</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <h3 className="font-medium">Item Information</h3>
+            <div className="space-y-2">
+              <p>
+                <span className="font-medium">Name:</span> {item}
+              </p>
+              <p>
+                <span className="font-medium">Price:</span> ₱{price}
+              </p>
+              <p>
+                <span className="font-medium">Quantity:</span> {quantity}
+              </p>
+              <p>
+                <span className="font-medium">Description:</span> {itemDescription}
+              </p>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <h3 className="font-medium">Payment Information</h3>
+            <div className="space-y-2">
+              <p>
+                <span className="font-medium">Total Amount:</span> ₱{totalAmount}
+              </p>
+              <p>
+                <span className="font-medium">Payment Method:</span> {paymentMethod}
+              </p>
+              <p>
+                <span className="font-medium">Reference Number:</span> {referenceNumber}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
+
+  return (
+    <div className="container mx-auto px-4 py-8 max-w-6xl">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-2">New Transaction</h1>
+        <p className="text-gray-600">Create a new escrow transaction</p>
+      </div>
+
+      <Steps
+        currentStep={currentStep}
+        totalSteps={totalSteps}
+        steps={[
+          { title: 'Item Details', description: 'Enter item information' },
+          { title: 'Payment Details', description: 'Review payment information' },
+          { title: 'Review', description: 'Confirm transaction' },
+        ]}
+      />
+
+      <div className="mt-8">
+        {currentStep === 1 && <ItemDetailsStep />}
+        {currentStep === 2 && <PaymentDetailsStep />}
+        {currentStep === 3 && <ReviewStep />}
+      </div>
+
+      <div className="mt-8 flex justify-between">
+        <Button
+          variant="outline"
+          onClick={() => setCurrentStep(currentStep - 1)}
+          disabled={currentStep === 1}
+        >
+          Previous
+        </Button>
+        <Button
+          onClick={() => {
+            if (currentStep === totalSteps) {
+              handleSubmit();
+            } else {
+              setCurrentStep(currentStep + 1);
+            }
+          }}
+        >
+          {currentStep === totalSteps ? 'Submit Transaction' : 'Next'}
+        </Button>
+      </div>
     </div>
   );
 };
