@@ -53,6 +53,7 @@ const NewTransaction = () => {
   });
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
+  const navigate = useNavigate();
 
   console.log('Location:', location);
   console.log('Search params:', location.search);
@@ -504,7 +505,7 @@ const NewTransaction = () => {
               <select
                 value={paymentMethod}
                 onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full p-2 border rounded-md"
+                className="w-full p-2 border rounded-md bg-white"
               >
                 <option value="SafeBuyPH Escrow">SafeBuyPH Escrow</option>
                 {/* Add other payment methods */}
@@ -596,13 +597,20 @@ const NewTransaction = () => {
       </div>
 
       <div className="mt-8 flex justify-between">
-        <Button
-          variant="outline"
-          onClick={() => setCurrentStep(currentStep - 1)}
-          disabled={currentStep === 1}
-        >
-          Previous
-        </Button>
+        {currentStep === 1 ? (
+          <Button
+            variant="outline"
+            onClick={() => navigate('/dashboard')}
+            className="flex items-center gap-2"
+          >
+            <X className="w-4 h-4" />
+            Cancel
+          </Button>
+        ) : (
+          <Button variant="outline" onClick={() => setCurrentStep(currentStep - 1)}>
+            Previous
+          </Button>
+        )}
         <Button
           onClick={() => {
             if (currentStep === totalSteps) {
