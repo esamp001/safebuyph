@@ -11,6 +11,7 @@ import { FaFacebook } from 'react-icons/fa';
 import { Steps } from '@/components/ui/steps';
 import { Card } from '@/components/ui/card';
 import { formatPrice } from '@/lib/utils';
+import { Info } from 'lucide-react';
 
 const MIN_ESCROW_FEE = 20;
 const MAX_ESCROW_FEE = 500;
@@ -570,48 +571,62 @@ const NewTransaction = () => {
   // Step 2: Payment Details
   const PaymentDetailsStep = () => (
     <Card className="p-6 space-y-6">
-      <div className="space-y-4">
-        <h2 className="text-2xl font-semibold">Payment Details</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
-            <div className="p-4 bg-gray-50 rounded-lg">
-              <div className="flex justify-between mb-2">
-                <span>Subtotal:</span>
-                <span>₱{formatPrice(Number(price) * Number(quantity))}</span>
+      <div className="flex items-center gap-2 mb-4">
+        <div className="space-y-4">
+          <h2 className="text-2xl font-semibold">Payment Details</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="p-4 bg-gray-50 rounded-lg">
+                <div className="flex items-center gap-2 mb-2 group relative">
+                  <Info className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm text-gray-600">
+                    Escrow fee: 1.5% per transaction (₱20 min, ₱500 max)
+                  </span>
+                  <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-10">
+                    <div className="bg-gray-800 text-white text-sm rounded-lg p-2 w-64">
+                      The escrow fee is 1.5% of the total amount. The minimum fee is ₱20 and the
+                      maximum fee is ₱500.
+                    </div>
+                  </div>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span>Subtotal:</span>
+                  <span>₱{formatPrice(Number(price) * Number(quantity))}</span>
+                </div>
+                <div className="flex justify-between mb-2">
+                  <span>Escrow Fee ({ESCROW_FEE_PERCENT * 100}%):</span>
+                  <span>₱{formatPrice(escrowFee)}</span>
+                </div>
+                <div className="flex justify-between font-semibold">
+                  <span>Total Amount:</span>
+                  <span>₱{formatPrice(totalAmount)}</span>
+                </div>
               </div>
-              <div className="flex justify-between mb-2">
-                <span>Escrow Fee ({ESCROW_FEE_PERCENT}%):</span>
-                <span>₱{formatPrice(escrowFee)}</span>
+              <div>
+                <label className="text-sm font-medium">Payment Method</label>
+                <select
+                  value={paymentMethod}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                  className="w-full p-2 border rounded-md bg-white"
+                >
+                  <option value="SafeBuyPH Escrow">SafeBuyPH Escrow</option>
+                  {/* Add other payment methods */}
+                </select>
               </div>
-              <div className="flex justify-between font-semibold">
-                <span>Total Amount:</span>
-                <span>₱{formatPrice(totalAmount)}</span>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="text-sm font-medium">Reference Number</label>
+                <Input value={referenceNumber} readOnly />
               </div>
-            </div>
-            <div>
-              <label className="text-sm font-medium">Payment Method</label>
-              <select
-                value={paymentMethod}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className="w-full p-2 border rounded-md bg-white"
-              >
-                <option value="SafeBuyPH Escrow">SafeBuyPH Escrow</option>
-                {/* Add other payment methods */}
-              </select>
-            </div>
-          </div>
-          <div className="space-y-4">
-            <div>
-              <label className="text-sm font-medium">Reference Number</label>
-              <Input value={referenceNumber} readOnly />
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox checked={buyerConfirmed} onCheckedChange={setBuyerConfirmed} />
-              <label>I confirm that I will pay the total amount</label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox checked={agreedToTerms} onCheckedChange={setAgreedToTerms} />
-              <label>I agree to the escrow terms and conditions</label>
+              <div className="flex items-center space-x-2">
+                <Checkbox checked={buyerConfirmed} onCheckedChange={setBuyerConfirmed} />
+                <label>I confirm that I will pay the total amount</label>
+              </div>
+              <div className="flex items-center space-x-2">
+                <Checkbox checked={agreedToTerms} onCheckedChange={setAgreedToTerms} />
+                <label>I agree to the escrow terms and conditions</label>
+              </div>
             </div>
           </div>
         </div>
