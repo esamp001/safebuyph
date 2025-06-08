@@ -287,20 +287,6 @@ const NewTransaction = () => {
     setIsEditing(false);
   };
 
-  // // For displaying the price
-  // <div className="flex justify-between mb-2">
-  //   <span>Subtotal:</span>
-  //   <span>₱{formatPrice(Number(price) * Number(quantity))}</span>
-  // </div>
-  // <div className="flex justify-between mb-2">
-  //   <span>Escrow Fee ({ESCROW_FEE_PERCENT}%):</span>
-  //   <span>₱{formatPrice(escrowFee)}</span>
-  // </div>
-  // <div className="flex justify-between font-semibold">
-  //   <span>Total Amount:</span>
-  //   <span>₱{formatPrice(totalAmount)}</span>
-  // </div>
-
   // For the price input, you can add an onChange handler that formats the display
   // but keeps the raw number in state
   const handlePriceChange = (e) => {
@@ -577,18 +563,6 @@ const NewTransaction = () => {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <div className="p-4 bg-gray-50 rounded-lg">
-                <div className="flex items-center gap-2 mb-2 group relative">
-                  <Info className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm text-gray-600">
-                    Escrow fee: 1.5% per transaction (₱20 min, ₱500 max)
-                  </span>
-                  <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block z-10">
-                    <div className="bg-gray-800 text-white text-sm rounded-lg p-2 w-64">
-                      The escrow fee is 1.5% of the total amount. The minimum fee is ₱20 and the
-                      maximum fee is ₱500.
-                    </div>
-                  </div>
-                </div>
                 <div className="flex justify-between mb-2">
                   <span>Subtotal:</span>
                   <span>₱{formatPrice(Number(price) * Number(quantity))}</span>
@@ -600,6 +574,27 @@ const NewTransaction = () => {
                 <div className="flex justify-between font-semibold">
                   <span>Total Amount:</span>
                   <span>₱{formatPrice(totalAmount)}</span>
+                </div>
+                <div className="flex items-center justify-between mt-2">
+                  <div className="flex items-center gap-2 group relative">
+                    <Info className="w-4 h-4 text-blue-500" />
+                    <span className="text-xs text-gray-600">
+                      1.5% per transaction (₱20 min, ₱500 max)
+                    </span>
+                    <div className="absolute left-0 bottom-full mb-2 hidden group-hover:block z-20">
+                      <div className="bg-gray-800 text-white text-xs rounded-lg p-2 w-64 shadow-lg">
+                        The escrow fee is 1.5% of the total amount. The minimum fee is ₱20 and the
+                        maximum fee is ₱500.
+                      </div>
+                    </div>
+                  </div>
+                  <Button
+                    variant="link"
+                    className="text-blue-600 text-xs ml-auto"
+                    onClick={() => window.open('https://yourdomain.com/pricing', '_blank')}
+                  >
+                    Learn more on pricing
+                  </Button>
                 </div>
               </div>
               <div>

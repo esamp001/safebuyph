@@ -31,6 +31,7 @@ import {
   DialogTrigger,
 } from '@/components/ui/dialog';
 import DialogLoginAgain from '@/components/layout/DialogLoginAgain';
+import { useSession } from '@/context/SessionContext';
 
 const navigationItems = [
   {
@@ -77,7 +78,7 @@ const DashboardLayout = ({ children }) => {
   const { user, logout, isLoading } = useAuth();
   const location = useLocation();
   const isDashboard = location.pathname === '/dashboard';
-  const [sessionExpired, setSessionExpired] = useState(false);
+  const { sessionExpired, setSessionExpired } = useSession();
 
   const handleLogout = async () => {
     try {
@@ -94,7 +95,7 @@ const DashboardLayout = ({ children }) => {
 
   return (
     <>
-      <DialogLoginAgain sessionExpired={sessionExpired} />
+      <DialogLoginAgain sessionExpired={sessionExpired} onClose={() => setSessionExpired(false)} />
       <div className="min-h-screen bg-gray-50">
         {/* Top Navigation Bar */}
         <header className="sticky top-0 z-50 bg-white border-b">
