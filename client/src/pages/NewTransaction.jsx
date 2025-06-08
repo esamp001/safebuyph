@@ -12,7 +12,9 @@ import { Steps } from '@/components/ui/steps';
 import { Card } from '@/components/ui/card';
 import { formatPrice } from '@/lib/utils';
 
-const ESCROW_FEE_PERCENT = 2; // Example: 2% escrow fee
+const MIN_ESCROW_FEE = 20;
+const MAX_ESCROW_FEE = 500;
+const ESCROW_FEE_PERCENT = 0.015;
 
 const NewTransaction = () => {
   const [sellerId, setSellerId] = useState('');
@@ -66,7 +68,9 @@ const NewTransaction = () => {
   // Calculate escrow fee and total amount whenever price or quantity changes
   useEffect(() => {
     const subtotal = Number(price) * Number(quantity);
-    const fee = subtotal * (ESCROW_FEE_PERCENT / 100);
+    let fee = subtotal * ESCROW_FEE_PERCENT;
+    if (fee < MIN_ESCROW_FEE) fee = MIN_ESCROW_FEE;
+    if (fee > MAX_ESCROW_FEE) fee = MAX_ESCROW_FEE;
     setEscrowFee(fee);
     setTotalAmount(subtotal + fee);
   }, [price, quantity]);
