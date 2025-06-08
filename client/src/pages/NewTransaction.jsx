@@ -309,46 +309,17 @@ const NewTransaction = () => {
       {/* Marketplace Import Section */}
       <Card className="mb-8 p-6 space-y-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-none">
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <FilePlus className="w-5 h-5 text-blue-600" />
-            <h3 className="text-lg font-semibold text-gray-800">Import from Marketplace</h3>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => {
-                // Check if extension is installed
-                if (window.chrome?.runtime?.id) {
-                  window.open('chrome-extension://' + chrome.runtime.id + '/popup.html', '_blank');
-                } else {
-                  // If extension is not installed, open extension store
-                  window.open(
-                    'https://chrome.google.com/webstore/detail/safebuysph-marketplace-importer/YOUR_EXTENSION_ID',
-                    '_blank'
-                  );
-                }
-              }}
-              className="ml-2 text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-            ></Button>
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-blue-100 rounded-lg">
+              <FilePlus className="w-6 h-6 text-blue-600" />
+            </div>
+            <div>
+              <h3 className="text-lg font-semibold text-gray-800">Import from Marketplace</h3>
+              <p className="text-sm text-gray-600">
+                Install our extension to import items with one click
+              </p>
+            </div>
           </div>
-          {marketplaceUrl && (
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={clearMarketplaceData}
-              className="text-red-500 hover:text-red-600 hover:bg-red-50"
-            >
-              <X className="w-4 h-4 mr-2" />
-              Clear Data
-            </Button>
-          )}
-        </div>
-        <div className="flex gap-3">
-          <Input
-            value={marketplaceUrl}
-            onChange={handleMarketplaceUrlChange}
-            placeholder="Paste marketplace URL (Facebook, Shopee, Lazada, etc.)"
-            className="flex-1 bg-white/50 backdrop-blur-sm"
-          />
           <Button
             onClick={() => {
               if (window.chrome?.runtime?.id) {
@@ -360,17 +331,130 @@ const NewTransaction = () => {
                 );
               }
             }}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center gap-2"
           >
-            Import
+            <svg
+              className="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12 2L2 7L12 12L22 7L12 2Z"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2 17L12 22L22 17"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M2 12L12 17L22 12"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            Install Extension
           </Button>
         </div>
-        {urlError && (
-          <p className="mt-2 text-sm text-red-500 flex items-center">
-            <X className="w-4 h-4 mr-1" />
-            {urlError}
-          </p>
-        )}
+
+        <div className="bg-white/50 backdrop-blur-sm rounded-lg p-4 border border-blue-100">
+          <div className="flex items-start gap-4">
+            <div className="p-2 bg-blue-50 rounded-lg">
+              <svg
+                className="w-5 h-5 text-blue-600"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M12 22C17.5228 22 22 17.5228 22 12C22 6.47715 17.5228 2 12 2C6.47715 2 2 6.47715 2 12C2 17.5228 6.47715 22 12 22Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12 16V12"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M12 8H12.01"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            </div>
+            <div>
+              <h4 className="font-medium text-gray-800 mb-1">Why use our extension?</h4>
+              <ul className="text-sm text-gray-600 space-y-2">
+                <li className="flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4 text-green-500"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6L9 17L4 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  One-click import from Facebook Marketplace
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4 text-green-500"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6L9 17L4 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Automatically fills all item details
+                </li>
+                <li className="flex items-center gap-2">
+                  <svg
+                    className="w-4 h-4 text-green-500"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20 6L9 17L4 12"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  Saves time and reduces errors
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
       </Card>
 
       {/* Main Form Section */}
