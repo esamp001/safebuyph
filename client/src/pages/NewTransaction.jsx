@@ -57,6 +57,38 @@ const NewTransaction = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const totalSteps = 3;
   const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
+
+  const validateStep = () => {
+    const newErrors = {};
+    if (currentStep === 1) {
+      if (!item) newErrors.item = 'Item name is required';
+      if (!price || isNaN(price) || Number(price) <= 0) newErrors.price = 'Valid price is required';
+      if (!quantity || isNaN(quantity) || Number(quantity) < 1)
+        newErrors.quantity = 'Quantity must be at least 1';
+      if (!itemDescription) newErrors.itemDescription = 'Description is required';
+      if (!itemImage) newErrors.itemImage = 'Image URL is required';
+    }
+    if (currentStep === 2) {
+      if (!buyerConfirmed) newErrors.buyerConfirmed = 'You must confirm payment';
+      if (!agreedToTerms) newErrors.agreedToTerms = 'You must agree to the terms';
+    }
+
+    return newErrors;
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!item) newErrors.item = 'Item name is required';
+    if (!price || isNaN(price) || Number(price) <= 0) newErrors.price = 'Valid price is required';
+    if (!quantity || isNaN(quantity) || Number(quantity) < 1)
+      newErrors.quantity = 'Quantity must be at least 1';
+    if (!itemDescription) newErrors.itemDescription = 'Description is required';
+    if (!itemImage) newErrors.itemImage = 'Image URL is required';
+    if (!buyerConfirmed) newErrors.buyerConfirmed = 'You must confirm payment';
+    if (!agreedToTerms) newErrors.agreedToTerms = 'You must agree to the terms';
+    return newErrors;
+  };
 
   console.log('Location:', location);
   console.log('Search params:', location.search);
@@ -139,6 +171,12 @@ const NewTransaction = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const validationErrors = validateForm();
+    setErrors(validationErrors);
+    if (Object.keys(validationErrors).length > 0) {
+      setStatus('Please fix the errors above.');
+      return;
+    }
     if (!buyerConfirmed || !agreedToTerms) {
       setStatus('You must confirm payment and agree to escrow terms.');
       return;
@@ -461,8 +499,9 @@ const NewTransaction = () => {
                   value={item}
                   onChange={(e) => setItem(e.target.value)}
                   placeholder="Enter item name"
-                  className="w-full"
+                  className={`w-full ${errors.item ? 'border-red-500 focus:ring-red-500' : ''}`}
                 />
+                {errors.item && <p className="text-red-500 text-xs mt-1">{errors.item}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Price</label>
@@ -472,9 +511,10 @@ const NewTransaction = () => {
                     value={formatPrice(price)}
                     onChange={handlePriceChange}
                     placeholder="0.00"
-                    className="w-full pl-8"
+                    className={`w-full pl-8 ${errors.price ? 'border-red-500 focus:ring-red-500' : ''}`}
                   />
                 </div>
+                {errors.price && <p className="text-red-500 text-xs mt-1">{errors.price}</p>}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Quantity</label>
@@ -483,8 +523,9 @@ const NewTransaction = () => {
                   onChange={(e) => setQuantity(e.target.value)}
                   type="number"
                   min="1"
-                  className="w-full"
+                  className={`w-full ${errors.quantity ? 'border-red-500 focus:ring-red-500' : ''}`}
                 />
+                {errors.quantity && <p className="text-red-500 text-xs mt-1">{errors.quantity}</p>}
               </div>
             </div>
           </Card>
@@ -500,9 +541,12 @@ const NewTransaction = () => {
                 <textarea
                   value={itemDescription}
                   onChange={(e) => setItemDescription(e.target.value)}
-                  className="w-full min-h-[120px] bg-white p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className={`w-full min-h-[120px] bg-white p-3 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-transparent ${errors.itemDescription ? 'border-red-500 focus:ring-red-500' : ''}`}
                   placeholder="Enter item description"
                 />
+                {errors.itemDescription && (
+                  <p className="text-red-500 text-xs mt-1">{errors.itemDescription}</p>
+                )}
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Image URL</label>
@@ -511,7 +555,7 @@ const NewTransaction = () => {
                     value={itemImage}
                     onChange={(e) => setItemImage(e.target.value)}
                     placeholder="Enter image URL"
-                    className="flex-1"
+                    className={`flex-1 ${errors.itemImage ? 'border-red-500 focus:ring-red-500' : ''}`}
                   />
                   {itemImage && (
                     <div className="w-16 h-16 rounded-lg overflow-hidden border shadow-sm">
@@ -523,6 +567,9 @@ const NewTransaction = () => {
                     </div>
                   )}
                 </div>
+                {errors.itemImage && (
+                  <p className="text-red-500 text-xs mt-1">{errors.itemImage}</p>
+                )}
               </div>
             </div>
           </Card>
@@ -618,10 +665,16 @@ const NewTransaction = () => {
                 <Checkbox checked={buyerConfirmed} onCheckedChange={setBuyerConfirmed} />
                 <label>I confirm that I will pay the total amount</label>
               </div>
+              {errors.buyerConfirmed && (
+                <p className="text-red-500 text-xs mt-1">{errors.buyerConfirmed}</p>
+              )}
               <div className="flex items-center space-x-2">
                 <Checkbox checked={agreedToTerms} onCheckedChange={setAgreedToTerms} />
                 <label>I agree to the escrow terms and conditions</label>
               </div>
+              {errors.agreedToTerms && (
+                <p className="text-red-500 text-xs mt-1">{errors.agreedToTerms}</p>
+              )}
             </div>
           </div>
         </div>
@@ -718,7 +771,13 @@ const NewTransaction = () => {
             if (currentStep === totalSteps) {
               handleSubmit();
             } else {
-              setCurrentStep(currentStep + 1);
+              const stepErrors = validateStep();
+              setErrors(stepErrors);
+              if (Object.keys(stepErrors).length === 0) {
+                setCurrentStep(currentStep + 1);
+              } else {
+                setStatus('Please fix the errors above.');
+              }
             }
           }}
         >
