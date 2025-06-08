@@ -32,6 +32,8 @@ import {
 } from '@/components/ui/dialog';
 import DialogLoginAgain from '@/components/layout/DialogLoginAgain';
 import { useSession } from '@/context/SessionContext';
+import { Bell } from 'lucide-react';
+import SBLogo from '@/assets/SAFEBUYPH - TRANS.png';
 
 const navigationItems = [
   {
@@ -101,8 +103,20 @@ const DashboardLayout = ({ children }) => {
         <header className="sticky top-0 z-50 bg-white border-b">
           <div className="flex h-16 items-center justify-between px-4">
             <div className="flex items-center gap-4">
-              <h1 className="text-xl font-bold text-[#1eafd0]">SafeBuyPH</h1>
-              {user?.name && <p className="text-sm text-gray-600">Welcome back, {user.name}</p>}
+              <img
+                src={SBLogo}
+                alt="SafeBuyPH Logo"
+                className="h-12 w-12 cursor-pointer hover:opacity-90 transition-opacity"
+                onClick={() => navigate('/dashboard')}
+              />
+              {user?.name && (
+                <div className="flex items-center gap-2">
+                  <div className="h-2 w-2 rounded-full bg-green-500 animate-pulse"></div>
+                  <p className="text-sm font-medium text-gray-700">
+                    Welcome back, <span className="text-[#1eafd0]">{user.name}</span>
+                  </p>
+                </div>
+              )}
             </div>
 
             {/* User Menu */}

@@ -157,7 +157,6 @@ function Login() {
                 className="w-full bg-[#0e1d54] font-poppins hover:bg-[#0C163F] focus:ring-0 focus:outline-none border-none transition-transform duration-200 hover:scale-105"
                 disabled={isLoading}
               >
-                {isLoading && <Spinner className="w-5 h-5 mr-2" />}
                 {isLoading ? (
                   <div className="flex items-center justify-center gap-2">
                     <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
