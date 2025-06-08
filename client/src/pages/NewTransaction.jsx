@@ -307,8 +307,8 @@ const NewTransaction = () => {
   const ItemDetailsStep = () => (
     <div className="max-w-6xl mx-auto">
       {/* Marketplace Import Section */}
-      <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
-        <div className="flex items-center justify-between mb-4">
+      <Card className="mb-8 p-6 space-y-6 bg-gradient-to-r from-blue-50 to-indigo-50 border-none">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <FilePlus className="w-5 h-5 text-blue-600" />
             <h3 className="text-lg font-semibold text-gray-800">Import from Marketplace</h3>
@@ -371,13 +371,13 @@ const NewTransaction = () => {
             {urlError}
           </p>
         )}
-      </div>
+      </Card>
 
       {/* Main Form Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column - Basic Info */}
         <div className="space-y-8">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <Card className="p-6 space-y-6">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">Basic Information</h3>
             <div className="space-y-4">
               <div>
@@ -412,12 +412,12 @@ const NewTransaction = () => {
                 />
               </div>
             </div>
-          </div>
+          </Card>
         </div>
 
         {/* Right Column - Description and Image */}
         <div className="space-y-6">
-          <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+          <Card className="p-6 space-y-6">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">Item Details</h3>
             <div className="space-y-4">
               <div>
@@ -450,13 +450,13 @@ const NewTransaction = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </Card>
         </div>
       </div>
 
       {/* Preview Section */}
       {itemImage && (
-        <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+        <Card className="mt-8 p-6 space-y-6">
           <h3 className="text-lg font-semibold mb-4 text-gray-800">Preview</h3>
           <div className="flex gap-6">
             <div className="w-32 h-32 rounded-lg overflow-hidden border shadow-sm">
@@ -474,7 +474,7 @@ const NewTransaction = () => {
               </div>
             </div>
           </div>
-        </div>
+        </Card>
       )}
     </div>
   );
@@ -580,15 +580,17 @@ const NewTransaction = () => {
         <p className="text-gray-600">Create a new escrow transaction</p>
       </div>
 
-      <Steps
-        currentStep={currentStep}
-        totalSteps={totalSteps}
-        steps={[
-          { title: 'Item Details', description: 'Enter item information' },
-          { title: 'Payment Details', description: 'Review payment information' },
-          { title: 'Review', description: 'Confirm transaction' },
-        ]}
-      />
+      <Card className="p-6 space-y-6 mb-8">
+        <Steps
+          currentStep={currentStep}
+          totalSteps={totalSteps}
+          steps={[
+            { title: 'Item Details', description: 'Enter item information' },
+            { title: 'Payment Details', description: 'Review payment information' },
+            { title: 'Review', description: 'Confirm transaction' },
+          ]}
+        />
+      </Card>
 
       <div className="mt-8">
         {currentStep === 1 && <ItemDetailsStep />}
