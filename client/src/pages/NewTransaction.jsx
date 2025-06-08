@@ -660,8 +660,10 @@ const NewTransaction = () => {
   return (
     <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">New Transaction</h1>
-        <p className="text-gray-600">Create a new escrow transaction</p>
+        <h1 className="text-3xl font-bold mb-2 font-sans">Create Escrow Transaction</h1>
+        <p className="text-gray-600 font-sans">
+          Import your item from Facebook Marketplace or enter details manually
+        </p>
       </div>
 
       <Card className="p-6 space-y-6 mb-8">
