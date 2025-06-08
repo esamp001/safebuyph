@@ -305,7 +305,7 @@ const NewTransaction = () => {
 
   // Step 1: Item Details
   const ItemDetailsStep = () => (
-    <div className="max-w-4xl mx-auto">
+    <div className="max-w-6xl mx-auto">
       {/* Marketplace Import Section */}
       <div className="mb-8 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
@@ -346,7 +346,7 @@ const NewTransaction = () => {
           <Input
             value={marketplaceUrl}
             onChange={handleMarketplaceUrlChange}
-            placeholder="Paste Facebook Marketplace URL"
+            placeholder="Paste marketplace URL (Facebook, Shopee, Lazada, etc.)"
             className="flex-1 bg-white/50 backdrop-blur-sm"
           />
           <Button
@@ -376,7 +376,7 @@ const NewTransaction = () => {
       {/* Main Form Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Left Column - Basic Info */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
             <h3 className="text-lg font-semibold mb-4 text-gray-800">Basic Information</h3>
             <div className="space-y-4">
