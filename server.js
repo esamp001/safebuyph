@@ -1,12 +1,10 @@
 const express = require('express');
-const dotenv = require('dotenv');
+require('dotenv').config(); // Kinda questionable if this is stll working
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const { redisClient } = require('./config/redis');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet');
 const checktokenBlacklist = require('./middleware/checktokenBlacklist');
-const validator = require('validator');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const passport = require('passport');
@@ -34,7 +32,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Basic Helmet setup with common security headers
-app.use(helmet());
+// app.use(helmet()); REDUNDANT
 
 // Or if you want more specific control, use this configuration:
 app.use(
@@ -77,12 +75,12 @@ app.use(
 
 // CORS Configuration
 const corsOptions = {
-  origin: ['http://localhost:5173', 'http://localhost:5174'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  origin: ['http://localhost:5173', 'http://localhost:5174'], // Allow only request from these domain
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'], // Allowed only these methods
   allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With', 'Accept'],
-  credentials: true, // This is crucial for cookies
-  maxAge: 86400,
-  exposedHeaders: ['Content-Range', 'X-Content-Range'],
+  credentials: true, // true lets the browser send cookies/auth headers with the request.
+  maxAge: 86400, // Reduce the number of options request 24hrs
+  exposedHeaders: ['Content-Range', 'X-Content-Range'], //	Headers the browser is allowed to read
 };
 
 // Apply CORS with options
